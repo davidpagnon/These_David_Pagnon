@@ -7,7 +7,7 @@ Ce dossier final est une fusion des fonctionnalités de chacun des templates (re
 ## Fonctionnement
 
 * Le fichier "manuscrit.tex" (dossier manuscrit) est le document maître.
-* Il suffit de rédiger des les fichiers .tex de chacun des dossiers, puis d'excécuter le fichier maître.
+* Il suffit de rédiger les fichiers .tex de chacun des dossiers, puis d'excécuter le fichier maître.
 * Il est possible d'ajouter ou de supprimer des dossiers/fichiers (par exemple des chapitres). Il suffit d'ajouter/désactiver les lignes correspondantes dans le fichier "manuscrit.tex".
 
 ## Modifications autres

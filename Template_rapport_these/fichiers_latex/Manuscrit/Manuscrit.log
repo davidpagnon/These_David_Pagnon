@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.21)  22 JUL 2022 21:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.21)  3 AUG 2022 16:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1152,7 +1152,9 @@ Package minitoc Info: I0024
 (minitoc)             PREPARING MINITOCS FROM Manuscrit.toc on input line 35.
 
 {\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode Remerciements}{\reset@font\mtcSfont i}{section*.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode Table des matières}{\reset@font\mtcSfont iii}{section*.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode Abstract}{\reset@font\mtcSfont iii}{section*.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode Resume}{\reset@font\mtcSfont iv}{section*.5}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode Table des matières}{\reset@font\mtcSfont vi}{section*.7}}
 Package minitoc Info: I0033
 (minitoc)             Writing Manuscrit.mtc1.
 \openout4 = `Manuscrit.mtc1'.
@@ -1205,12 +1207,20 @@ Package minitoc Info: I0033
 (minitoc)             Writing Manuscrit.mtc13.
 \openout4 = `Manuscrit.mtc13'.
 
+Package minitoc Info: I0033
+(minitoc)             Writing Manuscrit.mtc14.
+\openout4 = `Manuscrit.mtc14'.
+
+Package minitoc Info: I0033
+(minitoc)             Writing Manuscrit.mtc15.
+\openout4 = `Manuscrit.mtc15'.
+
 (../Page_de_garde/Page_de_garde.tex
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 30.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-<../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf, id=252, 284.26201pt x 1408.46194pt>
+<../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf, id=497, 284.26201pt x 1408.46194pt>
 File: ../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf Graphic file (type pdf)
 <use ../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf>
 Package pdftex.def Info: ../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf  used on input line 30.
@@ -1220,7 +1230,7 @@ Overfull \hbox (1.4549pt too wide) in paragraph at lines 30--30
 [] [] 
  []
 
-<../Page_de_garde/Figure//logoUGA.png, id=253, 1284.8pt x 787.94376pt>
+<../Page_de_garde/Figure//logoUGA.png, id=498, 1284.8pt x 787.94376pt>
 File: ../Page_de_garde/Figure//logoUGA.png Graphic file (type png)
 <use ../Page_de_garde/Figure//logoUGA.png>
 Package pdftex.def Info: ../Page_de_garde/Figure//logoUGA.png  used on input line 30.
@@ -1245,7 +1255,28 @@ Underfull \vbox (badness 10000) detected at line 30
 
 [1
 
-{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf> <../Page_de_garde/Figure//logoUGA.png>]) [2] (../Intro/Dedicace.tex) [3] [4] (../Intro/Remerciement.tex) [1] [2] (../Intro/Sommaire.tex
+{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../Page_de_garde/Figure//logo_Univ_Grenoble_V.pdf> <../Page_de_garde/Figure//logoUGA.png>]) [2] (../Intro/Dedicace.tex) [3] [4] (../Intro/Remerciement.tex
+LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
+(Font)              scaled to size 15.76802pt on input line 33.
+LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
+(Font)              scaled to size 27.6966pt on input line 33.
+LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
+(Font)              scaled to size 27.30228pt on input line 33.
+Package lettrine.sty Info: Targeted height = 19.23372pt
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.40097pt (R);
+(lettrine.sty)             reported on input line 33.
+) [1] [2] (../Intro/Abstract.tex
+Package lettrine.sty Info: Targeted height = 19.23372pt
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.40097pt (A);
+(lettrine.sty)             reported on input line 32.
+) [3] (../Intro/Resume.tex
+Package lettrine.sty Info: Targeted height = 19.23372pt
+(lettrine.sty)             (for loversize=0, accent excluded),
+(lettrine.sty)             Lettrine height = 18.40097pt (R);
+(lettrine.sty)             reported on input line 30.
+) [4] [5] (../Intro/Sommaire.tex
 LaTeX Font Info:    Trying to load font information for T1+pag on input line 23.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1pag.fd
 File: t1pag.fd 2001/06/04 font definitions for T1/pag.
@@ -1254,20 +1285,20 @@ LaTeX Font Info:    Font shape `T1/pag/b/n' in size <20.74> not available
 (Font)              Font shape `T1/pag/db/n' tried instead on input line 23.
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <100> not available
 (Font)              Font shape `T1/pag/db/n' tried instead on input line 23.
- (./Manuscrit.toc [3
+ (./Manuscrit.toc [6
 
-]
-Overfull \hbox (1.87224pt too wide) detected at line 53
+] [7]
+Overfull \hbox (1.87224pt too wide) detected at line 116
  []\T1/ptm/m/n/10.95 VIII
  []
 
 
-Overfull \hbox (1.87224pt too wide) detected at line 54
+Overfull \hbox (1.87224pt too wide) detected at line 117
  []\T1/ptm/m/n/10.95 VIII
  []
 
 
-Overfull \hbox (1.87224pt too wide) detected at line 55
+Overfull \hbox (1.87224pt too wide) detected at line 118
  []\T1/ptm/m/n/10.95 VIII
  []
 
@@ -1275,13 +1306,7 @@ Overfull \hbox (1.87224pt too wide) detected at line 55
 \tf@toc=\write6
 \openout6 = `Manuscrit.toc'.
 
-) [4] [5] (../Intro/Introduction.tex
-LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
-(Font)              scaled to size 15.76802pt on input line 32.
-LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
-(Font)              scaled to size 27.6966pt on input line 32.
-LaTeX Font Info:    Font shape `T1/calligra/m/n' will be
-(Font)              scaled to size 27.30228pt on input line 32.
+) [8] [9] (../Intro/Introduction.tex
 Package lettrine.sty Info: Targeted height = 19.23372pt
 (lettrine.sty)             (for loversize=0, accent excluded),
 (lettrine.sty)             Lettrine height = 17.75937pt (I);
@@ -1290,13 +1315,13 @@ Package lettrine.sty Info: Targeted height = 19.23372pt
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.89 \pageblanchenoheader
-                          [1]
+l.102 \pageblanchenoheader
+                           [1]
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.89 \pageblanchenoheader
-                          [2] (../Chap1/Chap1.tex
+l.102 \pageblanchenoheader
+                           [2] (../Chap1/Chap1.tex
 Chapitre 1.
 \openout4 = `Manuscrit.mtc'.
 
@@ -1310,17 +1335,35 @@ l.43 \newpage
               [3
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 49--50
+pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.65 
+      [4]
+
+LaTeX Warning: Citation `Collomb2018b' on page 5 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Collomb2018a' on page 5 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Collomb2017a' on page 5 undefined on input line 74.
+
+
+LaTeX Warning: Citation `Collomb2018' on page 5 undefined on input line 74.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--56
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
 
  []
 
 (../Chap1/Figure/Figure_1.pdf_tex
-<../Chap1/Figure//Figure_1.pdf, id=396, page=1, 461.725pt x 345.29pt>
+<../Chap1/Figure//Figure_1.pdf, id=734, page=1, 461.725pt x 345.29pt>
 File: ../Chap1/Figure//Figure_1.pdf Graphic file (type pdf)
 <use ../Chap1/Figure//Figure_1.pdf, page 1>
 Package pdftex.def Info: ../Chap1/Figure//Figure_1.pdf , page1 used on input line 56.
@@ -1328,20 +1371,20 @@ Package pdftex.def Info: ../Chap1/Figure//Figure_1.pdf , page1 used on input lin
 )
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 61.
+(Font)              using `T1/ptm/m/sc' instead on input line 86.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 61.
+(Font)              using `T1/ptm/m/sc' instead on input line 86.
 
 (../Chap1/Figure/Figure_2.pdf_tex
-<../Chap1/Figure//Figure_2.pdf, id=400, page=1, 461.725pt x 345.29pt>
+<../Chap1/Figure//Figure_2.pdf, id=738, page=1, 461.725pt x 345.29pt>
 File: ../Chap1/Figure//Figure_2.pdf Graphic file (type pdf)
 <use ../Chap1/Figure//Figure_2.pdf, page 1>
 Package pdftex.def Info: ../Chap1/Figure//Figure_2.pdf , page1 used on input line 56.
 (pdftex.def)             Requested size: 341.43436pt x 255.33145pt.
 ) (../Chap1/Figure/Figure_3.pdf_tex
-<../Chap1/Figure//Figure_3.pdf, id=401, page=1, 461.725pt x 345.29pt>
+<../Chap1/Figure//Figure_3.pdf, id=739, page=1, 461.725pt x 345.29pt>
 File: ../Chap1/Figure//Figure_3.pdf Graphic file (type pdf)
 <use ../Chap1/Figure//Figure_3.pdf, page 1>
 Package pdftex.def Info: ../Chap1/Figure//Figure_3.pdf , page1 used on input line 56.
@@ -1349,70 +1392,86 @@ Package pdftex.def Info: ../Chap1/Figure//Figure_3.pdf , page1 used on input lin
 )
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 86.
+(Font)              using `T1/ptm/m/sc' instead on input line 111.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 86.
+(Font)              using `T1/ptm/m/sc' instead on input line 111.
 
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.92 \FloatBarrier
-                   [4 <../Chap1/Figure//Figure_1.pdf>] [5 <../Chap1/Figure//Figure_2.pdf> <../Chap1/Figure//Figure_3.pdf
+[5] [6 <../Chap1/Figure//Figure_1.pdf>] [7 <../Chap1/Figure//Figure_2.pdf> <../Chap1/Figure//Figure_3.pdf
 
 pdfTeX warning: pdflatex.exe (file ../Chap1/Figure//Figure_3.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
+Underfull \hbox (badness 10000) in paragraph at lines 120--121
 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `htbp') on input line 99.
+               Default added (so using `htbp') on input line 124.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 108.
+(Font)              using `T1/ptm/m/sc' instead on input line 133.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 108.
+(Font)              using `T1/ptm/m/sc' instead on input line 133.
 
-) [6] [7] (../Chap2/Chap2.tex
+) [8
+
+] [9] (../Chap2/Chap2.tex
 Chapitre 2.
 \openout4 = `Manuscrit.mtc'.
 
 \openout4 = `Manuscrit.mtc'.
 
-(./Manuscrit.mtc3) [8
+(./Manuscrit.mtc3) [10
 
-]) [9] [10] [11] (../Chap3/Chap3.tex
+] [11]) [12] [13] (../Chap3/Chap3.tex
 Chapitre 3.
 \openout4 = `Manuscrit.mtc'.
 
 \openout4 = `Manuscrit.mtc'.
 
-(./Manuscrit.mtc4) [12
+(./Manuscrit.mtc4) [14
 
-]) [13] [14] [15] (../Chap4/Chap4.tex
+] [15])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [16] [17] [18] (../Chap4/Chap4.tex
 Chapitre 4.
 \openout4 = `Manuscrit.mtc'.
 
 \openout4 = `Manuscrit.mtc'.
 
-(./Manuscrit.mtc5) [16
+(./Manuscrit.mtc5) [19
 
-]) [17] [18] [19] (../Chap5/Chap5.tex
+] [20] [21]) [22] [23] [24] (../Chap5/Chap5.tex
 Chapitre 5.
 \openout4 = `Manuscrit.mtc'.
 
 \openout4 = `Manuscrit.mtc'.
 
-(./Manuscrit.mtc6) [20
+(./Manuscrit.mtc6) [25
 
-]) [21] [22] [23] (../Conclusion/Conclusion.tex) [24] [25] (../Conclusion/Biblio.tex (./Manuscrit.bbl)) [1
+] [26] [27]) [28] [29] (../Chap6/Chap6.tex
+Chapitre 6.
+\openout4 = `Manuscrit.mtc'.
+
+\openout4 = `Manuscrit.mtc'.
+
+(./Manuscrit.mtc7) [30
+
+] [31] [32]) [33] [34] (../Chap7/Chap7.tex
+Chapitre 7.
+\openout4 = `Manuscrit.mtc'.
+
+\openout4 = `Manuscrit.mtc'.
+
+(./Manuscrit.mtc8) [35
+
+] [36]) [37] [38] [39] (../Conclusion/Conclusion.tex) [40] [41] (../Conclusion/Biblio.tex (./Manuscrit.bbl)) [1
 
 ] [2] (../Conclusion/Figures.tex (./Manuscrit.lof)
 \tf@lof=\write7
@@ -1429,19 +1488,19 @@ Chapitre 5.
 ] [6] (../Annexes/Annexe1.tex
 Annexe A.
 Package minitoc Info: I0006
-(minitoc)             Manuscrit.mtc7 is empty on input line 49.
+(minitoc)             Manuscrit.mtc9 is empty on input line 49.
 [7
 
 ] [8]
 Annexe B.
 Package minitoc Info: I0006
-(minitoc)             Manuscrit.mtc8 is empty on input line 82.
+(minitoc)             Manuscrit.mtc10 is empty on input line 82.
 [9
 
 ] [10]
 Annexe C.
 Package minitoc Info: I0006
-(minitoc)             Manuscrit.mtc9 is empty on input line 114.
+(minitoc)             Manuscrit.mtc11 is empty on input line 114.
 [11
 
 ]) [12] [13] (../Page_de_garde/Page_de_couverture.tex
@@ -1486,22 +1545,25 @@ Package minitoc(hints) Warning: W0024
 (minitoc(hints))                in the Manuscrit.log file.
 
 [14] (./Manuscrit.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `Manuscrit.out' has not changed.
-(rerunfilecheck)             Checksum: 665CD0E865A871961CF1274919C67AA8;6665.
+(rerunfilecheck)             Checksum: E360D58731BE2711B716745BCFFBA5DF;19738.
  ) 
 Here is how much of TeX's memory you used:
- 33779 strings out of 478023
- 626662 string characters out of 5842667
- 963860 words of memory out of 5000000
- 51083 multiletter control sequences out of 15000+600000
+ 33968 strings out of 478023
+ 629462 string characters out of 5842667
+ 969860 words of memory out of 5000000
+ 51170 multiletter control sequences out of 15000+600000
  566403 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 111i,16n,134p,553b,716s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 111i,16n,134p,595b,722s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/calligra-type1/callig15.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Manuscrit.pdf (48 pages, 466671 bytes).
+Output written on Manuscrit.pdf (68 pages, 505155 bytes).
 PDF statistics:
- 1003 PDF objects out of 1200 (max. 8388607)
- 807 compressed objects within 9 object streams
- 116 named destinations out of 1000 (max. 500000)
- 574 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1482 PDF objects out of 1728 (max. 8388607)
+ 1262 compressed objects within 13 object streams
+ 195 named destinations out of 1000 (max. 500000)
+ 1062 words of extra memory for PDF output out of 10000 (max. 10000000)
 
