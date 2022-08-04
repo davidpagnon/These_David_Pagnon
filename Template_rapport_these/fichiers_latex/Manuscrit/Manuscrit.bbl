@@ -7,4 +7,10 @@ Lars Mündermann, Stefano Corazza et Thomas~P. Andriacchi.
 \newblock Journal of NeuroEngineering and Rehabilitation, vol.~3, no.~1,
   page~6, 3 2006.
 
+\bibitem[Pagnon2021]{Pagnon_2021}
+David Pagnon, Mathieu Domalain et Lionel Reveret.
+\newblock {\em Pose2Sim: An End-to-End Workflow for 3D Markerless Sports
+  Kinematics—Part 1: Robustness}.
+\newblock Sensors, vol.~21, no.~19, 2021.
+
 \end{thebibliography}

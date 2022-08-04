@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.21)  3 AUG 2022 16:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.21)  4 AUG 2022 15:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -999,7 +999,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip85
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 162.
+Package hyperref Info: Option `colorlinks' set `true' on input line 160.
 ) (./Format.tex) (./Commands.tex)) (c:/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen361
@@ -1323,6 +1323,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has b
 l.102 \pageblanchenoheader
                            [2] (../Chap1/Chap1.tex
 Chapitre 1.
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+
+ []
+
 \openout4 = `Manuscrit.mtc'.
 
 \openout4 = `Manuscrit.mtc'.
@@ -1335,56 +1340,55 @@ l.43 \newpage
               [3
 
 ]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 49.
+ (c:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+<../Chap1/Figure/Fig_exp.png, id=732, 640.794pt x 346.896pt>
+File: ../Chap1/Figure/Fig_exp.png Graphic file (type png)
+<use ../Chap1/Figure/Fig_exp.png>
+Package pdftex.def Info: ../Chap1/Figure/Fig_exp.png  used on input line 59.
+(pdftex.def)             Requested size: 426.79134pt x 231.04816pt.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/sc' instead on input line 60.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/sc' instead on input line 60.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.65 
-      [4]
+l.71 
+      [4] [5 <../Chap1/Figure/Fig_exp.png>]
 
-LaTeX Warning: Citation `Collomb2018b' on page 5 undefined on input line 74.
-
-
-LaTeX Warning: Citation `Collomb2018a' on page 5 undefined on input line 74.
+LaTeX Warning: Citation `Collomb2018b' on page 6 undefined on input line 92.
 
 
-LaTeX Warning: Citation `Collomb2017a' on page 5 undefined on input line 74.
+LaTeX Warning: Citation `Collomb2018a' on page 6 undefined on input line 92.
 
 
-LaTeX Warning: Citation `Collomb2018' on page 5 undefined on input line 74.
+LaTeX Warning: Citation `Collomb2017a' on page 6 undefined on input line 92.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--75
-
- []
+LaTeX Warning: Citation `Collomb2018' on page 6 undefined on input line 92.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
  []
-
-(../Chap1/Figure/Figure_1.pdf_tex
-<../Chap1/Figure//Figure_1.pdf, id=734, page=1, 461.725pt x 345.29pt>
-File: ../Chap1/Figure//Figure_1.pdf Graphic file (type pdf)
-<use ../Chap1/Figure//Figure_1.pdf, page 1>
-Package pdftex.def Info: ../Chap1/Figure//Figure_1.pdf , page1 used on input line 56.
-(pdftex.def)             Requested size: 426.79134pt x 319.16695pt.
-)
-
-LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 86.
-
-
-LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 86.
 
 (../Chap1/Figure/Figure_2.pdf_tex
-<../Chap1/Figure//Figure_2.pdf, id=738, page=1, 461.725pt x 345.29pt>
+<../Chap1/Figure//Figure_2.pdf, id=748, page=1, 461.725pt x 345.29pt>
 File: ../Chap1/Figure//Figure_2.pdf Graphic file (type pdf)
 <use ../Chap1/Figure//Figure_2.pdf, page 1>
 Package pdftex.def Info: ../Chap1/Figure//Figure_2.pdf , page1 used on input line 56.
 (pdftex.def)             Requested size: 341.43436pt x 255.33145pt.
 ) (../Chap1/Figure/Figure_3.pdf_tex
-<../Chap1/Figure//Figure_3.pdf, id=739, page=1, 461.725pt x 345.29pt>
+<../Chap1/Figure//Figure_3.pdf, id=749, page=1, 461.725pt x 345.29pt>
 File: ../Chap1/Figure//Figure_3.pdf Graphic file (type pdf)
 <use ../Chap1/Figure//Figure_3.pdf, page 1>
 Package pdftex.def Info: ../Chap1/Figure//Figure_3.pdf , page1 used on input line 56.
@@ -1392,35 +1396,33 @@ Package pdftex.def Info: ../Chap1/Figure//Figure_3.pdf , page1 used on input lin
 )
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 111.
+(Font)              using `T1/ptm/m/sc' instead on input line 118.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 111.
+(Font)              using `T1/ptm/m/sc' instead on input line 118.
 
-[5] [6 <../Chap1/Figure//Figure_1.pdf>] [7 <../Chap1/Figure//Figure_2.pdf> <../Chap1/Figure//Figure_3.pdf
+[6] [7 <../Chap1/Figure//Figure_2.pdf> <../Chap1/Figure//Figure_3.pdf
 
 pdfTeX warning: pdflatex.exe (file ../Chap1/Figure//Figure_3.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-Underfull \hbox (badness 10000) in paragraph at lines 120--121
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `htbp') on input line 124.
+               Default added (so using `htbp') on input line 131.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 133.
+(Font)              using `T1/ptm/m/sc' instead on input line 140.
 
 
 LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
-(Font)              using `T1/ptm/m/sc' instead on input line 133.
+(Font)              using `T1/ptm/m/sc' instead on input line 140.
 
-) [8
-
-] [9] (../Chap2/Chap2.tex
+) [8] [9] (../Chap2/Chap2.tex
 Chapitre 2.
 \openout4 = `Manuscrit.mtc'.
 
@@ -1549,21 +1551,21 @@ Package minitoc(hints) Warning: W0024
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Manuscrit.out' has not changed.
-(rerunfilecheck)             Checksum: E360D58731BE2711B716745BCFFBA5DF;19738.
+(rerunfilecheck)             Checksum: 56DF5A1E5B5C3C10381299C46B22BB88;19897.
  ) 
 Here is how much of TeX's memory you used:
- 33968 strings out of 478023
- 629462 string characters out of 5842667
+ 33992 strings out of 478023
+ 629691 string characters out of 5842667
  969860 words of memory out of 5000000
- 51170 multiletter control sequences out of 15000+600000
- 566403 words of font info for 146 fonts, out of 8000000 for 9000
+ 51191 multiletter control sequences out of 15000+600000
+ 566717 words of font info for 147 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 111i,16n,134p,595b,722s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 111i,16n,134p,1590b,722s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/calligra-type1/callig15.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Manuscrit.pdf (68 pages, 505155 bytes).
+Output written on Manuscrit.pdf (68 pages, 569732 bytes).
 PDF statistics:
- 1482 PDF objects out of 1728 (max. 8388607)
- 1262 compressed objects within 13 object streams
- 195 named destinations out of 1000 (max. 500000)
+ 1475 PDF objects out of 1728 (max. 8388607)
+ 1258 compressed objects within 13 object streams
+ 196 named destinations out of 1000 (max. 500000)
  1062 words of extra memory for PDF output out of 10000 (max. 10000000)
 

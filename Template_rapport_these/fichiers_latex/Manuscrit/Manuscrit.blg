@@ -7,45 +7,45 @@ Warning--I didn't find a database entry for "Collomb2018b"
 Warning--I didn't find a database entry for "Collomb2018a"
 Warning--I didn't find a database entry for "Collomb2017a"
 Warning--I didn't find a database entry for "Collomb2018"
-You've used 1 entry,
+You've used 2 entries,
             2419 wiz_defined-function locations,
-            568 strings with 4832 characters,
-and the built_in function-call counts, 401 in all, are:
-= -- 37
-> -- 18
+            577 strings with 5059 characters,
+and the built_in function-call counts, 734 in all, are:
+= -- 70
+> -- 36
 < -- 1
-+ -- 7
-- -- 6
-* -- 34
-:= -- 75
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 6
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 17
-empty$ -- 24
-format.name$ -- 7
-if$ -- 79
++ -- 13
+- -- 12
+* -- 61
+:= -- 136
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 12
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 31
+empty$ -- 45
+format.name$ -- 14
+if$ -- 144
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 1
-newline$ -- 8
-num.names$ -- 2
-pop$ -- 5
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 10
 preamble$ -- 1
-purify$ -- 8
+purify$ -- 16
 quote$ -- 0
-skip$ -- 13
+skip$ -- 21
 stack$ -- 0
-substring$ -- 10
-swap$ -- 4
+substring$ -- 17
+swap$ -- 5
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
+type$ -- 16
 warning$ -- 0
-while$ -- 3
-width$ -- 2
-write$ -- 17
+while$ -- 5
+width$ -- 4
+write$ -- 31
 (There were 4 warnings)
