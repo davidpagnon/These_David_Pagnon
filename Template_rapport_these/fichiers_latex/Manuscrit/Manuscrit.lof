@@ -2,22 +2,22 @@
 \addvspace {10\p@ }
 \contentsline {xchapter}{State of the art}{3}{chapter.1}%
 \contentsline {figure}{\numberline {1.1}{\ignorespaces The search for “deep learning 3D human pose estimation” (dots) fits an exponential curve (line). The search produced less than 100 results until 2015. Over the course of 5 years, the number has reached almost 750 of them, and is now well over a 1000 per year.\relax }}{5}{figure.caption.11}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces Exemple de Figures multiple\relax }}{7}{figure.caption.12}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Exemple de Figures multiple\relax }}{8}{figure.caption.12}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Theoretical framework}{10}{chapter.2}%
+\contentsline {xchapter}{Theoretical framework}{11}{chapter.2}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Proposed solution: Pose2Sim python package}{14}{chapter.3}%
+\contentsline {xchapter}{Proposed solution: Pose2Sim python package}{15}{chapter.3}%
 \addvspace {10\p@ }
 \contentsline {xchapter}{Pose2Sim robustness}{19}{chapter.4}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim accuracy}{25}{chapter.5}%
+\contentsline {xchapter}{Pose2Sim accuracy}{24}{chapter.5}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim in suboptimal conditions: Application to boxing}{30}{chapter.6}%
+\contentsline {xchapter}{Pose2Sim in suboptimal conditions: Application to boxing}{29}{chapter.6}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{OpenPose and DeepLabCut together with Pose2Sim: Application to BMX racing}{35}{chapter.7}%
+\contentsline {xchapter}{OpenPose and DeepLabCut together with Pose2Sim: Application to BMX racing}{34}{chapter.7}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Annexe 1 : Titre}{VII}{appendix.A}%
+\contentsline {xchapter}{Annexe 1 : Titre}{XIII}{appendix.A}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Annexe 2 : Titre}{IX}{appendix.B}%
+\contentsline {xchapter}{Annexe 2 : Titre}{XV}{appendix.B}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Annexe 3 : Titre}{XI}{appendix.C}%
+\contentsline {xchapter}{Annexe 3 : Titre}{XVII}{appendix.C}%

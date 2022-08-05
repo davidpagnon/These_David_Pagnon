@@ -1,16 +1,537 @@
-\begin{thebibliography}{Mündermann2006}
+\begin{thebibliography}{Beaucage-Gauvreau2019}
 
-\bibitem[Mündermann2006]{Mündermann2006evolution}
+\bibitem[Ahmad2013]{Ahmad2013}
+Norhafizan Ahmad, Raja Ariffin~Raja Ghazilla, Nazirah~M. Khairi et Vijayabaskar
+  Kasi.
+\newblock {\em Reviews on Various Inertial Measurement Unit (IMU) Sensor
+  Applications}.
+\newblock International Journal of Signal Processing Systems, pages 256--262,
+  2013.
+
+\bibitem[Baker2007]{Baker2007}
+Richard Baker.
+\newblock {\em The history of gait analysis before the advent of modern
+  computers}.
+\newblock Gait and Posture, vol.~26, no.~3, pages 331--342, 9 2007.
+
+\bibitem[Bala2020]{Bala2020Automated}
+Praneet~C. Bala, Benjamin~R. Eisenreich, Seng Bum~Michael Yoo, Benjamin~Y.
+  Hayden, Hyun~Soo Park et Jan Zimmermann.
+\newblock {\em Automated markerless pose estimation in freely moving macaques
+  with OpenMonkeyStudio}.
+\newblock Nature Communications, vol.~11, no.~1, page 4560, 9 2020.
+
+\bibitem[Beaucage-Gauvreau2019]{Beaucage-Gauvreau2019Validation}
+Erica Beaucage-Gauvreau, William S.~P. Robertson, Scott C.~E. Brandon, Robert
+  Fraser, Brian J.~C. Freeman, Ryan~B. Graham, Dominic Thewlis et Claire~F.
+  Jones.
+\newblock {\em Validation of an OpenSim full-body model with detailed lumbar
+  spine for estimating lower lumbar spine loads during symmetric and asymmetric
+  lifting tasks}.
+\newblock Computer Methods in Biomechanics and Biomedical Engineering, vol.~22,
+  no.~5, pages 451--464, 4 2019.
+
+\bibitem[Benoit2015]{Benoit2015}
+D.~L. Benoit, M.~Damsgaard et M.~S. Andersen.
+\newblock {\em Surface marker cluster translation, rotation, scaling and
+  deformation: Their contribution to soft tissue artefact and impact on knee
+  joint kinematics}.
+\newblock Journal of Biomechanics, vol.~48, no.~10, pages 2124--2129, 7 2015.
+
+\bibitem[Bridgeman2019]{Bridgeman2019}
+Lewis Bridgeman, Marco Volino, Jean-Yves Guillemaut et Adrian Hilton.
+\newblock {\em Multi-Person 3D Pose Estimation and Tracking in Sports}.
+\newblock pages 2487--2496, Long Beach, CA, USA, 6 2019. 2019 IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition Workshops (CVPRW),
+  IEEE.
+
+\bibitem[Bruno2015]{Bruno2015Development}
+Alexander~G. Bruno, Mary~L. Bouxsein et Dennis~E. Anderson.
+\newblock {\em Development and Validation of a Musculoskeletal Model of the
+  Fully Articulated Thoracolumbar Spine and Rib Cage}.
+\newblock Journal of Biomechanical Engineering, vol.~137, no.~8, page 081003, 8
+  2015.
+
+\bibitem[Cao2019]{Cao2019}
+Zhe Cao, Gines Hidalgo, Tomas Simon, Shih-En Wei et Yaser Sheikh.
+\newblock {\em OpenPose: realtime multi-person 2D pose estimation using Part
+  Affinity Fields}.
+\newblock IEEE transactions on pattern analysis and machine intelligence,
+  vol.~43, no.~1, pages 172--186, 2019.
+
+\bibitem[Cappozzo1995]{Cappozzo1995}
+A~Cappozzo, F~Catani, U~Della~Croce et A~Leardini.
+\newblock {\em Position and orientation in space of bones during movement:
+  anatomical frame definition and determination}.
+\newblock Clinical Biomechanics, vol.~10, no.~4, pages 171--178, 6 1995.
+
+\bibitem[Carraro2017]{Carraro2017}
+Marco Carraro, Matteo Munaro, Jeff Burke et Emanuele Menegatti.
+\newblock {\em Real-time marker-less multi-person 3D pose estimation in
+  RGB-Depth camera networks}.
+\newblock arXiv:1710.06235 [cs], 10 2017.
+\newblock arXiv: 1710.06235.
+
+\bibitem[Ceseracciu2014]{Ceseracciu2014}
+Elena Ceseracciu, Zimi Sawacha et Claudio Cobelli.
+\newblock {\em Comparison of Markerless and Marker-Based Motion Capture
+  Technologies through Simultaneous Data Collection during Gait: Proof of
+  Concept}.
+\newblock PLoS ONE, vol.~9, no.~3, page e87640, 3 2014.
+
+\bibitem[Chai2014]{Chai2014Root}
+T.~Chai et R.~R. Draxler.
+\newblock {\em Root mean square error (RMSE) or mean absolute error (MAE)? –
+  Arguments against avoiding RMSE in the literature}.
+\newblock Geoscientific Model Development, vol.~7, no.~3, pages 1247--1250, 6
+  2014.
+
+\bibitem[Chen2020]{Chen2020}
+Yucheng Chen, Yingli Tian et Mingyi He.
+\newblock {\em Monocular human pose estimation: A survey of deep learning-based
+  methods}.
+\newblock Computer Vision and Image Understanding, vol.~192, page 102897, 3
+  2020.
+
+\bibitem[Choppin2013]{Choppin2013}
+Simon Choppin et Jonathan Wheat.
+\newblock {\em The potential of the Microsoft Kinect in sports analysis and
+  biomechanics}.
+\newblock Sports Technology, vol.~6, no.~2, pages 78--85, 5 2013.
+
+\bibitem[Chu2021]{Chu2021}
+Hau Chu, Jia-Hong Lee, Yao-Chih Lee, Ching-Hsien Hsu, Jia-Da Li et Chu-Song
+  Chen.
+\newblock {\em Part-Aware Measurement for Robust Multi-View Multi-Human 3D Pose
+  Estimation and Tracking}.
+\newblock page~10, 2021.
+
+\bibitem[Colombel2020]{Colombel2020}
+Jessica Colombel, Vincent Bonnet, David Daney, Raphael Dumas, Antoine Seilles
+  et François Charpillet.
+\newblock {\em Physically Consistent Whole-Body Kinematics Assessment Based on
+  an RGB-D Sensor. Application to Simple Rehabilitation Exercises}.
+\newblock Sensors, vol.~20, no.~10, page 2848, 5 2020.
+
+\bibitem[Cronin2019]{Cronin2019}
+Neil~J. Cronin, Timo Rantalainen, Juha~P. Ahtiainen, Esa Hynynen et Ben Waller.
+\newblock {\em Markerless 2D kinematic analysis of underwater running: A deep
+  learning approach}.
+\newblock Journal of Biomechanics, vol.~87, pages 75--82, 4 2019.
+
+\bibitem[Cronin2021]{Cronin2021}
+Neil~J. Cronin.
+\newblock {\em Using deep neural networks for kinematic analysis: challenges
+  and opportunities}.
+\newblock Journal of Biomechanics, page 110460, 5 2021.
+
+\bibitem[D'Antonio2021]{D'Antonio2021}
+Erika D'Antonio, Juri Taborri, Ilaria Mileti, Stefano Rossi et Fabrizio Patane.
+\newblock {\em Validation of a 3D Markerless System for Gait Analysis based on
+  OpenPose and Two RGB Webcams}.
+\newblock IEEE Sensors Journal, pages 1--1, 2021.
+
+\bibitem[Dawson-Howe1994]{Dawson-Howe1994Simple}
+Kenneth~M. Dawson-Howe et David Vernon.
+\newblock {\em Simple pinhole camera calibration}.
+\newblock International Journal of Imaging Systems and Technology, vol.~5,
+  no.~1, pages 1--6, 1994.
+
+\bibitem[della Croce1999]{Croce1999}
+U.~della Croce, A.~Cappozzo et D.~C. Kerrigan.
+\newblock {\em Pelvis and lower limb anatomical landmark calibration precision
+  and its propagation to bone geometry and joint angles}.
+\newblock Medical and Biological Engineering and Computing, vol.~37, no.~2,
+  pages 155--161, 3 1999.
+
+\bibitem[Delp2007]{Delp2007}
+Scott~L Delp, Frank~C Anderson, Allison~S Arnold, Peter Loan, Ayman Habib,
+  Chand~T John, Eran Guendelman et Darryl~G Thelen.
+\newblock {\em OpenSim: open-source software to create and analyze dynamic
+  simulations of movement}.
+\newblock IEEE transactions on biomedical engineering, vol.~54, no.~11, pages
+  1940--1950, 2007.
+
+\bibitem[Desmarais2020]{Desmarais2020review}
+Yann Desmarais, Denis Mottet, Pierre Slangen et Philippe Montesinos.
+\newblock {\em A review of 3D human pose estimation algorithms for markerless
+  motion capture}.
+\newblock arXiv:2010.06449 [cs], 10 2020.
+\newblock arXiv: 2010.06449.
+
+\bibitem[Dong2019]{Dong2019}
+Junting Dong, Wen Jiang, Qixing Huang, Hujun Bao et Xiaowei Zhou.
+\newblock {\em Fast and Robust Multi-Person 3D Pose Estimation From Multiple
+  Views}.
+\newblock pages 7784--7793, Long Beach, CA, USA, 6 2019. 2019 IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition (CVPR), IEEE.
+
+\bibitem[Dong2020]{Dong2020}
+Junting Dong, Qing Shuai, Yuanqing Zhang, Xian Liu, Xiaowei Zhou et Hujun Bao.
+\newblock {\em Motion Capture from Internet Videos}.
+\newblock In Andrea Vedaldi, Horst Bischof, Thomas Brox et Jan-Michael Frahm,
+  editeurs, Computer Vision – ECCV 2020, volume 12347, pages 210--227.
+  Springer International Publishing, Cham, 2020.
+
+\bibitem[Drazan2021]{Drazan2021}
+John~F. Drazan, William~T. Phillips, Nidhi Seethapathi, Todd~J. Hullfish et
+  Josh~R. Baxter.
+\newblock {\em Moving outside the lab: Markerless motion capture accurately
+  quantifies sagittal plane kinematics during the vertical jump}.
+\newblock Journal of Biomechanics, vol.~125, page 110547, 8 2021.
+
+\bibitem[Ershadi-Nasab2021]{Ershadi-Nasab2021}
+Sara Ershadi-Nasab, Shohreh Kasaei et Esmaeil Sanaei.
+\newblock {\em Uncalibrated multi-view multiple humans association and 3D pose
+  estimation by adversarial learning}.
+\newblock Multimedia Tools and Applications, vol.~80, no.~2, pages 2461--2488,
+  1 2021.
+
+\bibitem[Fang2017]{Fang2017}
+Hao-Shu Fang, Shuqin Xie, Yu-Wing Tai et Cewu Lu.
+\newblock {\em RMPE: Regional Multi-person Pose Estimation}.
+\newblock pages 2353--2362, Venice, 10 2017. 2017 IEEE International Conference
+  on Computer Vision (ICCV), IEEE.
+
+\bibitem[Fisch2020]{Fisch2020}
+Martin Fisch et Ronald Clark.
+\newblock {\em Orientation Keypoints for 6D Human Pose Estimation}.
+\newblock arXiv:2009.04930 [cs], 9 2020.
+\newblock arXiv: 2009.04930.
+
+\bibitem[Fukuchi2018]{Fukuchi2018public}
+Claudiane~A. Fukuchi, Reginaldo~K. Fukuchi et Marcos Duarte.
+\newblock {\em A public dataset of overground and treadmill walking kinematics
+  and kinetics in healthy individuals}.
+\newblock PeerJ, vol.~6, page e4640, 4 2018.
+
+\bibitem[Gorton2009]{Gorton2009}
+George~E. Gorton, David~A. Hebert et Mary~E. Gannotti.
+\newblock {\em Assessment of the kinematic variability among 12 motion analysis
+  laboratories}.
+\newblock Gait and Posture, vol.~29, no.~3, pages 398--402, 4 2009.
+
+\bibitem[Han2013]{Han2013}
+Jungong Han, Ling Shao, Dong Xu et Jamie Shotton.
+\newblock {\em Enhanced Computer Vision With Microsoft Kinect Sensor: A
+  Review}.
+\newblock IEEE Transactions on Cybernetics, vol.~43, no.~5, pages 1318--1334,
+  10 2013.
+\newblock event: IEEE Transactions on Cybernetics.
+
+\bibitem[Haralabidis2020]{Haralabidis2020}
+Nicos Haralabidis, David~John Saxby, Claudio Pizzolato, Laurie Needham, Dario
+  Cazzola et Clare Minahan.
+\newblock {\em Fusing Accelerometry with Videography to Monitor the Effect of
+  Fatigue on Punching Performance in Elite Boxers}.
+\newblock Sensors (Basel, Switzerland), vol.~20, no.~20, 10 2020.
+
+\bibitem[Hartley1997]{Hartley1997}
+Richard~I. Hartley et Peter Sturm.
+\newblock {\em Triangulation}.
+\newblock Computer Vision and Image Understanding, vol.~68, no.~2, pages
+  146--157, 11 1997.
+
+\bibitem[He2020]{He2020}
+Yihui He, Rui Yan, Katerina Fragkiadaki et Shoou-I Yu.
+\newblock {\em Epipolar Transformers}.
+\newblock pages 7776--7785. 2020 IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR), 6 2020.
+\newblock ISSN: 2575-7075.
+
+\bibitem[Iskakov2019]{Iskakov2019}
+Karim Iskakov, Egor Burkov, Victor Lempitsky et Yury Malkov.
+\newblock {\em Learnable Triangulation of Human Pose}.
+\newblock pages 7717--7726, Seoul, Korea (South), 10 2019. 2019 IEEE/CVF
+  International Conference on Computer Vision (ICCV), IEEE.
+
+\bibitem[Joo2015]{Joo2015}
+Hanbyul Joo, Hao Liu, Lei Tan, Lin Gui, Bart Nabbe, Iain Matthews, Takeo
+  Kanade, Shohei Nobuhara et Yaser Sheikh.
+\newblock {\em Panoptic Studio: A Massively Multiview System for Social Motion
+  Capture}.
+\newblock pages 3334--3342. 2015 IEEE International Conference on Computer
+  Vision (ICCV), 12 2015.
+\newblock ISSN: 2380-7504.
+
+\bibitem[Kang2008]{Kang2008Separating}
+Hyun~Gu Kang et Jonathan~B. Dingwell.
+\newblock {\em Separating the effects of age and walking speed on gait
+  variability}.
+\newblock Gait and Posture, vol.~27, no.~4, pages 572--577, 5 2008.
+
+\bibitem[Kanko2021a]{Kanko2021a}
+Robert~M. Kanko, Elise Laende, W.~Scott Selbie et Kevin~J. Deluzio.
+\newblock {\em Inter-session repeatability of markerless motion capture gait
+  kinematics}.
+\newblock Journal of Biomechanics, vol.~121, page 110422, 5 2021.
+
+\bibitem[Kanko2021b]{Kanko2021b}
+Robert~M. Kanko, Elise~K. Laende, Elysia~M. Davis, W.~Scott~Selbie et Kevin~J.
+  Deluzio.
+\newblock {\em Concurrent assessment of gait kinematics using marker-based and
+  markerless motion capture}.
+\newblock Journal of Biomechanics, page 110665, 8 2021.
+
+\bibitem[Karashchuk2021]{Karashchuk2021}
+Pierre Karashchuk, Katie~L Rupp, Evyn~S Dickinson, Sarah Walling-Bell, Elischa
+  Sanders, Eiman Azim, Bingni~W Brunton et John~C Tuthill.
+\newblock {\em Anipose: a toolkit for robust markerless 3D pose estimation}.
+\newblock Cell reports, vol.~36, no.~13, page 109730, 2021.
+
+\bibitem[Kidziński2020]{Kidziński2020}
+Łukasz Kidziński, Bryan Yang, Jennifer~L. Hicks, Apoorva Rajagopal, Scott~L.
+  Delp et Michael~H. Schwartz.
+\newblock {\em Deep neural networks enable quantitative movement analysis using
+  single-camera videos}.
+\newblock Nature Communications, vol.~11, no.~1, page 4054, 12 2020.
+
+\bibitem[Labuguen2020]{Labuguen2020}
+Rollyn~T. Labuguen, Wally Enrico~M. Ingco, Salvador~Blanco Negrete, Tonan
+  Kogami et Tomohiro Shibata.
+\newblock {\em Performance Evaluation of Markerless 3D Skeleton Pose Estimates
+  with Pop Dance Motion Sequence}.
+\newblock Rapport technique, 4 2020.
+\newblock DOI: 10.1101/2020.04.15.010702.
+
+\bibitem[Leboeuf2019]{Leboeuf2019}
+F.~Leboeuf, J.~Reay, R.~Jones et M.~Sangeux.
+\newblock {\em The effect on conventional gait model kinematics and kinetics of
+  hip joint centre equations in adult healthy gait}.
+\newblock Journal of Biomechanics, vol.~87, pages 167--171, 4 2019.
+
+\bibitem[Li2019]{Li2019}
+Zongmian Li, Jiri Sedlar, Justin Carpentier, Ivan Laptev, Nicolas Mansard et
+  Josef Sivic.
+\newblock {\em Estimating 3D Motion and Forces of Person-Object Interactions
+  From Monocular Video}.
+\newblock pages 8632--8641, Long Beach, CA, USA, 6 2019. 2019 IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition (CVPR), IEEE.
+
+\bibitem[Liao2020]{Liao2020}
+Rijun Liao, Shiqi Yu, Weizhi An et Yongzhen Huang.
+\newblock {\em A model-based gait recognition method with body pose and human
+  prior knowledge}.
+\newblock Pattern Recognition, vol.~98, page 107069, 2 2020.
+
+\bibitem[Loper2015]{Loper2015}
+Matthew Loper, Naureen Mahmood, Javier Romero, Gerard Pons-Moll et Michael~J.
+  Black.
+\newblock {\em SMPL: a skinned multi-person linear model}.
+\newblock ACM Transactions on Graphics, vol.~34, no.~6, pages 1--16, 11 2015.
+
+\bibitem[Mathis2018]{Mathis2018}
+Alexander Mathis, Pranav Mamidanna, Kevin~M. Cury, Taiga Abe, Venkatesh~N.
+  Murthy, Mackenzie~Weygandt Mathis et Matthias Bethge.
+\newblock {\em DeepLabCut: markerless pose estimation of user-defined body
+  parts with deep learning}.
+\newblock Nature Neuroscience, vol.~21, no.~9, pages 1281--1289, 9 2018.
+
+\bibitem[Mehta2020]{Mehta2020}
+Dushyant Mehta, Oleksandr Sotnychenko, Franziska Mueller, Weipeng Xu, Mohamed
+  Elgharib, Pascal Fua, Hans-Peter Seidel, Helge Rhodin, Gerard Pons-Moll et
+  Christian Theobalt.
+\newblock {\em XNect: real-time multi-person 3D motion capture with a single
+  RGB camera}.
+\newblock ACM Transactions on Graphics, vol.~39, no.~4, page
+  82:82:1–82:82:17, 7 2020.
+
+\bibitem[Miller1980]{Miller1980}
+Norman~R. Miller, Robert Shapiro et Thomas~M. McLaughlin.
+\newblock {\em A technique for obtaining spatial kinematic parameters of
+  segments of biomechanical systems from cinematographic data}.
+\newblock Journal of Biomechanics, vol.~13, no.~7, pages 535--547, 1 1980.
+
+\bibitem[Moeslund2001]{Moeslund2001Review}
+Thomas~B. Moeslund et Erik Granum.
+\newblock {\em Review - A Survey of Computer Vision-Based Human Motion
+  Capture}.
+\newblock Computer Vision and Image Understanding, vol.~81, no.~3, pages
+  231--268, 3 2001.
+
+\bibitem[Mündermann2006]{Mündermann2006}
 Lars Mündermann, Stefano Corazza et Thomas~P. Andriacchi.
 \newblock {\em The evolution of methods for the capture of human movement
   leading to markerless motion capture for biomechanical applications}.
 \newblock Journal of NeuroEngineering and Rehabilitation, vol.~3, no.~1,
   page~6, 3 2006.
 
-\bibitem[Pagnon2021]{Pagnon_2021}
+\bibitem[Nakano2019]{Nakano2019}
+Nobuyasu Nakano, Tetsuro Sakura, Kazuhiro Ueda, Leon Omura, Arata Kimura,
+  Yoichi Iino, Senshi Fukashiro et Shinsuke Yoshioka.
+\newblock {\em Evaluation of 3D markerless motion capture accuracy using
+  OpenPose with multiple video cameras}.
+\newblock Rapport technique, 11 2019.
+\newblock DOI: 10.1101/842492.
+
+\bibitem[Pagnon2021]{Pagnon2021}
 David Pagnon, Mathieu Domalain et Lionel Reveret.
 \newblock {\em Pose2Sim: An End-to-End Workflow for 3D Markerless Sports
   Kinematics—Part 1: Robustness}.
 \newblock Sensors, vol.~21, no.~19, 2021.
+
+\bibitem[Pagnon2022]{Pagnon2022}
+David Pagnon, Mathieu Domalain et Lionel Reveret.
+\newblock Sensors, vol.~22, no.~7, 2022.
+
+\bibitem[Rajagopal2016]{Rajagopal2016Full-Body}
+Apoorva Rajagopal, Christopher~L. Dembia, Matthew~S. DeMers, Denny~D. Delp,
+  Jennifer~L. Hicks et Scott~L. Delp.
+\newblock {\em Full-Body Musculoskeletal Model for Muscle-Driven Simulation of
+  Human Gait}.
+\newblock IEEE Transactions on Biomedical Engineering, vol.~63, no.~10, pages
+  2068--2079, 10 2016.
+
+\bibitem[Rempe2020]{Rempe2020}
+Davis Rempe, Leonidas~J Guibas, Aaron Hertzmann, Bryan Russell, Ruben Villegas
+  et Jimei Yang.
+\newblock {\em Contact and Human Dynamics from Monocular Video}.
+\newblock page~27, 2020.
+
+\bibitem[Rempe2021]{Rempe2021}
+Davis Rempe, Tolga Birdal, Aaron Hertzmann, Jimei Yang, Srinath Sridhar et
+  Leonidas~J Guibas.
+\newblock {\em HuMoR: 3D Human Motion Model for Robust Pose Estimation}.
+\newblock page~23, 2021.
+
+\bibitem[Seethapathi2019]{Seethapathi2019}
+Nidhi Seethapathi, Shaofei Wang, Rachit Saluja, Gunnar Blohm et Konrad~P.
+  Kording.
+\newblock {\em Movement science needs different pose tracking algorithms}.
+\newblock arXiv:1907.10226 [cs, q-bio], 7 2019.
+\newblock arXiv: 1907.10226.
+
+\bibitem[Serrancolí2020]{Serrancolí2020}
+Gil Serrancolí, Peter Bogatikov, Joana~Palés Huix, Ainoa~Forcada Barberà,
+  Antonio J.~Sánchez Egea, Jordi~Torner Ribé, Samir Kanaan-Izquierdo et
+  Antoni Susín.
+\newblock {\em Marker-Less Monitoring Protocol to Analyze Biomechanical Joint
+  Metrics During Pedaling}.
+\newblock IEEE Access, vol.~8, pages 122782--122790, 2020.
+\newblock event: IEEE Access.
+
+\bibitem[Seth2018]{Seth2018}
+Ajay Seth, Jennifer~L. Hicks, Thomas~K. Uchida, Ayman Habib, Christopher~L.
+  Dembia, James~J. Dunne, Carmichael~F. Ong, Matthew~S. DeMers, Apoorva
+  Rajagopal, Matthew Millard, Samuel~R. Hamner, Edith~M. Arnold, Jennifer~R.
+  Yong, Shrinidhi~K. Lakshmikanth, Michael~A. Sherman, Joy~P. Ku et Scott~L.
+  Delp.
+\newblock {\em OpenSim: Simulating musculoskeletal dynamics and neuromuscular
+  control to study human and animal movement}.
+\newblock PLOS Computational Biology, vol.~14, no.~7, page e1006223, 7 2018.
+
+\bibitem[Slembrouck2020]{Slembrouck2020}
+Maarten Slembrouck, Hiep Luong, Joeri Gerlo, Kurt Schütte, Dimitri
+  Van~Cauwelaert, Dirk De~Clercq, Benedicte Vanwanseele, Peter Veelaert et
+  Wilfried Philips.
+\newblock {\em Multiview 3D Markerless Human Pose Estimation from OpenPose
+  Skeletons}.
+\newblock In Jacques Blanc-Talon, Patrice Delmas, Wilfried Philips, Dan Popescu
+  et Paul Scheunders, editeurs, Advanced Concepts for Intelligent Vision
+  Systems, volume 12002, pages 166--178. Springer International Publishing,
+  Cham, 2020.
+
+\bibitem[Stenum2021]{Stenum2021}
+Jan Stenum, Cristina Rossi et Ryan~T. Roemmich.
+\newblock {\em Two-dimensional video-based analysis of human gait using pose
+  estimation}.
+\newblock PLoS Computational Biology, vol.~17, no.~4, 4 2021.
+
+\bibitem[Sun2005]{Sun2005Requirements}
+Wei Sun et Jeremy~R. Cooperstock.
+\newblock {\em Requirements for Camera Calibration: Must Accuracy Come with a
+  High Price?}
+\newblock volume~1, pages 356--361. 2005 Seventh IEEE Workshops on Applications
+  of Computer Vision (WACV/MOTION'05) - Volume 1, 1 2005.
+
+\bibitem[Takahashi2018]{Takahashi2018}
+Kosuke Takahashi, Dan Mikami, Mariko Isogawa et Hideaki Kimata.
+\newblock {\em Human Pose as Calibration Pattern: 3D Human Pose Estimation with
+  Multiple Unsynchronized and Uncalibrated Cameras}.
+\newblock pages 1856--18567, Salt Lake City, UT, USA, 6 2018. 2018 IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition Workshops (CVPRW),
+  IEEE.
+
+\bibitem[Topley2020]{Topley2020}
+Matt Topley et James~G. Richards.
+\newblock {\em A comparison of currently available optoelectronic motion
+  capture systems}.
+\newblock Journal of Biomechanics, vol.~106, page 109820, 6 2020.
+
+\bibitem[Trinler2019]{Trinler2019Muscle}
+Ursula Trinler, Hermann Schwameder, Richard Baker et Nathalie Alexander.
+\newblock {\em Muscle force estimation in clinical gait analysis using AnyBody
+  and OpenSim}.
+\newblock Journal of Biomechanics, vol.~86, pages 55--63, 3 2019.
+
+\bibitem[Tsushima2003]{Tsushima2003}
+Hitoshi Tsushima, Meg~E Morris et Jennifer McGinley.
+\newblock {\em Test-Retest Reliability and Inter-Tester Reliability of
+  Kinematic Data from a Three-Dimensional Gait Analysis System}.
+\newblock Journal of the Japanese Physical Therapy Association, vol.~6, no.~1,
+  pages 9--17, 2003.
+
+\bibitem[Varol2017]{Varol2017Learning}
+Gül Varol, Javier Romero, Xavier Martin, Naureen Mahmood, Michael~J. Black,
+  Ivan Laptev et Cordelia Schmid.
+\newblock {\em Learning from Synthetic Humans}.
+\newblock 2017 IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR), pages 4627--4635, 7 2017.
+\newblock arXiv: 1701.01370.
+
+\bibitem[Viswakumar2019]{Viswakumar2019}
+Aditya Viswakumar, Venkateswaran Rajagopalan, Tathagata Ray et Chandu Parimi.
+\newblock {\em Human Gait Analysis Using OpenPose}.
+\newblock pages 310--314. 2019 Fifth International Conference on Image
+  Information Processing (ICIIP), 11 2019.
+\newblock ISSN: 2640-074X.
+
+\bibitem[Wang2021a]{Wang2021When}
+Jiahang Wang, Sheng Jin, Wentao Liu, Weizhong Liu, Chen Qian et Ping Luo.
+\newblock {\em When Human Pose Estimation Meets Robustness: Adversarial
+  Algorithms and Benchmarks}.
+\newblock arXiv:2105.06152 [cs], 5 2021.
+\newblock arXiv: 2105.06152.
+
+\bibitem[Wang2021b]{Wang2021a}
+Jinbao Wang, Shujie Tan, Xiantong Zhen, Shuo Xu, Feng Zheng, Zhenyu He et Ling
+  Shao.
+\newblock {\em Deep 3D human pose estimation: A review}.
+\newblock Computer Vision and Image Understanding, page 103225, 5 2021.
+
+\bibitem[Warmenhoven2018]{Warmenhoven2018force}
+John Warmenhoven, Andrew Harrison, Mark~A. Robinson, Jos Vanrenterghem, Norma
+  Bargary, Richard Smith, Stephen Cobley, Conny Draper, Cyril Donnelly et Todd
+  Pataky.
+\newblock {\em A force profile analysis comparison between functional data
+  analysis, statistical parametric mapping and statistical non-parametric
+  mapping in on-water single sculling}.
+\newblock Journal of Science and Medicine in Sport, vol.~21, no.~10, pages
+  1100--1105, 10 2018.
+
+\bibitem[Zago2020]{Zago2020}
+Matteo Zago, Matteo Luzzago, Tommaso Marangoni, Mariolino De~Cecco, Marco
+  Tarabini et Manuela Galli.
+\newblock {\em 3D Tracking of Human Motion Using Visual Skeletonization and
+  Stereoscopic Vision}.
+\newblock Frontiers in Bioengineering and Biotechnology, vol.~8, 2020.
+
+\bibitem[Zeni2008]{Zeni2008Two}
+J.~A. Zeni, J.~G. Richards et J.~S. Higginson.
+\newblock {\em Two simple methods for determining gait events during treadmill
+  and overground walking using kinematic data}.
+\newblock Gait and Posture, vol.~27, no.~4, pages 710--714, 5 2008.
+
+\bibitem[Zhang2013]{Zhang2013}
+Jun-Tian Zhang, Alison~C Novak, Brenda Brouwer et Qingguo Li.
+\newblock {\em Concurrent validation of Xsens MVN measurement of lower limb
+  joint angular kinematics}.
+\newblock Physiological Measurement, vol.~34, no.~8, pages N63--N69, 8 2013.
+
+\bibitem[Zheng2022]{Zheng_2022}
+Ce~Zheng, Wenhan Wu, Taojiannan Yang, Sijie Zhu, Chen Chen, Ruixu Liu, Ju~Shen,
+  Nasser Kehtarnavaz et Mubarak Shah.
+\newblock {\em Deep learning-based human pose estimation: A survey}.
+\newblock arXiv, 2022.
 
 \end{thebibliography}
