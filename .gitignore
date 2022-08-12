@@ -1,0 +1,22 @@
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.fls
+*.log
+*.log
+*.lot
+*.out
+*.toc
+
+## Bibliography auxiliary files (bibtex/biblatex/biber):
+*.bbl
+*.blg
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+
+# minitoc
+*.maf
+*.mtc[0-9]*
+
+# others
+*.synctex.gz

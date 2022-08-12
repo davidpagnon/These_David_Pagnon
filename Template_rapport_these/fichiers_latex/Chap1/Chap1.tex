@@ -30,8 +30,8 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Résumé du chapitre possible ici.\newline \newline
-This chapter is an up-to-date version of the introduction of the previously published paper "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021} }
+\textit{This chapter deals with the available prospects in motion capture (MoCap) in sports. It first present the standard marker-based (opto-electronic) systems for motion analysis and their limits. It briefly introduces some alternatives offered by Inertial Measurement Units (IMUs) or dept-field cameras. It then details the advent of markerless camera systems, which has been possible thanks to progress in machine learning. From 2D pose estimation to 3D joint angle determination, this is a new field which opens up new possiblities for motion analysis in a sports context. \newline \newline
+This chapter is an up-to-date and slightly more detailed version of the introduction of the previously published paper "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021} }
 
 %\smallskip
 \end{minipage}
@@ -46,13 +46,55 @@ This chapter is an up-to-date version of the introduction of the previously publ
 
 \section{Overall context of kinematics in sports}
 
-Kinematic analysis in sports is a difficult challenge which highlights the limits of classic marker-based methods \cite{Mündermann2006}. Reflective marker-based camera systems are complex to set up, require specific lightning conditions, and are overall challenging to use out of a lab. Markers may fall off the body due to sharp accelerations or sweat, as well as hinder the natural movement of athletes, which is likely to affect their warm-up and focus. While the accuracy of landmark location is claimed to be sub-millimetric in marker-based methods \cite{Topley2020}, marker placement is tedious, intrusive, prone to positioning variability from the operator \cite{Tsushima2003}, and subject to skin movement artifacts, especially on soft tissues. Della Croce et al. found out that inter-operator variations in marker placements range from 13 to 25 mm, which can propagate up to 10° in joint angle prediction \cite{Gorton2009,Croce1999}.  Tissue artifacts account for up to a 2.5 cm marker displacement at the thigh for example, which can cause as much as a 3° error in knee joint angles tissues \cite{Benoit2015,Cappozzo1995}. Joint positions must be calculated explicitly in marker-based methods, which introduces more variability: these errors range up to 5 cm, which can contribute up to 3° of error in lower limb joint kinematics \cite{Leboeuf2019}. Nevertheless, since marker-based methods benefit from decades of research, they are still considered as the reference method for motion capture.
+As coaching athletes implies observing and understanding their movements, motion capture (MoCap) is essential in sports. It helps improving movement efficiency, preventing injuries, or predicting performances. For the last few decades, marker-based systems have been considered the best choice for the analysis of human movement, when regarding the trade-off between ease of use and accuracy. However, these methods have proven to be much more challenging in a sports context than in a laboratory setting, and to be generally inappropriate \cite{Mündermann2006}.
 
-Consequently, other approaches based on alternative technologies have been investigated over the past years. For example, wearable Inertial Measurement Units (IMUs) offer the advantage of getting away from all camera-related issues such as field of view, occlusions, and controlled environment \cite{Zhang2013}. They still have the disadvantage of being an external equipment to still wear, involving high technical skills, and being sensitive to ferromagnetic disturbances and exposed to drift over time \cite{Ahmad2013}. Another approach involves depth-field cameras (RGBD), which give access to a 2.5D world (only the depth of the front facing plane of view is measured), or even to full 3D with a network of few RGBD cameras \cite{Carraro2017,Choppin2013,Colombel2020}. On the other hand, these cameras suffer from a sensitivity to lightning conditions, they work at lower framerates, and they are short-range \cite{Han2013}. 
+\subsection{Marker-based systems}
+
+Marker-based systems use a network of opto-electronic cameras. Each of these cameras are surrounded by a crown of infrared LEDs, which projects light toward the subject. The subject wears special markers, reflecting light back to the camera. The camera usually pre-processes the image to make it binary, and only outputs the coordinates of the detected marker candidates (Figure~\ref{fig_mk1}). 
+
+If calibrated, using a network of these cameras allows for triangulating the 2D coordinates. Calibration involves knowing the cameras' intrinsic properties (such as focal length, optical center, distortion) as well as their extrinsic properties (their positions as regards to the global coordinate system.) See Chapter 2.2 on \nameref{sec:3D reconstruction} for more details. The reconstructed 3D marker positions are then used to optimize the posture of a physically consistent skeleton, scaled to each individual subject. In particular, this allows for obtaining 3D joint angles at each point in time.
+% allows for 2 fois
+
+\begin{figure}[hbtp]
+	\centering
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap1/Figure/marker_based_1.png"}
+		\caption{An opto-electronic camera is traditionnaly surrounded by a crown of infrared LEDs, projecting light toward the subject. The subject wears markers, which reflect light back to the camera.}
+		\label{fig_mk1}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap1/Figure/marker_based_2.png"}
+		\caption{Once calibrated, a network of these cameras allows for 3D reconstruction of marker positions. Marker coordinates are then used to infer the posture of the subject.}
+		\label{fig_mk2}
+	\end{subfigure}
+	\caption{Principles of marker-based motion capture. (Figure~\ref{fig_mk1}) presents the functionning of an opto-electronic camera. (Figure~\ref{fig_mk2}) shows how a network of calibrated motion capture cameras helps obtaining joint angles.}
+	\label{fig_mk}
+\end{figure}
+
+Indeed, reflective marker-based camera systems are complex to set up, are time-consuming, and are very expensive. They also require specific lightning conditions, and involve laying cables around. Moreover, markers may fall off the body due to sharp accelerations or sweat, as well as hinder the natural movement of athletes, which is likely to affect their warm-up and focus. While the accuracy of landmark location is claimed to be sub-millimetric in marker-based methods \cite{Topley2020}, marker placement is tedious, intrusive, prone to positioning variability from the operator \cite{Tsushima2003}, and subject to skin movement artifacts, especially on soft tissues. Della Croce et al. found out that inter-operator variations in marker placements range from 13 to 25 mm, which can propagate up to 10° in joint angle prediction \cite{Gorton2009,Croce1999}. For example, tissue artifacts account for up to a 2.5 cm marker displacement at the thigh, which can cause as much as a 3° error in knee joint angles tissues \cite{Benoit2015,Cappozzo1995}. Joint positions must be calculated explicitly in marker-based methods, which introduces more variability: these errors range up to 5 cm, which can contribute up to 3° of error in lower limb joint angles \cite{Leboeuf2019}. Nevertheless, since marker-based methods benefit from decades of research, they are still considered as the reference method for motion capture.
+
+\subsection{IMU and RGBD systems}
+
+How to use them (on limbs), accelerometer (linear acceleration), gyroscope (rotational speed), magnetometer (help define the constant while integrating other signals to get positions)
+
+Consequently, other approaches based on alternative technologies have been investigated over the past years. For instance, wearable Inertial Measurement Units (IMUs) offer the advantage of getting away from all camera-related issues such as complex setup and calibration, limited field of view, self- and gear-occlusions, the need for a controlled environment, and they can operate in real-time \cite{Johnston2019,Chambers2015}. They still have the drawback of being an external equipment to still wear, involving high technical skills, and being sensitive to ferromagnetic disturbances. Above all, they are exposed to drift over time, and they are not suitable for joint positions assessment since these are obtained through multiple integrations of the original signal \cite{Ahmad2013}. 
+
+Plutôt exactes, bien qu'une dernière étude \cite{Rekant2022} over 5° error for most motions.
+
+Another approach involves depth-field cameras (RGBD), which give access to a 2.5D world (only the depth of the front facing plane of view is measured), or even to full 3D with a network of few RGBD cameras \cite{Carraro2017,Choppin2013,Colombel2020}. On the other hand, these cameras suffer from a sensitivity to lightning conditions, they work at lower framerates, and they are short-range \cite{Han2013}. 
+
+\subsection{Markerless systems}
 
 A recent breakthrough has come from Computer Vision. The explosion of deep-learning based methods from 2D camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on ScienceDirect for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching almost 750 over the span of 5 years, fitting an exponential curve (Figure~\ref{fig_exp}).
 
-It has rekindled interest from the Biomechanics community towards image-based kinematics, which is where it all started with the invention of chronophotograph in the 19th century by Marey in France, and Muybridge in the USA \cite{Baker2007}. Currently, two approaches coexist in human and animal motion analysis for pose estimation: on the one hand, computer vision using deep-learning techniques mostly focus on joint positions only; while the interest of biomechanics lies in kinematics, that involves joint angles. One of the main challenges is to bridge the gap between these two worlds, and to take advantage of deep-learning technologies for kinematic analysis \cite{Cronin2021,Seethapathi2019}. 
+It has rekindled interest from the Biomechanics community towards image-based motion analysis, which is where it all started with the invention of chronophotography in the 19th century by Marey in France, and Muybridge in the USA \cite{Baker2007}. Currently, two approaches coexist in human and animal motion analysis: on the one hand, computer vision using deep-learning techniques mostly focus on joint positions only; while the interest of biomechanics lies in kinematics, that involves joint angles. One of the main current challenges is to bridge the gap between these two worlds, and to take advantage of deep-learning technologies for kinematic analysis \cite{Cronin2021,Seethapathi2019}. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -97,7 +139,27 @@ Instead of just working on 3D joint positions, the issue of 3D markerless kinema
 
 
 \section{Statement of need}
-\blindtext
+
+According to Atha \cite{Atha1984}, an ideal motion analysis system involves the collection of accurate information, the elimination of interference with natural movement, and the minimization of capture and analysis times. Yet, despite a marker-based system gives relatively accurate results, it requires placing markers on the body, which can hinder natural movement, and which are not it is hard to set up outdoors or in context, and it is strenuous to analyse. 
+
+Coaches usually investigate performance indicators and compare athletes, and compare with subjective visual observation 
+However, despite these benefits, investing in technology has its pitfalls: the information gathered can be unhelpful, or inaccurate, or not easily interpretable, or not implementable in the context of sports \cite{Windt2020}. 
+
+The emergence of markerless kinematics opens up new possibilities. Indeed, the interest in deep-learning pose estimation neural networks has been growing fast since 2015 \cite{Zheng2022}, which makes it now possible to collect accurate and reliable kinematic data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimations from videos. These coordinates can then be triangulated in order to produce 3D positions. Yet, when it comes to the biomechanical analysis of human motion, it is often more useful to obtain joint angles than their XYZ positions in space. Joint angles allow for better comparison among trials and individuals, and they represent the first step for other analysis such as inverse dynamics.
+
+OpenSim is another widespread open-source software which helps compute 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics with customizable biomechanical constraints. It provides other features such as net calculation of joint moments or individual muscle forces resolution, although this is out of the scope of our contribution.
+
+The goal of Pose2Sim is to build a bridge between the communities of computer vision and biomechanics, by providing a simple and open-source pipeline connecting the two aforementioned state-of-the-art tools: OpenPose and OpenSim. Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, balancing, swimming, boxing), and published in peer-reviewed scientific publications \cite{Pagnon2021,Pagnon2022} assessing its robustness and accuracy. The combination of its ease of use, customizable characteristics, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
+
+So far, little work has been done towards obtaining 3D angles from multiple views \cite{Zheng2022}. However, two software applications are worth mentioning. Anipose \cite{Karashchuk2021} proposes a Python open-source framework which allows for joint angle estimation with spatio-temporal constraints, but it is primarily designed for animal motion analysis. Theia3D \cite{Kanko2021a} is a software application for human gait kinematics from videos. Although the GUI is more user friendly, it is not open-source nor easily customizable. Our results on inverse kinematics were deemed good when compared to marker-based ones. See \cite{Pagnon2022} for more details on concurrent accuracy with other systems.
+
+---
+
+Currently, reference methods in sports analysis remain marker-based. These methods, also known as MoCap (motion capture) procedures, are mostly concerned with accuracy, despite the fact that marker placement hinders natural movement and is time consuming. Therefore, several markerless technologies are being examined to solve these issues. The main candidates are either based on Inertial Measurement Units (IMUs) [2,3], depth cameras [4,5,6], or a network of RGB cameras [7,8,9]. IMUs avoid all camera-related issues such as complex setup and calibration, potential self- and gear obstructions, and can operate in real time; however, they need to be worn by the athlete and are sensitive to drift over time, and to ferromagnetic disturbances. Depth cameras offer more information than RGB cameras but they hardly work in direct sunlight nor at a distance over 5 m [10]. On the other hand, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus, but it requires delicate calibration, complex setup, large storage space, and high computational capacities. The technology, however, is still maturing and some light-weight systems such as BlazePose [11] or UULPN [12] are being proposed, which can operate in real time on a mobile phone; however, they are still not quite as accurate as required for quantitative motion analysis.
+
+We focus on the latter approach, and more specifically on methods triangulating 2D joint center estimations from a network of several calibrated RGB cameras. The most common evaluation metric is the Mean Per Joint Position Error (MPJPE), which is the average Euclidian distance between the estimated joint coordinate and its ground truth. A large part of studies investigating 3D joint center estimation choose to triangulate the output of OpenPose [13], a deep-learning algorithm estimating 2D joint coordinates from videos. Their MPJPE usually lies between 30 and 40 mm [14,15,16]. Ankle MPJPEs are within the margin of error of marker-based technologies (1–15 mm), whereas knee and hip MPJPEs are greater (30–50 mm). These errors are systematic and likely due to “ground-truth” images being mislabeled in the training dataset [17]. Triangulation from other 2D deep-learning algorithms (such as AlphaPose [18] and DeepLabCut [19]) have also been compared [17]. AlphaPose results are similar to OpenPose’s; however, DeepLabCut errors are substantially higher.
+
+Numerous studies have focused on the accuracy of 3D joint center estimation, but far fewer have examined 3D joint angle estimation. D’Antonio et al. computed direct flexion-extension angles for the lower limb from two cameras processed with OpenPose [20]. Range of Motion (ROM) errors lay between 2.8° and 14.1°. Wade et al. calculated frontal and sagittal knee and hip angles with OpenPose, AlphaPose, and DeepLabCut [21]. They deemed the method accurate enough for assessing step length and velocity, but not for joint angle analysis. AniPose offers a toolkit for triangulating 2D poses from DeepLabCut [22]. To our knowledge, it has only been concurrently validated for index finger angles in the sagittal plane, resulting in a root-mean-square error of 7.5 degrees [23]. Theia, a commercially available software package for markerless analysis, uses its own patent-protected 2D pose estimator and triangulation procedure, and runs a skeletal model to constrain the results to physically consistent poses and movements [24]. Their root-mean-square error (RMSE) compared to a marker-based method ranged between 2.6° and 13.2°.
 
 
 \section{Exemples}
@@ -150,12 +212,3 @@ Un exemple de tableau générée par cet outil est présenté Table~\ref{tableau
 \caption{Exemple de tableau}
 \label{tableau_exemple}
 \end{table}
-
-
-\FloatBarrier
-\section{Section 2}
-\subsection{Sous-section 1}
-\blindtext
-
-\subsection{Sous-section 2}
-\blindtext
