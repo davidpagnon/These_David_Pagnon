@@ -50,7 +50,7 @@ As coaching athletes implies observing and understanding their movements, motion
 
 \subsection{Marker-based systems}
 
-Marker-based systems use a network of opto-electronic cameras. Each of these cameras are surrounded by a crown of infrared LEDs, which projects light toward the subject. The subject wears special markers, reflecting light back to the camera. The camera usually pre-processes the image to make it binary, and only outputs the coordinates of the detected marker candidates (Figure~\ref{fig_mk1}). 
+Marker-based systems use a network of opto-electronic cameras. Each of these cameras are surrounded by a crown of infrared LEDs, which projects light toward the subject. The subject wears special markers, reflecting light back to the camera. The camera usually pre-processes the image to make it binary, and only outputs the coordinates of the detected marker candidates (Figures~\ref{fig_mk1}). 
 
 If calibrated, using a network of these cameras allows for triangulating the 2D coordinates. Calibration involves knowing the cameras' intrinsic properties (such as focal length, optical center, distortion) as well as their extrinsic properties (their positions as regards to the global coordinate system.) See Chapter 2.2 on \nameref{sec:3D reconstruction} for more details. The reconstructed 3D marker positions are then used to optimize the posture of a physically consistent skeleton, scaled to each individual subject. In particular, this allows for obtaining 3D joint angles at each point in time.
 % allows for 2 fois
@@ -61,7 +61,7 @@ If calibrated, using a network of these cameras allows for triangulating the 2D 
 		\centering
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap1/Figure/marker_based_1.png"}
+		\includegraphics[width=\linewidth]{"../Chap1/Figures/Markers_1.png"}
 		\caption{An opto-electronic camera is traditionnaly surrounded by a crown of infrared LEDs, projecting light toward the subject. The subject wears markers, which reflect light back to the camera.}
 		\label{fig_mk1}
 	\end{subfigure}
@@ -70,29 +70,58 @@ If calibrated, using a network of these cameras allows for triangulating the 2D 
 		\centering
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap1/Figure/marker_based_2.png"}
+		\includegraphics[width=\linewidth]{"../Chap1/Figures/Markers_2.png"}
 		\caption{Once calibrated, a network of these cameras allows for 3D reconstruction of marker positions. Marker coordinates are then used to infer the posture of the subject.}
 		\label{fig_mk2}
 	\end{subfigure}
-	\caption{Principles of marker-based motion capture. (Figure~\ref{fig_mk1}) presents the functionning of an opto-electronic camera. (Figure~\ref{fig_mk2}) shows how a network of calibrated motion capture cameras helps obtaining joint angles.}
+	\caption{Principles of marker-based motion capture. (Figures~\ref{fig_mk1}) presents the functionning of an opto-electronic camera. (Figures~\ref{fig_mk2}) shows how a network of calibrated motion capture cameras helps obtaining joint angles.}
 	\label{fig_mk}
 \end{figure}
 
-Indeed, reflective marker-based camera systems are complex to set up, are time-consuming, and are very expensive. They also require specific lightning conditions, and involve laying cables around. Moreover, markers may fall off the body due to sharp accelerations or sweat, as well as hinder the natural movement of athletes, which is likely to affect their warm-up and focus. While the accuracy of landmark location is claimed to be sub-millimetric in marker-based methods \cite{Topley2020}, marker placement is tedious, intrusive, prone to positioning variability from the operator \cite{Tsushima2003}, and subject to skin movement artifacts, especially on soft tissues. Della Croce et al. found out that inter-operator variations in marker placements range from 13 to 25 mm, which can propagate up to 10° in joint angle prediction \cite{Gorton2009,Croce1999}. For example, tissue artifacts account for up to a 2.5 cm marker displacement at the thigh, which can cause as much as a 3° error in knee joint angles tissues \cite{Benoit2015,Cappozzo1995}. Joint positions must be calculated explicitly in marker-based methods, which introduces more variability: these errors range up to 5 cm, which can contribute up to 3° of error in lower limb joint angles \cite{Leboeuf2019}. Nevertheless, since marker-based methods benefit from decades of research, they are still considered as the reference method for motion capture.
+Yet, reflective marker-based camera systems are complex to set up, are time-consuming, and are very expensive. They also require specific lightning conditions, and involve cumbersome cabling. Moreover, markers may fall off the body of the participant due to sharp accelerations or sweat. They can hinder the natural movement of athletes, which is likely to affect their warm-up, focus, and safety. While the accuracy of landmark location is claimed to be sub-millimetric in marker-based methods \cite{Topley2020}, marker placement is tedious, intrusive, prone to positioning variability from the operator \cite{Tsushima2003}, and subject to skin movement artifacts, especially on soft tissues. Della Croce et al. found out that inter-operator variations in marker placements range from 13 to 25 mm, which can propagate up to 10° in joint angle prediction \cite{Gorton2009,Croce1999}. For example, tissue artifacts account for up to a 2.5 cm marker displacement at the thigh, which can cause as much as a 3° error in knee joint angles tissues \cite{Benoit2015,Cappozzo1995}. Joint positions must be calculated explicitly in marker-based methods, which introduces more variability: these errors range up to 5 cm, which can contribute up to 3° of error in lower limb joint angles \cite{Leboeuf2019}. Nevertheless, since marker-based methods benefit from decades of research, they are still considered as the reference method for motion capture.
 
+
+\FloatBarrier
 \subsection{IMU and RGBD systems}
 
-How to use them (on limbs), accelerometer (linear acceleration), gyroscope (rotational speed), magnetometer (help define the constant while integrating other signals to get positions)
+Consequently, other approaches based on alternative technologies have been investigated over the past years. 
 
-Consequently, other approaches based on alternative technologies have been investigated over the past years. For instance, wearable Inertial Measurement Units (IMUs) offer the advantage of getting away from all camera-related issues such as complex setup and calibration, limited field of view, self- and gear-occlusions, the need for a controlled environment, and they can operate in real-time \cite{Johnston2019,Chambers2015}. They still have the drawback of being an external equipment to still wear, involving high technical skills, and being sensitive to ferromagnetic disturbances. Above all, they are exposed to drift over time, and they are not suitable for joint positions assessment since these are obtained through multiple integrations of the original signal \cite{Ahmad2013}. 
+For instance, wearable Inertial Measurement Units (IMUs) can be placed on an athlete's limbs. IMUs are made of an accelerometer, a gyroscope, and a magnetomete. The accelerometer measures the linear acceleration, the gyroscope measures the rotational speed, and the magnetometer measures the orientation of the earth magnetic field. Fusing and integrating these signals allows for the determination of their 3D orientations. The orientation of the athlete's limbs can then be used in combination with a skeletal model to infer the posture of the subject (Figures~\ref{fig_imus}).
 
-Plutôt exactes, bien qu'une dernière étude \cite{Rekant2022} over 5° error for most motions.
+IMUs offer the advantages of getting away from all camera-related issues. They are inexpensive, they do not involve any complex setup and calibration, the field of view is larger, they are not sensitive to self- and gear-occlusions, they can be operated outside of a controlled environment, and they can work in real-time \cite{Johnston2019,Chambers2015}. They still have the drawback of being an external equipment to wear, of involving high technical skills, and of being sensitive to ferromagnetic disturbances. Above all, they are exposed to drift over time and need to be calibrated every few minutes. Joint angle accuracy is relatively good in the flexion/extension plane, but less so in other rotational planes where errors are greater than 5° for most motions \cite{Zhang2013, Rekant2022}. Moreover, they are not suitable for joint positions assessment, since these are obtained through multiple integrations of the original signal \cite{Ahmad2013}. 
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap1/Figures/IMUs.png"}
+	\caption{The search for “deep learning 3D human pose estimation” (dots) fits an exponential curve (line). The search produced less than 100 results until 2015. Over the course of 5 years, the number has reached almost 750 of them, and is now well over a 1000 per year.}
+	\label{fig_imus}
+\end{figure}
+\FloatBarrier
+
+
+
 
 Another approach involves depth-field cameras (RGBD), which give access to a 2.5D world (only the depth of the front facing plane of view is measured), or even to full 3D with a network of few RGBD cameras \cite{Carraro2017,Choppin2013,Colombel2020}. On the other hand, these cameras suffer from a sensitivity to lightning conditions, they work at lower framerates, and they are short-range \cite{Han2013}. 
 
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap1/Figures/Depth.png"}
+	\caption{The search for “deep learning 3D human pose estimation” (dots) fits an exponential curve (line). The search produced less than 100 results until 2015. Over the course of 5 years, the number has reached almost 750 of them, and is now well over a 1000 per year.}
+	\label{fig_depth}
+\end{figure}
+\FloatBarrier
+
+
+
+
 \subsection{Markerless systems}
 
-A recent breakthrough has come from Computer Vision. The explosion of deep-learning based methods from 2D camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on ScienceDirect for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching almost 750 over the span of 5 years, fitting an exponential curve (Figure~\ref{fig_exp}).
+A recent breakthrough has come from Computer Vision. The explosion of deep-learning based methods from 2D camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on ScienceDirect for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching almost 750 over the span of 5 years, fitting an exponential curve (Figures~\ref{fig_exp}).
 
 It has rekindled interest from the Biomechanics community towards image-based motion analysis, which is where it all started with the invention of chronophotography in the 19th century by Marey in France, and Muybridge in the USA \cite{Baker2007}. Currently, two approaches coexist in human and animal motion analysis: on the one hand, computer vision using deep-learning techniques mostly focus on joint positions only; while the interest of biomechanics lies in kinematics, that involves joint angles. One of the main current challenges is to bridge the gap between these two worlds, and to take advantage of deep-learning technologies for kinematic analysis \cite{Cronin2021,Seethapathi2019}. 
 
@@ -100,7 +129,7 @@ It has rekindled interest from the Biomechanics community towards image-based mo
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap1/Figure/Fig_exp.png"}
+	\includegraphics[width=\linewidth]{"../Chap1/Figures/Fig_exp.png"}
 	\caption{The search for “deep learning 3D human pose estimation” (dots) fits an exponential curve (line). The search produced less than 100 results until 2015. Over the course of 5 years, the number has reached almost 750 of them, and is now well over a 1000 per year.}
 	\label{fig_exp}
 \end{figure}
@@ -108,6 +137,7 @@ It has rekindled interest from the Biomechanics community towards image-based mo
 
 \section{2 dimensional analysis}
 
+\FloatBarrier
 \subsection{2D pose estimation}
 
 The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019}, and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose has been trained on the CMU Panoptic Dataset \cite{Joo2015}, with 511 synchronized videos of multiple people in motion, alone or engaged in social activities. Another 2D pose estimation toolbox is DeepLabCut \cite{Mathis2018}, which was initially intended for markerless animal pose estimation, but which can be custom trained for the detection of any human or not human keypoint with a relatively small dataset. All of these tools are open-source. Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread.
@@ -118,8 +148,9 @@ The most well-known off-the-shelf 2D human pose estimation solutions are OpenPos
 Some authors bridge 2D pose estimation to more biomechanically inspired goals, such as gait kinematics analysis. Kidzinski et al. present a toolbox for quantifying gait pathology that runs in a Google Colab \cite{Kidziński2020}. Stenum et al. evaluate gait kinematics calculated from OpenPose input concurrently with a marker-based method. Mean absolute error of hip, knee and ankle sagittal angles were 4.0°, 5.6° and 7.4° \cite{Stenum2021}. Liao et al. have not released their code, but they use OpenPose outputs to train a model invariant to view \cite{Liao2020}. Viswakumar et al. perform direct calculation of the knee angle from an average phone camera processed by OpenPose \cite{Viswakumar2019}. They show that OpenPose is robust to challenging clothing such as large Indian pants, as well as to extreme lightning conditions. Other sports activities have been investigated, such as lower body kinematics of vertical jump \cite{Drazan2021} or underwater running \cite{Cronin2019}. Both works train their own model with DeepLabCut. Serrancoli et al. fuse OpenPose and force sensors to retrieve joint dynamics in a pedaling task \cite{Serrancolí2020}. 
 
 
-\section{3 dimensional analysis}
+\section{3 dimensional analysis} 
 
+\FloatBarrier
 \subsection{3D pose estimation}
 
 There are a lot of different approaches for markerless 3D human pose estimation and listing them all is beyond our scope (see review \cite{Wang2021a}]). Some more ancient ones are not based on deep-learning and require specific lightning and background conditions, such as visual-hull reconstruction \cite{Ceseracciu2014}. Some directly lift 3D from a single 2D camera (see review \cite{Chen2020}), with different purposes: one estimates the positions of a set of keypoints around the joint instead of determining only the joint center keypoint, so that axial rotation along the limb is solved \cite{Fisch2020}; SMPL and its sequels retrieve not only joint positions and orientations, but also body shape parameters \cite{Loper2015}; while XNect primarily focuses on real time \cite{Mehta2020}. A few approaches even strive to estimate 3D dynamics and contact forces from a 2D video input \cite{Rempe2021,Li2019}. Rempe et al. solve occlusions from a 2D input \cite{Rempe2020}, but this remains a probabilistic guess that may be unsuccessful in case of unconventional positions of hidden limbs, whereas using more cameras would have given more trustworthy results . Haralabidis et al. fuse OpenPose results from a single monocular video and two IMU outputs, and solve kinematics of the upper body in OpenSim (an open-source biomechanical 3D analysis software \cite{Delp2007,Seth2018}) in order to examine the effects of fatigue on boxing \cite{Haralabidis2020}.
@@ -163,35 +194,6 @@ Numerous studies have focused on the accuracy of 3D joint center estimation, but
 
 
 \section{Exemples}
-
-\FloatBarrier
-\subsection{Figures}
-
-La Figure~\ref{figure_multiple} est un exemple d'intégration d'une figure multiple. \\
-Il est bien entendu possible de faire référence à la Figure~\ref{figure_subplot} ou à la Figure~\ref{figure_polaire}.
-
-\begin{figure}[hbtp]
-	\centering
-	\begin{subfigure}[b]{0.8\textwidth}
-		\centering
-		\def\svgwidth{\columnwidth}
-		\fontsize{10pt}{10pt}\selectfont\input{../Chap1/Figure/Figure_2.pdf_tex}
-		\caption{Exemple subplot} 
-		\label{figure_subplot}
-	\end{subfigure}
-	\qquad
-	\begin{subfigure}[b]{0.7\textwidth}
-		\centering
-		\def\svgwidth{\columnwidth}
-		\fontsize{10pt}{10pt}\selectfont\input{../Chap1/Figure/Figure_3.pdf_tex}
-		\caption{Exemple diagramme polaire} 
-		\label{figure_polaire}
-	\end{subfigure}
-	\caption{Exemple de Figures multiple} 
-	\label{figure_multiple}
-\end{figure}
-
-
 
 \FloatBarrier
 \subsection{Tableaux}
