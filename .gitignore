@@ -1,7 +1,7 @@
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.fls
-*.log
+*.lof
 *.log
 *.lot
 *.out
@@ -16,7 +16,9 @@
 
 # minitoc
 *.maf
+*.mtc*
 *.mtc[0-9]*
 
 # others
 *.synctex.gz
+*report2.cls
