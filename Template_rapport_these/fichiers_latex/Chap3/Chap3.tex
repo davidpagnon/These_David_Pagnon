@@ -44,9 +44,9 @@ This chapter is inspired from the article published in the Journal of Open Sourc
 
 
 \section{Introduction to the workflow}
-Pose2Sim provides a workflow for 3D markerless kinematics, as an alternative to the more usual marker-based motion capture methods. Pose2Sim stands for "OpenPose to OpenSim", as it connects two of the most widely recognized (and open-source) pieces of software in their respective fields: OpenPose \cite{Cao2019}, a 2D human pose estimation neural network; and OpenSim \cite{Delp2007,Seth2018}, a 3D biomechanics analysis software.
+Pose2Sim provides a framework for 3D markerless kinematics, as an alternative to the more usual marker-based motion capture methods. Pose2Sim stands for "OpenPose to OpenSim", as it connects two of the most widely recognized (and open-source) pieces of software in their respective fields: OpenPose \cite{Cao2019}, a 2D human pose estimation neural network; and OpenSim \cite{Delp2007,Seth2018}, a 3D biomechanics analysis software. Pose2Sim is accessible at \url{https://github.com/perfanalytics/pose2sim}.
 
-The repository presents a framework for:
+The repository presents a framework which consists in (Figures~\ref{fig_pipeline}):
 \begin{enumerate}[itemsep=-0.5em, topsep=0pt, leftmargin=*]
       \item Preliminary 2D joint coordinate detections from multiple videos, e.g. with OpenPose.
       \item Pose2Sim core, including 4 customizable steps:
@@ -59,24 +59,22 @@ The repository presents a framework for:
       \item Scaling to each individual subject, and inverse kinematics via OpenSim, and storage of the full-body 3D joint angles.
 \end{enumerate}
 
-
-(Figures~\ref{fig_pipeline})
-
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap3/Figures/Pipeline.png"}
-	\caption{Pose2Sim full pipeline: (1) 2D joint detection; (2i) camera calibration; (2ii–iv) tracking the person of interest, triangulating their coordinates, and filtering them; (3) scaling the subject, and constraining their 3D coordinates to a physically consistent OpenSim skeletal model}
+	\caption{Pose2Sim pipeline: (1) 2D joints detection; (2i) camera calibration; (2ii–iv) tracking the person of interest, triangulating their coordinates, and filtering them; (3) scaling the subject, and constraining their 3D coordinates to a physically consistent OpenSim skeletal model}
 	\label{fig_pipeline}
 \end{figure}
 \FloatBarrier
 
-Each task is easily customizable, and requires only moderate Python skills. Pose2Sim is accessible at \url{https://github.com/perfanalytics/pose2sim}. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
+Each task is easily customizable, and requires only moderate Python skills. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
 
 
 \section{2D pose detection}
-\blindtext
+
+% OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. These coordinates can then be triangulated in order to produce 3D positions. 
 
 
 \section{Pose2Sim core}
@@ -84,7 +82,11 @@ Each task is easily customizable, and requires only moderate Python skills. Pose
 \blindtext
 
 \subsection{Triangulating by weighted direct linear transform}
-\blindtext
+
+% Open source tools for triangulating
+% Some tools have been released open source
+% Aside from ours (see Chapter 3 on \nameref{ch:3}), a number a tools have been made available for such triangulation: the experimental OpenPose 3D reconstruction module [Hidalgo2021], the FreeMoCap Python and Blender toolbox [Matthis2022], or the pose3d Matlab toolbox [Sheshadri2020]. Yet, when it comes to the biomechanical analysis of human motion, it is often more useful to obtain joint angles than joint center positions in space. Joint angles allow for better comparison among trials and individuals, and they represent the first step for other analyses such as inverse dynamics. EasyMocap ?
+
 
 \subsection{Filtering}
 \blindtext
@@ -93,6 +95,8 @@ Each task is easily customizable, and requires only moderate Python skills. Pose
 \section{Pose2Sim skeletal model}
 
 A full-body OpenSim \cite{Delp2007,Seth2018} skeletal model with OpenPose keypoints is provided, as well as scaling and inverse kinematics setup files.
+
+OpenSim is another widespread open-source software which helps compute 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics with customizable biomechanical constraints. It provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
 
 
 \section{Limitations and perspectives}

@@ -7,18 +7,18 @@
 \contentsline {figure}{\numberline {1.4}{\ignorespaces The search for “deep learning 3D human pose estimation” (dots) fits an exponential curve (line). The search produced less than 100 results until 2015, and is now well over a 1,000 per year.\relax }}{7}{figure.caption.14}%
 \contentsline {figure}{\numberline {1.5}{\ignorespaces 2D pose estimation by OpenPose. Image courtesy of \cite {Cao2019}.\relax }}{8}{figure.caption.15}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Theoretical framework}{14}{chapter.2}%
+\contentsline {xchapter}{Theoretical framework}{13}{chapter.2}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim}{18}{chapter.3}%
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Pose2Sim full pipeline: (1) 2D joint detection; (2i) camera calibration; (2ii–iv) tracking the person of interest, triangulating their coordinates, and filtering them; (3) scaling the subject, and constraining their 3D coordinates to a physically consistent OpenSim skeletal model\relax }}{19}{figure.caption.16}%
+\contentsline {xchapter}{Pose2Sim}{17}{chapter.3}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Pose2Sim pipeline: (1) 2D joints detection; (2i) camera calibration; (2ii–iv) tracking the person of interest, triangulating their coordinates, and filtering them; (3) scaling the subject, and constraining their 3D coordinates to a physically consistent OpenSim skeletal model\relax }}{18}{figure.caption.16}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim robustness}{23}{chapter.4}%
+\contentsline {xchapter}{Pose2Sim robustness}{22}{chapter.4}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim accuracy}{28}{chapter.5}%
+\contentsline {xchapter}{Pose2Sim accuracy}{27}{chapter.5}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Pose2Sim in suboptimal conditions: Application to boxing}{33}{chapter.6}%
+\contentsline {xchapter}{Pose2Sim in suboptimal conditions: Application to boxing}{32}{chapter.6}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{OpenPose and DeepLabCut together with Pose2Sim: Application to BMX racing}{38}{chapter.7}%
+\contentsline {xchapter}{OpenPose and DeepLabCut together with Pose2Sim: Application to BMX racing}{37}{chapter.7}%
 \addvspace {10\p@ }
 \contentsline {xchapter}{Appendix A : Title}{XIII}{appendix.A}%
 \addvspace {10\p@ }
