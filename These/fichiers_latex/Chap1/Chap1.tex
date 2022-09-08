@@ -30,7 +30,7 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{This chapter deals with the available prospects in motion capture (MoCap) in sports. It first present the standard marker-based (opto-electronic) systems for motion analysis and their limits. It briefly introduces some alternatives offered by Inertial Measurement Units (IMUs) or dept-field (RGB-D) cameras. It then details the advent of markerless camera systems, which has been possible thanks to progress in machine learning. From 2D pose estimation to 3D joint angle determination, this is a new field which opens up new possiblities for motion analysis in a sports context. \newline \newline
+\textit{Motion capture (MoCap) in sports is traditionally performed with marker-based (opto-electronic) systems. However, this presents some drawbacks. As a consequence, alternatives are being investigated, among which thoses offered by Inertial Measurement Units (IMUs) or dept-field (RGB-D) cameras. Markerless analysis from videos sources represents one of the most promising prospects, which has been possible thanks to progress in machine learning. From 2D pose estimation to 3D joint angle determination, this is a new field which opens up new possiblities for motion analysis in a sports context.\newline \newline
 This chapter is an up-to-dat and slightly more detailed version of the introduction of the previously published paper "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021} }
 
 %\smallskip
@@ -61,7 +61,7 @@ Marker-based systems use a network of opto-electronic cameras. Each of these cam
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
 		\includegraphics[width=\linewidth]{"../Chap1/Figures/Markers_1.png"}
-		\caption{An opto-electronic camera is traditionnaly surrounded by a crown of infrared LEDs, projecting light toward the subject. The subject wears markers, which reflect light back to the camera.}
+		\caption{An opto-electronic camera is traditionnaly surrounded by a crown of infrared LEDs, projecting light toward the subject. The subject wears markers, which reflect light back to the camera. Marker positions are then known in the camera plane.}
 		\label{fig_mk1}
 	\end{subfigure}
 	\qquad
@@ -184,6 +184,6 @@ According to Atha \cite{Atha1984}, an ideal motion analysis system involves the 
 The emergence of markerless kinematics opens up new possibilities. Indeed, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus. However, it still requires delicate calibration, complex setup, large storage space, and high computational capacities. Gathering reliable and usable kinematic data in context 
 
 \newpage\noindent
-is an ambitious challenge, but research has been accelerating in the last few years (Figures~\ref{fig_exp}, as have better results.)
+is an ambitious challenge, but research has been accelerating in the last few years (Figures~\ref{fig_exp}), as have better results.
 
 The objective of this thesis is to participate in building a bridge between the communities of computer vision and biomechanics, by providing a simple and open-source pipeline connecting the two aforementioned state-of-the-art tools: OpenPose and OpenSim. Robustness and accuracy will be assessed, and concrete applications in elite sports context will be discussed. 
