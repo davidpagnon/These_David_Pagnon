@@ -26,10 +26,6 @@
 % \usepackage{gensymb} %pour obtenir le symbole \degree
 \usepackage{calligra}
 
-\usepackage{tikz}
-\usetikzlibrary{positioning,backgrounds,fadings,shadows.blur,shadows}
-\usetikzlibrary{fit,shapes.misc}
-
 \usepackage{animate}
 
 \usepackage{blindtext}
@@ -65,10 +61,6 @@
 \definecolor{mygreen2}{RGB}{0,120,0} % dark green
 \definecolor{myblue3}{HTML}{1a4091} % dark blue 	
 \definecolor{couleur_marie}{RGB}{0,102,204} % dark green
-
-
-
-
 
 %\newcommand*\maboite[1]{%
 %\fcolorbox{GrisPasTropClair}{BleuClair}{\hspace{1em}#1\hspace{1em}}}
@@ -111,6 +103,13 @@
 \usepackage[export]{adjustbox}
 \usepackage{pgf}
 
+\usepackage{pgfplots}
+\usepgfplotslibrary{external}
+\tikzexternalize
+\usepackage{tikz}
+\usetikzlibrary{positioning,backgrounds,fadings,shadows.blur,shadows}
+\usetikzlibrary{fit,shapes.misc}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%                  Packages pour les tableaux                   %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,6 +136,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 % \usepackage{breqn} % Pour separer les equations sur plusieurs lignes automatiquement
+\usepackage{algorithm}
 \usepackage{bm}
 
 %\usepackage{empheq} % Pour encadrer les equations

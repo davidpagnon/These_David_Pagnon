@@ -55,26 +55,184 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 \subsection{Machine learning timeline and principles}
 
-Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives the output vector from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold (Figures~\ref{fig_neuron}). 
+Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figures~\ref{fig_neuron}). 
+
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts weights by learning from example data (Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test. 
+
+\newpage
+
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
-	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total of nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon.}
+	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon.}
 	\label{fig_neuron}
 \end{figure}
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. This is a binary classifier updating automatically its weights from data. 
+Let's consider force-velocity test results as an input 
+\(\overrightarrow{X} = 
+\begin{pmatrix} velocity \ (m/s) \\ force \ (hN) \end{pmatrix} \), and the classification as "good" or "bad" as an output
+\( \sigma = 0 \ or \ 1 \).
+A  training set of n instances, i.e., example data the perceptron is going to learn from, i.e., , could be 
+\( \biggl\{(\overrightarrow{X^i}, \sigma^{i, actual})\biggr\}_{i\in [1,n]}
+= \Biggl\{ 
+\biggl( \begin{pmatrix} 1 \\ 5 \end{pmatrix}, 1 \biggr),
+\biggl( \begin{pmatrix} 2 \\ 3 \end{pmatrix}, 0 \biggr),
+\biggl( \begin{pmatrix} 4 \\ 1 \end{pmatrix}, 0 \biggr),
+\biggl( \begin{pmatrix} 5 \\ 4 \end{pmatrix}, 1 \biggr), 
+\biggl( \begin{pmatrix} 8 \\ 1 \end{pmatrix}, 1 \biggr)
+\Biggr\} \).
+Let's initialize all weights at zero: \(w_0 = 0, and \ \overrightarrow{W} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \).
+
+The first instance of the training set gives \( \overrightarrow{W} \cdot \overrightarrow{X^1} = w_0 + \sum_{k \in [1,2]} w_k x^1_k = 0 + 0 \times 1 + 0 \times 5 = 0. \text{ Now } 0 < 0.5 \text{, so } \sigma^{1, pred} = 0 \). But \(\sigma^{1, actual} = 1 \), so the prediction is false and we need to update the weights. We will take a learning rate $\eta$ = 0.5, and the error is \(\epsilon = 0-1=-1\). As a consequence, \( w_0^{post} = w_0^{pre} + \eta \ \epsilon = 0 +0.5 \times (-1)\).
+
+The second instance gives \( \overrightarrow{W} \cdot \overrightarrow{X^1} = w_0 + \sum_{k \in [1,2]} w_k x^1_k = 0 + 0 \times 1 + 0 \times 5 = 0. \text{ Now } 0 < 0.5 \text{, so } \sigma^{1, pred} = 0 \). But \(\sigma^{1, actual} = 1 \), so the prediction is false and we need to update the weights. We will take a learning rate $\eta$ = 0.5, and the error is \(\epsilon = 0-1=-1\). As a consequence, \( w_0^{post} = w_0^{pre} + \eta \ \epsilon = 0 +0.5 \times (-1)\).
 
 
+\begin{algorithm}
+      \caption{Perceptron}\label{alg:perceptron}
+      Let \( \overrightarrow{X} \) be an input vector of variables \( (1, var_1, \cdots var_m) \), \( \overrightarrow{W} \) the corresponding \(m+1\) weights, and \( Y \) the output scalar class. The dot product between \( \overrightarrow{W} \) and \( \overrightarrow{X} \) is the summation function: 
+      \begin{equation}
+            \overrightarrow{W} \cdot \overrightarrow{X} = w_0 + \sum_{k \in [1,m]} w_k x_k
+      \end{equation}
+      This result is processed by an activation function predicting the output class, typically a threshold: 
+      \begin{equation}
+            \sigma^{pred} = 
+            \begin{cases}
+            1 & \text{if} \ \overrightarrow{W} \cdot \overrightarrow{X} > 0.5,\\
+            0 & \text{otherwise}
+            \end{cases}
+      \end{equation}
+      $\sigma^{pred}$ = 1 corresponds to one class, and $\sigma^{pred}$ = 0 to the other. This prediction is compared to the actual class $\sigma^{actual}$. If the prediction is correct, weights are retained; if not, they are updated: 
+      \begin{equation}
+            w_k^{post} = w_k^{pre} + \eta \ \epsilon
+      \end{equation}
+      with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function. Typically, 
+      \begin{equation}
+            \epsilon = \sigma^{actual} - \sigma^{pred}
+      \end{equation} 
+\end{algorithm}
+
+
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_perceptron.png"}
+	\caption{Classification of athletes as "good" (black dot) or "bad" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
+	\label{fig_perceptron}
+\end{figure}
+
+% % En tikz
+% \begin{figure}
+% \centering
+% \begin{tikzpicture}[x=0.5cm, y=0.5cm]
+%     \draw[thick,->] (0,0) -- (0,6) node[anchor=south east] {Force (hN)};
+%     \draw[thick,->] (0,0) -- (10,0) node[anchor=north west] {velocity (m/s)};
+%     \foreach \x in {0,1,2,3,4,5,6,7,8,9}
+%         \draw (\x,1pt) -- (\x,-1pt) node[anchor=north] {$\x$};
+%     \foreach \y in {0,1,2,3,4,5}
+%         \draw (1pt,\y) -- (-1pt,\y) node[anchor=east] {$\y$};
+%     \foreach \Point in {(1,5), (5,4), (7,1)}{
+%       \node at \Point {\textbullet};}
+%     \foreach \Point in {(2,3), (4,1)}{
+%       \node at \Point {$\circ$};}
+%     % \node [green] at (5,4) {\textbullet};
+%     % \node [red] at (2,3) {$\circ$};
+%     \end{tikzpicture}
+% \caption{Force-velocity results and classification.}
+% \end{figure}
+
+% % En matplotlib
+% # Found ion https://stackoverflow.com/questions/19907140/keeps-text-rotated-in-data-coordinate-system-after-resizing
+% import matplotlib.pyplot as plt
+% import numpy as np
+% plt.rcParams.update({'font.size': 8})
+% #import matplotlib.mathtext as mathtext
+% import matplotlib.text as mtext
+% import matplotlib.transforms as mtransforms
+
+% class RotationAwareAnnotation(mtext.Annotation):
+%     def __init__(self, s, xy, p, pa=None, ax=None, **kwargs):
+%         self.ax = ax or plt.gca()
+%         self.p = p
+%         self.pa = pa
+%         if not pa:
+%             self.pa = xy
+%         self.calc_angle_data()
+%         kwargs.update(rotation_mode=kwargs.get("rotation_mode", "anchor"))
+%         mtext.Annotation.__init__(self, s, xy, **kwargs)
+%         self.set_transform(mtransforms.IdentityTransform())
+%         if 'clip_on' in kwargs:
+%             self.set_clip_path(self.ax.patch)
+%         self.ax._add_text(self)
+
+%     def calc_angle_data(self):
+%         ang = np.arctan2(self.p[1]-self.pa[1], self.p[0]-self.pa[0])
+%         self.angle_data = np.rad2deg(ang)
+
+%     def _get_rotation(self):
+%         return self.ax.transData.transform_angles(np.array((self.angle_data,)), 
+%                             np.array([self.pa[0], self.pa[1]]).reshape((1, 2)))[0]
+
+%     def _set_rotation(self, rotation):
+%         pass
+
+%     _rotation = property(_get_rotation, _set_rotation)
+
+% plt.figure(figsize=(8, 4))
+% plt.axis([0, 8, 0, 6])
+% plt.gca().spines['top'].set_visible(False)
+% plt.gca().spines['right'].set_visible(False)
+% plt.gca().set_xlabel('Velocity (m/s)')
+% plt.gca().set_ylabel('Force (hN)')
+
+% velocity_good = [1,5,7]
+% force_good = [5,4,1]
+% velocity_bad = [2,4]
+% force_bad = [3,1]
+% plt.scatter(velocity_good, force_good, s=20, edgecolors='k', facecolors='k', label = "Good athlete")
+% plt.scatter(velocity_bad, force_bad, s=20, edgecolors='k', facecolors='none', label="Bad athlete")
+% plt.legend(frameon=False)
+
+% # First lines with first weights, with dash greyed lines and label
+% plt.plot([0,9],[2,0], 'lightgrey')
+% RotationAwareAnnotation(r'$\vec{W}^0=(w_0,w_1,w_2)$', 
+%     xy=(.15,2), p=(9,0), pa=(0,2), ax=plt.gca(), xytext=(2,-1), textcoords="offset points", va="center", c='grey', bbox=dict(facecolor='white', edgecolor='white'))
+% plt.plot([0,6],[5,0], 'k')
+% RotationAwareAnnotation(r'$\vec{W}^1=(w_0,w_1,w_2)$', 
+%     xy=(.15,4.75), p=(6,0), pa=(0,5), ax=plt.gca(), xytext=(2,-1), textcoords="offset points", va="center", bbox=dict(facecolor='white', edgecolor='white'))
+
+% plt.show()
+% plt.savefig(r'D:\softs\github_david\latex\These\fichiers_latex\Chap2\Figures\Fig_perceptron', dpi=300)
+
+
+
+
+\newpage
+
+% This is the basis of the supervised learning paradigm, which is the most common one in machine learning. The perceptron is a linear classifier, which means that it can only separate two classes of data with a straight line. This is why it is often used as a first step in a more complex classification problem, such as the one of recognizing a human pose in an image.
+
+% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons, which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
+
+
+Of course, being good or not as a sport is multifactorial, and the model would be more exact if more variables were taken into account. 
+
+
+
+
+It would need as a prior some example data
 
 Given a training set, it could learn
-It could be used, for example, to classify whether an athlete is strong or not, given his test results 
+It could be used, for example, to classify whether an athlete is powerful or not, given his test results on 
 
 The perceptron rule is 
 
+
+Let's consider an input \(\overrightarrow{X} = \begin{pmatrix} 1 \\ 5 \end{pmatrix} \)
 
 \begin{equation} 
       h = w_0 + \overrightarrow{w} \cdot \overrightarrow{q} 
@@ -112,7 +270,7 @@ w0 biais
 Limitation
 
 
-Possible de jouer sur le learning rate, sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde)
+Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
 
 Pas possible si non linéairement séparable (exemple image)
 
