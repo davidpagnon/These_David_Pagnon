@@ -168,7 +168,7 @@ It has rekindled interest from the biomechanics community towards image-based mo
 \FloatBarrier
 
 
-\section{2 dimensional analysis}
+\section{2D markerless analysis}
 \FloatBarrier
 \subsection{2D pose estimation}
 
@@ -192,9 +192,12 @@ Two other 2D pose estimation toolboxes are DeepLabCut \cite{Mathis2018} and SLEA
 Some authors bridge 2D pose estimation to more biomechanically inspired variables, such as in gait kinematics analysis. Kidzinski et al. present a toolbox for quantifying gait pathology that runs in a Google Colab \cite{Kidziński2020}. Stenum et al. evaluate gait kinematics calculated from OpenPose input concurrently with a marker-based method. Mean absolute error of hip, knee and ankle sagittal angles were 4.0\degree{}, 5.6\degree{} and 7.4\degree{} \cite{Stenum2021}. Liao et al. have not released their code, but they use OpenPose outputs to train a model invariant to view \cite{Liao2020}. Viswakumar et al. perform direct calculation of the knee angle from an average phone camera processed by OpenPose \cite{Viswakumar2019}. They show that OpenPose is robust to challenging clothing such as large Indian pants, as well as to extreme lightning conditions. Other sports activities have been investigated, such as lower body kinematics of vertical jump \cite{Drazan2021} or underwater running \cite{Cronin2019}. Both works train their own model with DeepLabCut. Serrancoli et al. fuse OpenPose and force sensors to retrieve joint dynamics in a pedaling task \cite{Serrancolí2020}. 
 
 
-\section{3 dimensional analysis} 
+\section{3D markerless analysis} 
 \FloatBarrier
 \subsection{3D pose estimation}
+
+% Captures shape of a speed climber in a studio equiped with 68 video cameras. This shape is animated by optimizing its manifold parameters on 2 calibrated drone views. Tracks center of mass (COM) and detects contacts with holds
+% Simi shape
 
 There are a lot of different approaches for markerless 3D human pose estimation, and listing them all is beyond our scope (see review \cite{Wang2021a}). Some more ancient ones are not based on deep-learning and require specific lightning and background conditions, such as visual-hull reconstruction \cite{Ceseracciu2014}. Some directly lift 3D from a single 2D camera (see review \cite{Liu2022b}), with different purposes: one estimates the positions of a set of keypoints around the joint instead of determining only the joint center keypoint, so that axial rotation along the limb is solved \cite{Fisch2020}; SMPL and its sequels retrieve not only joint positions and orientations, but also body shape parameters \cite{Loper2015}; while XNect primarily focuses on real time \cite{Mehta2020}. A few approaches even strive to estimate 3D dynamics and contact forces from a 2D video input \cite{Li2019,Rempe2021,Louis2022}. Rempe et al. solve occlusions from a 2D input \cite{Rempe2020}, but this remains a probabilistic guess that may be unsuccessful in case of unconventional positions of hidden limbs, whereas using more cameras would have given more trustworthy results. Haralabidis et al. fuse OpenPose results from a single monocular video and two IMU outputs, and solve kinematics of the upper body in OpenSim (an open-source biomechanical 3D analysis software \cite{Delp2007,Seth2018}) in order to examine the effects of fatigue on boxing \cite{Haralabidis2020}.
 

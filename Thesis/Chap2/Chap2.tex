@@ -57,7 +57,7 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and (Figure~\ref{fig_perceptron})). 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). 
 
 \begin{figure}[hbtp]
 	\centering
@@ -103,7 +103,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
         \begin{equation}
             \epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}
         \end{equation}
-        \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to predict a class $\sigma$ correctly with its final weights.
+        \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
       \end{algorithmic}
 \end{algorithm}
 
@@ -286,6 +286,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 
 
 \newpage
+Limitations:
 
 Of course, the example below is oversimplified. Being good or not as a sport is multifactorial, and the model would be more exact if more variables were taken into account. 
 
@@ -294,6 +295,11 @@ training data size (and quality), number of epochs to run on a batch (i.e., a su
 activation function, error (gradient descent)
 only linearly separable
 multilayer
+
+Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
+
+Pas possible si non linéairement séparable (exemple image) -> possible de travailler sur prior linéarisation problème, mais problème un jour ou l'autre
+
 
 % This is the basis of the supervised learning paradigm, which is the most common one in machine learning. The perceptron is a linear classifier, which means that it can only separate two classes of data with a straight line. This is why it is often used as a first step in a more complex classification problem, such as the one of recognizing a human pose in an image.
 
@@ -308,54 +314,17 @@ multilayer
 It would need as a prior some example data
 
 Given a training set, it could learn
-It could be used, for example, to classify whether an athlete is powerful or not, given his test results on 
 
 The perceptron rule is 
 
 
-Let's consider an input \(\overrightarrow{X} = \begin{pmatrix} 1 \\ 5 \end{pmatrix} \)
-
-\begin{equation} 
-      h = w_0 + \overrightarrow{w} \cdot \overrightarrow{q} 
-\end{equation}
-      
-\begin{equation} 
-      \overrightarrow{w^{t_1}} = \overrightarrow{w^{t_0}} + r\, c\, \overrightarrow{q^{t_0}} 
-\end{equation}
-      
-\begin{multline}
-      \biggl\{(\overrightarrow{q_i}, \overrightarrow{c_i})\biggr\}_{i\in [1,n]} \\
-      = \Biggl\{ 
-      \biggl( \begin{pmatrix} 1 \\ 5 \end{pmatrix}, 1 \biggr),
-      \biggl( \begin{pmatrix} 2 \\ 3 \end{pmatrix}, -1 \biggr),
-      \biggl( \begin{pmatrix} 4 \\ 1 \end{pmatrix}, -1 \biggr),
-      \biggl( \begin{pmatrix} 5 \\ 4 \end{pmatrix}, 1 \biggr),
-      \biggl( \begin{pmatrix} 8 \\ 1 \end{pmatrix}, 1 \biggr)
-      \Biggr\}
-\end{multline}
-      
-      
-in hN and in m/s
-      
-\begin{equation}
-      h(\overrightarrow{q}) = 
-      \begin{cases}
-      1 & \text{if} \ w_0 + \overrightarrow{w} \cdot \overrightarrow{q} > 0,\\
-      0 & \text{otherwise}
-      \end{cases}
-\end{equation}
 
 
-w0 biais
-
-Limitation
 
 
-Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
 
-Pas possible si non linéairement séparable (exemple image)
 
-Define learning step $\eta$ 
+
 
 Winters 1966 and 1988 (XOR, Turing, power, funding)
 "the spirit is willing but the flesh is weak." Translated back and forth with Russian, it became "the vodka is good but the meat is rotten." during cold war. Dictionary without context
