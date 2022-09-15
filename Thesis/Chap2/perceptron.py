@@ -1,16 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+# Training set
 X = [[1,5],[2,3],[7,1],[4,1],[5,4]]
 sigma = [1,0,1,0,1]
+
+# Training parameters.
+# Note that the activation function, the error function and the update rule could be changed.
 W = [-9,1,3]
 theta=0.1
 lr=0.3
 epochs=10
 
-# Loosely inspired from https://towardsdatascience.com/perceptron-algorithm-in-python-f3ac89d2e537
-
+# Code very loosely inspired from https://towardsdatascience.com/perceptron-algorithm-in-python-f3ac89d2e537
 def sum_func(W,x_i):
     '''
     W: weights
