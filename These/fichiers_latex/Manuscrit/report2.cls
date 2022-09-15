@@ -520,6 +520,8 @@
      \fi
     }
 \fi
+
+
 \newcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
@@ -745,30 +747,6 @@
   \onecolumn
 \fi
 \endinput
-
-% Environment for math example 
-% Taken from https://tex.stackexchange.com/questions/294748/manual-labelling-and-cross-referencing-in-mdframed
-\makeatletter
-\newenvironment{ProblemSpecBox}[1]
-  {
-  \protected@edef\@currentlabelname{#1}
-  \protected@edef\@currentlabel{#1}
-  \begin{mdframed}[
-    innerlinewidth=0.5pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    innertopmargin = 10pt,
-    innerbottommargin=10pt,
-    skipabove=\dimexpr\topsep+\ht\strutbox\relax,
-    roundcorner=5pt,
-    frametitle={#1},
-    frametitlerule=true,
-    frametitlerulewidth=1pt]
-  }
-  {
-  \end{mdframed}
-  }
-\makeatother
 
 %%
 %% End of file `report2.cls'.

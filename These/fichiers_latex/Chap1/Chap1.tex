@@ -52,7 +52,7 @@ As coaching athletes implies observing and understanding their movements, motion
 
 \subsection{Marker-based systems}
 
-Marker-based systems use a network of opto-electronic cameras. Each of these cameras are surrounded by a crown of infrared LEDs, which projects light toward the subject, who is equipped with reflective markers. Ideally, only the light reflected from these markers is captured by the cameras. The camera usually pre-processes the image to make it binary, and only outputs the coordinates of the detected marker (Figures~\ref{fig_mk1}). 
+Marker-based systems use a network of opto-electronic cameras. Each of these cameras are surrounded by a crown of infrared LEDs, which projects light toward the subject, who is equipped with reflective markers. Ideally, only the light reflected from these markers is captured by the cameras. The camera usually pre-processes the image to make it binary, and only outputs the coordinates of the detected marker (Figure~\ref{fig_mk1}). 
 
 \begin{figure}[hbtp]
 	\centering
@@ -73,7 +73,7 @@ Marker-based systems use a network of opto-electronic cameras. Each of these cam
 		\caption{Once calibrated, a network of these cameras allows for 3D reconstruction of marker positions. Marker coordinates are then used to infer the posture of the subject.}
 		\label{fig_mk2}
 	\end{subfigure}
-	\caption{Principles of marker-based motion capture. (Figures~\ref{fig_mk1}) presents the functionning of an opto-electronic camera. (Figures~\ref{fig_mk2}) shows how a network of calibrated motion capture cameras helps obtaining joint angles.}
+	\caption{Principles of marker-based motion capture. (Figure~\ref{fig_mk1}) presents the functionning of an opto-electronic camera. (Figure~\ref{fig_mk2}) shows how a network of calibrated motion capture cameras helps obtaining joint angles.}
 	\label{fig_mk}
 \end{figure}
 
@@ -86,7 +86,7 @@ Yet, reflective marker-based camera systems are complex to set up, are time-cons
 
 \subsection{IMU and RGB-D systems}
 
-Consequently, other approaches based on alternative technologies have been investigated over the past years. For instance, wearable Inertial Measurement Units (IMUs) can be placed on an athlete's limbs. IMUs are generally made of an accelerometer, a gyroscope, and a magnetometer. The accelerometer measures the linear acceleration, the gyroscope measures the rotational speed, and the magnetometer measures the orientation of the earth magnetic field. Fusing and integrating these signals allows for the determination of their 3D orientations. The orientation of the athlete's limbs can then be used in combination with a skeletal model to infer their posture (Figures~\ref{fig_imus}).
+Consequently, other approaches based on alternative technologies have been investigated over the past years. For instance, wearable Inertial Measurement Units (IMUs) can be placed on an athlete's limbs. IMUs are generally made of an accelerometer, a gyroscope, and a magnetometer. The accelerometer measures the linear acceleration, the gyroscope measures the rotational speed, and the magnetometer measures the orientation of the earth magnetic field. Fusing and integrating these signals allows for the determination of their 3D orientations. The orientation of the athlete's limbs can then be used in combination with a skeletal model to infer their posture (Figure~\ref{fig_imus}).
 
 IMUs offer the advantages of getting away from all camera-related issues. They are inexpensive, they do not involve any complex setup and calibration, the field of view is larger, they are not sensitive to self- and gear-occlusions, they can be operated outside of a controlled environment, and they can work in real-time \cite{Johnston2019,Chambers2015}. They still have the drawback of being an external equipment to wear, involving high technical skills from the operator, and are sensitive to ferromagnetic disturbances. Above all, they are exposed to drift over time and need to be calibrated every few minutes. Joint angle accuracy is relatively good in the flexion/extension plane, but less so in other rotational planes where errors are greater than 5\degree{} for most motions \cite{Zhang2013, Rekant2022}. Moreover, they are not suitable for joint positions assessment, since these are obtained through multiple integrations of the original signal \cite{Ahmad2013}. 
 
@@ -116,7 +116,7 @@ Results are commonly considered to be 2.5D, since only the depth of the front fa
 
 \subsection{Markerless systems}
 
-A recent breakthrough has come from computer vision, and the advent of 2D pose estimation from image sources, which quickly became more efficient and accurate. The explosion of deep-learning based methods from camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on the ScienceDirect database for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching over 1,000, fitting an exponential curve (Figures~\ref{fig_exp}).
+A recent breakthrough has come from computer vision, and the advent of 2D pose estimation from image sources, which quickly became more efficient and accurate. The explosion of deep-learning based methods from camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on the ScienceDirect database for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching over 1,000, fitting an exponential curve (Figure~\ref{fig_exp}).
 
 
 % def Exp(x, m, t, b):
@@ -172,7 +172,7 @@ It has rekindled interest from the biomechanics community towards image-based mo
 \FloatBarrier
 \subsection{2D pose estimation}
 
-The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019} (Figures~\ref{fig_openpose}), and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose has been trained on the CMU Panoptic Dataset \cite{Joo2015}, with 511 synchronized videos of multiple people in motion, alone or engaged in social activities. 
+The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019} (Figure~\ref{fig_openpose}), and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose has been trained on the CMU Panoptic Dataset \cite{Joo2015}, with 511 synchronized videos of multiple people in motion, alone or engaged in social activities. 
 
 Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread. The technology, however, is still maturing and some light-weight systems such as BlazePose \cite{Bazarevsky2020} or UULPN \cite{Wang2022c} are being proposed, which can operate in real time on a mobile phone; however, they are still not quite as accurate as required for quantitative motion analysis.
 
@@ -220,6 +220,6 @@ According to Atha \cite{Atha1984}, an ideal motion analysis system involves the 
 The emergence of markerless kinematics opens up new possibilities. Indeed, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus. However, it still requires delicate calibration, complex setup, large storage 
 
 \newpage\noindent
-space, and high computational capacities. Gathering reliable and usable kinematic data in context is an ambitious challenge, but research has been accelerating in the last few years (Figures~\ref{fig_exp}), as have better results.
+space, and high computational capacities. Gathering reliable and usable kinematic data in context is an ambitious challenge, but research has been accelerating in the last few years (Figure~\ref{fig_exp}), as have better results.
 
 The objective of this thesis is to participate in building a bridge between the communities of computer vision and biomechanics, by providing a simple and open-source pipeline connecting the two aforementioned state-of-the-art tools: OpenPose and OpenSim. Robustness and accuracy will be assessed, and concrete applications in elite sports context will be discussed. 
