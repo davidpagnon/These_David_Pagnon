@@ -129,7 +129,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       
       Let's randomly initialize weights at \(\overrightarrow{W^0} =  (-9, 1, 3) \), take a threshold $\theta$=0.1, and a learning rate $\eta$ = 0.3.\newline
         
-      The first instance of the training set gives: 
+      \textbf{The first instance} of the training set gives: 
       \begin{flalign*}
       \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{k \in [0,2]} w_k^0 x^0_k = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
       \end{flalign*}
@@ -137,24 +137,24 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \(\sigma^{0, actual} = 1 = \sigma^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
       As a consequence, \(\overrightarrow{W^1} = \overrightarrow{W^0} = (-9, 1, 3).\)\newline
       
-      The second instance gives \(\overrightarrow{W^1} \cdot \overrightarrow{X^1} = (-9, 1, 3) \cdot (1,2,3) = 2 > \theta = 0.1\), so $\sigma^{1, pred} = 1$. \newline
+      \textbf{The second instance} gives \(\overrightarrow{W^1} \cdot \overrightarrow{X^1} = (-9, 1, 3) \cdot (1,2,3) = 2 > \theta = 0.1\), so $\sigma^{1, pred} = 1$. \newline
       But \(\sigma^{1, actual} = 0 \neq \sigma^{1, pred} = 1\), so weights need to be updated.\newline
       The error is \(\epsilon^1 = \sigma^{1,actual} - \sigma^{1,pred} = 0-1 = -1\).\newline
       As a consequence, \(\overrightarrow{W^2} = \overrightarrow{W^1} + \eta \ \epsilon^1 \ \overrightarrow{X^1} = (-9, 1, 3)  + 0.1 \times (-1) \times (1,2,3) = (-9.3,0.4,2.1).\)\newline
       
-      Third instance: \(\overrightarrow{W^2} \cdot \overrightarrow{X^2} = (-9.3,0.4,2.1) \cdot (1,7,1) = 3-4.4 < 0.1\), so $\sigma^{2, pred} = 0$. \newline
+      \textbf{Third instance}: \(\overrightarrow{W^2} \cdot \overrightarrow{X^2} = (-9.3,0.4,2.1) \cdot (1,7,1) = 3-4.4 < 0.1\), so $\sigma^{2, pred} = 0$. \newline
       \(\sigma^{2, actual} = 1 \neq \sigma^{2, pred} = 0\), so weights need to be updated.\newline 
       \(\epsilon^2 = \sigma^{2,actual} - \sigma^{2,pred} = 1\).\newline
       \(\overrightarrow{W^3} = \overrightarrow{W^2} + \eta \ \epsilon^2 \ \overrightarrow{X^2} = (-9.3,0.4,2.1) + 0.1 \times 1 \times (1,7,1) = (-9,2.5,2.4).\)\newline
       
-      Fourth instance: \(\overrightarrow{W^3} \cdot \overrightarrow{X^3} = (-9,2.5,2.4) \cdot (1,4,1) = 3.4 > 0.1\), so $\sigma^{3, pred} = 1$. \newline
+      \textbf{Fourth instance}: \(\overrightarrow{W^3} \cdot \overrightarrow{X^3} = (-9,2.5,2.4) \cdot (1,4,1) = 3.4 > 0.1\), so $\sigma^{3, pred} = 1$. \newline
       \(\sigma^{3, actual} = 0 \neq \sigma^{3, pred} = 1\), so weights need to be updated.\newline
       \(\epsilon^3 = \sigma^{3,actual} - \sigma^{3,pred} = -1\).\newline
       \(\overrightarrow{W^4} = \overrightarrow{W^3} + \eta \ \epsilon^3 \ \overrightarrow{X^3} = (-9,2.5,2.4) + 0.1 \times (-1) \times (1,4,1) = (-9.3,1.3,2.1).\)\newline
       
       \newpage
 
-      Fifth instance: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $\sigma^{4, pred} = 1$. \newline
+      \textbf{Fifth instance}: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $\sigma^{4, pred} = 1$. \newline
       \(\sigma^{4, actual} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
 
