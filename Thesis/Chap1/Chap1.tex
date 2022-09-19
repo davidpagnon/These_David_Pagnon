@@ -225,7 +225,7 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 	\cline{2-4}
 								 & Multi                                                                                & 3D                     & \begin{tabular}[c]{@{}l@{}}+ Full 3D markerless\\+ Better accuracy\\- Same as above re. frame-rate, distance, and light\end{tabular}  \\ 
 	\cline{1-4}
-	\multirow{8}{*}[-5em]{Video}       & \multirow{2}{*}[-2em]{Mono}                                                                & \multirow{2}{*}{2D}    & \begin{tabular}[c]{@{}l@{}}+ Very robust in all contexts\\+ Cheap and easy to setup\\- Not very accurate\\- Rather slow\end{tabular}  \\ 
+	\multirow{8}{*}[-5em]{Video}       & \multirow{2}{*}[-2em]{Mono}                                                                & \multirow{2}{*}{2D}    & \begin{tabular}[c]{@{}l@{}}+ Very robust in all contexts\\+ Cheap and easy to setup\\- Only 2D\\- Not very accurate\end{tabular}  \\ 
 	\cline{3-4}							 
 								 &                                                                                      & 3D                     & \begin{tabular}[c]{@{}l@{}}+ Full 3D with one single RGB camera\\- Probabilistic guess when occlusions: accuracy $\searrow$\\- Slow        \end{tabular}   \\ 
 	\cline{2-4}
@@ -235,15 +235,15 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 	\cline{2-4}
 								 & \multirow{1}{*}[0.5em]{\begin{tabular}[c]{@{}l@{}}Multi calibrated \\with kin. constraints\end{tabular}}													& \multirow{1}{*}{3D}    & \begin{tabular}[c]{@{}l@{}}+ Compensates offsets\\+ Constrains limb lengths and joint angles   \\- Still inaccurate pelvis angles           \end{tabular}   \\                    
 	\cline{1-4}
-	Sensor fusion                & N/A                                                                                  & 3D                     & \begin{tabular}[c]{@{}l@{}}With IMUs: More accuracte, but not markerless\\With one RGB-D cameras, OpenPose and depth \\information: still inaccurate\end{tabular}                                                                     \\
+	Sensor fusion                & N/A                                                                                  & 3D                     & \begin{tabular}[c]{@{}l@{}}\tabitem With IMUs: More accurate, but not markerless\\ \tabitem With one RGB-D camera (Depth + OpenPose \\on RGB): still inaccurate\end{tabular}                                                                     \\
 	\bottomrule
 	\end{tabular}
-	\caption{Pros and cons in state of the art approaches for human motion analysis. Multi-person is not addressed, as it can be available or not with all approaches depending on the specific solution. IMU: Inertial Measurement Unit. N/A: Not Applicable. kin.: kinematic}
+	\caption{Pros and cons in state of the art approaches for human motion analysis. The multi-person prospect is not addressed, as it can be available with all approaches, but it is not always. IMU: Inertial Measurement Unit. N/A: Not Applicable. kin.: kinematic. RGB-D: red-green-blue-depth.}
 	\label{tab_stateart}
+	% ajouter références ? Ajouter chiffres ? --> Dur à caser dans le tableau
 \end{table}
 
 
-\FloatBarrier
 \section{Statement of need}
 
 According to Atha \cite{Atha1984}, an ideal motion analysis system involves the collection of accurate information, the elimination of interference with natural movement, and the minimization of capture and analysis times. Yet, even though a marker-based system gives relatively accurate results, it requires placing markers on the body, which can hinder natural movement, it is hard to set up outdoors or in context, and it is strenuous to analyse. As a consequence, in the overwhelming majority of cases, coaches solely use subjective visual observation to assess an athlete's movement patterns and to compare performances. As a matter of fact, despite the advantages of technology, investing in it has its pitfalls: the information gathered can be unhelpful, or inaccurate, or not easily interpretable, or simply not implementable in the context of sports \cite{Windt2020}. 
