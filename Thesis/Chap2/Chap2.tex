@@ -57,7 +57,68 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). Adaline is a slightly improved 
+
+
+
+It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). 
+
+
+Logistic regression: Can be used if more than two classes need to be identified. Then the output is a probability distribution over the classes.
+
+Multi-class: softmax, activation function for class k = exp()
+
+
+These three algorithms are single layer Artificial Neural Network (ANN,) and are only valid for classifying linearly separable problems, with only two classes.
+
+XOR problem, winter: multi-layer. We will not elaborate on them, since it is not the topic of this thesis.
+
+
+
+
+
+
+
+
+
+
+
+Of course, the above example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. It can also take a lot of iterations over good quality training data for the algorithm to converge, which it always does if and only if the data are linearly separable (see Figure~\ref{fig_linearly_sep}). For faster convergence, it is possible to play on the initial weights (although they are usually randomly chosen), on the learning rate (close enough to zero that it will not overstep the solution), on the activation function (), or on the error function.
+
+Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
+
+More than two classes with logistic regression
+
+% learning rate, the number of iterations, the number of layers, the number of neurons per layer, the activation function, the regularization, etc. to get a better result. But the main idea is there. The algorithm is able to find a decision boundary that separates the two classes. The decision boundary is a hyperplane in the 3D space, and it is represented by the equation:
+
+
+
+The data need to be linearly separable
+
+It always converges %\cite{}
+
+Learning rate, threshold
+training data size (and quality), number of epochs to run on a batch (i.e., a subset of the training data)
+activation function, error (gradient descent)
+only linearly separable
+multilayer
+
+
+Pas possible si non linéairement séparable (exemple image) -> possible de travailler sur prior linéarisation problème, mais problème un jour ou l'autre
+
+
+% This is the basis of the supervised learning paradigm, which is the most common one in machine learning. The perceptron is a linear classifier, which means that it can only separate two classes of data with a straight line. This is why it is often used as a first step in a more complex classification problem, such as the one of recognizing a human pose in an image.
+
+% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons, which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
+
+
+
+
+
+
+
+
+
 
 \begin{figure}[hbtp]
 	\centering
@@ -70,14 +131,15 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 
 
 \begin{algorithm}
-      \caption{Perceptron}\label{alg:perceptron}
+      \caption{Adaline (and perceptron)}\label{alg:perceptron}
       \begin{algorithmic}[1]
         \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights  randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and $\sigma^{0, pred}$ the output predicted binary class. 
         \STATE The summation function is computed: 
         \begin{equation}
             \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{k \in [0,m]} w_k^0 x_k^0
         \end{equation}
-        \STATE This result is processed by an activation function which determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. This is typically a threshold: 
+        \STATE This result is processed by an activation function which determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
+        \STATEx \textit{In perceptron, $\theta=0$}.
         \begin{equation}
             \sigma^{0,pred} = 
             \begin{cases}
@@ -85,7 +147,6 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
                 0 & \text{otherwise}
             \end{cases}
         \end{equation}
-        \STATEx $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
         \algstore{alg1}
       \end{algorithmic}
 \end{algorithm}
@@ -99,17 +160,15 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
         \begin{equation}
             \overrightarrow{W^1} = \overrightarrow{W^0} + \eta \ \epsilon^0 \ \overrightarrow{X^0}
         \end{equation}
-        \STATEx with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function. Typically, 
-        \begin{equation}
-            \epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}
-        \end{equation}
+        \STATEx with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function such as \(\epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}\). 
+        \STATEx \textit{In perceptron, \(\epsilon^0 = - \sigma^{0,pred}\)}.
         \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
       \end{algorithmic}
 \end{algorithm}
 
-\begin{tcolorbox}[colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Perceptron, label=example1]
+\begin{tcolorbox}[colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Athlete classification with Adaline, label=example1]
       \phantomsection\hypertarget{example1}
-      N.B. The code for running this example is available on the thesis repository \url{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap2/perceptron.py}.
+      N.B. The code for running this example is available on the thesis repository \url{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap2/adaline_perceptron.py}.
       \tcblower
       Let's consider force-velocity test results as an input
       \setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
@@ -119,7 +178,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \end{flalign*}
       and the classification of an athlete as "good" or "bad" as an output
       \(\sigma = 1 \ or \ 0. \)\newline
-      A  training set of n instances, i.e., example data the perceptron will learn from, could be: 
+      A batch of training data, i.e., example data the perceptron will learn from, could be: 
       \[ \bigl\{(\overrightarrow{X^i}, \sigma^{i, actual})\bigr\}_{i\in [0,4]}
       = \bigl\{\bigl((1, 1, 5), 1\bigr),
       \bigl((1, 2, 3), 0\bigr),
@@ -158,6 +217,8 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \(\sigma^{4, actual} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
 
+      \textbf{Next instances}: Once we have gone over the batch of training data, if the average error is below a given value, we can assume that the perceptron is trained. If not, we can use the next batch to pursue training. If it still didn't converge after all batches, we can iterate over all training data again, for a given number of times. If results are still not satisfying, either the data are not linearly separable, or the training sample is not large enough or of good enough quality. In our case, it seems like our example data have allowed us to correctly separate good and bad athletes based on their force and velocity test results (Figure~\ref{fig_perceptron}).
+
       {
       \begin{center}
       \def\svgwidth{1\columnwidth}
@@ -167,8 +228,12 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \captionof{figure}{Classification of athletes as "good" (black dot) or "bad" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
       \label{fig_perceptron}
       }
+
 \end{tcolorbox}
   
+
+
+
 % \begin{figure}[hbtp]
 % 	\centering
 % 	\def\svgwidth{1\columnwidth}
@@ -279,50 +344,24 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 % RotationAwareAnnotation(r'$\vec{W}^4=(-9.3,  1.3, 2.1)$', 
 %       xy=(.15,4.75), p=[-W[0]/W[1],0], pa=[0,-W[0]/W[2]], ax=plt.gca(), xytext=(2,-1), textcoords="offset points", va="top", bbox=dict(facecolor='None', edgecolor='None'))
 
-% plt.savefig(r'D:\softs\github_david\latex\These\fichiers_latex\Chap2\Figures\Fig_perceptron', dpi=300)
+% plt.savefig(r'D:\softs\github_david\These_David_Pagnon\Thesis\Chap2\Figures\Fig_perceptron', dpi=300)
 % plt.show()
 
 
 
 
 \newpage
-Limitations:
-
-Of course, the example below is oversimplified. Being good or not as a sport is multifactorial, and the model would be more exact if more variables were taken into account. 
-
-Learning rate, threshold
-training data size (and quality), number of epochs to run on a batch (i.e., a subset of the training data)
-activation function, error (gradient descent)
-only linearly separable
-multilayer
-
-Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
-
-Pas possible si non linéairement séparable (exemple image) -> possible de travailler sur prior linéarisation problème, mais problème un jour ou l'autre
-
-
-% This is the basis of the supervised learning paradigm, which is the most common one in machine learning. The perceptron is a linear classifier, which means that it can only separate two classes of data with a straight line. This is why it is often used as a first step in a more complex classification problem, such as the one of recognizing a human pose in an image.
-
-% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons, which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
 
 
 
-
-
-
-
-It would need as a prior some example data
-
-Given a training set, it could learn
-
-The perceptron rule is 
-
-
-
-
-
-
-
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
+	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon.}
+	\label{fig_linearly_sep}
+\end{figure}
 
 
 
