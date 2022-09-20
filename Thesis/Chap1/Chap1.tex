@@ -116,41 +116,6 @@ Another approach involves depth-field cameras (RGB-D). Older models projected in
 A recent breakthrough has come from computer vision, and the advent of 2D pose estimation from image sources, which quickly became more efficient and accurate. The explosion of deep-learning based methods from camera videos, for which the research has skyrocketed around 2016 \cite{Wang2021a}, is related to the increase in storage capacities and huge improvements in GPU computing. A search on the ScienceDirect database for “deep learning 3D human pose estimation” produced fewer than 100 papers per year until 2015, and the number is now reaching over 1,000, fitting an exponential curve (Figure~\ref{fig_exp}).
 
 
-% def Exp(x, m, t, b):
-%     return m * np.exp(t * x + b)
-% p0 = (1,1,-2014)
-
-% x_year = np.array([1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021])
-% y_search = np.array([13, 21, 19, 33, 11, 11, 12, 23, 30, 29, 24, 33, 28, 38, 46, 38, 61, 63, 81, 115, 177, 237, 358, 479, 740, 1045])
-
-% params, cv = scipy.optimize.curve_fit(Exp, x_year, y_search, p0)
-% m, t, b = params
-% y_fit = Exp(x_year, m, t, b)
-
-% print(f"Y = {int(m)}*e^(-{round(t,2)}*x) {int(b)}")
-
-% squaredDiffs = np.square(y_search - y_fit)
-% squaredDiffsFromMean = np.square(y_search - np.mean(y_search))
-% rSquared = 1 - np.sum(squaredDiffs) / np.sum(squaredDiffsFromMean)
-% print(f"R² = {round(rSquared, 2)}")
-
-% corr = pd.DataFrame(y_search)[0].corr(pd.DataFrame(y_fit)[0])
-% print(f'r = {round(corr, 3)}')
-
-% fig = plt.figure()
-% plt.plot(x_year, y_search, '.', label="Search results")
-% plt.plot(x_year, y_fit, '-', label="Exponential fit")
-% plt.title('Number of results per year for a search on sciencedirect \non "Deep learning 3D human pose estimation"', fontsize=10)
-% plt.gca().spines['top'].set_visible(False)
-% plt.gca().spines['right'].set_visible(False)
-% plt.gca().set_xlabel('Year of publication')
-% plt.gca().set_ylabel('Number of search results')
-% plt.legend(frameon=False)
-% plt.gca().text(1996,50, r'Y = $\mathregular{152*e^{-0.35*x}-711}$'+f'\nr = {round(corr, 3)}', fontsize=10)#, transform=ax[idx].transAxes, verticalalignment='top', fontSize=8)
-% plt.show()
-% fig.savefig(r'D:\softs\github_david\latex\Template_rapport_these\fichiers_latex\Chap1\Figure\truc.png', dpi=300)
-% # fig.savefig(os.path.join(r'F:\Op2Ani\Kinovis\Images', 'filename.png'), dpi=300)
-
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
@@ -251,3 +216,39 @@ According to Atha \cite{Atha1984}, an ideal motion analysis system involves the 
 The emergence of markerless kinematics opens up new possibilities. Indeed, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus. However, it still requires delicate calibration, complex setup, large storage space, and high computational capacities. Gathering reliable and usable kinematic data in context is an ambitious challenge, but research has been accelerating in the last few years (Figure~\ref{fig_exp}), as have better results.
 
 The objective of this thesis is to participate in building a bridge between the communities of computer vision and biomechanics, by providing a simple and open-source pipeline connecting the two aforementioned state-of-the-art tools: OpenPose and OpenSim. Robustness and accuracy will be assessed, and concrete applications in elite sports context will be discussed. 
+
+
+% def Exp(x, m, t, b):
+%     return m * np.exp(t * x + b)
+% p0 = (1,1,-2014)
+
+% x_year = np.array([1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021])
+% y_search = np.array([13, 21, 19, 33, 11, 11, 12, 23, 30, 29, 24, 33, 28, 38, 46, 38, 61, 63, 81, 115, 177, 237, 358, 479, 740, 1045])
+
+% params, cv = scipy.optimize.curve_fit(Exp, x_year, y_search, p0)
+% m, t, b = params
+% y_fit = Exp(x_year, m, t, b)
+
+% print(f"Y = {int(m)}*e^(-{round(t,2)}*x) {int(b)}")
+
+% squaredDiffs = np.square(y_search - y_fit)
+% squaredDiffsFromMean = np.square(y_search - np.mean(y_search))
+% rSquared = 1 - np.sum(squaredDiffs) / np.sum(squaredDiffsFromMean)
+% print(f"R² = {round(rSquared, 2)}")
+
+% corr = pd.DataFrame(y_search)[0].corr(pd.DataFrame(y_fit)[0])
+% print(f'r = {round(corr, 3)}')
+
+% fig = plt.figure()
+% plt.plot(x_year, y_search, '.', label="Search results")
+% plt.plot(x_year, y_fit, '-', label="Exponential fit")
+% plt.title('Number of results per year for a search on sciencedirect \non "Deep learning 3D human pose estimation"', fontsize=10)
+% plt.gca().spines['top'].set_visible(False)
+% plt.gca().spines['right'].set_visible(False)
+% plt.gca().set_xlabel('Year of publication')
+% plt.gca().set_ylabel('Number of search results')
+% plt.legend(frameon=False)
+% plt.gca().text(1996,50, r'Y = $\mathregular{152*e^{-0.35*x}-711}$'+f'\nr = {round(corr, 3)}', fontsize=10)#, transform=ax[idx].transAxes, verticalalignment='top', fontSize=8)
+% plt.show()
+% fig.savefig(r'D:\softs\github_david\latex\Template_rapport_these\fichiers_latex\Chap1\Figure\truc.png', dpi=300)
+% # fig.savefig(os.path.join(r'F:\Op2Ani\Kinovis\Images', 'filename.png'), dpi=300)

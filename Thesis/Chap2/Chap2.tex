@@ -44,7 +44,8 @@
 
 \section{Pose detection}
 
-\subsection{Feature detection}
+% \subsection{Feature detection}
+\subsection{Why machine learning?}
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
@@ -57,70 +58,11 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). Adaline is a slightly improved 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
 
+\clearpage 
 
-
-It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). 
-
-
-Logistic regression: Can be used if more than two classes need to be identified. Then the output is a probability distribution over the classes.
-
-Multi-class: softmax, activation function for class k = exp()
-
-
-These three algorithms are single layer Artificial Neural Network (ANN,) and are only valid for classifying linearly separable problems, with only two classes.
-
-XOR problem, winter: multi-layer. We will not elaborate on them, since it is not the topic of this thesis.
-
-
-
-
-
-
-
-
-
-
-
-Of course, the above example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. It can also take a lot of iterations over good quality training data for the algorithm to converge, which it always does if and only if the data are linearly separable (see Figure~\ref{fig_linearly_sep}). For faster convergence, it is possible to play on the initial weights (although they are usually randomly chosen), on the learning rate (close enough to zero that it will not overstep the solution), on the activation function (), or on the error function.
-
-Possible de jouer sur le learning rate (adaptive?), sur les poids initiaux, ainsi que sur la fonction d'activation (exemple: sigmoïde) et sur la fonction d'erreur, biais, multilayer?
-
-More than two classes with logistic regression
-
-% learning rate, the number of iterations, the number of layers, the number of neurons per layer, the activation function, the regularization, etc. to get a better result. But the main idea is there. The algorithm is able to find a decision boundary that separates the two classes. The decision boundary is a hyperplane in the 3D space, and it is represented by the equation:
-
-
-
-The data need to be linearly separable
-
-It always converges %\cite{}
-
-Learning rate, threshold
-training data size (and quality), number of epochs to run on a batch (i.e., a subset of the training data)
-activation function, error (gradient descent)
-only linearly separable
-multilayer
-
-
-Pas possible si non linéairement séparable (exemple image) -> possible de travailler sur prior linéarisation problème, mais problème un jour ou l'autre
-
-
-% This is the basis of the supervised learning paradigm, which is the most common one in machine learning. The perceptron is a linear classifier, which means that it can only separate two classes of data with a straight line. This is why it is often used as a first step in a more complex classification problem, such as the one of recognizing a human pose in an image.
-
-% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons, which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[hbtp]
+\begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
@@ -129,17 +71,15 @@ Pas possible si non linéairement séparable (exemple image) -> possible de trav
 	\label{fig_neuron}
 \end{figure}
 
-
-\begin{algorithm}
-      \caption{Adaline (and perceptron)}\label{alg:perceptron}
+\begin{algorithm}[!ht]
+      \caption{Perceptron}\label{alg:perceptron}
       \begin{algorithmic}[1]
-        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights  randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and $\sigma^{0, pred}$ the output predicted binary class. 
+        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and $\sigma^{0, pred}$ the output predicted binary class. 
         \STATE The summation function is computed: 
         \begin{equation}
             \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{k \in [0,m]} w_k^0 x_k^0
         \end{equation}
         \STATE This result is processed by an activation function which determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
-        \STATEx \textit{In perceptron, $\theta=0$}.
         \begin{equation}
             \sigma^{0,pred} = 
             \begin{cases}
@@ -151,6 +91,8 @@ Pas possible si non linéairement séparable (exemple image) -> possible de trav
       \end{algorithmic}
 \end{algorithm}
 
+\clearpage
+
 \begin{algorithm}
       \begin{algorithmic}[1]
         \algrestore{alg1}
@@ -160,15 +102,18 @@ Pas possible si non linéairement séparable (exemple image) -> possible de trav
         \begin{equation}
             \overrightarrow{W^1} = \overrightarrow{W^0} + \eta \ \epsilon^0 \ \overrightarrow{X^0}
         \end{equation}
-        \STATEx with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function such as \(\epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}\). 
-        \STATEx \textit{In perceptron, \(\epsilon^0 = - \sigma^{0,pred}\)}.
+        \STATEx with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function such as 
+        \begin{equation}
+            \epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}
+        \end{equation}
+      %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
         \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
       \end{algorithmic}
 \end{algorithm}
 
-\begin{tcolorbox}[colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Athlete classification with Adaline, label=example1]
+\begin{tcolorbox}[colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Athlete classification with a perceptron, label=example1]
       \phantomsection\hypertarget{example1}
-      N.B. The code for running this example is available on the thesis repository \url{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap2/adaline_perceptron.py}.
+      N.B. The code for running this example is available on the thesis repository \url{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap2/perceptron.py}.
       \tcblower
       Let's consider force-velocity test results as an input
       \setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
@@ -228,8 +173,69 @@ Pas possible si non linéairement séparable (exemple image) -> possible de trav
       \captionof{figure}{Classification of athletes as "good" (black dot) or "bad" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
       \label{fig_perceptron}
       }
-
 \end{tcolorbox}
+
+Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the exclusive OR (XOR) gate can't be solved with a basic single layer ANN \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, lead to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
+
+% Adaline (gradient descent)
+% Logistic regression (softmax)
+% Multi-layer, backpropagation
+% second winter, from late 1980s to early 1990s. Same reasons as the first one, i.e., unrealisitic expectations confronted with unexpected technical difficulties.
+% vanishing gradient, overfitting (data augmentation, dropout, batch normalization), 
+% CNN
+% Deep learning
+% Classification, detection, segmentation
+% transfer learning
+
+% train / test, accuracy loss
+% layers, batch size, epochs, activation
+
+
+
+% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons (perceptron = learning unit), which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
+	\caption{Single layer artificial neural networks such as the perceptron can only classify linearly separable data. (a) is linearly separable. (b) is not linearly separable. However, data are contained in an ellipse. The equation of an ellipse is of the form \(a \times x^2+b\times y^2=1\), so if we transform the feature variables into \(X=x^2\) and \(Y=y^2\), the data become linearly separable. (c) is equivalent to a fundamental XOR gate, and is not linearly separable, which was part of the reasons for the first AI winter. It can either be solved by combining several layers of artificial neurons, or by complex kernel tricks which map the data from the original space into a higher dimensional space where they become linearly separable. (d) is not linearly separable. AI: Artificial Intelligence. XOR: Exclusive OR.} 
+	\label{fig_linearly_sep}
+\end{figure}
+
+%Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function (see Algorithm~\ref{alg:perceptron}). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
+% The logistic regression \cite{} uses a softmax activation function, which allows for a a classification over more than two classes. These three algorithms form the most basic supervised learning algorithms (i.e., trained based on labels representing the expected output rather than fully automatically, without  supervision,) and are refered to as single layer Artificial Neural Network (ANN.) 
+
+% Non-linear problems can either be solved by using multi-layer neural networks with backpropagation, or by using kernel tricks \cite{Aizerman1964}. Kernel tricks consist in mapping the input data into a higher dimensional space, where they become linearly separable. However, although the concepts had been introduced early, they have not been connected to this particular problem until much later.
+
+
+
+
+% learning rate, the number of iterations, the number of layers, the number of neurons per layer, the activation function, the regularization, etc. to get a better result. 
+
+% Learning rate, threshold
+% training data size (and quality), number of epochs to run on a batch (i.e., a subset of the training data)
+% activation function, error (gradient descent)
+% only linearly separable
+% multilayer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 
@@ -350,53 +356,16 @@ Pas possible si non linéairement séparable (exemple image) -> possible de trav
 
 
 
-\newpage
 
 
 
-\begin{figure}[hbtp]
-	\centering
-	\def\svgwidth{1\columnwidth}
-	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
-	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon.}
-	\label{fig_linearly_sep}
-\end{figure}
 
 
 
-Winters 1966 and 1988 (XOR, Turing, power, funding)
-"the spirit is willing but the flesh is weak." Translated back and forth with Russian, it became "the vodka is good but the meat is rotten." during cold war. Dictionary without context
-
-CNN
-
-Deep learning
-
--> perceptron mono/multicoucheNeurone: unité d'apprentissage
 
 
 
-History natural neuron and formal neuron (dates, names, comparison)
 
-Timeline cahier jaune et wiki
-
-S'inspirer de wikipedia (en, fr, timeline); 
-S'inspirer du mail machine learning starred (exemple du réseau de neurones); 
-S'inspirer du cahier jaune
-
-
-- deep learning vs CNN (vs SVM, random forest, etc.), AI, machine learning
-
-- classification vs detection vs segmentation
-
-data augmentation, dropout, batch normalization
-overfitting
-train / test
-accuracy loss
-gradient descent
-layers, batch size, epochs, activation
-
-transfer learning
 
 % \subsection{Application to object detection and localization}
 
@@ -447,3 +416,56 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 
 
 
+% import matplotlib.pyplot as plt
+% import numpy as np
+% plt.rcParams.update({'font.size': 8})
+
+% # Place dots on graph on click and record position
+% # adapted from https://stackoverflow.com/a/41825214/12196632
+% fig = plt.figure()
+% ax = fig.add_subplot(111)
+% ax.set_xlim([0, 10])
+% ax.set_ylim([0, 10])
+
+% def onclick(event):
+%     print(f'{event.xdata}, {event.ydata}')
+%     plt.plot(event.xdata, event.ydata, 'o')
+%     fig.canvas.draw()
+% cid = fig.canvas.mpl_connect('button_press_event', onclick)
+% plt.show()
+
+
+% # Plot examples of linearly and non-liearly separable data
+% fig, axs = plt.subplots(1,4,figsize=(10,3))
+% plt.rcParams.update({'font.size': 8})
+
+% axs[0].scatter([1.31,4.11,3.22,1.61,5.30,7.52], [7.58,8.33,5.93,3.63,6.31,8.79],s=20, edgecolors='k', facecolors='k')
+% axs[0].scatter([6.55,8.71,8.87,9.03,6.55,2.21,6.09], [0.65,0.65,3.22,6.33,4.33,1.46,2.93],s=20, edgecolors='k', facecolors='None')
+% axs[0].plot([0,10],[1,10])
+% axs[0].text(0.5,0.5,'(a)')
+
+% axs[1].scatter([1.65,4.23,2.38,1.05,3.08,8.65,9.35,8.97,6.67, 7.19,3.00,2.00], [8.91,8.61,6.31,1.87, 0.25,0.63,4.85,8.12,0.63,8.55,2.00,4.00],s=20, edgecolors='k', facecolors='k')
+% axs[1].scatter([4.90,4.86,6.17,5.62,5.99,5.58,7.18], [4.96,3.55,3.52,4.23,5.42,2.66,4.47],s=20, edgecolors='k', facecolors='None')
+% t = np.linspace(0, 2*np.pi, 100)
+% axs[1].plot(6+1.8*np.cos(t) , 4+2*np.sin(t),'-')
+% axs[1].text(0.5,0.5,'(b)')
+
+% axs[2].scatter([0.54,3.04,7.01,3.70,1.35,4.23,7.21,9.11,8.32], [7.90, 8.66,9.01,6.85,5.00,0.44,1.16,0.43,3.49],s=20, edgecolors='k', facecolors='k')
+% axs[2].scatter([0.56,2.39,4.55,9.19,6.37,6.47,3.06,4.37,9.17,4.83], [1.79,2.68,4.95,8.66,6.33,4.14,0.97,3.60,6.63,1.84],s=20, edgecolors='k', facecolors='None')
+% axs[2].plot([0,10],[2,10])
+% axs[2].plot([3,10],[0,5], c='tab:blue')
+% axs[2].text(0.5,0.5,'(c)')
+
+% axs[3].scatter([1.67,3.08,6.81,9.23,6.67,2.06,4.96,5.62], [7.96,4.50,6.85,2.79,0.33,0.87,3.36,7.66],s=20, edgecolors='k', facecolors='k')
+% axs[3].scatter([8.68,1.79,3.85,4.73,4.03,8.06,8.83,8.68], [6.52,3.85,2.41,5.03,8.09,2.92,0.49,8.93],s=20, edgecolors='k', facecolors='None')
+% axs[3].text(5,3.5,'?',fontsize=70, **{'color':'tab:blue', 'fontfamily':'monospace'})
+% axs[3].text(0.5,0.5,'(d)')
+
+% for ax in axs:
+%     ax.set_xlim([0, 10])
+%     ax.set_ylim([0, 10])
+%     ax.spines['top'].set_visible(False)
+%     ax.spines['right'].set_visible(False)
+
+% fig.savefig(r'D:\softs\github_david\These_David_Pagnon\Thesis\Chap2\Figures\Fig_linearly_sep', dpi=300)
+% fig.show()

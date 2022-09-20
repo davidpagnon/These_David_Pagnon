@@ -1,34 +1,30 @@
 '''
-PERCEPTRON AND ADALINE CODE 
+PERCEPTRON CODE 
 
 X:      training set. Can be more than two features.
 sigma:  output. Same len as X.
 W:      initial weights. len_W = nb_features+1. Can be set to zero or randomly initialized.
 
-theta:  threshold.      0 in perceptron, other in adaline
-lr:     learning rate.  Historically 1 in percetron, close to zero in adaline.
+theta:  threshold.
+lr:     learning rate.
 epochs: number of iterations over the training set. 
-
 '''
-
-# Adaline or Perceptron
-ADALINE = 0 # 0 for perceptron, 1 for adaline
-
-# Training set
-X = [[1,5],[2,3],[7,1],[4,1],[5,4]]
-sigma = [1,0,1,0,1]
-W = [-9,1,3] # W = np.random.randn(len(X[0])+1)
-
-# Training parameters.
-theta=0.1   # 0 in perceptron
-lr=0.3      # 1 in perceptron
-epochs=10
-
-
 
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Training set
+X = [[1,5],[2,3],[7,1],[4,1],[5,4]]
+sigma = [1,0,1,0,1]
+W = [-9,1,3] # Initial weights, chosen for fast convergence, although they are usually
+# W = np.zeros(n+1) or W = np.random.randn(len(X[0])+1) 
+
+# Training parameters.
+theta=0.1   
+lr=0.3      
+epochs=10
+
+# Functions
 def sum_func(W,x_i):
     '''
     W: weights
@@ -41,28 +37,19 @@ def act_func(sum_res, theta=0):
     sum_res: result of summation function
     theta: threshold
     '''
-    if ADALINE: 
-        return 1.0 if (sum_res > theta) else 0.0
-    else:
-        return 1.0 if (sum_res > 0) else 0.0
+    return 1.0 if (sum_res > theta) else 0.0
 
 def err_func(sigma_act, sigma_pred):
     '''
     sigma_act: actual output
     sigma_pred: predicted output
     '''
-    if ADALINE: 
-        return (sigma_act - sigma_pred)
-    else:
-        return sigma_act
+    return (sigma_act - sigma_pred)
 
 def update_weights(W, lr, err, x_i):
-    if ADALINE: 
-        return W + lr * err * x_i
-    else:
-        return W + err * x_i
+    return W + lr * err * x_i
 
-def train_ANN(X, sigma, W=None, epochs=10, lr=0.3, theta=0):
+def train_perceptron(X, sigma, W=None, epochs=10, lr=0.3, theta=0):
     '''
     X: inputs with m training examples, n features
     sigma: outputs
@@ -83,7 +70,6 @@ def train_ANN(X, sigma, W=None, epochs=10, lr=0.3, theta=0):
             sum_res = sum_func(W, x_i)
             sigma_pred = act_func(sum_res, theta)
             if sigma_pred != sigma[idx]:
-                print(f'error: {sigma[idx]}, {sigma_pred}')
                 err = err_func(sigma[idx], sigma_pred)
                 W = update_weights(W, x_i, err, lr)
                 n_miss += 1
@@ -92,7 +78,7 @@ def train_ANN(X, sigma, W=None, epochs=10, lr=0.3, theta=0):
         n_miss_list.append(n_miss)
     return W, n_miss_list
 
-def plot_results_ANN(X, sigma, W):
+def plot_results_perceptron(X, sigma, W):
     '''
     X:      inputs
     sigma:  outputs
@@ -107,21 +93,21 @@ def plot_results_ANN(X, sigma, W):
     fig = plt.figure(figsize=(10,8))
     for idx, x_i in enumerate(X):
         if sigma[idx] == 1:
-            plt.plot(x_i[0], x_i[1], 'ro')
+            plt.plot(x_i[0], x_i[1], 'go')
         else:
-            plt.plot(x_i[0], x_i[1], 'b.')
+            plt.plot(x_i[0], x_i[1], 'r.')
     plt.xlabel("feature 1")
     plt.ylabel("feature 2")
-    plt.title('Adaline Algorithm')
+    plt.title('Perceptron Algorithm')
     plt.plot(x1, x2, 'y-')
     fig.show()
 
 
 # Training
-W, n_miss_list = train_ANN(X, sigma, W, epochs, lr, theta)
+W, n_miss_list = train_perceptron(X, sigma, W, epochs, lr, theta)
 
 # After training:
-plot_results_ANN(X, sigma, W)
+plot_results_perceptron(X, sigma, W)
 
 
 
