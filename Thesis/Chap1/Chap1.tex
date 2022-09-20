@@ -218,6 +218,15 @@ The emergence of markerless kinematics opens up new possibilities. Indeed, a net
 The objective of this thesis is to participate in building a bridge between the communities of computer vision and biomechanics, by providing a simple and open-source pipeline connecting the two aforementioned state-of-the-art tools: OpenPose and OpenSim. Robustness and accuracy will be assessed, and concrete applications in elite sports context will be discussed. 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure exponential fit                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% import matplotlib.pyplot as plt
+% import numpy as np
+% import pandas as pd
+% import scipy
+
 % def Exp(x, m, t, b):
 %     return m * np.exp(t * x + b)
 % p0 = (1,1,-2014)
@@ -240,8 +249,8 @@ The objective of this thesis is to participate in building a bridge between the 
 % print(f'r = {round(corr, 3)}')
 
 % fig = plt.figure()
-% plt.plot(x_year, y_search, '.', label="Search results")
-% plt.plot(x_year, y_fit, '-', label="Exponential fit")
+% plt.plot(x_year, y_search, 'k.', label="Search results")
+% plt.plot(x_year, y_fit, '-', color='tab:blue', label="Exponential fit")
 % plt.title('Number of results per year for a search on sciencedirect \non "Deep learning 3D human pose estimation"', fontsize=10)
 % plt.gca().spines['top'].set_visible(False)
 % plt.gca().spines['right'].set_visible(False)
@@ -250,5 +259,5 @@ The objective of this thesis is to participate in building a bridge between the 
 % plt.legend(frameon=False)
 % plt.gca().text(1996,50, r'Y = $\mathregular{152*e^{-0.35*x}-711}$'+f'\nr = {round(corr, 3)}', fontsize=10)#, transform=ax[idx].transAxes, verticalalignment='top', fontSize=8)
 % plt.show()
-% fig.savefig(r'D:\softs\github_david\latex\Template_rapport_these\fichiers_latex\Chap1\Figure\truc.png', dpi=300)
-% # fig.savefig(os.path.join(r'F:\Op2Ani\Kinovis\Images', 'filename.png'), dpi=300)
+% fig.savefig(r'D:\softs\github_david\These_David_Pagnon\Thesis\Chap1\Figures\Fig_exp.png', dpi=300)
+

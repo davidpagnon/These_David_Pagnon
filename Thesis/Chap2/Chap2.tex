@@ -30,7 +30,7 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Obtaining kinematics from a network of calibrated video cameras means resolving a few theoretical points. First, features must be recognized in images. This is now mostly done with machine learning models. Then, cameras need to be calibrated, so that all of the 2D features detected for each cameras can be reconstructed in the 3D space. Finally, these coordinates must be constrained to a biomechanically consistent model, in order to obtain coherent joint kinematics.}
+\textit{Obtaining kinematics from a network of calibrated video cameras means resolving a few theoretical points. First, features must be recognized in images. This is now mostly done with machine learning models. Then, all of the 2D features detected for each cameras need to be reconstructed in the 3D space. Finally, these coordinates must be constrained to a biomechanically consistent model, in order to obtain coherent joint kinematics.}
 
 %\smallskip
 \end{minipage}
@@ -49,9 +49,9 @@
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
-Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
+Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
 
-The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images. This can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxers or holds in challenging condition, they simply have to include such examples while training the machine learning model. The machine learning approach is also suitable for other tasks, such as whole-image classification (i.e., determining whether this a boxing or a climbing scene), background extraction \cite{Bouwmans2019}, instance segmentation (i.e., extracting the shape of the climber, as well as each holds, the wall, the background, etc.) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers in an image \cite{Chen2020}). 
+The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxers or holds in challenging condition, they simply have to include such examples while training the machine learning model. The machine learning approach is also suitable for other tasks, such as whole-image classification (i.e., determining whether this a boxing or a climbing scene), background extraction \cite{Bouwmans2019} and instance segmentation (i.e., extracting the shape of the climber, as well as each holds, the wall, the background, etc.) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers in an image \cite{Chen2020}). 
 
 
 \subsection{Machine learning timeline and principles}
@@ -60,13 +60,11 @@ Machine learning is a subset of artificial intelligence (AI.) As such, one can t
 
 The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
 
-\clearpage 
-
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.95\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
+	\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
 	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. In the case of a perceptron classifier, the neuron adjusts its weights to minimize the error between the predicted and the expected output.}
 	\label{fig_neuron}
 \end{figure}
@@ -176,16 +174,19 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 
 Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, lead to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
 
-In the 1980s, backpropagation 
-specific simple problems, 
-attacked commen-sense issues with massive databases 
-and massive funding programs such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem.
+The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986, Goodfellow2016}. This allowed for solving non linearly separable problems, and to tackle real world issues. Again, unrealisitic expectations were confronted with unplanned technical difficulties, which led to a second AI winter in the 1990s. 
 
-% Adaline (gradient descent)
-% Logistic regression (softmax)
-% Multi-layer (backpropagation)
-% Neats (basic principles extended to general intelligence) vs scruffies (specific solutions for each problem)
-% second winter, from late 1980s to early 1990s. Same reasons as the first one, i.e., unrealisitic expectations confronted with unexpected technical difficulties.
+From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the world wide web, and with the increasing power of computer, and in particular of GPUs, which made massive parallel computing available to the masses.
+
+% deeper neural networks
+
+% This has led to a new rise of AI, with the development of deep learning methods. These methods are based on the same principles as the perceptron, but are much more powerful. They are able to learn from large amounts of data, and to solve complex problems. They are also able to learn from unstructured data, such as images, videos, and text. This has led to a new wave of applications in many fields, such as self-driving cars, speech recognition, and medical diagnosis. However, the development of deep learning methods is still in its infancy, and many challenges remain to be solved. For example, deep learning methods are still not able to learn from unstructured data such as music, and to generate new music. This is a very complex problem, and it is not clear if it will ever be solved. Nevertheless, the development of deep learning methods has led to a new AI winter, as many companies have overestimated the potential of these methods, and have invested in them without a clear understanding of their limitations. This has led to a new wave of disappointment, and to a new wave of cuts in fundings. This is why we are currently in the third AI winter.
+
+% and the AI winter of the 1980s followed. The field was saved by the development of the Internet, which allowed for the collection of massive amounts of data, and the development of GPUs, which allowed for the training of deep neural networks. The second AI winter was followed by the third one, in 2015, when the hype around deep learning was followed by a series of failures in the industry. The field is now in a new rise, with the development of new architectures, such as Transformers \cite{Vaswani2017}, and the availability of large datasets, such as ImageNet \cite{Deng2009}.
+
+
+
+
 % vanishing gradient, overfitting (data augmentation, regularization, dropout, batch normalization), 
 % CNN
 % Deep learning
@@ -195,9 +196,8 @@ and massive funding programs such as the Japanese Fifth Generation Computer proj
 % train / test, accuracy loss
 % layers, batch size, epochs, activation
 
+As it is not the subject of this thesis, the algorithms and details will not be detailed here. The interested reader can refer to \cite{Goodfellow2016} for a comprehensive overview of the field.
 
-
-% This is the idea behind the multilayer perceptron (MLP), which was invented in 1969 \cite{Rumelhart1986}. This is a neural network composed of several layers of neurons (perceptron = learning unit), which can be used to classify data in a more complex way. For example, if one wants to classify athletes according to their performance in a 100m sprint, they could use the time, the force-velocity results, the body mass, the height, the age, etc. as input variables. The first layer of neurons would be used to classify the athletes according to their force-velocity results, the second layer would classify them according to their time, and so on. The output layer would then be used to classify them according to their performance.
 
 \begin{figure}[hbtp]
 	\centering
@@ -208,10 +208,8 @@ and massive funding programs such as the Japanese Fifth Generation Computer proj
 	\label{fig_linearly_sep}
 \end{figure}
 
-%Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function (see Algorithm~\ref{alg:perceptron}). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
-% The logistic regression \cite{} uses a softmax activation function, which allows for a a classification over more than two classes. These three algorithms form the most basic supervised learning algorithms (i.e., trained based on labels representing the expected output rather than fully automatically, without  supervision,) and are refered to as single layer Artificial Neural Network (ANN.) 
 
-% Non-linear problems can either be solved by using multi-layer neural networks with backpropagation, or by using kernel tricks \cite{Aizerman1964}. Kernel tricks consist in mapping the input data into a higher dimensional space, where they become linearly separable. However, although the concepts had been introduced early, they have not been connected to this particular problem until much later.
+
 
 
 
@@ -282,10 +280,24 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Intéressant mais rendrait le pdf trop long               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Perceptron (perceptron rule)
+% Adaline (delta rule, linear activation function, gradient descent) \cite{Widrow1960}
+% Logistic regression (sigmoid activation function, softmax) -> multi-layer
+% Neats (basic principles extended to general intelligence) vs scruffies (specific solutions for each problem, cf expert systems)
+% SVM (maximizes distance points to line), Random forest
+% Linearly separable problems: use of complex "kernel tricks" \cite{Aizerman1964}, popularized by Hofmann in 2008
+
+% Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
+
+% Non-linear problems can either be solved by using multi-layer neural networks with backpropagation, or by using kernel tricks \cite{Aizerman1964}. Kernel tricks consist in mapping the input data into a higher dimensional space, where they become linearly separable. However, although the concepts had been introduced early, they have not been connected to this particular problem until much later.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Figure example perceptron                                  %
+% Figure example perceptron                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \begin{figure}[hbtp]
