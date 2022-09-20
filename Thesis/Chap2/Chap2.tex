@@ -58,7 +58,7 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier, which automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
 
 \clearpage 
 
@@ -66,8 +66,8 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
-	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon.}
+	\includegraphics[width=0.95\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
+	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. In the case of a perceptron classifier, the neuron adjusts its weights to minimize the error between the predicted and the expected output.}
 	\label{fig_neuron}
 \end{figure}
 
@@ -79,7 +79,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
         \begin{equation}
             \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{k \in [0,m]} w_k^0 x_k^0
         \end{equation}
-        \STATE This result is processed by an activation function which determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
+        \STATE This result is processed by an activation function, which is a threshold in the case of the perceptron. It determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
         \begin{equation}
             \sigma^{0,pred} = 
             \begin{cases}
@@ -96,17 +96,16 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 \begin{algorithm}
       \begin{algorithmic}[1]
         \algrestore{alg1}
-        \STATE This prediction $\sigma^{0,pred}$ is compared to the actual class $\sigma^{0,actual}$. 
-        \STATEx If the class is correctly predicted, then weights are retained.
-        \STATEx Else, they are updated: 
+        \STATE This prediction $\sigma^{0,pred}$ is compared to the actual class $\sigma^{0,expected}$. 
+        \begin{equation}
+            \epsilon^0 = \sigma^{0,expected} - \sigma^{0,pred}
+        \end{equation}
+        \STATE Then weights are updated: 
         \begin{equation}
             \overrightarrow{W^1} = \overrightarrow{W^0} + \eta \ \epsilon^0 \ \overrightarrow{X^0}
         \end{equation}
-        \STATEx with $\eta$ the learning rate $\in$ [0,1], and $\epsilon$ the error function such as 
-        \begin{equation}
-            \epsilon^0 = \sigma^{0,actual} - \sigma^{0,pred}
-        \end{equation}
-      %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
+        \STATEx with $\eta$ the learning rate $\in$ [0,1]. Note that if the class is correctly predicted, then $\epsilon^0=0$ and weights are not adjusted.   
+      %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
         \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
       \end{algorithmic}
 \end{algorithm}
@@ -124,7 +123,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       and the classification of an athlete as "good" or "bad" as an output
       \(\sigma = 1 \ or \ 0. \)\newline
       A batch of training data, i.e., example data the perceptron will learn from, could be: 
-      \[ \bigl\{(\overrightarrow{X^i}, \sigma^{i, actual})\bigr\}_{i\in [0,4]}
+      \[ \bigl\{(\overrightarrow{X^i}, \sigma^{i, expected})\bigr\}_{i\in [0,4]}
       = \bigl\{\bigl((1, 1, 5), 1\bigr),
       \bigl((1, 2, 3), 0\bigr),
       \bigl((1, 7, 1), 1\bigr),
@@ -138,28 +137,28 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{k \in [0,2]} w_k^0 x^0_k = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
       \end{flalign*}
       Now \(\overrightarrow{W^0} \cdot \overrightarrow{X^0} = 7 > \theta = 0.1\), so $\sigma^{0, pred} = 1$.\newline
-      \(\sigma^{0, actual} = 1 = \sigma^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
+      \(\sigma^{0, expected} = 1 = \sigma^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
       As a consequence, \(\overrightarrow{W^1} = \overrightarrow{W^0} = (-9, 1, 3).\)\newline
       
       \textbf{The second instance} gives \(\overrightarrow{W^1} \cdot \overrightarrow{X^1} = (-9, 1, 3) \cdot (1,2,3) = 2 > \theta = 0.1\), so $\sigma^{1, pred} = 1$. \newline
-      But \(\sigma^{1, actual} = 0 \neq \sigma^{1, pred} = 1\), so weights need to be updated.\newline
-      The error is \(\epsilon^1 = \sigma^{1,actual} - \sigma^{1,pred} = 0-1 = -1\).\newline
+      But \(\sigma^{1, expected} = 0 \neq \sigma^{1, pred} = 1\), so weights need to be updated.\newline
+      The error is \(\epsilon^1 = \sigma^{1,expected} - \sigma^{1,pred} = 0-1 = -1\).\newline
       As a consequence, \(\overrightarrow{W^2} = \overrightarrow{W^1} + \eta \ \epsilon^1 \ \overrightarrow{X^1} = (-9, 1, 3)  + 0.1 \times (-1) \times (1,2,3) = (-9.3,0.4,2.1).\)\newline
       
       \textbf{Third instance}: \(\overrightarrow{W^2} \cdot \overrightarrow{X^2} = (-9.3,0.4,2.1) \cdot (1,7,1) = 3-4.4 < 0.1\), so $\sigma^{2, pred} = 0$. \newline
-      \(\sigma^{2, actual} = 1 \neq \sigma^{2, pred} = 0\), so weights need to be updated.\newline 
-      \(\epsilon^2 = \sigma^{2,actual} - \sigma^{2,pred} = 1\).\newline
+      \(\sigma^{2, expected} = 1 \neq \sigma^{2, pred} = 0\), so weights need to be updated.\newline 
+      \(\epsilon^2 = \sigma^{2,expected} - \sigma^{2,pred} = 1\).\newline
       \(\overrightarrow{W^3} = \overrightarrow{W^2} + \eta \ \epsilon^2 \ \overrightarrow{X^2} = (-9.3,0.4,2.1) + 0.1 \times 1 \times (1,7,1) = (-9,2.5,2.4).\)\newline
       
       \textbf{Fourth instance}: \(\overrightarrow{W^3} \cdot \overrightarrow{X^3} = (-9,2.5,2.4) \cdot (1,4,1) = 3.4 > 0.1\), so $\sigma^{3, pred} = 1$. \newline
-      \(\sigma^{3, actual} = 0 \neq \sigma^{3, pred} = 1\), so weights need to be updated.\newline
-      \(\epsilon^3 = \sigma^{3,actual} - \sigma^{3,pred} = -1\).\newline
+      \(\sigma^{3, expected} = 0 \neq \sigma^{3, pred} = 1\), so weights need to be updated.\newline
+      \(\epsilon^3 = \sigma^{3,expected} - \sigma^{3,pred} = -1\).\newline
       \(\overrightarrow{W^4} = \overrightarrow{W^3} + \eta \ \epsilon^3 \ \overrightarrow{X^3} = (-9,2.5,2.4) + 0.1 \times (-1) \times (1,4,1) = (-9.3,1.3,2.1).\)\newline
       
       \newpage
 
       \textbf{Fifth instance}: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $\sigma^{4, pred} = 1$. \newline
-      \(\sigma^{4, actual} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
+      \(\sigma^{4, expected} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
 
       \textbf{Next instances}: Once we have gone over the batch of training data, if the average error is below a given value, we can assume that the perceptron is trained. If not, we can use the next batch to pursue training. If it still didn't converge after all batches, we can iterate over all training data again, for a given number of times. If results are still not satisfying, either the data are not linearly separable, or the training sample is not large enough or of good enough quality. In our case, it seems like our example data have allowed us to correctly separate good and bad athletes based on their force and velocity test results (Figure~\ref{fig_perceptron}).
@@ -175,13 +174,19 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       }
 \end{tcolorbox}
 
-Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the exclusive OR (XOR) gate can't be solved with a basic single layer ANN \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, lead to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
+Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, lead to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
+
+In the 1980s, backpropagation 
+specific simple problems, 
+attacked commen-sense issues with massive databases 
+and massive funding programs such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem.
 
 % Adaline (gradient descent)
 % Logistic regression (softmax)
-% Multi-layer, backpropagation
+% Multi-layer (backpropagation)
+% Neats (basic principles extended to general intelligence) vs scruffies (specific solutions for each problem)
 % second winter, from late 1980s to early 1990s. Same reasons as the first one, i.e., unrealisitic expectations confronted with unexpected technical difficulties.
-% vanishing gradient, overfitting (data augmentation, dropout, batch normalization), 
+% vanishing gradient, overfitting (data augmentation, regularization, dropout, batch normalization), 
 % CNN
 % Deep learning
 % Classification, detection, segmentation
@@ -215,9 +220,6 @@ Nevertheless, it often takes a lot of iterations over good quality training data
 
 % Learning rate, threshold
 % training data size (and quality), number of epochs to run on a batch (i.e., a subset of the training data)
-% activation function, error (gradient descent)
-% only linearly separable
-% multilayer
 
 
 
@@ -232,13 +234,59 @@ Nevertheless, it often takes a lot of iterations over good quality training data
 
 
 
+% \subsection{Application to object detection and localization}
+
+
+\subsection{Pose detection}
+
+Different architectures, different models, different datasets
+Discriminative vs generative
+
+\section{3D reconstruction}\label{sec:3D reconstruction}
+
+While some approaches only rely on 2D pose estimation to infer 3D pose with another machine learning model, they are generally not considered to be sufficiently reliable. It is, then, important to use the input from several cameras, and to fuse their informations to obtain 3D coordinates.
+
+
+\subsection{Pinhole camera model}
+
+Voilà
+
+
+\subsection{Calibration}
+
+test
+
+
+\subsection{Triangulation}
+
+suite
+
+
+\section{3D joint kinematics}
+
+\subsection{Physically consistent model}
+
+autre
+
+
+\subsection{Scaling}
+
+bref
+
+
+\subsection{Inverse kinematics}
+
+As opposed to forward kinematics \newline
+Compare with 2D angles between 3 points \newline
+Different methods (model based vs autres) for angles (cf mail starred)\newline
 
 
 
 
-  
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure example perceptron                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \begin{figure}[hbtp]
 % 	\centering
@@ -354,67 +402,9 @@ Nevertheless, it often takes a lot of iterations over good quality training data
 % plt.show()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \subsection{Application to object detection and localization}
-
-
-\subsection{Pose detection}
-
-Different architectures, different models, different datasets
-Discriminative vs generative
-
-\section{3D reconstruction}\label{sec:3D reconstruction}
-
-While some approaches only rely on 2D pose estimation to infer 3D pose with another machine learning model, they are generally not considered to be sufficiently reliable. It is, then, important to use the input from several cameras, and to fuse their informations to obtain 3D coordinates.
-
-
-\subsection{Pinhole camera model}
-
-Voilà
-
-
-\subsection{Calibration}
-
-test
-
-
-\subsection{Triangulation}
-
-suite
-
-
-\section{3D joint kinematics}
-
-\subsection{Physically consistent model}
-
-autre
-
-
-\subsection{Scaling}
-
-bref
-
-
-\subsection{Inverse kinematics}
-
-As opposed to forward kinematics \newline
-Compare with 2D angles between 3 points \newline
-Different methods (model based vs autres) for angles (cf mail starred)\newline
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure linearly separable                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % import matplotlib.pyplot as plt
 % import numpy as np
