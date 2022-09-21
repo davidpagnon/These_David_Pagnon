@@ -44,28 +44,27 @@
 
 \section{Pose detection}
 
-% \subsection{Feature detection}
 \subsection{Why machine learning?}
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
-Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
+Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven, or approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
 
 The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxers or holds in challenging condition, they simply have to include such examples while training the machine learning model. The machine learning approach is also suitable for other tasks, such as whole-image classification (i.e., determining whether this a boxing or a climbing scene), background extraction \cite{Bouwmans2019} and instance segmentation (i.e., extracting the shape of the climber, as well as each holds, the wall, the background, etc.) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers in an image \cite{Chen2020}). 
 
 
 \subsection{Machine learning timeline and principles}
 
-Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}). 
+Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}a-b). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1} and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1}, Figure~\ref{fig_neuron}b, and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
-	\caption{The artificial neuron has been modeled after the natural neuron. Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. In the case of a perceptron classifier, the neuron adjusts its weights to minimize the error between the predicted and the expected output.}
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
+	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A neural network with one intermediary layer can solve any non linearly separable classification.}
 	\label{fig_neuron}
 \end{figure}
 
@@ -85,15 +84,6 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
                 0 & \text{otherwise}
             \end{cases}
         \end{equation}
-        \algstore{alg1}
-      \end{algorithmic}
-\end{algorithm}
-
-\clearpage
-
-\begin{algorithm}
-      \begin{algorithmic}[1]
-        \algrestore{alg1}
         \STATE This prediction $\sigma^{0,pred}$ is compared to the actual class $\sigma^{0,expected}$. 
         \begin{equation}
             \epsilon^0 = \sigma^{0,expected} - \sigma^{0,pred}
@@ -105,10 +95,18 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
         \STATEx with $\eta$ the learning rate $\in$ [0,1]. Note that if the class is correctly predicted, then $\epsilon^0=0$ and weights are not adjusted.   
       %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
         \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
+      %   \algstore{alg1}
       \end{algorithmic}
 \end{algorithm}
 
-\begin{tcolorbox}[colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Athlete classification with a perceptron, label=example1]
+% \begin{algorithm}
+%       \begin{algorithmic}[1]
+%         \algrestore{alg1}
+%             % Algo
+%       \end{algorithmic}
+% \end{algorithm}
+
+\begin{tcolorbox}[nofloat, colback=white,colframe=black, colbacktitle=white, coltitle=black, breakable, title=\textbf{Example 1} Athlete classification with a perceptron, label=example1]
       \phantomsection\hypertarget{example1}
       N.B. The code for running this example is available on the thesis repository \url{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap2/perceptron.py}.
       \tcblower
@@ -129,7 +127,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \bigl((1, 5, 4), 1\bigr)\bigr\}. \]
       
       Let's randomly initialize weights at \(\overrightarrow{W^0} =  (-9, 1, 3) \), take a threshold $\theta$=0.1, and a learning rate $\eta$ = 0.3.\newline
-        
+            
       \textbf{The first instance} of the training set gives: 
       \begin{flalign*}
       \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{k \in [0,2]} w_k^0 x^0_k = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
@@ -153,8 +151,6 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \(\epsilon^3 = \sigma^{3,expected} - \sigma^{3,pred} = -1\).\newline
       \(\overrightarrow{W^4} = \overrightarrow{W^3} + \eta \ \epsilon^3 \ \overrightarrow{X^3} = (-9,2.5,2.4) + 0.1 \times (-1) \times (1,4,1) = (-9.3,1.3,2.1).\)\newline
       
-      \newpage
-
       \textbf{Fifth instance}: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $\sigma^{4, pred} = 1$. \newline
       \(\sigma^{4, expected} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
@@ -165,42 +161,38 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \begin{center}
       \def\svgwidth{1\columnwidth}
       \fontsize{10pt}{10pt}\selectfont
-      \includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_perceptron.png"}
-      \end{center}
+      \centerline{\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Fig_perceptron.png"}}
       \captionof{figure}{Classification of athletes as "good" (black dot) or "bad" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
       \label{fig_perceptron}
+      \end{center}
       }
 \end{tcolorbox}
 
-Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, led to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
+Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of data, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, led to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
 
-The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986, Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
+The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986}. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues (Figure~\ref{fig_neuron}c.). \cite{Cybenko1989} proved that one single intermediate layer is enough to solve any given classification problem, granted that this layer contains enough neurons (although sometimes too many to make it possible in practice) However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
-	\caption{Single layer artificial neural networks such as the perceptron can only classify linearly separable data. (a) is linearly separable. (b) is not linearly separable. However, data are contained in an ellipse. The equation of an ellipse is of the form \(a \times x^2+b\times y^2=1\), so if we transform the feature variables into \(X=x^2\) and \(Y=y^2\), the data become linearly separable. (c) is equivalent to a fundamental XOR gate, and is not linearly separable, which was part of the reasons for the first AI winter. It can either be solved by combining several layers of artificial neurons, or by complex kernel tricks which map the data from the original space into a higher dimensional space where they become linearly separable. (d) is not linearly separable. AI: Artificial Intelligence. XOR: Exclusive OR.} 
+	\includegraphics[width=1\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
+	\caption{Single layer artificial neural networks such as the perceptron can only classify linearly separable data. (a) is linearly separable. (b) is not linearly separable. However, data are contained in an ellipse. The equation of an ellipse is of the form \(a \times x^2+b\times y^2=1\), so if we transform the feature variables into \(X=x^2\) and \(Y=y^2\), the data become linearly separable. (c) is equivalent to a fundamental XOR gate, and is not linearly separable, which was part of the reasons for the first AI winter. It can either be solved by combining several layers of artificial neurons, or by complex kernel tricks which map the data from the original space into a higher dimensional space where they become linearly separable. (d) is possibly not separable at all. AI: Artificial Intelligence. XOR: Exclusive OR.} 
 	\label{fig_linearly_sep}
 \end{figure}
 
-From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the world wide web, and greater computational power has become accessible, especially thanks to groundbreaking progress in Graphics Processing Units (GPUs), which made heavy parallel computing available to the wider audience. As a consequence, more layers could be used in neural networks, which set off the advent of deep learning. 
+From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the Internet, and greater computational power has become accessible, especially thanks to groundbreaking progress in Graphics Processing Units (GPUs), which made heavy parallel computing available to the wider audience. As a consequence, more layers could be used in neural networks, which progressively set off the onset of deep learning. This also helped dealing with one of the issues of shallow networks, which tend to overfit to the training data, and cause the model to not generalize well to new data \cite{Baral2018}. Finally, complex "common-sense" problems, such as natural language processing or image recognition, could be treated with some success.
 
+One particular case of deep neural networks is the convolutional neural network (CNN), which is particularly suited for image recognition. 
+
+% It is based on the idea that the visual cortex of the brain is organized in layers, with the first layers detecting simple features such as edges, and the last layers detecting more complex features such as faces. The first layers are therefore called convolutional layers, and the last layers are called fully connected layers. The CNN is trained with a large number of images, and the weights of the network are adjusted so that the network can correctly classify new images. The CNN is a very powerful tool, but it is not the only one. In the following sections, we will see that other deep learning methods can be used for image recognition, and that they can be combined to achieve even better results.
 
 % cnn for computer vision
 % Graph
-
-% This has led to a new rise of AI, with the development of deep learning methods. These methods are based on the same principles as the perceptron, but are much more powerful. They are able to learn from large amounts of data, and to solve complex problems. They are also able to learn from unstructured data, such as images, videos, and text. This has led to a new wave of applications in many fields, such as self-driving cars, speech recognition, and medical diagnosis. However, the development of deep learning methods is still in its infancy, and many challenges remain to be solved. For example, deep learning methods are still not able to learn from unstructured data such as music, and to generate new music. This is a very complex problem, and it is not clear if it will ever be solved. Nevertheless, the development of deep learning methods has led to a new AI winter, as many companies have overestimated the potential of these methods, and have invested in them without a clear understanding of their limitations. This has led to a new wave of disappointment, and to a new wave of cuts in fundings. This is why we are currently in the third AI winter.
-
-% and the AI winter of the 1980s followed. The field was saved by the development of the Internet, which allowed for the collection of massive amounts of data, and the development of GPUs, which allowed for the training of deep neural networks. The second AI winter was followed by the third one, in 2015, when the hype around deep learning was followed by a series of failures in the industry. The field is now in a new rise, with the development of new architectures, such as Transformers \cite{Vaswani2017}, and the availability of large datasets, such as ImageNet \cite{Deng2009}.
+2010  data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports analysis from videos.
 
 
-
-
-% vanishing gradient, overfitting (data augmentation, regularization, dropout, batch normalization), 
 % CNN
-% Deep learning
 % Classification, detection, segmentation
 % transfer learning
 
@@ -293,6 +285,10 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 % Neats (basic principles extended to general intelligence) vs scruffies (specific solutions for each problem, cf expert systems)
 % SVM (maximizes distance points to line), Random forest
 % Linearly separable problems: use of complex "kernel tricks" \cite{Aizerman1964}, popularized by Hofmann in 2008
+% supervised vs unsupervised learning
+% Issues such as vanishing gradient, overfitting (data augmentation, regularization, dropout, batch normalization)
+% feed-forward vs recurrent neural networks
+
 
 % Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
 
@@ -333,10 +329,10 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 % \end{figure}
 
 % % En matplotlib
-% # Found ion https://stackoverflow.com/questions/19907140/keeps-text-rotated-in-data-coordinate-system-after-resizing
+% # Found on https://stackoverflow.com/questions/19907140/keeps-text-rotated-in-data-coordinate-system-after-resizing
 % import matplotlib.pyplot as plt
 % import numpy as np
-% plt.rcParams.update({'font.size': 8})
+% plt.rcParams.update({'font.size': 10})
 % #import matplotlib.mathtext as mathtext
 % import matplotlib.text as mtext
 % import matplotlib.transforms as mtransforms
