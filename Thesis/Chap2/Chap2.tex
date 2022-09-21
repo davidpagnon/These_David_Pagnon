@@ -172,13 +172,24 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       }
 \end{tcolorbox}
 
-Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, lead to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
+Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of information, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, led to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
 
-The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986, Goodfellow2016}. This allowed for solving non linearly separable problems, and to tackle real world issues. Again, unrealisitic expectations were confronted with unplanned technical difficulties, which led to a second AI winter in the 1990s. 
+The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986, Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
 
-From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the world wide web, and with the increasing power of computer, and in particular of GPUs, which made massive parallel computing available to the masses.
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
+	\caption{Single layer artificial neural networks such as the perceptron can only classify linearly separable data. (a) is linearly separable. (b) is not linearly separable. However, data are contained in an ellipse. The equation of an ellipse is of the form \(a \times x^2+b\times y^2=1\), so if we transform the feature variables into \(X=x^2\) and \(Y=y^2\), the data become linearly separable. (c) is equivalent to a fundamental XOR gate, and is not linearly separable, which was part of the reasons for the first AI winter. It can either be solved by combining several layers of artificial neurons, or by complex kernel tricks which map the data from the original space into a higher dimensional space where they become linearly separable. (d) is not linearly separable. AI: Artificial Intelligence. XOR: Exclusive OR.} 
+	\label{fig_linearly_sep}
+\end{figure}
 
-% deeper neural networks
+From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the world wide web, and greater computational power has become accessible, especially thanks to groundbreaking progress in Graphics Processing Units (GPUs), which made heavy parallel computing available to the wider audience. As a consequence, more layers could be used in neural networks, which set off the advent of deep learning. 
+
+
+% cnn for computer vision
+% Graph
 
 % This has led to a new rise of AI, with the development of deep learning methods. These methods are based on the same principles as the perceptron, but are much more powerful. They are able to learn from large amounts of data, and to solve complex problems. They are also able to learn from unstructured data, such as images, videos, and text. This has led to a new wave of applications in many fields, such as self-driving cars, speech recognition, and medical diagnosis. However, the development of deep learning methods is still in its infancy, and many challenges remain to be solved. For example, deep learning methods are still not able to learn from unstructured data such as music, and to generate new music. This is a very complex problem, and it is not clear if it will ever be solved. Nevertheless, the development of deep learning methods has led to a new AI winter, as many companies have overestimated the potential of these methods, and have invested in them without a clear understanding of their limitations. This has led to a new wave of disappointment, and to a new wave of cuts in fundings. This is why we are currently in the third AI winter.
 
@@ -196,17 +207,9 @@ From the end of the 1990s, there has been no theoretical breakthrough in AI, but
 % train / test, accuracy loss
 % layers, batch size, epochs, activation
 
-As it is not the subject of this thesis, the algorithms and details will not be detailed here. The interested reader can refer to \cite{Goodfellow2016} for a comprehensive overview of the field.
 
 
-\begin{figure}[hbtp]
-	\centering
-	\def\svgwidth{1\columnwidth}
-	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_linearly_sep.png"}
-	\caption{Single layer artificial neural networks such as the perceptron can only classify linearly separable data. (a) is linearly separable. (b) is not linearly separable. However, data are contained in an ellipse. The equation of an ellipse is of the form \(a \times x^2+b\times y^2=1\), so if we transform the feature variables into \(X=x^2\) and \(Y=y^2\), the data become linearly separable. (c) is equivalent to a fundamental XOR gate, and is not linearly separable, which was part of the reasons for the first AI winter. It can either be solved by combining several layers of artificial neurons, or by complex kernel tricks which map the data from the original space into a higher dimensional space where they become linearly separable. (d) is not linearly separable. AI: Artificial Intelligence. XOR: Exclusive OR.} 
-	\label{fig_linearly_sep}
-\end{figure}
+
 
 
 
