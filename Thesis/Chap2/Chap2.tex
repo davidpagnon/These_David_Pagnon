@@ -64,37 +64,37 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
-	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A neural network with one intermediary layer can solve any non linearly separable classification.}
+	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A neural network with one intermediate layer can solve any non linearly separable classification.}
 	\label{fig_neuron}
 \end{figure}
 
 \begin{algorithm}[!ht]
       \caption{Perceptron}\label{alg:perceptron}
       \begin{algorithmic}[1]
-        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and $\sigma^{0, pred}$ the output predicted binary class. 
+        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and \(y^{0, pred}\) the output predicted binary class. 
         \STATE The summation function is computed: 
         \begin{equation}
             \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{k \in [0,m]} w_k^0 x_k^0
         \end{equation}
-        \STATE This result is processed by an activation function, which is a threshold in the case of the perceptron. It determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $\sigma^{0,pred}$ = 1 corresponds to one class, and $\sigma^{0,pred}$ = 0 to the other. 
+        \STATE This result is processed by an activation function, which is a threshold in the case of the perceptron. It determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $y^{0,pred}$ = 1 corresponds to one class, and $y^{0,pred}$ = 0 to the other. 
         \begin{equation}
-            \sigma^{0,pred} = 
+            y^{0,pred} = 
             \begin{cases}
                 1 & \text{if} \ \overrightarrow{W^0} \cdot \overrightarrow{X^0} > \theta,\\
                 0 & \text{otherwise}
             \end{cases}
         \end{equation}
-        \STATE This prediction $\sigma^{0,pred}$ is compared to the actual class $\sigma^{0,expected}$. 
+        \STATE This prediction $y^{0,pred}$ is compared to the actual class $y^{0,expected}$. 
         \begin{equation}
-            \epsilon^0 = \sigma^{0,expected} - \sigma^{0,pred}
+            \epsilon^0 = y^{0,expected} - y^{0,pred}
         \end{equation}
         \STATE Then weights are updated: 
         \begin{equation}
             \overrightarrow{W^1} = \overrightarrow{W^0} + \eta \ \epsilon^0 \ \overrightarrow{X^0}
         \end{equation}
         \STATEx with $\eta$ the learning rate $\in$ [0,1]. Note that if the class is correctly predicted, then $\epsilon^0=0$ and weights are not adjusted.   
-      %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
-        \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $\sigma$ with the retained weights.
+      %   \STATEx \textit{In Adaline, weights are adjusted early and in a continuous way, before being processed by the activation function: \(\epsilon^0 = \frac{\partial \frac{1}{2}(y^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= y^{0,expected} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\)}.
+        \STATE The algorithm is repeated with another example $\overrightarrow{X^1}$, and so on until it has gone through the whole batch of the training set. If weights still need to be updated, one can go over it again, for a determined number of epochs or until the average error is under a given value. Then the perceptron is considered trained, and ready to correctly predict a class $y$ with the retained weights.
       %   \algstore{alg1}
       \end{algorithmic}
 \end{algorithm}
@@ -117,9 +117,9 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \overrightarrow{X} = (1, velocity \ (m/s), force \ (hN) ), && 
       \end{flalign*}
       and the classification of an athlete as "good" or "bad" as an output
-      \(\sigma = 1 \ or \ 0. \)\newline
+      \(y = 1 \ or \ 0. \)\newline
       A batch of training data, i.e., example data the perceptron will learn from, could be: 
-      \[ \bigl\{(\overrightarrow{X^i}, \sigma^{i, expected})\bigr\}_{i\in [0,4]}
+      \[ \bigl\{(\overrightarrow{X^i}, y^{i, expected})\bigr\}_{i\in [0,4]}
       = \bigl\{\bigl((1, 1, 5), 1\bigr),
       \bigl((1, 2, 3), 0\bigr),
       \bigl((1, 7, 1), 1\bigr),
@@ -132,27 +132,27 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
       \begin{flalign*}
       \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{k \in [0,2]} w_k^0 x^0_k = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
       \end{flalign*}
-      Now \(\overrightarrow{W^0} \cdot \overrightarrow{X^0} = 7 > \theta = 0.1\), so $\sigma^{0, pred} = 1$.\newline
-      \(\sigma^{0, expected} = 1 = \sigma^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
+      Now \(\overrightarrow{W^0} \cdot \overrightarrow{X^0} = 7 > \theta = 0.1\), so $y^{0, pred} = 1$.\newline
+      \(y^{0, expected} = 1 = y^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
       As a consequence, \(\overrightarrow{W^1} = \overrightarrow{W^0} = (-9, 1, 3).\)\newline
       
-      \textbf{The second instance} gives \(\overrightarrow{W^1} \cdot \overrightarrow{X^1} = (-9, 1, 3) \cdot (1,2,3) = 2 > \theta = 0.1\), so $\sigma^{1, pred} = 1$. \newline
-      But \(\sigma^{1, expected} = 0 \neq \sigma^{1, pred} = 1\), so weights need to be updated.\newline
-      The error is \(\epsilon^1 = \sigma^{1,expected} - \sigma^{1,pred} = 0-1 = -1\).\newline
+      \textbf{The second instance} gives \(\overrightarrow{W^1} \cdot \overrightarrow{X^1} = (-9, 1, 3) \cdot (1,2,3) = 2 > \theta = 0.1\), so $y^{1, pred} = 1$. \newline
+      But \(y^{1, expected} = 0 \neq y^{1, pred} = 1\), so weights need to be updated.\newline
+      The error is \(\epsilon^1 = y^{1,expected} - y^{1,pred} = 0-1 = -1\).\newline
       As a consequence, \(\overrightarrow{W^2} = \overrightarrow{W^1} + \eta \ \epsilon^1 \ \overrightarrow{X^1} = (-9, 1, 3)  + 0.1 \times (-1) \times (1,2,3) = (-9.3,0.4,2.1).\)\newline
       
-      \textbf{Third instance}: \(\overrightarrow{W^2} \cdot \overrightarrow{X^2} = (-9.3,0.4,2.1) \cdot (1,7,1) = 3-4.4 < 0.1\), so $\sigma^{2, pred} = 0$. \newline
-      \(\sigma^{2, expected} = 1 \neq \sigma^{2, pred} = 0\), so weights need to be updated.\newline 
-      \(\epsilon^2 = \sigma^{2,expected} - \sigma^{2,pred} = 1\).\newline
+      \textbf{Third instance}: \(\overrightarrow{W^2} \cdot \overrightarrow{X^2} = (-9.3,0.4,2.1) \cdot (1,7,1) = 3-4.4 < 0.1\), so $y^{2, pred} = 0$. \newline
+      \(y^{2, expected} = 1 \neq y^{2, pred} = 0\), so weights need to be updated.\newline 
+      \(\epsilon^2 = y^{2,expected} - y^{2,pred} = 1\).\newline
       \(\overrightarrow{W^3} = \overrightarrow{W^2} + \eta \ \epsilon^2 \ \overrightarrow{X^2} = (-9.3,0.4,2.1) + 0.1 \times 1 \times (1,7,1) = (-9,2.5,2.4).\)\newline
       
-      \textbf{Fourth instance}: \(\overrightarrow{W^3} \cdot \overrightarrow{X^3} = (-9,2.5,2.4) \cdot (1,4,1) = 3.4 > 0.1\), so $\sigma^{3, pred} = 1$. \newline
-      \(\sigma^{3, expected} = 0 \neq \sigma^{3, pred} = 1\), so weights need to be updated.\newline
-      \(\epsilon^3 = \sigma^{3,expected} - \sigma^{3,pred} = -1\).\newline
+      \textbf{Fourth instance}: \(\overrightarrow{W^3} \cdot \overrightarrow{X^3} = (-9,2.5,2.4) \cdot (1,4,1) = 3.4 > 0.1\), so $y^{3, pred} = 1$. \newline
+      \(y^{3, expected} = 0 \neq y^{3, pred} = 1\), so weights need to be updated.\newline
+      \(\epsilon^3 = y^{3,expected} - y^{3,pred} = -1\).\newline
       \(\overrightarrow{W^4} = \overrightarrow{W^3} + \eta \ \epsilon^3 \ \overrightarrow{X^3} = (-9,2.5,2.4) + 0.1 \times (-1) \times (1,4,1) = (-9.3,1.3,2.1).\)\newline
       
-      \textbf{Fifth instance}: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $\sigma^{4, pred} = 1$. \newline
-      \(\sigma^{4, expected} = 1 = \sigma^{4, pred} = 1\), so weights don't need to be updated.\newline
+      \textbf{Fifth instance}: \(\overrightarrow{W^4} \cdot \overrightarrow{X^4} = (-9.3,1.3,2.1) \cdot (1, 5, 4) = 17.6 > 8\), so $y^{4, pred} = 1$. \newline
+      \(y^{4, expected} = 1 = y^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
 
       \textbf{Next instances}: Once we have gone over the batch of training data, if the average error is below a given value, we can assume that the perceptron is trained. If not, we can use the next batch to pursue training. If it still didn't converge after all batches, we can iterate over all training data again, for a given number of times. If results are still not satisfying, either the data are not linearly separable, or the training sample is not large enough or of good enough quality. In our case, it seems like our example data have allowed us to correctly separate good and bad athletes based on their force and velocity test results (Figure~\ref{fig_perceptron}).
@@ -170,7 +170,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 
 Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of data, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, led to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
 
-The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986}. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues (Figure~\ref{fig_neuron}c.). \cite{Cybenko1989} proved that one single intermediate layer is enough to solve any given classification problem, granted that this layer contains enough neurons (although sometimes too many to make it possible in practice) However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
+The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986}, or more rigorously of weight adjustment thanks to the backpropagation of error gradient, from the last layer to the first one. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues (Figure~\ref{fig_neuron}c.). \cite{Cybenko1989} proved that one single intermediate layer is enough to solve any given classification problem, granted that this layer contains enough neurons (although sometimes too many to make it possible in practice.) However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -185,16 +185,25 @@ From the end of the 1990s, there has been no theoretical breakthrough in AI, but
 
 One particular case of deep neural networks is the convolutional neural network (CNN), which is particularly suited for image recognition. 
 
-% It is based on the idea that the visual cortex of the brain is organized in layers, with the first layers detecting simple features such as edges, and the last layers detecting more complex features such as faces. The first layers are therefore called convolutional layers, and the last layers are called fully connected layers. The CNN is trained with a large number of images, and the weights of the network are adjusted so that the network can correctly classify new images. The CNN is a very powerful tool, but it is not the only one. In the following sections, we will see that other deep learning methods can be used for image recognition, and that they can be combined to achieve even better results.
+% AI boom 21st century? 
+
+% It is based on the idea that the visual cortex of the brain is organized in layers, with the first layers detecting simple features such as edges or corners, and the last layers detecting more complex features such as real-life objects. The first layers are therefore called convolutional layers, and the last layers are called fully connected layers. The CNN is trained with a large number of images, and the weights of the network are adjusted so that the network can correctly classify new images. 
 
 % cnn for computer vision
 % Graph
+% Small window, sliding across the image, acting as a filter detecting simple features such as corners or edges. The output of the filter is a feature map, which is then fed to the next layer. The weights of the filter are adjusted so that the network can correctly classify new images. The last layer is a fully connected layer, which is a standard neural network layer. The output of the network is the probability that the image belongs to a given class.
+% using gradient to classify image areas as corners and edges (overlaying, matching template of simple features such as a corner or an edge?)
+% Late layers: superimpose complex features corresponding to whole objects
+
+% Transfer learning (hundreds of images instead of thousands)
+
+% AlexNet on ImageNet challenge 2012 (large image database  (14 million images) for benchmarking supervised machine learning, crowd-sourcing its labellization) 
 2010  data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports analysis from videos.
 
 
 % CNN
-% Classification, detection, segmentation
-% transfer learning
+% Classification, detection, segmentation (and regression to get numbers instead of classes)
+% transfer learning, reinforcement learning
 
 % train / test, accuracy loss
 % layers, batch size, epochs, activation
@@ -230,14 +239,14 @@ One particular case of deep neural networks is the convolutional neural network 
 % \subsection{Application to object detection and localization}
 
 
-\subsection{Pose detection}
+\subsection{Pose estimation}
 
 Different architectures, different models, different datasets
 Discriminative vs generative
 
 \section{3D reconstruction}\label{sec:3D reconstruction}
 
-While some approaches only rely on 2D pose estimation to infer 3D pose with another machine learning model, they are generally not considered to be sufficiently reliable. It is, then, important to use the input from several cameras, and to fuse their informations to obtain 3D coordinates.
+While some approaches only rely on monocular 2D pose estimation to infer 3D pose from one single video, they are generally not considered to be sufficiently reliable, especially when some limbs are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain 3D coordinates.
 
 
 \subsection{Pinhole camera model}
@@ -290,7 +299,7 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 % feed-forward vs recurrent neural networks
 
 
-% Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function \(\epsilon^0 = \frac{\partial \frac{1}{2}(\sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= \sigma^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
+% Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function \(\epsilon^0 = \frac{\partial \frac{1}{2}(y^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= y^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
 
 % Non-linear problems can either be solved by using multi-layer neural networks with backpropagation, or by using kernel tricks \cite{Aizerman1964}. Kernel tricks consist in mapping the input data into a higher dimensional space, where they become linearly separable. However, although the concepts had been introduced early, they have not been connected to this particular problem until much later.
 
