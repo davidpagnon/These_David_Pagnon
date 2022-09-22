@@ -57,24 +57,24 @@ The second approach takes advantage of machine learning algorithms, which consti
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}a-b). 
 
-The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1}, Figure~\ref{fig_neuron}b, and Figure~\ref{fig_perceptron}). Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
+The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first practical application of an artificial neuron. It acts as a binary classifier which predicts class 1 if the neuron is fired, and class 0 otherwise. It automatically adjusts its weights by learning from previously labeled example data (see Algorithm~\ref{alg:perceptron}). It could be used, for example, to predict whether an athlete is going to be "good" or not, given his force-velocity results on an ergometer test (see step-by-step \hyperlink{example1}{Example 1}, Figure~\ref{fig_neuron}b, and Figure~\ref{fig_perceptron}), and given enough example data. Needing previously labeled data makes it is a supervised classifier – we will not discuss unsupervised methods here. Of course, this example is oversimplified. Being good or not as a sport is a complex and multifactorial outcome, and two variables can't sum it up. However, the perceptron can take more than two variables as inputs (for example, force, velocity, and endurance), and it can also be generalized to multiclass classification with more than two outputs (for example, to differenciate between strong, explosive, and resistant type of athletes.) 
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
-	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A neural network with one intermediate layer can solve any non linearly separable classification.}
+	\includegraphics[width=0.95\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
+	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed through the axon. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A dense (fully connected) neural network with one intermediate layer can solve any non linearly separable classification.}
 	\label{fig_neuron}
 \end{figure}
 
 \begin{algorithm}[!ht]
       \caption{Perceptron}\label{alg:perceptron}
       \begin{algorithmic}[1]
-        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_m^0) \), \( \overrightarrow{W^0} \) the corresponding weights randomly initialized \( (w_0^0, w_1^0, \cdots w_m^0) \) with \(w_0^0\) a bias, and \(y^{0, pred}\) the output predicted binary class. 
+        \STATEx Let \( \overrightarrow{X^0} \) be the input vector of a first instance of variables \( (1, x_1^0, \cdots x_M^0) \), \( \overrightarrow{W^0} \) the corresponding weights randomly initialized \( (w_0^0, w_1^0, \cdots w_M^0) \) with \(w_0^0\) a bias, and \(y^{0, pred}\) the output predicted binary class. 
         \STATE The summation function is computed: 
         \begin{equation}
-            \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{k \in [0,m]} w_k^0 x_k^0
+            \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum_{m \in [0,M]} w_m^0 x_m^0
         \end{equation}
         \STATE This result is processed by an activation function, which is a threshold in the case of the perceptron. It determines whether the neuron will be fired or not, i.e., whether one or the other class will be predicted. $y^{0,pred}$ = 1 corresponds to one class, and $y^{0,pred}$ = 0 to the other. 
         \begin{equation}
@@ -130,7 +130,7 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
             
       \textbf{The first instance} of the training set gives: 
       \begin{flalign*}
-      \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{k \in [0,2]} w_k^0 x^0_k = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
+      \overrightarrow{W^0} \cdot \overrightarrow{X^0} = \sum\nolimits_{m \in [0,2]} w_m^0 x^0_m = -9 \times 1+ 1 \times 1 + 3 \times 5 =7.&&
       \end{flalign*}
       Now \(\overrightarrow{W^0} \cdot \overrightarrow{X^0} = 7 > \theta = 0.1\), so $y^{0, pred} = 1$.\newline
       \(y^{0, expected} = 1 = y^{0, pred} \), so the prediction is true and weights don't need to be updated. \newline
@@ -183,25 +183,33 @@ The AI field survived by focusing on specific problems, called expert systems. I
 
 From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the Internet, and greater computational power has become accessible, especially thanks to groundbreaking progress in Graphics Processing Units (GPUs), which made heavy parallel computing available to the wider audience. As a consequence, more layers could be used in neural networks, which progressively set off the onset of deep learning. This also helped dealing with one of the issues of shallow networks, which tend to overfit to the training data, and cause the model to not generalize well to new data \cite{Baral2018}. Finally, complex "common-sense" problems, such as natural language processing or image recognition, could be treated with some success.
 
-One particular case of deep neural networks is the convolutional neural network (CNN), which is particularly suited for image recognition. 
+One particular type of deep learning algorithms is the convolutional neural network (CNN), which is particularly suited for image recognition. It was first used for classifying hand-written and low-resolution digits \cite{LeCun1998}, and then applied to more complex images as greater computing resources became available \cite{Krizhevsky2017}. A convolution layer consists in a series of filters that slide across the image, each of them outputing a result close to 0 or to 1, depending on how well it can be overlaid on each image area. In the same way as with a simple artificial neuron, each of these filters can be seen as a weight vector \(\overrightarrow{W}\), and each image area as an input vector vector \(\overrightarrow{X}\). The filters of the first convolution layer are simple lines at first, then circles and edges, until the last layers, when they have become complex features corresponding to whole object parts. Once a filter has covered the whole image, it forms a feature map, which will then be downsampled to save computing resources. All of these feature maps produced by each filter are processed by a number of other convolution layers, and then flattened into a 1D vector. This 1D vector is processed by a few dense layers (i.e., each of its components is fully connected to each component of the next vector), and lastly by a softmax layer which computes a probability for the image to correspond to each available class. If the CNN is correctly trained, the class with highest probability corresponds to the correct class: for example, if the image displays a BMX start, the probability for the bike class will be the highest (Figure~\ref{fig_linearly_sep}). 
 
-% AI boom 21st century? 
-
-% It is based on the idea that the visual cortex of the brain is organized in layers, with the first layers detecting simple features such as edges or corners, and the last layers detecting more complex features such as real-life objects. The first layers are therefore called convolutional layers, and the last layers are called fully connected layers. The CNN is trained with a large number of images, and the weights of the network are adjusted so that the network can correctly classify new images. 
-
-% cnn for computer vision
-% Graph
-% Small window, sliding across the image, acting as a filter detecting simple features such as corners or edges. The output of the filter is a feature map, which is then fed to the next layer. The weights of the filter are adjusted so that the network can correctly classify new images. The last layer is a fully connected layer, which is a standard neural network layer. The output of the network is the probability that the image belongs to a given class.
-% using gradient to classify image areas as corners and edges (overlaying, matching template of simple features such as a corner or an edge?)
-% Late layers: superimpose complex features corresponding to whole objects
-
-% Transfer learning (hundreds of images instead of thousands)
-
-% AlexNet on ImageNet challenge 2012 (large image database  (14 million images) for benchmarking supervised machine learning, crowd-sourcing its labellization) 
-2010  data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports analysis from videos.
+However, results will not be good before a lot of iterations are done on a lot of data. Indeed, filters at each layer are randomly initialized, and then refined with backpropagation in order to predict all classes as best as possible. One of the risks is overfitting the training data, which is dealt with by regularization methods such as the dropout of random neurons, data augmentation (image rotations, crops, color distortion, noise addition, etc.)
 
 
-% CNN
+Large dataset consisting in a wide variety of annotated images (supervised)
+
+Transfer learning (hundreds of images instead of thousands, generalizes well)
+
+
+% % AlexNet on ImageNet challenge 2012 (large image database  (14 million images) for benchmarking supervised machine learning, crowd-sourcing its labellization) 
+
+
+
+
+% AI boom 21st century? Better than human classification?
+
+% Faire image
+
+
+
+% Detection ?
+
+
+By 2015, data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports motion analysis from videos.
+
+
 % Classification, detection, segmentation (and regression to get numbers instead of classes)
 % transfer learning, reinforcement learning
 
