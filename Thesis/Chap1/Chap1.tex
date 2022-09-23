@@ -133,7 +133,7 @@ It has rekindled interest from the biomechanics community towards image-based mo
 
 The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019} (Figure~\ref{fig_openpose}), and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose has been trained on the CMU Panoptic Dataset \cite{Joo2015}, with 511 synchronized videos of multiple people in motion, alone or engaged in social activities. 
 
-Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread. The technology, however, is still maturing and some light-weight systems such as BlazePose \cite{Bazarevsky2020} or UULPN \cite{Wang2022c} are being proposed, which can operate in real time on a mobile phone; however, they are still not quite as accurate as required for quantitative motion analysis.
+Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread. The technology, however, is still maturing and some light-weight systems such as BlazePose \cite{Bazarevsky2020}, UULPN \cite{Wang2022a}, or YOLOv7 \cite{Wang2022b} are being proposed, which can operate in real time on a mobile phone; however, they still haven't been embraced by the community, or are not accurate enough for quantitative motion analysis.
 
 Two other 2D pose estimation toolboxes are DeepLabCut \cite{Mathis2018} and SLEAP \cite{Pereira2022}, which were initially intended for markerless animal pose estimation. They have the advantage that they can be custom trained for the detection of any human or not human keypoint with a relatively small dataset. All of the tools presented in this section are open-source. 
 
@@ -186,11 +186,11 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 	\midrule
 	IMU                          & N/A                                                                                  & 3D                     & \begin{tabular}[c]{@{}l@{}}+ Good angle accuracy \\- Angle drift \& poor position analysis \\- Can be cumbersome\end{tabular}          \\ 
 	\midrule
-	\multirow{5}{*}{Depth}       & Mono                                                                                 & 2.5D                   & \begin{tabular}[c]{@{}l@{}}+ Markerless\\- Generally poor accuracy\\- Frame-rate $\leq$ 30 Hz\\- Needs distance $\leq$ 5m and no direct sunlight\end{tabular}  \\ 
+	\multirow{5}{*}{RGB-D}       & Mono                                                                                 & 2.5D                   & \begin{tabular}[c]{@{}l@{}}+ Markerless\\- Generally poor accuracy\\- Frame-rate $\leq$ 30 Hz\\- Needs distance $\leq$ 5m and no direct sunlight\end{tabular}  \\ 
 	\cline{2-4}
 								 & Multi                                                                                & 3D                     & \begin{tabular}[c]{@{}l@{}}+ Full 3D markerless\\+ Better accuracy\\- Same as above re. frame-rate, distance, and light\end{tabular}  \\ 
 	\cline{1-4}
-	\multirow{8}{*}[-5em]{Video}       & \multirow{2}{*}[-2em]{Mono}                                                                & \multirow{2}{*}{2D}    & \begin{tabular}[c]{@{}l@{}}+ Very robust in all contexts\\+ Cheap and easy to setup\\- Only 2D\\- Not very accurate\end{tabular}  \\ 
+	\multirow{8}{*}[-5em]{RGB video}       & \multirow{2}{*}[-2em]{Mono}                                                                & \multirow{2}{*}{2D}    & \begin{tabular}[c]{@{}l@{}}+ Very robust in all contexts\\+ Cheap and easy to setup\\- Only 2D\\- Not very accurate\end{tabular}  \\ 
 	\cline{3-4}							 
 								 &                                                                                      & 3D                     & \begin{tabular}[c]{@{}l@{}}+ Full 3D with one single RGB camera\\- Probabilistic guess when occlusions: accuracy $\searrow$\\- Slow        \end{tabular}   \\ 
 	\cline{2-4}

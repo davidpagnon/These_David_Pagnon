@@ -42,15 +42,15 @@
 \newpage
 
 
-\section{Pose detection}
+\section{2D pose detection}
 
 \subsection{Why machine learning?}
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
-Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven, or approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
+Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
 
-The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxers or holds in challenging condition, they simply have to include such examples while training the machine learning model. The machine learning approach is also suitable for other tasks, such as whole-image classification (e.g., determining whether this a boxing or a BMX scene), object detection (e.g., localization of a bike and of a person with a bounding box), background extraction \cite{Bouwmans2019} and instance segmentation (e.g., extracting the shape of the bike and of the person) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers and keypoints on a bike \cite{Chen2020}) (Figure~\ref{fig_classif_detec}). 
+The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxers or holds in challenging condition, they simply have to include such examples while training the machine learning model. The machine learning approach is also suitable for other tasks, such as whole-image classification (e.g., determining whether this a boxing or a BMX scene), object detection (e.g., localization of a bike and of a person with a bounding box), background extraction \cite{Bouwmans2019}, semantic and instance segmentation (e.g., extracting the shape of the bike and of the person) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers and keypoints on a bike \cite{Chen2020}) (Figure~\ref{fig_classif_detec}). 
 
 \begin{figure}[!ht]
 	\centering
@@ -69,13 +69,13 @@ The perceptron, invented in 1956 \cite{Rosenblatt1958}, represents the first pra
 
 Nevertheless, it often takes a lot of iterations over good quality training data for the perceptron to converge. Moreover, it does converge if and only if the data are linearly separable, i.e., if they can be separated with a straight line \cite{Novikoff1963} (see Figure~\ref{fig_linearly_sep}). Some fundamental problems such as the XOR gate can't be solved with a basic single layer Artificial Neural Network (ANN) \cite{Minsky1969}. This constituted one of the early setbacks for AI. Then, the high computational cost of these approaches, combined with the complexity of common-sense problems, hampered the trust in learning methods. Indeed, vision and language problems require enormous amounts of data, and can't be solved with a simple dictionary (for example, "the spirit is willing but the flesh is weak" becomes "the vodka is good but the meat is rotten" when translated back and forth from English to Russian.) Overinflated promises and expectations, followed by disappointment in academia and industries, led to cuts in fundings, and eventually loss of skills in the 1970s: this is refered to as the first AI winter.
 
-The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986}, or more rigorously of weight adjustment thanks to the backpropagation of error gradient, from the last layer to the first one. As it is not the central subject of this thesis, the algorithm will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues (Figure~\ref{fig_neuron}c.). \cite{Cybenko1989} proved that one single intermediate layer is enough to solve any given classification problem, granted that this layer contains enough neurons (although sometimes too many to make it possible in practice.) However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects, which led to a second AI winter in the 1990s. 
+The AI field survived by focusing on specific problems, called expert systems. In the early 1980s, a new rise was triggered by massive fundings such as the Japanese Fifth Generation Computer project, aiming to build a supercomputer that could solve any problem. Shortly after, multi-layer neural networks were made possible with the (re)discovery of backpropagation \cite{Rumelhart1986}, or more rigorously of weight adjustment thanks to the backpropagation of error gradient, from the last layer to the first one. As it is not the central subject of this thesis, the algorithm and early references will not be detailed here but the interested reader can refer to \cite{Goodfellow2016}. This allowed for solving non linearly separable problems, and for tackling real world issues (Figure~\ref{fig_neuron}c.). \cite{Cybenko1989} proved that one single intermediate layer is enough to solve any given classification problem, granted that this layer contains enough neurons (although sometimes too many to make it possible in practice.) On the other hand, kernel tricks were also rediscovered \cite{Aizerman1964,Hofmann2008}, and made non neural networks such as support vector machines (SVMs) \cite{Boser1992} able to treat non linarly separable data with much less training data, more optimally, and on a clearer mathematical ground (Figure~\ref{fig_linearly_sep}). However, again, unrealisitic expectations were confronted with unplanned technical difficulties both on expert systems and on general intelligence projects. This led to a second AI winter in the 1990s. 
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
+	\includegraphics[width=0.95\linewidth]{"../Chap2/Figures/Fig_neuron.png"}
 	\caption{The artificial neuron (b) has been modeled after the natural neuron (a). Inputs and weights act as the total nervous influx firing the dendrites. The collected values are summed, and a signal is activated if a threshold is overcome, as the soma does in a natural neuron. The output signal is conveyed the axon in a natural neuron. (b) In the case of a perceptron, the neuron adjusts its weights to minimize the error between the predicted and the expected output. It can be used as a classifier, which outputs class 1 or class 0 depending on the inputs. (c) A dense (fully connected) neural network with one intermediate layer and backpropagation can solve any non linearly separable classification.}
 	\label{fig_neuron}
 \end{figure}
@@ -199,8 +199,9 @@ The AI field survived by focusing on specific problems, called expert systems. I
 From the end of the 1990s, there has been no theoretical breakthrough in AI, but larger databases have become available with the advent of the Internet, and greater computational power has become accessible, especially thanks to groundbreaking progress in Graphics Processing Units (GPUs), which made heavy parallel computing available to the wider audience. As a consequence, more layers could be used in neural networks, which progressively set off the onset of deep learning. Finally, complex "common-sense" problems, such as natural language processing or image recognition, could be treated with some success \cite{Baral2018}.
 
 One particular type of deep learning algorithms is the convolutional neural network (CNN), which is particularly suited for image recognition. It was first used for classifying hand-written and low-resolution digits \cite{LeCun1998}, and then applied to more complex images as greater computing resources became available \cite{Krizhevsky2017}. Nowadays, CNNs have sometimes surpassed humans at image classification \cite{Cireşan2012, Lu2015}. A convolution layer consists in a series of filters that slide across the image, each of them outputing a result close to 0 or to 1, depending on how well it can be overlaid on each image area. In the same way as with a simple artificial neuron, each of these filters can be seen as a weight vector \(\overrightarrow{W}\), and each image area as an input vector vector \(\overrightarrow{X}\). The filters of the first convolution layer are simple lines, but then they become circles and edges, until the last layers, when they have have developped into complex features corresponding to whole object parts. Once a filter has covered the whole image, it forms a feature map, which will then be downsampled by a pooling layer in order to save computing resources. All of the feature maps produced by each filter are processed by a determined number of other convolution layers, and then flattened into a 1D vector. This 1D vector is processed by a few dense layers (i.e., each of its components is fully connected to each component of the next vector), and lastly a softmax layer computes a probability for the image to correspond to each available class. If the CNN is correctly trained, the class with highest probability corresponds to the correct one: for example, if the image displays a BMX start, the probability for the bike class will be the highest (Figure~\ref{fig_linearly_sep}). 
+% Figure CNN
 
-However, results will not be good until a lot of iterations are done on a lot of data. Indeed, filters at each layer are randomly initialized, and then refined with backpropagation in order to predict all classes as best as possible. One of the risks is overfitting, i.e., to excessively adapt to the training data and to fail to generalize to new data. This is dealt with by cross-validation, i.e., the separation between training and test data, by regularization methods such as batch normalization and dropout, and by data augmentation, e.g., image rotations, crops, color distortion, noise addition, etc. \cite{Hawkins2004,Chicco2017}. An enormous amount of data is also needed to correctly train the CNN, which makes it complicated when unusual classes need to be recognized (for example, a climbing hold, a BMX starting gate, a medial malleolus on the ankle, etc.) Fortunately, one can consider that a CNN trained on a massive dataset, such as ImageNet and its 14 million annotated images \cite{Deng2009}, has learned to recognize most features that can be found in any image. One can take the learned filters of its convolutional layers as is, use them as a feature extractor, and just fine-tune the last dense layers to recognize new classes. It will be much less computationally expensive to train, and will need much less data: about a hundred images, instead of thousands. This is called transfer learning \cite{Pan2009}.
+However, results will not be good until a lot of iterations are done on a lot of data. Indeed, filters at each layer are randomly initialized, and then refined with backpropagation in order to predict all classes as best as possible. One of the risks is overfitting, i.e., to excessively adapt to the training data and to fail to generalize to new data. This is dealt with by cross-validation, i.e., the separation between training and test data, by regularization methods such as batch normalization and dropout, and by data augmentation, e.g., image rotations, crops, color distortion, noise addition, etc. \cite{Hawkins2004,Chicco2017}. An enormous amount of data is also needed to correctly train the CNN, which makes it complicated when unusual classes need to be recognized (for example, a climbing hold, a BMX starting gate, a medial malleolus on the ankle, etc.) Fortunately, one can consider that a CNN trained on a massive dataset, such as ImageNet and its 14 million annotated images \cite{Deng2009}, has learned to recognize most features that can be found in any image. One can take the learned filters of its convolutional layers as is, use them as a feature extractor (sometimes called backbone), and just fine-tune the last dense layers to recognize new classes. It will be much less computationally expensive to train, and will need much less data: about a hundred images, instead of thousands. This is called transfer learning \cite{Pan2009}.
 
 % \begin{figure}[hbtp]
 % 	\centering
@@ -211,21 +212,53 @@ However, results will not be good until a lot of iterations are done on a lot of
 % 	\label{fig_cnn}
 % \end{figure}
 
-
-Now, classification of a whole image is not sufficient in sports motion analysis. One needs to detect where an object or a person is (this is called detection), ideally to outline the result pixel by pixel (this is segmentation, and is out of the scope of this thesis), to localize more precise features such as joint centers so as to estimate the person's pose (this is keypoint detection). Older detection algorithms 
-(Figure~\ref{fig_linearly_sep})
+Now, classification of a whole image is not sufficient in sports motion analysis. One needs to detect where an object or a person is, and ideally to localize more precise features such as joint centers so as to estimate the person's pose. 
 
 
+\subsection{Machine learning for 2D pose detection}
 
-% This is called object detection. The first CNNs for object detection were based on the sliding window method \cite{Dalal2005}, which consists in sliding a small window across the image, and classifying each window as containing an object or not. This is very computationally expensive, and the results are not very good. 
+Older methods for object detection used to run a sliding and pyramidal window across the image, and then to apply a non neural classifier on each window, such as a SVM on histogram of oriented gradients descriptors (HOG) \cite{Dalal2005}. They then had to be followed by non-maximum suppression, in order to select one bounding box over many overlapping ones. As the classifier is run on each window iteration like if they were independent images, these methods were very computationally intensive, and in the same time not very robust nor accurate. 
+
+More modern approaches are based on CNNs, and as such, they involve a preliminary step: fine-tuning a pre-trained neural network such as ImageNet, in order to make it able to classify the objects of interest. One of the precursors, R-CNN (Regions with CNN features) \cite{Girshick2014}, first finds a lesser amount of regions of interest (ROIs) by selective search, instead of with a sliding window. Selective search is an algorithm which segments images based on pixel intensities, without any learning involved \cite{Uijlings2013}. Then three learning models are used: one CNN for extracting features from each ROI, a SVM for classifying each ROI, and a regression model for adjusting bounding boxes. It takes about 45 seconds to process a single image on benchmarks. Fast R-CNN \cite{Girshick2015} uses one single network for all steps, and switches the first two: it first extracts features from the whole image, and only then uses selective search to find ROIs on the resulting feature map, and finally classifies the ROIs and tightens the bounding boxes. It is much faster and takes about 2 seconds per image. A last incrementation on this basis is Faster R-CNN \cite{Ren2015}, which works similarly to the latter, but finds ROIs with a neural network instead of with selective search, which is very time-consuming. This allows for predicting an "objectness" score on each ROI, and on fitting the bounding boxes directly, and thus on avoiding the last regression step. It is even faster, and takes about 0.2 seconds per image. 
+
+YOLO (standing for You Only Look Once) \cite{Redmon2016} proposes another approach, and does not separate the steps of finding ROIs with classification. It divides the image into regions, and predicts both classes and bounding boxes for each region. For example, if there is a shoulder in a region, it will predict a "person" class, and a bigger box in which this person is likely to fit. It takes about 0.02 seconds per image, and is thus able to run real time at 45 fps. However, it is not as accurate as the previous methods, especially on smaller objects. This being said, new versions are very frequently released (although not by the same authors), and the current YOLOv7 \cite{Wang2022b} is both faster and more accurate than all previous approaches.
+
+But again, in order to perform joint kinematics, one cannot just detect whole objects, precise keypoints need to be localized. 
+
+
+Mask R-CNN, cf Faster R-CNN
+% or Mask-RCNN \cite{He2017}, is a more recent approach, which is based on the same principles as Faster R-CNN, but which also predicts a mask for each ROI. This allows for more precise localization of the object, and for more accurate segmentation. It is also faster than the previous methods, and takes about 0.1 seconds per image.
+the neural network which predicts ROIs on the feature map outputs a much tighter version of the bounding box, which actually becomes a segmentation mask.
+
+
+
+Without changing the concepts, Yolov7 entirely review the whole network architecture to deal with all bottlenecks,
+
+Similar accuracy as Mask R-CNN, but 5 times faster
+
+
+
+
+pose detection, smaller masks
+
+Yolov7 is accurate enough on smaller objects to support instance segmentation by integrating BlendMask (cite), and keypoint detection by integrating YOLO-Pose
+
+% From v3 onwards, yolo also supports segmentation, and outputs a segmentation mask for each ROI. This allows for more precise localization of the object, and for more accurate segmentation. It is also faster than the previous methods, and takes about 0.1 seconds per image.
+
+
+% More recent algorithms such as YOLO \cite{Redmon2016} or SSD \cite{Liu2016} can detect the position of an object in an image, but do not provide any information about its pose. In order to estimate the pose of a person, one needs to detect the position of the person's joints. This is called 2D pose estimation.
+
+
+
+
+
+
+Different architectures, different models, different datasets
+Discriminative vs generative
+
+
 
 % The details of the various methods will not be extensively discussed here, but the reader is referred to \cite{Redmon2016} for a comprehensive review.
-
-% Image: Classification whole image, Detection objects Bounding box, segmentation outline, keypoint detection smaller parts.
-
-
-
-
 % By 2015, data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports motion analysis from videos \cite{Pagnon2021}.
 
 
@@ -247,20 +280,6 @@ Now, classification of a whole image is not sufficient in sports motion analysis
 
 
 
-
-
-
-
-
-
-
-% \subsection{Application to object detection and localization}
-
-
-\subsection{Pose estimation}
-
-Different architectures, different models, different datasets
-Discriminative vs generative
 
 \section{3D reconstruction}\label{sec:3D reconstruction}
 
@@ -302,6 +321,9 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 
 
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Intéressant mais rendrait le pdf trop long               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,6 +338,7 @@ Different methods (model based vs autres) for angles (cf mail starred)\newline
 % Issues such as vanishing gradient, overfitting (data augmentation, regularization, dropout, batch normalization)
 % feed-forward vs recurrent neural networks
 % Classification vs Regression (to get numbers instead of classes), reinforcement learning, adversarial networks, etc.
+% Other versions of yolo, ssd
 
 
 % Adaline \cite{Widrow1960} is an improved version of the perceptron, which introduces the concept of gradient descent. It converges faster as weights are adjusted early and in a continuous way, by directly using the result of the summation function instead of processing it with a binary activation function \(\epsilon^0 = \frac{\partial \frac{1}{2}(y^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0})^2}{\partial \overrightarrow{W^0}}= y^{0,actual} - \overrightarrow{W^0} \cdot \overrightarrow{X^0}\). As a consequence, the weights are more or less heavily adjusted depending on how large the error is, in an adaptive way (hence its name, which stands for Adaptive Linear Element.) 
