@@ -48,7 +48,7 @@ This chapter is an up-to-dat and more detailed version of the introduction of th
 \section{Overall context of kinematics in sports}
 \subsection{General context}
 
-As coaching athletes implies observing and understanding their movements, motion capture (MoCap) is essential in sports. It helps improving movement efficiency, preventing injuries, or predicting performances. For the last few decades, marker-based systems have been considered the best choice for the analysis of human movement, when regarding the trade-off between ease of use and accuracy. However, these methods have proven to be much more challenging in a sports context than in a laboratory setting, and to be generally inappropriate \cite{Mündermann2006, Colyer2018}. As a consequence, other methods have been investigated (see Table~\ref{tab_statearts}).
+As coaching athletes implies observing and understanding their movements, motion capture (MoCap) is essential in sports. It helps improving movement efficiency, preventing injuries, or predicting performances. For the last few decades, marker-based systems have been considered the best choice for the analysis of human movement, when regarding the trade-off between ease of use and accuracy. However, these methods have proven to be much more challenging in a sports context than in a laboratory setting, and to be generally inappropriate \cite{Mündermann2006, Colyer2018}. As a consequence, other methods have been investigated (see Table~\ref{table:tab_stateart}).
 
 \subsection{Marker-based systems}
 
@@ -131,11 +131,13 @@ It has rekindled interest from the biomechanics community towards image-based mo
 \section{2D markerless analysis}
 \subsection{2D pose estimation}
 
-The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019} (Figure~\ref{fig_openpose}), and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose has been trained on the CMU Panoptic Dataset \cite{Joo2015}, with 511 synchronized videos of multiple people in motion, alone or engaged in social activities. 
+The most well-known off-the-shelf 2D human pose estimation solutions are OpenPose \cite{Cao2019} (Figure~\ref{fig_openpose}), and to a lesser extent AlphaPose \cite{Fang2017}. While both show similar results, OpenPose has the advantage of being a bottom-up approach, whose computation time does not increase with the number of persons detected \cite{Cao2019}. A bottom-up approach first detects all available joint keypoints, and then associates them to the right persons; while a top-bottom approach first detects bounding boxes around each person, and then finds joint keypoints inside of them. OpenPose is the only multi-person 2D pose estimation solution that provides foot
 
-Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread. The technology, however, is still maturing and some light-weight systems such as BlazePose \cite{Bazarevsky2020}, UULPN \cite{Wang2022a}, or YOLOv7 \cite{Wang2022b} are being proposed, which can operate in real time on a mobile phone; however, they still haven't been embraced by the community, or are not accurate enough for quantitative motion analysis.
+Other approaches have shown even better results on evaluation datasets (see review \cite{Chen2020}), but they are generally slower and not as widespread. The technology, however, is still maturing and some light-weight systems such as BlazePose \cite{Bazarevsky2020}, UULPN \cite{Wang2022a}, or YOLOv7 \cite{Wang2022b} are being proposed, which can operate in real time on a mobile phone; however, they respectively support single-person detection only, are not accurate enough for quantitative motion analysis, or haven't been embraced by the community yet. Some work has also been done on temporal consistency across frames with OpenPifPaf, which makes the system much faster, and helps it perform better on low-resolution regime or with occlusions such as in crowds \cite{Kreiss2021}.
 
-Two other 2D pose estimation toolboxes are DeepLabCut \cite{Mathis2018} and SLEAP \cite{Pereira2022}, which were initially intended for markerless animal pose estimation. They have the advantage that they can be custom trained for the detection of any human or not human keypoint with a relatively small dataset. All of the tools presented in this section are open-source. See Chapter 2.1.3 on \nameref{sec:Machine learning for 2D pose detection} for more technical details.
+Two other 2D pose estimation toolboxes are DeepLabCut \cite{Mathis2018,Lauer2022} and SLEAP \cite{Pereira2022}, which were initially intended for markerless animal pose estimation. They have the advantage that they can be custom trained for the detection of any human or not human keypoint with a relatively small dataset. 
+
+All of the tools presented in this section are open-source. See Chapter 2.1.3 on \nameref{sec:Machine learning for 2D pose detection} for more technical details.
 
 \begin{figure}[hbtp]
 	\centering
@@ -145,6 +147,8 @@ Two other 2D pose estimation toolboxes are DeepLabCut \cite{Mathis2018} and SLEA
 	\caption{2D pose estimation by OpenPose. Image courtesy of \cite{Cao2019}.}
 	\label{fig_openpose}
 \end{figure}
+
+\newpage
 
 \subsection{2D kinematics from 2D pose estimation}
 
@@ -204,7 +208,7 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 	\bottomrule
 	\end{tabular}
 	\caption{Pros and cons in state of the art approaches for human motion analysis. The multi-person prospect is not addressed, as it can be available with all approaches, but it is not always. IMU: Inertial Measurement Unit. N/A: Not Applicable. kin.: kinematic. RGB-D: red-green-blue-depth.}
-	\label{tab_stateart}
+	\label{table:tab_stateart}
 	% ajouter références ? Ajouter chiffres ? --> Dur à caser dans le tableau
 \end{table}
 
