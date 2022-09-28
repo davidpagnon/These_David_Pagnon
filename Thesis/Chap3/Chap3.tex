@@ -30,8 +30,8 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{This chapter present our proposed solution, the Pose2Sim python package. This package is meant to consitute a user-friendly bridge between the most common 2D pose detection algorithms, and the OpenSim software so as to provide physically consistent 3D kinematics. Code is available at \url{https://github.com/perfanalytics/pose2sim} \newline \newline
-This chapter is adapted from the article published in the Journal of Open Source Software "Pose2Sim: An Open-source Python Package for multiview markerless kinematics" \cite{Pagnon2022b}}
+\textit{We propose the Pose2Sim python package, as an alternative to the more usual marker-based motion capture methods.Pose2Sim stands for "OpenPose to OpenSim", as it uses OpenPose inputs (2D keypoints coordinates obtained from multiple videos) and leads to an OpenSim result (physically consistent full-body 3D joint angles). Code is available at \url{https://github.com/perfanalytics/pose2sim}. \newline \newline
+This chapter is adapted from the article published in the Journal of Open Source Software: "Pose2Sim: An Open-source Python Package for multiview markerless kinematics" \cite{Pagnon2022b}.}
 
 %\smallskip
 \end{minipage}
@@ -43,49 +43,68 @@ This chapter is adapted from the article published in the Journal of Open Source
 \newpage
 
 
-\section{Introduction to the workflow}
-
 % Sections 
 % Intro: motivation, workflow, install, demo
 % Method details: Project, 2D kpt detec, calib, track, trig, filt & others, opensim scale & IK
 
 % Mix JOSS & github
 
-Pose2Sim \cite{Pagnon2022b} provides a framework for 3D markerless kinematics, as an alternative to the more usual marker-based motion capture methods. Pose2Sim stands for “OpenPose to OpenSim”,
-as it uses OpenPose inputs (2D coordinates obtained from multiple videos) \cite{Cao2019} and leads to an
-OpenSim result (full-body 3D joint angles) \cite{Delp2007,Seth2018}. Pose2Sim is accessible at \url{https://github.com/perfanalytics/pose2sim}.
 
-The repository presents a framework which consists in (Figures~\ref{fig_pipeline}):
-\begin{enumerate}[itemsep=-0.5em, topsep=0pt, leftmargin=*]
-      \item Preliminary 2D joint coordinate detections from multiple videos, e.g. with OpenPose.
-      \item Pose2Sim core, including 4 customizable steps:
-      \begin{enumerate}[before=\vspace{-0.5\baselineskip}, nosep]
-            \item Camera calibration.
-            \item 2D tracking of the person of interest.
-            \item 3D keypoint triangulation, and storage in a .trc file.
-            \item 3D coordinate filtering.
-      \end{enumerate}
-      \item Scaling to each individual subject, and inverse kinematics via OpenSim, and storage of the full-body 3D joint angles.
-\end{enumerate}
+\section{Introduction to the workflow}
+
+Although some developments are relevant to both, specifics differ between medicine and the sports field. In this regard and as stated in the \nameref{sec:statement of need}, marker-based methods are not well suited for sports motion analysis \cite{Colyer2018}. In sports, capture should not hinder the movement. Placing markers on the naked body takes time and is cumbersome, therefore markerless approaches are favored. Sports environments are usually much more challenging than lab settings: frequent occlusions, fast and unusual movements, and complex background make it important to resort to using multiple view points, from RGB rather than RGB-D cameras, processed with machine learning methods. Competition conditions are often fast-paced and congested, so a light-weight, fast, and easy to set up system is relevant. However, as coaches and athletes usually need a mere feedback rather than a definitive diagnosis, they don't need as thorough of an accuracy as physicians. Ideally, results should be given in real time, and they should be more visual than graphs of time series. Moreover, 3D kinematics are more relevant than 2D sagittal plane kinematics; and full-body analysis (including upper-limb) is desired.
+
+We propose the Python package Pose2Sim \cite{Pagnon2022b}, which aims to deal with these constraints. It provides a framework for 3D markerless kinematics, as an alternative to the more usual marker-based motion capture methods. Pose2Sim stands for "OpenPose to OpenSim", as it uses OpenPose inputs (2D coordinates obtained from multiple videos) \cite{Cao2019} and leads to an OpenSim result (full-body 3D joint angles) \cite{Delp2007,Seth2018}. Pose2Sim is accessible at \url{https://github.com/perfanalytics/pose2sim}.
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap3/Figures/Pipeline.png"}
-	\caption{Pose2Sim pipeline: (1) 2D joints detection; (2i) camera calibration; (2ii–iv) tracking the person of interest, triangulating their coordinates, and filtering them; (3) scaling the subject, and constraining their 3D coordinates to a physically consistent OpenSim skeletal model}
+	\caption{Pose2Sim full pipeline: (1) 2D keypoint detection; (2.1) Camera calibration; \newline(2.1-2.4) Tracking of the person of interest, Triangulating of keypoint coordinates; and Filtering; (3) Constraining the 3D coordinates to an individually scaled, physically consistent OpenSim skeletal model.}
 	\label{fig_pipeline}
 \end{figure}
-\FloatBarrier
 
-% marker-based system is hard to set up outdoors or in context, and it requires placing markers on the body, which can hinder natural movement (Colyer et al., 2018)
+\newpage
 
-Each task is easily customizable, and requires only moderate Python skills. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022a}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
+The repository presents a framework which consists in (Figures~\ref{fig_pipeline}):
+\begin{enumerate}[itemsep=-1em, topsep=0em, leftmargin=*]
+      \item Preliminary 2D joint coordinate detections from multiple videos, e.g. with OpenPose.
+      \item Pose2Sim core, including 4 customizable steps:
+      \begin{enumerate}[before=\vspace{-0.5\baselineskip}, nosep, label*=\arabic*.]
+            \item Camera calibration.
+            \item 2D tracking of the person of interest.
+            \item 3D keypoint triangulation.
+            \item 3D coordinate filtering.
+      \end{enumerate}
+      \item Scaling a full-body skeleton to each individual subject, and computing inverse kinematics via OpenSim so as to obtain 3D joint angles.
+\end{enumerate}
+
+\vskip 1em
+
+Each task is easily customizable, and requires only moderate Python skills. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing the quality of its code \cite{Pagnon2022c}, its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022a}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
 
 
-\section{2D pose detection}
+\section{Installation and demonstration}
 
-% OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. These coordinates can then be triangulated in order to produce 3D positions. 
+\subsection{Installation}
+
+\subsection{Demonstration Part-1: Build 3D TRC file on Python}
+
+\subsection{Demonstration Part-2: Obtain 3D joint angles with OpenSim}
+
+
+
+\section{Method details}
+
+\subsection{Project}
+
+% inclure statement of need
+% ajouter images et détails de use on your own data
+
+%the interest in deep-learning pose estimation neural networks has been growing fast since 2015 (Zheng et al.,2022), which makes it now possible to collect accurate and reliable kinematic data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. 
+
+% need feet: openpose rather than any other potentially faster and more accurate. BlazePose provides feet but single person (and always people in background)
 
 
 \section{Pose2Sim core}

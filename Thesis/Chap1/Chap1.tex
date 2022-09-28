@@ -31,7 +31,7 @@
 \smallskip
 
 \textit{Motion capture (MoCap) in sports is traditionally performed with marker-based (opto-electronic) systems. However, this presents some drawbacks. As a consequence, alternatives are being investigated, among which those offered by Inertial Measurement Units (IMUs) or dept-field (RGB-D) cameras. Markerless analysis from videos sources represents one of the most promising prospects, which has been possible thanks to progress in machine learning. From 2D pose estimation to 3D joint angle determination, this is a new field which opens up new possibilities for motion analysis in a sports context.\newline \newline
-This chapter is an up-to-date and more detailed version of the introduction of the previously published paper "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021} }
+This chapter is an up-to-date and more detailed version of the introduction of the previously published paper: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021}. }
 
 %\smallskip
 \end{minipage}
@@ -213,9 +213,9 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 \end{table}
 
 
-\section{Statement of need}
+\section{Statement of need}\label{sec:statement of need}
 
-According to Atha \cite{Atha1984}, an ideal motion analysis system involves the collection of accurate information, the elimination of interference with natural movement, and the minimization of capture and analysis times. Yet, even though a marker-based system gives relatively accurate results, it requires placing markers on the body, which can hinder natural movement, it is hard to set up outdoors or in context, and it is strenuous to analyze. As a consequence, in the overwhelming majority of cases, coaches solely use subjective visual observation to assess an athlete's movement patterns and to compare performances. As a matter of fact, despite the advantages of technology, investing in it has its pitfalls: the information gathered can be unhelpful, or inaccurate, or not easily interpretable, or simply not implementable in the context of sports \cite{Windt2020}. 
+According to Atha \cite{Atha1984}, an ideal motion analysis system involves the collection of accurate information, the elimination of interference with natural movement, and the minimization of capture and analysis times. Yet, even though a marker-based system gives relatively accurate results, it requires placing markers on the body which can hinder natural movement, it is hard to set up outdoors or in context, and it is strenuous to analyze. As a consequence, in the overwhelming majority of cases, coaches solely use subjective visual observation to assess an athlete's movement patterns and to compare performances. As a matter of fact, despite the advantages of technology, investing in it has its pitfalls: the information gathered can be unhelpful, or inaccurate, or not easily interpretable, or simply not implementable in the context of sports \cite{Windt2020}. 
 
 The emergence of markerless kinematics opens up new possibilities. Indeed, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus. However, it still requires delicate calibration, complex setup, large storage space, and high computational capacities. Gathering reliable and usable kinematic data in context is an ambitious challenge, but research has been accelerating in the last few years (Figure~\ref{fig_exp}), as have better results.
 

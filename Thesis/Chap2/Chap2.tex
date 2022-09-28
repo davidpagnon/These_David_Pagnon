@@ -30,7 +30,7 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Obtaining kinematics from a network of calibrated video cameras means resolving a few theoretical points. First, features must be recognized in images. This is now mostly done with machine learning models. Then, all the 2D features detected for each cameras need to be reconstructed in the 3D space. Finally, these coordinates must be constrained to a biomechanically consistent model, in order to obtain coherent joint kinematics.}
+\textit{Obtaining 3D kinematics from a network of calibrated video cameras involves understanding a certain theoretical framework. First, keypoints must be recognized in images. This is mostly achieved with machine learning models. Then, all the 2D features detected for each cameras need to be reconstructed in the 3D space. Finally, these coordinates must be constrained to a biomechanically consistent model, in order to obtain coherent 3D joint kinematics.}
 
 %\smallskip
 \end{minipage}
@@ -223,7 +223,7 @@ Two main approaches for multi-person 2D pose estimation coexist. The "top-down" 
 
 Mask R-CNN belongs to the first kind, as well as AlphaPose \cite{Fang2017}, which mostly differentiates from the latter by using a network predicting higher quality bounding boxes from inaccurate ones, in order to facilitate the task of the joint regressor. On the opposite, DeepCut and DeeperCut \cite{Pishchulin2016,Insafutdinov2016}, as well as DeepLabCut \cite{Mathis2018,Lauer2022} upon which it is built, are bottom-up approaches. They find a large number of keypoint candidates, label them as hand, head, etc., and then select the best candidates and separate them into persons. Since they calculate every possible association between keypoints, this is very slow. OpenPose \cite{Cao2019} uses a network which jointly predicts keypoint locations, and the connections between them (i.e., it also predicts limbs, which define a skeleton), and is much faster while still being accurate. OpenPifPaf \cite{Kreiss2021} adds to it both temporal consistency across frames, and an intensity map for each keypoint instead of punctual locations (i.e., a further keypoint will have a lower intensity). This allows for better accuracy in low-resolution regime and in occluded images. YOLOv7 supports keypoint detection by integrating YOLO-Pose \cite{Maji2022}, and claims to be faster and more accurate than all other state-of-the-art methods. It brings together top-down and bottom-up approaches, and uses a single network predicting both bounding boxes and their corresponding poses. SLEAP \cite{Pereira2022}, which is built for training animal pose estimation models, implements both top-down and bottom-up approaches. In this context, top-down approaches are slightly more accurate, and considerably faster as long as few animals are in the scene.
 
-Like all previously presented methods, OpenPose has been trained the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model is the only one providing foot keypoints, which are primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. A submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does (although in slightly different locations), but decreases the number of false positives without hampering speed (Figure~\ref{fig_body25b}).
+Like all previously presented methods, OpenPose has been trained the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model is the only one providing foot keypoints, which are primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. A submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does (although in slightly different locations), but decreases the number of false positives without hampering speed (Figure~\ref{fig_body25b}). Note that BlazePose provides hand and feet keypoints, but as it is a single-person pose estimation model, it is not addressed here. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -235,14 +235,15 @@ Like all previously presented methods, OpenPose has been trained the COCO datase
 \end{figure}
 
 
+\newpage
 \section{3D reconstruction}\label{sec:3D reconstruction}
 
-Once the pose of an athlete is correctly detected, the next step is to obtain 3D pose. While some approaches strive to infer 3D pose from a monocular video source, they are generally not considered sufficiently accurate, especially when some limbs are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain more reliable 3D coordinates.
+Once the pose of an athlete is correctly detected, the next step is to obtain their 3D pose. While some approaches strive to infer 3D pose from a monocular video source, they are generally not considered sufficiently accurate, especially when body parts are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain more reliable 3D coordinates.
 
 
 \subsection{Pinhole camera model}
 
-Voilà
+camera coordinate system
 
 
 \subsection{Calibration}
