@@ -68,7 +68,7 @@ We propose the Python package Pose2Sim \cite{Pagnon2022b}, which aims to deal wi
 \newpage
 
 The repository presents a framework which consists in (Figures~\ref{fig_pipeline}):
-\begin{enumerate}[itemsep=-1em, topsep=0em, leftmargin=*]
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
       \item Preliminary 2D joint coordinate detections from multiple videos, e.g. with OpenPose.
       \item Pose2Sim core, including 4 customizable steps:
       \begin{enumerate}[before=\vspace{-0.5\baselineskip}, nosep, label*=\arabic*.]
@@ -107,22 +107,23 @@ Each task is easily customizable, and requires only moderate Python skills. The 
 % need feet: openpose rather than any other potentially faster and more accurate. BlazePose provides feet but single person (and always people in background)
 
 
-\section{Pose2Sim core}
-\subsection{Tracking of the person viewed by the most cameras}
-\blindtext
+\subsection{2D keypoint detection}
 
-\subsection{Triangulating by weighted direct linear transform}
+\subsection{Camera calibration}
+
+\subsection{Tracking the person of interest}
+
+\subsection{Triangulating}
 
 % Open source tools for triangulating
 % Some tools have been released open source
 % Aside from ours (see Chapter 3 on \nameref{ch:3}), a number a tools have been made available for such triangulation: the experimental OpenPose 3D reconstruction module [Hidalgo2021], the FreeMoCap Python and Blender toolbox [Matthis2022], or the pose3d Matlab toolbox [Sheshadri2020]. Yet, when it comes to the biomechanical analysis of human motion, it is often more useful to obtain joint angles than joint center positions in space. Joint angles allow for better comparison among trials and individuals, and they represent the first step for other analyses such as inverse dynamics. EasyMocap ?
 
 
-\subsection{Filtering}
-\blindtext
+\subsection{Filtering and other operations}
 
 
-\section{Pose2Sim skeletal model}
+\subsection{OpenSim scaling and inverse kinematics}
 
 A full-body OpenSim \cite{Delp2007,Seth2018} skeletal model with OpenPose keypoints is provided, as well as scaling and inverse kinematics setup files.
 
@@ -134,5 +135,7 @@ OpenSim is another widespread open-source software which helps compute 3D joint 
 
 
 \section{Helper functions and vizualisation tools}
-\blindtext
+Maya MoCap
+Bath
+
 
