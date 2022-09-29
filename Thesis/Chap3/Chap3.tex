@@ -89,25 +89,155 @@ Each task is easily customizable, and requires only moderate Python skills. The 
 
 \subsection{Installation}
 
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item Install \textbf{OpenPose} (instructions \href{https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md}{here}).\newline
+      Windows portable demo is enough.
+      \item Install \textbf{OpenSim 4.x} from \href{https://simtk.org/frs/index.php?group_id=91}{there}.\newline
+      Tested up to v4.4-beta on Windows. Has to be compiled from source on Linux (see \href{https://simtk-confluence.stanford.edu:8443/display/OpenSim/Linux+Support}{there}.
+      \item \textit{Optional:} Install \textbf{Anaconda} or \href{https://docs.conda.io/en/latest/miniconda.html}{Miniconda}.\newline
+      Open an Anaconda terminal and create a virtual environment by typing:
+      \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+            conda create -n Pose2Sim python=3.8.8
+            conda activate Pose2Sim
+      \end{minted}
+      \item Install \textbf{Pose2Sim}\newline
+      If you don't use Anaconda, type \mintinline{shell-session}{python -V} in terminal to make sure python>=3.6 is installed.
+      \begin{itemize}
+            \item OPTION 1: \textit{Quick install.} Type in terminal:
+            \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+                  pip install pose2sim
+            \end{minted}
+            \item OPTION 2: \textit{Build from source.} Open a terminal in the directory of your choice and clone the Pose2Sim repository:
+            \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+                  git clone https://gitlab.inria.fr/perfanalytics/pose2sim.git
+                  cd pose2sim
+                  pip install .
+            \end{minted}
+      \end{itemize}
+\end{enumerate}
+
+
 \subsection{Demonstration Part-1: Build 3D TRC file on Python}
 
-\subsection{Demonstration Part-2: Obtain 3D joint angles with OpenSim}
+This demonstration provides an example experiment of a person balancing on a beam, filmed with 4 calibrated cameras processed with OpenPose.
 
+Open a terminal and check package location with  \mintinline{shell-session}{pip show pose2sim | grep Location}. \newline
+Copy this path and go to the Demo folder with  \mintinline{shell-session}{cd <path>\pose2sim\Demo`}. \newline
+Type \mintinline{shell-session}{python}, and test the following code (Figures~\ref{fig_pose2sim}):
+\begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{python}
+      from Pose2Sim import Pose2Sim
+      Pose2Sim.calibrateCams()
+      Pose2Sim.track2D()
+      Pose2Sim.triangulate3D()
+      Pose2Sim.filter3D()
+\end{minted}
+
+You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fig_filterplot}). You can check the logs in \mintinline{shell-session}{Demo\Users\logs.txt}. Results are stored as .trc files in the \mintinline{shell-session}{Demo\pose-3d} directory (Figures~\ref{fig_trc}). Note that when the functions are called without any argument, the Config file is searched in the default \mintinline{shell-session}{Users\Config.toml} location. These parameters can be edited by the user.
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/FilterPlot.png"}
+	\caption{Filtering results, for each keypoint in a different tab.}
+	\label{fig_filterplot}
+\end{figure}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Trc.png"}
+	\caption{An example .trc file of triangulated keypoint coordinates, directly usable in OpenSim.}
+	\label{fig_trc}
+\end{figure}
+
+\begin{figure}[hbtp]
+	\centering
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Calib2D.png"}
+            \caption{Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Calibration errors are computed and provided.\newline}
+      \end{subfigure}
+	\qquad
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Track2D.png"}
+            \caption{If several persons are detected in the scene, a tracking step can be carried out in order to make sure that the right person from each camera will be triangulated.}
+      \end{subfigure}
+      \begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{1\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Triangulate3D.png"}
+            \caption{The triangulation is weighted by the OpenPose likelihood, and constrained by some thresholds defined in the Config.toml file. If these constraints are not met, e.g., if the reprojection error is too large or if the likelihood of a keypoint is too low, one or several cameras are excluded. The mean reprojection error and the number of cameras that have been excluded to meet the constraints is printed, for each keypoints.}
+      \end{subfigure}
+      \begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{1\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Filter3D.png"}
+            \caption{Triangulated data can be filtered, either with a low-pass Butterworth filter or with other types, and parameters can be adjusted.}
+      \end{subfigure}
+	\caption{First steps of Pose2Sim pipeline in Python. Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Note that the functions can be used without any arguments if the Config.toml file is left in the default location.}
+	\label{fig_pose2sim}
+\end{figure}
+
+
+\FloatBarrier
+\subsection{Demonstration Part-2: Obtain 3D joint angles with OpenSim}
+In the same vein as we would do with marker-based kinematics, the model first needs to be scaled to each individual, and then inverse kinematics can be performed (Figures~\ref{fig_opensimdemo}).
+
+\textbf{Scaling:}
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item Open OpenSim.
+      \item Open the provided \mintinline{shell-session}{Model_Pose2Sim_Body25b.osim} model from \mintinline{shell-session}{pose2sim/Demo/opensim}. (File $\mapsto$ Open Model)
+      \item Load the provided \mintinline{shell-session}{Scaling_Setup_Pose2Sim_Body25b.xml} scaling file from \mintinline{shell-session}{pose2sim/Demo/opensim}. (Tools $\mapsto$ Scale model $\mapsto$ Load)
+      \item Run. You should see your skeletal model take the static pose.
+\end{enumerate}
+
+\textbf{Inverse kinematics}
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+    \item Load the provided \mintinline{shell-session}{IK_Setup_Pose2Sim_Body25b.xml} scaling file from \mintinline{shell-session}{pose2sim/Demo/opensim}. (Tools $\mapsto$ Inverse kinematics $\mapsto$ Load)
+    \item Run. You should see your skeletal model move in the Vizualizer window.
+\end{enumerate}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/OpenSimDemo.JPG"}
+	\caption{At the end of the demonstration, you should have a skeleton balancing on a beam in OpenSim.}
+	\label{fig_opensimdemo}
+\end{figure}
 
 
 \section{Method details}
 
 \subsection{Project}
+Pose2Sim is meant to be as fully and easily configurable as possible, by editing the \mintinline{shell-session}{User/Config.toml} file. Optional tools are also provided for extending its usage (Figures~\ref{fig_opensimutilities}). First of all, the user can specify the project path and folder names, the video frame rate, and the range of analyzed frames.
 
-% inclure statement of need
-% ajouter images et détails de use on your own data
-
-%the interest in deep-learning pose estimation neural networks has been growing fast since 2015 (Zheng et al.,2022), which makes it now possible to collect accurate and reliable kinematic data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. 
-
-% need feet: openpose rather than any other potentially faster and more accurate. BlazePose provides feet but single person (and always people in background)
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Pose2Sim_utilities.jpg"}
+	\caption{The Pose2Sim workflow, along with some optional utilities provided in the package.}
+	\label{fig_opensimutilities}
+\end{figure}
 
 
 \subsection{2D keypoint detection}
+
+
+%The emergence of markerless kinematics opens up new possibilities. Indeed, the interest in deep-learning pose estimation neural networks has been growing fast since 2015 (Zheng et al.,2022), which makes it now possible to collect accurate and reliable kinematic data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. 
+
+% need feet: openpose rather than any other potentially faster and more accurate. BlazePose provides feet but single person (and always people in background)
+
 
 \subsection{Camera calibration}
 
@@ -131,7 +261,7 @@ OpenSim is another widespread open-source software which helps compute 3D joint 
 
 
 \section{Limitations and perspectives}
-\blindtext
+% ajouter video de use on your own data
 
 
 \section{Helper functions and vizualisation tools}

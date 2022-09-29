@@ -22,3 +22,5 @@
 # others
 *.synctex.gz
 *report2.sty
+*.pygtex
+*.pygstyle

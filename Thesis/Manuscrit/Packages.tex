@@ -148,12 +148,12 @@
 %pour utiliser plusieurs fichiers bibteX
 %\usepackage{biblist}
 
-
+% \usepackage{listings} % pour les code blocks
+\usepackage{minted} % difficult to install in vscode
+\AtBeginEnvironment{minted}{\setlength{\parskip}{0pt}}
 
 %\usepackage{fourier}
 \usepackage{SIunits}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%              Packages pour les liens hypertexte               %%%%%%
