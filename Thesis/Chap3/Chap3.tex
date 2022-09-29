@@ -233,11 +233,20 @@ Pose2Sim is meant to be as fully and easily configurable as possible, by editing
 
 \subsection{2D keypoint detection}
 
+The interest in deep-learning pose estimation neural networks has been growing fast since 2015 \cite{Zheng2022}, which makes it now possible to collect accurate and reliable data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. 
 
-%The emergence of markerless kinematics opens up new possibilities. Indeed, the interest in deep-learning pose estimation neural networks has been growing fast since 2015 (Zheng et al.,2022), which makes it now possible to collect accurate and reliable kinematic data without the use of physical markers. OpenPose, for example, is a widespread open-source software which provides 2D joint coordinate estimates from videos. 
+As feet are usually needed in sports kinematic analysis, this is the software we recommend. Indeed, unlike other potentially faster and more accurate networks, OpenPose comes with \{body + feet\} models such as BODY\_25 or BODY\_25B, as well as with a \{body + feet + hands + face\} one called BODY\_135 \cite{Hidalgo2019}. Note that BlazePose does provide feet and hand keypoints, but it is limited to single person analysis. This is rarely suitable in sports conditions, since there are often people in the background.
 
-% need feet: openpose rather than any other potentially faster and more accurate. BlazePose provides feet but single person (and always people in background)
+This being said, the user can choose any deep-learning pose estimation network. This choice will affect how keypoint indices will be mapped to model markers in OpenSim, corresponding to anatomical landmarks or joint centers. The OpenPose BODY\_25B experimental model is recommended, as it is as fast as the standard BODY\_25 model, while being more accurate \cite{Hidalgo2019}. Only 21 of the 25 keypoints detected are tracked, since eye and ear keypoints would be redundant in the determination of the head orientation. 
 
+The OpenPose BODY\_25, BODY\_25B, BODY\_135, COCO, and MPII models are fully supported. The AlphaPose COCO and HALPE models are also supported, as well as the BlazePose one. COCO and MPII model are the ones generally used by other networks such  OpenPifPaf \cite{Kreiss2021}, YOLO-pose \cite{Maji2022, Wang2022b}, and others, which means that they are also supported. It is also possible to build custom skeletons in the \mintinline{shell-session}{skeleton.py} file. They will be triangulated, but the user will need to build an OpenSim model and set the keypoints in the right place before being able to perform inverse kinematics.
+
+Two optional standalone scripts are also provided if the user desires a visual display of the resulting 2D pose estimation (Figure~\ref{fig_opensimutilities}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ATTENTION:                                                      %
+% IMPLEMENTER CES MODELES ET LES TESTER AVANT DE PUBLIER LA THESE %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Camera calibration}
 
@@ -264,8 +273,12 @@ OpenSim is another widespread open-source software which helps compute 3D joint 
 % ajouter video de use on your own data
 
 
-\section{Helper functions and vizualisation tools}
+\section{Helper functions and visualization tools}
+
+Not real time nor visual feedback.
 Maya MoCap
 Bath
+MPP2SOS (not free nor opensource) \cite{Barreto2022}
+
 
 
