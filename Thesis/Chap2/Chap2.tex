@@ -223,7 +223,7 @@ Two main approaches for multi-person 2D pose estimation coexist. The "top-down" 
 
 Mask R-CNN belongs to the first kind, as well as AlphaPose \cite{Fang2017}, which mostly differentiates from the latter by using a network predicting higher quality bounding boxes from inaccurate ones, in order to facilitate the task of the joint regressor. On the opposite, DeepCut and DeeperCut \cite{Pishchulin2016,Insafutdinov2016}, as well as DeepLabCut \cite{Mathis2018,Lauer2022} upon which it is built, are bottom-up approaches. They find a large number of keypoint candidates, label them as hand, head, etc., and then select the best candidates and separate them into persons. Since they calculate every possible association between keypoints, this is very slow. OpenPose \cite{Cao2019} uses a network which jointly predicts keypoint locations, and the connections between them (i.e., it also predicts limbs, which define a skeleton), and is much faster while still being accurate. OpenPifPaf \cite{Kreiss2021} adds to it both temporal consistency across frames, and an intensity map for each keypoint instead of punctual locations (i.e., a further keypoint will have a lower intensity). This allows for better accuracy in low-resolution regime and in occluded images. YOLOv7 supports keypoint detection by integrating YOLO-Pose \cite{Maji2022}, and claims to be faster and more accurate than all other state-of-the-art methods. It brings together top-down and bottom-up approaches, and uses a single network predicting both bounding boxes and their corresponding poses. SLEAP \cite{Pereira2022}, which is built for training animal pose estimation models, implements both top-down and bottom-up approaches. In this context, top-down approaches are slightly more accurate, and considerably faster as long as few animals are in the scene.
 
-Like all previously presented methods, OpenPose has been trained the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model provides foot keypoints, which are primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. A submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does (although in slightly different locations), and in addition decreases the number of false positives without hampering speed (Figure~\ref{fig_body25b}). In a similar way, AlphaPose provides a full-body model, trained on the Halpe dataset \cite{Li2020}. Note that BlazePose also provides hand and feet keypoints, but as it is a single-person pose estimation model, it is not addressed here. 
+Like all previously presented methods, OpenPose has been trained the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model provides foot keypoints, which are primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. A submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does (although in slightly different locations), and in addition decreases the number of false positives without hampering speed (Figure~\ref{fig_body25b}). In a similar way, AlphaPose provides full-body models, either trained on the Halpe dataset \cite{Li2020}, or on the COCO-WholeBody one \cite{Xu2022}. Note that BlazePose \cite{Bazarevsky2020}, trained on the GHUM dataset \cite{Xu2020b}, also provides hand and feet keypoints, but since it is a single-person pose estimation model, the architecture is different and will not be addressed here. Indeed, this is rarely suitable in sports conditions, where people are usually present in the background. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -244,6 +244,18 @@ Once the pose of an athlete is correctly detected, the next step is to obtain th
 \subsection{Pinhole camera model}
 
 camera coordinate system
+
+
+% https://ressources.unisciel.fr/DAEU/physique/bases-optique/co/Lent_Conjugaison.html
+% http://www.optique-ingenieur.org/fr/cours/OPI_fr_M04_C01/co/Contenu01.html
+% https://en.wikipedia.org/wiki/Camera
+% https://en.wikipedia.org/wiki/Camera_obscura
+% https://en.wikipedia.org/wiki/Pinhole_camera
+% https://fr.wikipedia.org/wiki/Calibration_de_cam%C3%A9ra
+% https://docs.opencv.org/4.x/d9/db7/tutorial_py_table_of_contents_calib3d.html
+% https://docs.opencv.org/4.x/d6/d55/tutorial_table_of_content_calib3d.html
+
+
 
 
 \subsection{Calibration}
