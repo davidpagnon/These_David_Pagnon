@@ -139,7 +139,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap3/Figures/FilterPlot.png"}
-	\caption{Filtering results, for each keypoint in a different tab.}
+	\caption{Filtered results. Each keypoint trajectory is displayed in a different tab.}
 	\label{fig_filterplot}
 \end{figure}
 
@@ -283,42 +283,84 @@ Once all frames are triangulated, the ones with missing keypoint coordinates are
 
 Different filters can be chosen, and their parameters can be adjusted. The user can choose a zero-phase low-pass Butterworth filter \cite{Butterworth1930} that they can apply either on keypoint positions or on their speeds, a LOESS filter \cite{Cleveland1981}, a Gaussian filter, or a median filter. Waveforms before and after filtering can be displayed and compared.
 
-If needed, other standalone tools are provided to further work on the .trc 3D coordinate files (Figure~\ref{fig_opensimutilities}). Among others, it is possible to undersample a file from a higher to a lower framerate, or to convert a file from Z-up to Y-up axis convention. The resulting 3D coordinates can be plotted for verification. Additionally, a tool is provided to detect gait events from point coordinates, according to the equations given by \cite{Zeni_2008}.
+If needed, other standalone tools are provided to further work on the .trc 3D coordinate files (Figure~\ref{fig_opensimutilities}). Among others, it is possible to undersample a file from a higher to a lower framerate, or to convert a file from Z-up to Y-up axis convention. The resulting 3D coordinates can be plotted for verification. Additionally, a tool is provided to detect gait events from point coordinates, according to the equations given by \cite{Zeni2008}.
 
 
 \subsection{OpenSim scaling and inverse kinematics}
 
-When it comes to the biomechanical analysis of human motion, it is often more useful to obtain joint angles than joint center positions in space. Joint angles allow for better comparison among trials and individuals, and they represent the first step for other analyses such as inverse dynamics. 
+When it comes to the biomechanical analysis of human motion, it is often more useful to obtain joint angles than joint center locations. Joint angles allow for better comparison among trials and individuals, and they represent the first step for other analyses such as inverse dynamics. 
 
------
+OpenSim \cite{Delp2007,Seth2018} is a widespread open-source software which helps compute consistent 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics. Results are accurate and robust since biomechanical constraints can be adjusted and weighted, bones are set to a constant length, and joints limited to coherent angle limits. OpenSim provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
 
-A full-body OpenSim \cite{Delp2007,Seth2018} skeletal model with OpenPose keypoints is provided, as well as scaling and inverse kinematics setup files.
+The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. It provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, where abduction/adduction and internal/external rotation angles are constrained to the flexion/extension angle. The latter has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection.
 
-OpenSim is another widespread open-source software which helps compute 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics with customizable biomechanical constraints. It provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
-
-The main contribution of this software is to build a bridge between OpenPose and OpenSim. The latter allows for much more accurate and robust results \cite{Pagnon2022}, since it constrains kinematics to an individually scaled and physically accurate skeletal model. Bones are constrained to a constant length, and joints to coherent angle limits.
-
-The provided model is adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage2019}. The first one has a better definition of the knee joint: abduction/adduction and internal/external rotation angles are constrained to the flexion/extension angle. The latter has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection.
-
-This model also takes into account systematic labelling errors in OpenPose \cite{Needham2021}, and offsets model markers as regards true joint centers accordingly. Unlike in marker-based capture, and despite the aforementioned systematic errors, keypoints detection hardly depends on the subject, the operator, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
-
+This model also takes into account systematic labelling errors in OpenPose \cite{Needham2021}, and offsets model markers as regards true joint centers accordingly. Unlike in marker-based capture, keypoints detection hardly depends on the operator, the subject, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
 
 
 \section{Limitations and perspectives}
+
+\subsection{Multi-person analysis}
+
+Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one.
+
+
+\subsection{Issues related to OpenPose}
+
+Pose2Sim is currently primarily used with OpenPose as a 2D pose detection network. Despite it is very robust, it suffers from issues when used for full-body kinematic analysis. First, keypoint localization suffers from systematic offsets when compared to actual joint center positions \cite{Needham2021}. Constraining these coordinates to a skeletal model largely reduces the detrimental impact of low-quality 2D joint center estimations. Nevertheless, these offsets have been taken into account in the provided OpenSim model, by shifting OpenPose keypoint placements with regard to marker-based calculated joint centers. This was done manually, but precisely, thanks to our overlayed view (see \nameref{sec:accuracy_methods} Chapter 5.2.) However, OpenPose’s offset may not be the same when a limb is extended as when it is bent, which may influence kinematic results on extreme poses, such as seen in some sports. Hence, using a 2D pose estimation model free from systematic biases on all ranges of motion would certainly improve kinematic accuracy. The body\_25b model is more accurate than the default body\_25 one, but it is still biased. 
+
+Furthermore, both models only detect 25 keypoints. This makes inverse kinematics an under-constrained problem, which has to be guided with carefully chosen joint constraints, and with precise placement of markers on the model. But ultimately, OpenSim global optimization cannot solve some internal/external rotations around limbs, nor angles at the shoulder, spine, and pelvis joints. Additionally, there is no marker for the hand, which does not allow for capture of any pronation/supination movement. Using the experimental body\_135 OpenPose model would solve the hand issue, but it would also greatly increase the computational cost and would leave the shoulder and spine problem unaddressed. As a consequence, and provided that they are reliably labeled, OpenPose needs more keypoints to solve these indeterminations, and potentially several per joints, in the same way as markersets are designed in marker-based methods. Pose2Sim could operate with such a model, although new keypoints should then be placed afresh on the unscaled OpenSim model. 
+
+Moreover, OpenPose struggles to accurately detect pose when the person is upside-down, or taking an unusual pose. One way to solve this is enhancing the OpenPose dataset, by augmenting it with larger rotations so that upside-down poses are recognized, or by training it on specific sports poses. One risk of this approach is that the model may perform better on specific extreme poses, but worse on standard ones \cite{Kitamura2022}. 
+
+Another approach solving altogether labeling offsets, the dearth of keypoints, and the lack of accuracy on sports poses, could be to train on a whole new dataset. Note that this dataset should not base its labeling on marker positions, which could be interpreted as visual cues, that are not available in real sports situations. However, this condition is not sufficient: the dataset should also be large enough, represent a wide variety of body types and of sports movements \cite{Seethapathi2019}, and include images with motion blur such as found in sports videos.  
+
+
+% 1. Gather mass of c3d files from various sports, and fit SMPL-H mesh with AMASS/MoSh++ 
+
+% 2. Augment data with already existing dataset such as Agora (daily life activities). Maybe also GHUM, or 3DHumans. 
+
+% 3. Label keypoints by hand on one frame only (SMPL topology is constant). Label more than OpenPose does (especially in the back, hands, shoulders.) 
+
+% 4. Add clothes, background, light, virtual cameras, possibly variations in SMPL shape parameters (need for intern?) 
+
+% 5. Film movement from virtual cameras + project keypoints on camera plane 
+% --> Dataset created with minimal labelling work on a potentially infinite amount of views.  
+
+% ⚠ Make sure that data resemble real world enough: e.g. use SSIM score to verify that generated data are as diverse as real world data 
+
+% Make sure that keypoint positions are learnable: shape vertices can be more than 5 cm apart, which could cause issues similar to skin artifacts. 
+ 
+% Also see methods from: older Surreal dataset on whole bodies; GHUM used by MediaPipe; FaceSynthetics on faces; Synthetic mouse dataset for detailed workflow on Blender.
+
+
+-----
+
+Finally, instead of constraining pose estimation results with a physically consistent skeletal model, it would be interesting to develop a physics-informed pose estimation model \cite{Raissi2019}, which would offer the opportunity of embedding the kinematics priors as early as possible in the learning process.
+
+ 
+\subsection{Real-time analysis}
+
+Currently, Pose2Sim does not work in real time, which could be interesting for sports action live analysis. Moreover, it only automatically tracks one person of interest. It would be useful to expand it to multi-person motion analysis, especially in the context of races, team sports, or combat sports. It can also be of considerable interest to train a single neural network able to detect both the human 2D pose and sports gear, such as a ball [50], skis [51], or bike parts in the context of cycling. This would help to analyze game dynamics, and to quantify posture cues related to a specific sports discipline. Other minor adjustments could be made in order to improve the triangulation and the filtering steps. Implementing Random Simple Consensus (RANSAC) triangulation [52] as an alternative to our weighted Direct Linear Transform (DLT) [25], and opting for optimal fixed-interval Kalman smoothing instead of low-pass filtering [28,53], may reduce errors, especially in large outliers.
+
+
 % ajouter video de use on your own data
-Single person
+% voir to-do list dans Pose2Sim
 splashes, occlusions, 
-spine
-hands
-Not real time nor visual feedback.
+
+
+\subsection{User-friendly calibration}
+
 calibration complicated
 
-\section{Visualization tools}
+
+\subsection{Visualization tool}
 
 Not real time nor visual feedback.
 Maya MoCap
 Bath
 MPP2SOS (not free nor opensource) \cite{Barreto2022}
+
+
 
 
 
