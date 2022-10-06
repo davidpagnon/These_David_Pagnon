@@ -319,13 +319,13 @@ Pose2Sim has several limitations. First, despite it is not altered by people ent
 
 \subsection{User-friendly calibration}
 
-Calibration remains a challenging task in daylight, at a distance, and with non research-grade cameras. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}. Along with synchronization of light-weight cameras, this topic will be detailed in Chapter 6 on \nameref{ch:6}.
+Calibration remains a challenging task in daylight, at a distance, and with non research-grade cameras. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, by importing calibration files from an Argus wand calibration \cite{Argus2020}, or by automatically calibrating on people’s limb length \cite{Liu2022a}. Along with synchronization of light-weight cameras, this topic will be detailed in Chapter 6 on \nameref{ch:6}.
 
 \clearpage
 
 \subsection{Visualization tools}
 
-Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to adopt the tool. However, the code has been adopted by other entities. A 3D animation add-on engineer built a Blender \cite{Blender} extension using Pose2Sim for realistic 3D markerless animation. However, it is not free nor open-source \cite{Barreto2022} (Figure~\ref{fig_mpp2sos}). In addition, the CAMERA laboratory of the University of Bath is currently developing a GUI around Pose2Sim, which would make the tool more accessible. 
+Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to adopt the tool. However, the code has been adopted by other entities. A 3D animation add-on engineer built a Blender \cite{Blender1998} extension using Pose2Sim for realistic 3D markerless animation. However, it is not free nor open-source \cite{Barreto2022} (Figure~\ref{fig_mpp2sos}). In addition, the CAMERA laboratory of the University of Bath is currently developing a GUI around Pose2Sim, which would make the tool more accessible. 
 
 \begin{figure}[hbtp]
       \centering
@@ -338,7 +338,7 @@ Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to
       \label{fig_mpp2sos}
 \end{figure}
 
-I also developed a toolbox for Maya \cite{Maya} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it ca display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
+I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it ca display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
 
 
 \clearpage
