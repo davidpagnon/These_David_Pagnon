@@ -44,6 +44,15 @@ This chapter is adapted from the poster presented at the congress of the Europen
 \newpage
 
 
+Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
+
+Along with synchronization, this topic will be detailed in Chapter 6 on \nameref{ch:6}.
+
+La calibration sera impossible si vous êtes trop loin. Les marqueurs réfléchissants ne réfléchiront pas la lumière des caméras (à tester : marqueurs actifs).  
+Si vous voulez effectuer une post-calibration avec un checkerboard (avec cette méthode par exemple), il faudra que le checkerboard soit assez grand pour qu’il soit bien détecté. Une règle simple : pour avoir de bons résultats, la largeur du checkerboard doit remplir au moins un cinquième de l’image. Si vous voulez couvrir une scène de 20 m, il faudra un checkerboard de 4 m de large...  
+Autre solution non testée : Calculer hors manip les paramètres intrinsèques des caméras vidéo. En manip, placer côte à côte des caméras MoCap Arqus et vidéo Miqus, faire la calibration des Arqus (plus performantes), et ajouter une translation dans les paramètres extrinsèques des Arqus pour avoir ceux des Miqus. 
+
+
 \section{Objectives}
 \subsection{Key Performance Indicators in boxing}
 \blindtext
