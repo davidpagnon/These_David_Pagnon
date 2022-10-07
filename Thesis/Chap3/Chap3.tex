@@ -314,7 +314,7 @@ On a different note, in a sports context, not only the human pose is of interest
 
 \subsection{Multi-person analysis}
 
-Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one.
+Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one. Another way would be to use a spatio-temporal neural network, which would take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}
 
 
 \subsection{User-friendly calibration}
@@ -377,7 +377,7 @@ I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagn
 
 \clearpage
 
-\subsection{Real-time analysis}
+\subsection{Real-time analysis}\label{subsec:realtime}
 
 Currently, Pose2Sim does not work in real time. This is a drawback for coaches and athletes, who need feedback in a timely manner. However, a timely analysis of athletes’ movements directly on the sports field appears to be achievable. Indeed, OpenPose is faster than most of its competitors \cite{Chen2020}, and the rest of the process is not computationally costly. Moreover, the pose detection, the triangulation, and the OpenSim inverse kinematic optimization work frame by frame. As a consequence, it is conceivable to calibrate and scale the model first, and then to feed the GUI frame by frame. This would allow the system to work only with a few seconds of delay.
 
