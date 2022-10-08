@@ -265,7 +265,87 @@ test
 
 \subsection{Triangulation}
 
-suite
+Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT), commonly used to solve the triangulation of 2D coordinates from several cameras with a least square approach.
+
+
+\begin{algorithm}[!ht]
+      \caption{Direct Linear Transform (DLT)}\label{alg:dlt}
+      \begin{algorithmic}[1]
+          \STATEx Let \(\overrightarrow{Q} = (X, Y, Z, 1)\) be the homogeneous coordinates of a 3D object point, 
+          \STATEx \(\overrightarrow{q} = (u, v, 1)\) the homogeneous coordinates of a 2D image point on a given camera,
+          \STATEx \(\textbf{P} = (P_1^T, P_2^T, P_3^T, P_4^T)\) the projection matrix of the same camera, with \(P_1^T, P_2^T, P_3^T, P_4^T\) the rows of \textbf{P}, and \(\lambda\) an unknown scale factor. 
+          \STATE The equation
+            \begin{equation}
+              \lambda \overrightarrow{q} = \bm{P} \overrightarrow{Q}
+            \end{equation}
+            may be written as
+            \begin{equation}
+              \begin{aligned}
+              &\lambda u = P_1^T \overrightarrow{Q},\\
+              &\lambda v = P_2^T \overrightarrow{Q},\\
+              &\lambda = P_3^T \overrightarrow{Q},
+              \end{aligned}
+            \end{equation}
+            which gives two equations:
+            \begin{equation}
+              \begin{aligned}
+              &(P_1^T - u P_3^T) \overrightarrow{Q} = 0,\\
+              &(P_2^T - v P_3^T) \overrightarrow{Q} = 0
+              \end{aligned}
+            \end{equation}
+      \STATE With N cameras, we obtain a system of 2N equations that can be written in the form:
+      \begin{equation}
+        \textbf{A} \overrightarrow{Q} = 0.
+      \end{equation}
+      \STATE A singular value decomposition (SVD) of \textbf{A} gives 
+      \begin{equation}
+        A = \textbf{U} \textbf{S} \textbf{V}^T
+      \end{equation}
+      with \(\textbf{U}, \textbf{V}\) orthonormal basis, and \(\textbf{S}\) the diagonal matrix filled with the singular values of \textbf{A}, namely \(\sigma_1, \sigma_2, \sigma_3, \sigma_4\). \(\overrightarrow{Q}\) can be expressed as 
+      \begin{equation}
+        \overrightarrow{Q} = \textbf{V} \overrightarrow{\alpha},
+      \end{equation}
+      with \(\overrightarrow{\alpha} = \begin{pmatrix}\alpha_1 \\\alpha_2 \\\alpha_3 \\\alpha_4\end{pmatrix}\). The Python function \href{https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html}{numpy.linalg.svd()} can swiftly compute SVDs. 
+      \algstore{alg1}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+      \begin{algorithmic}[1]
+        \algrestore{alg1}
+      \STATE Unless all projection matrices and all image points are perfectly determined, \(\textbf{A}\overrightarrow{Q} \neq 0\). However, it is possible to find a least square solution for our 3D object point \(\overrightarrow{Q}\). Indeed, minimizing \((\textbf{A}\overrightarrow{Q})^2\) also minimizes \(\textbf{A}\overrightarrow{Q}\).
+      \begin{equation}
+          \begin{aligned}
+          (\textbf{A}\overrightarrow{Q})^2 & = (\textbf{A} \overrightarrow{Q})^T (\textbf{A} \overrightarrow{Q})\\
+          & = (\overrightarrow{\alpha}^T \textbf{V}^T \ \textbf{V} \textbf{S} \textbf{U}^T)(\textbf{U} \textbf{S} \textbf{V}^T \ \textbf{V}\overrightarrow{\alpha})\\
+          & = \overrightarrow{\alpha}^T \textbf{S} \overrightarrow{\alpha}\\
+          & = \sum_{i \in [1,4]} \alpha_i^2 \sigma_i^2
+          \end{aligned}
+      \end{equation}
+      which is minimum when all \(\alpha\) factors are set to zero, except the factor of the smallest singular value \(\sigma\). 
+      \STATE Assuming that \(\sigma_{min} = \sigma_4\), then \((\textbf{A}\overrightarrow{Q})^2\) is minimum when \(\alpha_1, \alpha_2, \alpha_3\) are null.
+      \begin{equation}
+          (\textbf{A} \overrightarrow{Q})_{min} = \alpha_4 \sigma_4
+      \end{equation}
+      and 
+      \begin{equation}
+          \overrightarrow{Q} = 
+          \textbf{V} \overrightarrow{\alpha} 
+          = \begin{pmatrix}V_{11} & V_{12} & V_{13} & V_{14} \\
+          V_{21} & V_{22} & V_{23} & V_{24} \\
+          V_{31} & V_{32} & V_{33} & V_{13} \\
+          V_{41} & V_{42} & V_{43} & V_{44}\end{pmatrix} \begin{pmatrix}0 \\0 \\0 \\\alpha_4\end{pmatrix} 
+          = \alpha_4 \begin{pmatrix}V_{14} \\V_{24} \\V_{34} \\V_{44}\end{pmatrix} 
+          = \begin{pmatrix}X \\Y \\Z \\1\end{pmatrix}
+      \end{equation} 
+      \STATE As a consequence, the triangulated point is equal to
+      \begin{equation}
+          \overrightarrow{Q}=\begin{pmatrix}X \\Y \\Z \\1\end{pmatrix} = \begin{pmatrix}V_{14}/V_{44} \\V_{24}/V_{44} \\V_{34}/V_{44} \\1\end{pmatrix}
+      \end{equation}
+      \end{algorithmic}
+\end{algorithm}
+
+
 
 
 \section{3D joint kinematics}

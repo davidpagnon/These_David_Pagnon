@@ -30,9 +30,11 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{a\newline \newline
+\textit{A markerless motion capture method is satisfying if it is accurate, fast, and robust. Robustness is deemed good when results are unchanged while adding constraints on the subject or on the environment. We challenge our workflow on walking, running, and cycling tasks, by adding people in the background, and by simulating challenging conditions: (Im) alters image quality (11-pixel Gaussian blur and 0.5 gamma compression); (4c) uses fewer cameras (4 vs. 8) which leads to unsolved occlusions; and (Cal) introduces calibration errors (1 cm vs. perfect calibration).\newline \newline
+When averaged over all joint angles, stride-to-stride standard deviations lay between 1.7° and 3.2° for all conditions and tasks, and mean absolute errors (compared to the reference condition—Ref) ranged between 0.35° and 1.6°. For walking, errors in the sagittal plane were: 1.5°, 0.90°, 0.19° for (Im), (4c), and (Cal), respectively. As a consequence, Pose2Sim is robust enough for the 3D joint angle analysis of walking, running, and cycling, under challenging conditions. \newline\newline
 This chapter is adapted from the article published in the Sensors: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021}.
 }
+
 
 %\smallskip
 \end{minipage}
@@ -92,22 +94,68 @@ The underlying idea presented in this article is to verify whether modifying ext
 \section{Methods}
 \subsection{Experimental setup}
 
-To guarantee a tight control of the environment parameters, we captured our data in a dedicated studio platform, which is able to create realistic virtual views similar to outdoor video. This platform was a \(10 m \times 10 m \times 5.6 m\) green room equipped with 68 cameras recording at 30 fps in 4 Mpixels resolution, for a practical acquisition space of about \(5 m  \times 5 m  \times 3 m\). The system computes 3D textured meshes by convex visual hull reconstruction (See Laurentini [66]). The meshes were inserted in a virtual environment composed of an environment texture map captured from a BMX racetrack, and a custom-made virtual floor. It should be noted that three people were present in the background, which introduced a realistic artefact of multiple subjects.
+To guarantee a tight control of the environment parameters, we captured our data in a dedicated studio platform called Kinovis \cite{Tsiminaki2014}, from which we were able to create realistic virtual views similar to outdoor video. This platform is a \(10 m \times 10 m \times 5.6 m\) green room equipped with 68 video cameras recording at 30 fps in 4 Mpixels resolution, for a practical acquisition space of about \(5 m  \times 5 m  \times 3 m\). The system computes 3D textured meshes by convex visual hull reconstruction \cite{Laurentini1994}. The meshes were inserted in a virtual environment composed of an environment texture map captured from a BMX racetrack, and a custom-made virtual floor. It should be noted that three people were present in the background, which introduced a realistic artifact of multiple subjects.
 
-We developed a script for the Autodesk Maya (similarly, we plan to release the code as open source with Part 2 of this series of articles) software that allows us to render the textured mesh files, as well as to virtually set any cameras with specific properties (position, orientation, resolution, focal length, distortion, pixel size, binning factor). Views seen through virtual cameras can be saved as video files and visualized into a global 3D environment (Figure 3). The generated video files were used as input to the 3D kinematics pipeline.
+We developed a script for Autodesk Maya \cite{Maya1998} (see \nameref{subsec:viztools}) that allows us to render the textured mesh files, as well as to virtually set any cameras with specific properties (position, orientation, resolution, focal length, distortion, pixel size, binning factor). Views seen through virtual cameras can be saved as video files and visualized into a global 3D environment (Figure 3). The generated video files were used as input to the 3D kinematics pipeline.
 
-Sensors 21 06530 g003 550Figure 3. The camera toolbox developed for Autodesk Maya, which lets one set up virtual cameras, save their parameters in a calibration file, and film realistic looking synthetic videos. Here, we set up 8 video cameras, regularly distributed 8 m away from the subject.
+For the purpose of this study, we created 8 virtual video cameras. Resolution was set to \(1280 \times 768\) pixels, focal length to 9 mm, pixel size to 5.54 µm, and no distortion nor binning was introduced. Binning refers to the process of grouping pixels in order to increase sensitivity to light, at the expense of decreasing resolution. Cameras were regularly distributed 8 m away from the center of the captured volume, at a height of 1 m, so that the whole body could be detected for a maximum of movement cycles. We then rendered the scene as video files from our virtual cameras and saved the exact calibration parameters. We applied a \(3 \times 3\) pixel Gaussian blur afterwards to reduce sharp edges of the virtual scene compositing (Figure~\ref{fig_smooth}). This resulting image quality was considered as “standard”.
 
-For the purpose of this study, we created 8 virtual video cameras (resolution \(1280 \times 768 px\), focal length 9 mm, no distortion, pixel size 5.54 µm, and no binning). Binning refers to the process of grouping pixels in order to increase sensitivity to light at the expense of decreasing resolution. Cameras were regularly distributed 8 m away from the center of the captured volume, at a height of 1 m, so that the whole body could be detected for a maximum of cycles. We then rendered the scene as video files from our virtual cameras and saved the exact calibration parameters. We applied a \(3 \times 3) pixel Gaussian blur afterwards to reduce sharp edges of the virtual scene compositing (Figure 4). This resulting image quality is considered as “standard”.
-
-Sensors 21 06530 g004 550Figure 4. To smooth out sharp edges due to compositing, we applied a 3 × 3 pixel Gaussian blur to the videos filmed from our virtual scene.
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap4/Figures/Fig_Smooth.png"}
+	\caption{To smooth out sharp edges due to compositing, we applied a \(3 \times 3\) pixel Gaussian blur to the videos filmed from our virtual scene.}
+	\label{fig_smooth}
+\end{figure}
 
 
 \subsection{Participant and protocol}
-\blindtext
+
+One healthy adult male subject (1.89 m, 69 kg) participated in the study. He provided his informed written consent prior to participating. The study was conducted in accordance with the Declaration of Helsinki \cite{Holm2013}. No requirement was given to him regarding his outfit. He was asked to perform three basic sports tasks: walking, running, and cycling. For all three tasks, the subject was given a moment beforehand to warm up and find a comfortable and regular pace, which he could then follow owing to the sound of a metronome:
+
+\begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item \textit{Walking:} The subject walked in a straight line back and forth over the 10 m diagonal of the room. His body mesh could be fully reconstructed only in the central 5 m of the acquisition space, i.e., only roughly 2 gait cycles were acquired per walking line. His comfortable stride pace was 100 BPM (Beats per Minute). The stride length was not monitored. 
+      \item \textit{Running:} The subject jogged in a straight line back and forth along the 10m diagonal of the room. His comfortable stride pace was 150 BPM (Beats per Minute). The stride length was not monitored.
+      \item \textit{Cycling:} The subject cycled on a road bike placed on a home trainer. He himself adjusted the resistance and the height of the saddle prior to the capture. His comfortable cadence was 60 BPM.
+\end{itemize}
+As obtaining the textured meshes of the subject in the green Kinovis room involved filming simultaneously with 68 4 Mpixels cameras that generated a flow of over 8 gigabytes per second, the capture design limited the acquisition time to 45 s.
+
 
 \subsection{Challenging robustness}
-\blindtext
+
+We challenged robustness with 3 challenging conditions, compared to a reference one.
+
+\begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item \textit{Reference Condition (Ref):} The reference condition under which our 3D markerless kinematic system had to operate took advantage of the standard image quality, 8 available virtual cameras, and a perfect calibration. The standard quality corresponded to the unaltered images of the 3D scene filmed from our virtual cameras. The reference condition involved 8 virtual cameras, as a good compromise of what is feasible in real outdoor conditions. Moreover, a study on macaques showed that 8 cameras were enough to correctly infer 80\% of the 13 considered keypoints \cite{Bala2020}. The calibration could be considered perfect, since the virtual cameras were explicitly specified in the virtual environment.
+      \item \textit{Poor Image Quality (Im):} Video quality was made blurrier and darker: a Gaussian blur (\(11 \times 11 px\)) was applied, as well as a 0.5 gamma compression (Figure~\ref{fig_imquality}). This simulated a dark scene captured with defocused camera objectives.
+      \item \textit{Less Cameras (4c):} The 2D joint coordinates were triangulated with only 4 cameras, instead of 8 in the reference condition: one on each side, one in the front, and one in the back, set 90° apart from each other.
+      \item \textit{Calibration Errors (Cal):} Calibration residuals are classically supposed to be under 1 px on the image plane or under 3 mm on the object plane. Using Equation~\ref{eqn:errobjimg} demonstrates that in our case 3 mm corresponds to 0.61 px. We chose to simulate a calibration error of 2 px, which corresponds to about 1 cm (Equation~\ref{eqn:errobjcal}).
+      \begin{equation}
+            Err^{Obj} = \frac{Err^{Img} \times D}{f} = \frac{2 \times 8}{\frac{9 \times 10^{-3}}{5.54 \times 10^{-6}}} = 9.8 \times 10^{-3} m
+            \label{eqn:errobjcal}
+      \end{equation} 
+      The calibration error was simulated by translating the extrinsic parameters of each camera in a random direction. The norm was randomly picked in a normal distribution of mean 2 px and a standard deviation of 1 px. The mean of these 8 translations was ensured to be equal to \(2 ± 10^{-3}\) px.
+\end{itemize}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap4/Figures/Fig_ImQuality.png"}
+	\caption{The image under poor image quality (Im) conditions. A Gaussian blur (\(11 \times 11 px\)) was applied, and a 0.5 gamma compression made the image darker.}
+	\label{fig_imquality}
+\end{figure}
+
+
+\subsection{Markerless kinematics}
+
+We applied OpenPose (version 1.6) on all the captured videos. We used the experimental body\_25b model (see~Figure\ref{fig_body25b}) with highest accuracy parameters, which is more accurate than the default body\_25 one and reduces the number of false positives \cite{Hidalgo2019}.
+
+Then, we used Pose2Sim to robustly triangulate OpenPose outputs and feed the resulting 3D joint coordinates to OpenSim. The exact same parameters were used for all 4 conditions and all 3 movement tasks, in order to make sure the process did not induce any supplementary deviation to the compared results.
+
+
+
 
 \subsection{Statistical analysis}
 \blindtext
