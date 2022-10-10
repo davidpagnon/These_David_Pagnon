@@ -39,6 +39,7 @@ This chapter is adapted from the article published in the Journal of Open Source
 \rule{0.7\linewidth}{.5pt}
 \end{center}
 
+\pagebreak
 \minitoc
 \newpage
 
@@ -362,13 +363,13 @@ On a different note, in a sports context, not only the human pose is of interest
 
 \subsection{Multi-person analysis}
 
-Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in\newline\newline\newline
-time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one. Another way would be to use a spatio-temporal neural network, which would take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}
+Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in\clearpage
+\noindent time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one. Another way would be to use a spatio-temporal neural network, which would take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}
 
 
 \subsection{User-friendly calibration}
 
-Calibration remains a challenging task in daylight, at a distance, and with non research-grade cameras. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, by importing calibration files from an Argus wand calibration \cite{Argus2020}, or by automatically calibrating on people’s limb length \cite{Liu2022a}. Along with synchronization of light-weight cameras, this topic will be detailed in Chapter 6 on \nameref{ch:6}.
+Calibration remains a challenging task in daylight, at a distance, and with non research-grade cameras. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, by importing calibration files from an Argus wand calibration \cite{Argus2020}, or by automatically calibrating on people’s limb length \cite{Liu2022a}. Along with synchronization of light-weight cameras, this topic will be detailed in Chapter 6 on \nameref{ch:6} \cite{Pagnon2022c}.
 
 
 \subsection{Visualization tools}\label{subsec:viztools}

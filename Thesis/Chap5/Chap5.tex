@@ -30,7 +30,9 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Résumé du chapitre possible ici.
+\textit{After robustness, accuracy needs to be addressed. Two-dimensional deep-learning pose estimation algorithms can suffer from biases in joint pose localizations, which are reflected in triangulated coordinates, and then in 3D joint angle estimation. Pose2Sim, our robust markerless kinematics workflow, comes with a physically consistent OpenSim skeletal model, meant to mitigate these errors. \newline\newline
+Its accuracy was concurrently validated against a reference marker-based method. Lower-limb joint angles were estimated over three tasks (walking, running, and cycling) performed multiple times by one participant. When averaged over all joint angles, the coefficient of multiple correlation (CMC) remained above 0.9 in the sagittal plane, except for the hip in running, which suffered from a systematic 15° offset (CMC = 0.65), and for the ankle in cycling, which was partially occluded (CMC = 0.75). When averaged over all joint angles and all degrees of freedom, mean errors were 3.0°, 4.1°, and 4.0°, in walking, running, and cycling, respectively; and range of motion errors were 2.7°, 2.3°, and 4.3°, respectively. Given the magnitude of error traditionally reported in joint angles computed from a marker-based optoelectronic system, Pose2Sim is deemed accurate enough for the analysis of lower-body kinematics in walking, cycling, and running. \newline\newline
+This chapter is adapted from the article published in the Sensors: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 2: Accuracy" \cite{Pagnon2022a}.
 }
 
 %\smallskip
@@ -39,21 +41,37 @@
 \rule{0.7\linewidth}{.5pt}
 \end{center}
 
+\pagebreak
 \minitoc
 \newpage
 
 
 \section{Introduction}
+
+
 \subsection{State of the art}
-\blindtext
+
+% As coaching athletes implies observing and understanding their movements, motion analysis is essential in sports. It helps improving movement efficiency, preventing injuries, or predicting performances. According to Atha [1], an ideal motion analysis system involves the collection of accurate information, the elimination of interference with natural movement, and the minimization of capture and analysis times. 
+Currently, reference methods in sports analysis remain marker-based. These methods, also known as MoCap (motion capture) procedures, are mostly concerned with accuracy, despite the fact that marker placement hinders natural movement and is time consuming. Therefore, several markerless technologies are being examined to solve these issues. The main candidates are either based on Inertial Measurement Units (IMUs) [2,3], depth cameras [4,5,6], or a network of RGB cameras [7,8,9]. IMUs avoid all camera-related issues such as complex setup and calibration, potential self- and gear obstructions, and can operate in real time; however, they need to be worn by the athlete and are sensitive to drift over time, and to ferromagnetic disturbances. Depth cameras offer more information than RGB cameras but they hardly work in direct sunlight nor at a distance over 5 m [10]. On the other hand, a network of RGB cameras does not assume any particular environment, and it does not hinder the athlete’s movement and focus, but it requires delicate calibration, complex setup, large storage space, and high computational capacities. The technology, however, is still maturing and some light-weight systems such as BlazePose [11] or UULPN [12] are being proposed, which can operate in real time on a mobile phone; however, they are still not quite as accurate as required for quantitative motion analysis.
+
+
+We focus on the latter approach, and more specifically on methods triangulating 2D joint center estimations from a network of several calibrated RGB cameras. The most common evaluation metric is the Mean Per Joint Position Error (MPJPE), which is the average Euclidian distance between the estimated joint coordinate and its ground truth. A large part of studies investigating 3D joint center estimation choose to triangulate the output of OpenPose [13], a deep-learning algorithm estimating 2D joint coordinates from videos. Their MPJPE usually lies between 30 and 40 mm [14,15,16]. Ankle MPJPEs are within the margin of error of marker-based technologies (1–15 mm), whereas knee and hip MPJPEs are greater (30–50 mm). These errors are systematic and likely due to “ground-truth” images being mislabeled in the training dataset [17]. Triangulation from other 2D deep-learning algorithms (such as AlphaPose [18] and DeepLabCut [19]) have also been compared [17]. AlphaPose results are similar to OpenPose’s; however, DeepLabCut errors are substantially higher.
+
+Numerous studies have focused on the accuracy of 3D joint center estimation, but far fewer have examined 3D joint angle estimation. D’Antonio et al. computed direct flexion-extension angles for the lower limb from two cameras processed with OpenPose [20]. Range of Motion (ROM) errors lay between 2.8° and 14.1°. Wade et al. calculated frontal and sagittal knee and hip angles with OpenPose, AlphaPose, and DeepLabCut [21]. They deemed the method accurate enough for assessing step length and velocity, but not for joint angle analysis. AniPose offers a toolkit for triangulating 2D poses from DeepLabCut [22]. To our knowledge, it has only been concurrently validated for index finger angles in the sagittal plane, resulting in a root-mean-square error of 7.5 degrees [23]. Theia, a commercially available software package for markerless analysis, uses its own patent-protected 2D pose estimator and triangulation procedure, and runs a skeletal model to constrain the results to physically consistent poses and movements [24]. Their root-mean-square error (RMSE) compared to a marker-based method ranged between 2.6° and 13.2°.
+
+We previously proposed Pose2Sim [25], an open-source markerless kinematics workflow using a network of calibrated RGB cameras, bridging OpenPose [13] to OpenSim. OpenSim is open-source 3D biomechanical analysis software that uses a multi-body optimization approach to solve inverse kinematics [26,27]. Our previous study [25] showed that Pose2Sim was robust to dark and blurry images (0.5 gamma compression and 5.5 cm Gaussian blur), to 1 cm random calibration errors, and to using as few as four cameras. Because Needham et al. showed that the quality of markerless results were task specific [28], we examined walking, running, and cycling. The objective of the present study was to concurrently evaluate Pose2Sim’s lower-limb 3D accuracy on the same tasks with a marker-based method.
 
 \subsection{Assessing accuracy}
-\blindtext
+
+BLABLABLA
 
 
 \section{Methods}\label{sec:accuracy_methods}
 \subsection{Data collection}
-\blindtext
+
+The same adult male participant as in the previous section on \nameref{ch:4} (1.89 m, 69 kg) was equipped with 83 reflective markers inspired from the CAST marker set [29], composed of 35 anatomical markers, and 12 clusters of 4 markers (Figure 1). He was asked to perform three tasks: walking, running, and cycling at a regular pace back and forth across the capture space, following a regular pulsing sound (see previous article for further details [25]). He provided his written consent prior to participating.
+
+All tasks were performed in a room equipped with a green background for optimal segmentation of the subject with respect to the background, and 3D animated mesh extraction using a visual hull approach at each video frame [30]. Twenty opto-electronic cameras captured the 3D coordinates of the markers, and 68 video cameras allowed retrieval of 3D textured meshes of the participant, which we subsequently placed in a virtual environment and filmed from 8 virtual cameras (Figure 2). This gave us the opportunity to assess the robustness of our protocol (see Part 1 of this series of articles [25]), and for overlaying triangulated markers, calculated joint centers, and OpenPose keypoints to the extracted mesh. This was particularly useful to correctly place OpenPose keypoints on the OpenSim model, i.e., with a systematic offset as regards true joint centers [17] (Figure 1). The acquisition was restricted in terms of 3D volume covered by both systems and data storage, resulting in the analysis of 8, 13, and 13 cycles of walking, running, and cycling, respectively. Once 3D point coordinates were retrieved, both systems underwent processes that were as close to each other as possible: coordinates were sampled at 30 Hz, then they were filtered with a 4th-order 6 Hz low-pass Butterworth filter (which efficiently filtered out noise without underestimating peak values, including in extremities); heel strikes were detected in both cases with the Zeni et al. method [31]; stride duration was determined as the inverse of the frequency of the metronome followed by the participant; and inverse kinematics were optimized with the same OpenSim skeletal model.
 
 \subsection{Markerless analysis}
 \blindtext
