@@ -263,7 +263,7 @@ camera coordinate system
 test
 
 
-\subsection{Triangulation}
+\subsection{Triangulation}\label{triangulation}
 
 Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT), commonly used to solve the triangulation of 2D coordinates from several cameras with a least square approach.
 
@@ -287,7 +287,7 @@ Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT)
               \end{aligned}
             \end{equation}
             which gives two equations:
-            \begin{equation}
+            \begin{equation}\label{eq:dlt}
               \begin{aligned}
               &(P_1^T - u P_3^T) \overrightarrow{Q} = 0,\\
               &(P_2^T - v P_3^T) \overrightarrow{Q} = 0

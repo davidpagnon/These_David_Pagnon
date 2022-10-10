@@ -212,7 +212,9 @@ In the same vein as we would do with marker-based kinematics, the model first ne
 \section{Method details}
 
 \subsection{Project}
-Pose2Sim is meant to be as fully and easily configurable as possible, by editing the \mintinline{shell-session}{User/Config.toml} file. First of all, the user can specify the project path and folder names, the video frame rate, and the range of analyzed frames. Optional tools are also provided for extending its usage (Figures~\ref{fig_opensimutilities}). More practical information can be found on the GitHub repository. 
+Pose2Sim is meant to be as fully and easily configurable as possible, by editing the \mintinline{shell-session}{User/Config.toml} file. First of all, the user can specify the project path and folder names, the video frame rate, and the range of analyzed frames. 
+
+Optional tools are also provided for extending its usage (Figures~\ref{fig_opensimutilities}). Among others, DeepLabCut 2D files can be converted to the OpenPose formalism, and calibration files from other platforms can also be converted to the AniPose \cite{Karashchuk2021} formalism we use. 2D keypoint files can be displayed and stored as a video. Gait events can be detected from kinematic data thanks to \cite{Zeni2008} algorithm. Some other scripts allow for further processing of 3D coordinates. More practical information can be found on the GitHub repository. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -258,7 +260,7 @@ The user can indicate whether cameras are going to be calibrated with a checkerb
 If checkerboard calibration is chosen, the number of corners and the size of the squares have to be specified. In this case, the operator needs to take at least 10 pictures or one video per camera of the checkerboard, covering as much as the field of view as possible, with different orientations. Corners are then detected and refined with OpenCV \cite{Bradski2000}. Detected corners can optionally be displayed for verification. Each camera is finally calibrated using OpenCV with an algorithm based on \cite{Zhang2000}. The user can choose the index of the image which they want to be used as a reference for calculating extrinsic parameters. Residual calibration errors are given, and stored in a log file.
 
 
-\subsection{Tracking the person of interest}
+\subsection{Tracking the person of interest}\label{tracking}
 
 One needs to differentiate the people in the background from the actual subject. The tracking step examines all possible triangulations of a chosen keypoint among all detected persons, and reprojects them on the image planes. The triangulation with the smallest reprojection error is considered to be the one associated with the right person on all cameras. If the reprojection error is above a predefined threshold, the process is repeated after taking off one, or several cameras. This happens, for example, if the person of interest has exited the field of a camera, while another person is still in the background.
 
@@ -269,26 +271,20 @@ We recommend choosing the neck point or one of the hip points. In most cases the
 
 Aside from ours, a number of tools have been made available for triangulating OpenPose data: the experimental OpenPose 3D reconstruction module \cite{Hidalgo2021}, the FreeMoCap Python and Blender toolbox \cite{Matthis2022}, or the pose3d Matlab toolbox \cite{Sheshadri2020}, and the EasyMocap pipeline \cite{Easymocap2021}. 
 
-Pose2Sim triangulation is robust, largely because instead of using classic Direct Linear Transform (DLT) \cite{Hartley1997}, we propose a weighted DLT, i.e., a triangulation procedure where each OpenPose keypoint coordinate is weighted with its confidence score \cite{Pagnon2021} (See Algorithm~\ref{alg:weighted_dlt}, and Algorithm~\ref{alg:dlt} for more details on the classic method).
+Pose2Sim triangulation is robust, largely because instead of using classic Direct Linear Transformation (DLT) \cite{Hartley1997}, we propose a weighted DLT, i.e., a triangulation procedure where each OpenPose keypoint coordinate is weighted with its confidence score \cite{Pagnon2021}. This is a good compromise between losing all confidence information, and triangulating the whole heatmap in a volumetric way \cite{Iskakov2019}, which is very slow. The weighted DLT has been independently introduced by \cite{Barone2020}, in the context of camera calibration. See Algorithm~\ref{alg:weighted_dlt} for the proposed solution. For more details on the classic DLT, see Algorithm~\ref{alg:dlt} in Chapter 2, section \nameref{triangulation}.
 
 \begin{algorithm}[!ht]
       \caption{Weighted DLT}\label{alg:weighted_dlt}
       \begin{algorithmic}[1]
-            \STATEx BLABLA
-      %   \STATEx Our weighted direct linear transformation (DLT), which takes OpenPose’s confidence into account.
-      %   Our weighted DLT simply consists of weighing the equations in Equation (5) with the confidence c that OpenPose gives for each camera. This leads to Equation (9). The rest of the procedure remains unchanged.
-      %   c×(PT1−u PT3) Q=0, c×(PT2−v PT3) Q=0.
+            \STATEx Our weighted DLT simply consists of weighing Equation~\ref{eq:dlt} with the confidence c given by OpenPose for each camera. The rest of the procedure remains unchanged.
+            \begin{equation}
+                  \begin{aligned}
+                  & c \times (P_1^T - u P_3^T) \overrightarrow{Q}=0,\\
+                  & c \times (P_2^T - v P_3^T) \overrightarrow{Q}=0
+                  \end{aligned}
+          \end{equation}
       \end{algorithmic}
 \end{algorithm}
-
-
-The classic direct linear transformation (DLT) triangulation \cite{Hartley1997} (Algorithm 1) was enhanced by weighting it with the confidence OpenPose gives to each of its keypoint estimations (Algorithm 2). This is much faster than a volumetric triangulation of heatmaps (see Iskakov [53]), but it still takes advantage of some confidence information.
-Some keypoints were sometimes occluded to some cameras, either by the subject himself, by his cycling gear, or simply because the subject left the camera field of view. In such a case, OpenPose usually gave a low (or zero) confidence to the estimated point, which was dealt with by setting a confidence threshold above which the camera in question was not used for the triangulation. However, OpenPose occasionally wrongly detected the occluded keypoint with a relatively high confidence. Under such circumstances, the point was erroneously triangulated. This issue was spotted and solved by reprojecting the 3D point on the camera planes. If the reprojection error between the reprojected points and the OpenPose detection was higher than a predefined threshold, the process was repeated after removing one, or several, cameras. If less than 3 cameras remained, the frame was dropped for this point, and missing frames were later interpolated with a cubic spline. 3D joints positions were then exported as an OpenSim compatible .trc file.
-We chose a confidence threshold of 0.3 and a reprojection error threshold of 10 px.
- 
-
-
-
 
 Other parameters can be specified, such as:
 \begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
@@ -313,9 +309,24 @@ When it comes to the biomechanical analysis of human motion, it is often more us
 
 OpenSim \cite{Delp2007,Seth2018} is a widespread open-source software which helps compute consistent 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics. Results are accurate and robust since biomechanical constraints can be adjusted and weighted, bones are set to a constant length, and joints limited to coherent angle limits. OpenSim provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
 
-The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. It provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, where abduction/adduction and internal/external rotation angles are constrained to the flexion/extension angle. The latter has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection.
+The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. It provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, with a coupling relationship between knee flexion and abduction/adduction and internal/external rotation. This allows for 3D knee kinematics with only one degree of freedom. The latter model has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. This model also takes into account systematic labelling errors in OpenPose \cite{Needham2021b}, and offsets model markers as regards true joint centers accordingly. 
 
-This model also takes into account systematic labelling errors in OpenPose \cite{Needham2021b}, and offsets model markers as regards true joint centers accordingly. Unlike in marker-based capture, keypoints detection hardly depends on the operator, the subject, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
+Scaling in OpenSim can be broken down into two parts: first, the proper scaling of the model, which adjusts bone dimensions and inertial properties according to the positions of the joint markers; second, the adjustment of the other markers on the model, especially anatomical and cluster markers. If the model is defined properly, there is no need for further marker adjustment on the model, since markers will not be subject to placement variation due to human error or to skin movement artifact. Each body is scaled according to a factor computed as a ratio of distances, defined by the distance between pairs of model markers over distance between corresponding pairs of experimental markers. The markers used for scaling are chosen as follows:
+\begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item{Arm: distance between shoulder and elbow markers;}
+      \item{Forearm: distance between elbow and wrist;}
+      \item{Thigh: distance between hip and knee;}
+      \item{Shank: distance between knee and ankle;}
+      \item{Foot: distance between heel and big toe;}
+      \item{Pelvis: distance between left and right hip;}
+      \item{Torso: distance between neck and hip;}
+      \item{Head: distance between head and nose;}
+\end{itemize}
+All weights of joint coordinates are set to 1, apart from those of the nose and the head, which are set to 0.2, and from those of the other head markers, which are set to 0. Since we process scaling during a T-pose, we add as a condition that ankle flexion should be fixed at a neutral 0° angle.
+
+The inverse kinematic tool is used with the same marker weights as in the scaling step.
+
+Unlike in marker-based capture, keypoints detection hardly depends on the operator, the subject, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
 
 
 \section{Limitations and perspectives}
@@ -358,9 +369,9 @@ Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to
       \label{fig_mpp2sos}
 \end{figure}
 
-\clearpage 
-
 I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it can display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
+
+\clearpage 
 
 \begin{figure}[hbtp!]
 	\centering
@@ -394,6 +405,7 @@ I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagn
 	\label{fig_mayamocap}
 \end{figure}
 
+\clearpage 
 
 \subsection{Real-time analysis}\label{subsec:realtime}
 

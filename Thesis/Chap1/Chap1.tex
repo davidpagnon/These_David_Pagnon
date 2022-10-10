@@ -204,7 +204,7 @@ Other approaches don't focus so much on keypoint detections, and capture the who
 	\cline{2-4}
 								 & \multirow{1}{*}[0.5em]{\begin{tabular}[c]{@{}l@{}}Multi calibrated \\with kin. constraints\end{tabular}}													& \multirow{1}{*}{3D}    & \begin{tabular}[c]{@{}l@{}}+ Compensates offsets\\+ Constrains limb lengths and joint angles   \\- Still inaccurate pelvis angles           \end{tabular}   \\                    
 	\cline{1-4}
-	Sensor fusion                & N/A                                                                                  & 3D                     & \begin{tabular}[c]{@{}l@{}}\tabitem With IMUs: More accurate, but not markerless\\ \tabitem With one RGB-D camera (Depth + OpenPose \\on RGB): still inaccurate\end{tabular}                                                                     \\
+	\multirow{1}{*}[0.5em]{\begin{tabular}[c]{@{}l@{}}Sensor fusion \\with RGB video\end{tabular}}               & N/A                                                                                  & 3D                     & \begin{tabular}[c]{@{}l@{}}\tabitem With IMUs: More accurate, but not markerless\\ \tabitem With one RGB-D camera (Depth + OpenPose \\on RGB): still inaccurate\end{tabular}                                                                     \\
 	\bottomrule
 	\end{tabular}
 	\caption{Pros and cons in state-of-the-art approaches for human motion analysis. The multi-person prospect is not addressed, as it can be available with all approaches, but it is not always. IMU: Inertial Measurement Unit. N/A: Not Applicable. kin.: kinematic. RGB-D: red-green-blue-depth.}
