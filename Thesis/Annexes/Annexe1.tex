@@ -24,7 +24,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Appendix A : Title}
+\chapter{Appendix A for the Robustness assessment}
 \label{Ann:1}
 
 %==============================================================================	Résumé du chapitre
@@ -70,7 +70,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 
 
 \FloatBarrier
-\chapter{Appendix B : Title}
+\chapter{Appendix B  for the Accuracy assessment}
 \label{Ann:2}
 
 %==============================================================================	Résumé du chapitre
@@ -80,7 +80,8 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Summary here.
+\textit{
+Supplementary figures for Chapter 5 on \nameref{ch:5}, for the upper-body analysis of the walking task, and the lower- and upper-body analysis of the running and cycling tasks. \newline\newline All details on methods and results are provided in the forementioned chapter.
 }
 
 %\smallskip
@@ -92,13 +93,125 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 \minitoc
 \newpage
 
+\section{Lower-body results for the running and cycling tasks}
 
-\section{Section 1}
-\subsection{Sous section 1}
-\blindtext
-\subsection{Sous section 2}
-\blindtext
+Lower-body graphs are provided on Figure~\ref{fig_qtmrun} and on Figure~\ref{fig_blandrun} for the running task, and on Figure~\ref{fig_qtmbike} and on Figure~\ref{fig_blandbike}. However, all results are discussed in the main body of the article on \nameref{ch:5}.
 
+\subsection{Running task results}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=.94\linewidth]{"../Annexes/Figures/Fig_QTMRun.png"}
+	\caption{Pose2Sim (cyan) and marker-based (black) lower-body joint angles for the running task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean errors (Meanerr) for offset. Mean error and standard deviations are also represented at the bottom of the graphics.}
+	\label{fig_qtmrun}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BlandRun.png"}
+	\caption{Bland–Altman analysis of lower-body joint angle errors for the running task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines.}
+	\label{fig_blandrun}
+\end{figure}
+
+\clearpage
+
+\subsection{Cycling task results}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_QTMBike.png"}
+	\caption{Pose2Sim (cyan) and marker-based (black) lower-body joint angles for the cycling task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean errors (Meanerr) for offset. Mean error and standard deviations are also represented at the bottom of the graphics.}
+	\label{fig_qtmbike}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BlandBike.png"}
+	\caption{Bland–Altman analysis of lower-body joint angle errors for the cycling task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines.}
+	\label{fig_blandbike}
+\end{figure}
+
+\clearpage
+
+\section{Sacro-lumbar and upper-body results for all tasks}
+
+Although the article focused on lower limb kinematics, we ran the same analysis on sacro-lumbar, elbow, and shoulder joints for all three tasks (Figure~\ref{fig_qtmwalkup} and Figure~\ref{fig_blandwalkup} for walking, Figure~\ref{fig_qtmrunup} and Figure~\ref{fig_blandrunup} for running, and Figure~\ref{fig_qtmbikeup} and Figure~\ref{fig_blandbikeup} for cycling). The OpenPose model we used does not allow for the capture of wrist deviation or pronation/supination, or of any hand or finger movement.
+
+Results were generally less good than in the lower body, especially on sacro-lumbar flexion/extension, for which all CMC values were complex. This can be attributed both to the lack of OpenPose keypoints in this area, and to the simplicity of the OpenSim model in the upper-body part. Indeed, currently all pelvis, lumbar, and thoracic angles are solely determined by the detection of the hip keypoints on the lower part, and of the shoulder and neck keypoints on the upper part. Moreover, the skeletal model did not allow for any scapulo-thoracic degree of freedom. In addition to the sacro-lumbar joint, upper-body Pearson’s correlation coefficients were mostly very good (>0.85) in most planes in walking and running. The range of motion error remained below 1° for shoulder and elbow angles in walking, while it reached almost 5° in the shoulder and 2° in the elbow in running. The mean error in the sagittal plane was below 1° in the shoulder angle in walking, but it reached 10° in the elbow; conversely, in running it reached 9° in the shoulder but remained under 1° in the elbow. In cycling, upper-body Pose2Sim angles were mostly not correlated to marker-based ones, and ROM errors and mean errors were much worse than in other tasks. Moreover, the Bland–Altman analysis showed that the data is heteroscedastic: the spread and magnitude of the errors varied as the joint angle evolved.
+
+In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the upper body, and is generally less accurate than for the lower body. This is mostly due to the lack of keypoints OpenPose detects. To date, OpenPose offers hand and face models but no detailed model of the upper limb exists. Pose2Sim could be used with other pose estimation algorithms, including custom ones leveraging DeepLabCut \cite{Mathis2018,Lauer2022}, for example, although it would involve manually labeling a large training dataset. This would enable the use of a more anatomically realistic kinematic model, such as the one proposed by \cite{Seth2016} for the shoulder girdle.
+
+\clearpage
+\subsection{Walking task results}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_QTMWalkUp.png"}
+	\caption{Pose2Sim (cyan) and marker-based (black) sacro-lumbar and upper-body joint angles for the walking task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean error (Meanerr) for offset. Mean error and standard deviations are also represented at the bottom of the graphics.}
+	\label{fig_qtmwalkup}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BlandWalkUp.png"}
+	\caption{Bland–Altman analysis of sacro-lumbar and upper-body joint angle errors for the walking task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines.}
+	\label{fig_blandwalkup}
+\end{figure}
+
+\FloatBarrier
+\subsection{Running task results}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_QTMBikeUp.png"}
+	\caption{Pose2Sim (cyan) and marker-based (black) sacro-lumbar and upper-body joint angles for the running task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean error (Meanerr) for offset. Mean error and standard deviations are also represented at the bottom of the graphics.}
+	\label{fig_qtmrunup}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BlandRunUp.png"}
+	\caption{Bland–Altman analysis of sacro-lumbar and upper-body joint angle errors for the running task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines.}
+	\label{fig_blandrunup}
+\end{figure}
+
+
+\FloatBarrier
+\subsection{Cycling task results}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_QTMBikeUp.png"}
+	\caption{Pose2Sim (cyan) and marker-based (black) sacro-lumbar and upper-body joint angles for the cycling task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean errors (Meanerr) for offset. Mean error and standard deviations are also represented at the bottom of the graphics.}
+	\label{fig_qtmbikeup}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BlandBikeUp.png"}
+	\caption{Bland–Altman analysis of sacro-lumbar and upper-body joint angle errors for the cycling task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines.}
+	\label{fig_blandbikeup}
+\end{figure}
 
 
 \FloatBarrier
