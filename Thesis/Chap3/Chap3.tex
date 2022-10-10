@@ -53,7 +53,7 @@ We propose the Python package Pose2Sim \cite{Pagnon2022b}, which aims to deal wi
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Pipeline.png"}
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Pipeline.png"}
 	\caption{Pose2Sim full pipeline: (1) 2D keypoint detection; (2.1) Camera calibration; \newline(2.1-2.4) Tracking of the person of interest, Triangulating of keypoint coordinates; and Filtering; (3) Constraining the 3D coordinates to an individually scaled, physically consistent OpenSim skeletal model.}
 	\label{fig_pipeline}
 \end{figure}
@@ -75,7 +75,7 @@ The repository presents a framework which consists in (Figures~\ref{fig_pipeline
 
 \vskip 1em
 
-Each task is easily customizable, and requires only moderate Python skills. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing the quality of its code \cite{Pagnon2022c}, its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022a}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
+Each task is easily customizable, and requires only moderate Python skills. The whole workflow runs from any video cameras, on any computer, equipped with any operating system (although OpenSim has to be compiled from source on Linux.) It requires no marker placement, and the scaling and inverse kinematic steps are simpler than they are with markers-based methods. Overall, human intervention is scarce, which makes it more robust to human error. Pose2Sim has already been used and tested in a number of situations (walking, running, cycling, dancing, balancing, swimming, boxing), and published in peer-reviewed scientific publications assessing the quality of its code \cite{Pagnon2022c}, its robustness (see Chapter 4 on \nameref{ch:4}) \cite{Pagnon2021} and its accuracy (see Chapter 5 on \nameref{ch:5}) \cite{Pagnon2022a}. Its results for inverse kinematics were deemed good when compared to marker-based ones, with errors generally below 4.0° across several activities, on both lower and on upper limbs. The combination of its ease of use, customizable parameters, and high robustness and accuracy makes it promising, especially for "in-the-wild" sports movement analysis.
 
 
 \section{Installation and demonstration}
@@ -131,7 +131,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/FilterPlot.png"}
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_FilterPlot.png"}
 	\caption{Filtered results. Each keypoint trajectory is displayed in a different tab.}
 	\label{fig_filterplot}
 \end{figure}
@@ -140,7 +140,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Trc.png"}
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Trc.png"}
 	\caption{An example .trc file of triangulated keypoint coordinates, directly usable in OpenSim.}
 	\label{fig_trc}
 \end{figure}
@@ -151,7 +151,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 		\centering
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap3/Figures/Calib2D.png"}
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Calib2D.png"}
             \caption{Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Calibration errors are computed and provided.\newline}
       \end{subfigure}
 	\qquad
@@ -159,21 +159,21 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 		\centering
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap3/Figures/Track2D.png"}
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Track2D.png"}
             \caption{If several persons are detected in the scene, a tracking step can be carried out in order to make sure that the right person from each camera will be triangulated.}
       \end{subfigure}
       \begin{subfigure}[b]{1\textwidth}
 		\centering
 		\def\svgwidth{1\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap3/Figures/Triangulate3D.png"}
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Triangulate3D.png"}
             \caption{The triangulation is weighted by the OpenPose likelihood, and constrained by some thresholds defined in the Config.toml file. If these constraints are not met, e.g., if the reprojection error is too large or if the likelihood of a keypoint is too low, one or several cameras are excluded. The mean reprojection error and the number of cameras that have been excluded to meet the constraints is printed, for each keypoints.}
       \end{subfigure}
       \begin{subfigure}[b]{1\textwidth}
 		\centering
 		\def\svgwidth{1\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-		\includegraphics[width=\linewidth]{"../Chap3/Figures/Filter3D.png"}
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Filter3D.png"}
             \caption{Triangulated data can be filtered, either with a low-pass Butterworth filter or with other types, and parameters can be adjusted.}
       \end{subfigure}
 	\caption{First steps of Pose2Sim pipeline in Python. Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Note that the functions can be used without any arguments if the Config.toml file is left in the default location.}
@@ -203,7 +203,7 @@ In the same vein as we would do with marker-based kinematics, the model first ne
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/OpenSimDemo.JPG"}
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_OpenSimDemo.JPG"}
 	\caption{At the end of the demonstration, you should have a skeleton balancing on a beam in OpenSim.}
 	\label{fig_opensimdemo}
 \end{figure}
@@ -220,7 +220,7 @@ Optional tools are also provided for extending its usage (Figures~\ref{fig_opens
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Pose2Sim_utilities.jpg"}
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Pose2SimUtilities.jpg"}
 	\caption{The Pose2Sim workflow, along with some optional utilities provided in the package.}
 	\label{fig_opensimutilities}
 \end{figure}
@@ -309,9 +309,25 @@ When it comes to the biomechanical analysis of human motion, it is often more us
 
 OpenSim \cite{Delp2007,Seth2018} is a widespread open-source software which helps compute consistent 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics. Results are accurate and robust since biomechanical constraints can be adjusted and weighted, bones are set to a constant length, and joints limited to coherent angle limits. OpenSim provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
 
-The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. It provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, with a coupling relationship between knee flexion and abduction/adduction and internal/external rotation. This allows for 3D knee kinematics with only one degree of freedom. The latter model has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. This model also takes into account systematic labelling errors in OpenPose \cite{Needham2021b}, and offsets model markers as regards true joint centers accordingly. 
+The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. The OpenSim model needs to be carefully crafted. Indeed, inverse kinematics is an under-constrained problem, that can be guided with carefully chosen joint constraints. Pose2Sim provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, with a coupling relationship between knee flexion and abduction/adduction and internal/external rotation. This allows for 3D knee kinematics with only one degree of freedom. The latter model has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. 
+
+The placement of markers on the model is also of paramount importance, especially with so little of them. OpenPose keypoints do not necessarily coincide with joint centers, probably because of systematic labelling errors in the training dataset \cite{Needham2021b}. Moreover, they may be located in a different anatomical position when limbs are fully extended in comparison to when they are fully flexed. However, once the markers are positioned in accordance with those of the 2D pose estimations, the scaling step is very fast and straightforward since the marker placement will not change from one session, subject, or operator to another. Our model takes these labelling errors into account, and offsets model markers as regards true joint centers accordingly (Figure~\ref{fig_mkmkl}).
+
+\clearpage
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MkMkl.png"}
+	\caption{Triangulated anatomical markers and clusters (dark green), calculated joint centers (light green), and OpenPose body\_25b keypoints (pink) on a textured mesh. OpenPose’s eyes and ears keypoints were excluded. Mesh opacity was set to 0.5 in order to make all points visible. This view made it possible to precisely place OpenPose triangulated keypoints on the OpenSim model.}
+	\label{fig_mkmkl}
+\end{figure}
 
 Scaling in OpenSim can be broken down into two parts: first, the proper scaling of the model, which adjusts bone dimensions and inertial properties according to the positions of the joint markers; second, the adjustment of the other markers on the model, especially anatomical and cluster markers. If the model is defined properly, there is no need for further marker adjustment on the model, since markers will not be subject to placement variation due to human error or to skin movement artifact. Each body is scaled according to a factor computed as a ratio of distances, defined by the distance between pairs of model markers over distance between corresponding pairs of experimental markers. The markers used for scaling are chosen as follows:
+
+\clearpage
+
 \begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
       \item{Arm: distance between shoulder and elbow markers;}
       \item{Forearm: distance between elbow and wrist;}
@@ -346,7 +362,8 @@ On a different note, in a sports context, not only the human pose is of interest
 
 \subsection{Multi-person analysis}
 
-Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one. Another way would be to use a spatio-temporal neural network, which would take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}
+Pose2Sim has several limitations. First, despite it is not altered by people entering the field of view, it can currently only analyze the movement of one single person. For races, team sports, and combat sports, it would be useful to be able to analyze the movement of several athletes at the same time. This could be achieved in two steps: first, by triangulating all the persons whose reprojection error is below a certain threshold, instead of taking only the one with minimum error, in a similar way as carried out by \cite{Slembrouck2020}; then, by tracking the triangulated persons in\newline\newline\newline
+time, e.g., by limiting the displacement speed of each person’s neck keypoint from one frame to the next one. Another way would be to use a spatio-temporal neural network, which would take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}
 
 
 \subsection{User-friendly calibration}
@@ -363,15 +380,12 @@ Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to
       \def\svgwidth{1\columnwidth}
       \fontsize{10pt}{10pt}\selectfont
       \href{https://blendermarket.com/products/mocap-mpp2soss}{
-            \includegraphics[width=\linewidth]{"../Chap3/Figures/MPP2SOS.png"}
+            \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MPP2SOS.png"}
       }
       \caption{The MPP2SOS Blender add-on uses Pose2Sim for realistic 3D markerless animation}
       \label{fig_mpp2sos}
 \end{figure}
 
-I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it can display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
-
-\clearpage 
 
 \begin{figure}[hbtp!]
 	\centering
@@ -380,7 +394,7 @@ I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagn
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
 		\href{https://github.com/davidpagnon/Maya-Mocap}{
-                  \includegraphics[width=\linewidth]{"../Chap3/Figures/MayaMocap1.png"}
+                  \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MayaMocap1.png"}
             }
             \caption{The Maya-Mocap add-on is displayed as an additional toolbar in Maya.}
       \end{subfigure}
@@ -390,7 +404,7 @@ I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagn
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
 		\href{https://github.com/davidpagnon/Maya-Mocap}{
-                  \includegraphics[width=\linewidth]{"../Chap3/Figures/MayaMocap2.png"}
+                  \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MayaMocap2.png"}
             }
             \caption{Maya-Mocap can import several file types, e.g., a .trc motion file (bright green) or a textured animated 3D mesh. It can also load cameras from a calibration file, film with them, and display the filmed image sequences. In addition, it can reproject a selected point onto the camera plane (black lines), to make sure that it has been correctly triangulated. The 3D trajectory of a point can also be highlighted (red and blue lines).}
       \end{subfigure}
@@ -398,14 +412,15 @@ I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagn
 		\centering
 		\def\svgwidth{\columnwidth}
 		\fontsize{10pt}{10pt}\selectfont
-            \includegraphics[width=\linewidth]{"../Chap3/Figures/MayaMocap3.png"}
+            \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MayaMocap3.png"}
             \caption{The organigram of Maya-Mocap planned abilities.}
       \end{subfigure}
  	\caption{The Maya-Mocap add-on (a-b), and the tool set that it should eventually provide (c).}
 	\label{fig_mayamocap}
 \end{figure}
 
-\clearpage 
+I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it can display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
+
 
 \subsection{Real-time analysis}\label{subsec:realtime}
 

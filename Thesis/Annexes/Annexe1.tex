@@ -35,7 +35,7 @@
 \smallskip
 
 \textit{
-Summary here
+Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycling tasks. \newline\newline All details on methods and results are provided in the forementioned chapter.
 }
 
 %\smallskip
@@ -48,14 +48,25 @@ Summary here
 \minitoc
 \newpage
 
-\section{Section 1}
-\subsection{Sous section 1}
-\blindtext
-\subsection{Sous section 2}
-\blindtext
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_RunRobust.png"}
+	\caption{Joint angle means (solid line) and standard deviations (shaded area) from the nine captured cycles of running. Reference condition (Ref) is black; degraded image quality (Im) is blue; four cameras instead of eight (4c) is purple; degraded calibration (Cal) is yellow. Pearson’s correlation coefficient (r) and mean absolute error (MAE) between Ref and Im, 4c, Cal were calculated. Paired t-tests along time were computed by SPM-1D and are represented as bar plots above the curves: a color rectangle means that there was a cluster of statistically significant differences (\(\alpha\) = 0.05) at that moment.}
+	\label{fig_runrobust}
+\end{figure}
 
 
-
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[height=\dimexpr\textheight-119pt]{"../Annexes/Figures/Fig_BikeRobust.png"}
+	\caption{Joint angle means (solid line) and standard deviations (shaded area) from the 15 captured cycles of cycling. Reference condition (Ref) is black; degraded image quality (Im) is blue; four cameras instead of eight (4c) is purple; degraded calibration (Cal) is yellow. Pearson’s correlation coefficient (r) and mean absolute error (MAE) between Ref and Im, 4c, Cal were calculated. Paired t-tests along time were computed by SPM-1D and are represented as bar plots above the curves: a color rectangle means that there was a cluster of statistically significant differences (\(\alpha\) = 0.05) at that moment.}
+	\label{fig_bikerobust}
+\end{figure}
 
 
 \FloatBarrier
