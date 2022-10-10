@@ -102,6 +102,8 @@ To guarantee a tight control of the environment parameters, we captured our data
 
 We developed a script for Autodesk Maya \cite{Maya1998} (see \nameref{subsec:viztools}) that allows us to render the textured mesh files, as well as to virtually set any cameras with specific properties (position, orientation, resolution, focal length, distortion, pixel size, binning factor). Views seen through virtual cameras can be saved as video files and visualized into a global 3D environment (Figure 3). The generated video files were used as input to the 3D kinematics pipeline.
 
+% add Figure~\ref{fig_kinovis} and adjust pages
+
 For the purpose of this study, we created 8 virtual video cameras. Resolution was set to \(1280 \times 768\) pixels, focal length to 9 mm, pixel size to 5.54 µm, and no distortion nor binning was introduced. Binning refers to the process of grouping pixels in order to increase sensitivity to light, at the expense of decreasing resolution. Cameras were regularly distributed 8 m away from the center of the captured volume, at a height of 1 m, so that the whole body could be detected for a maximum of movement cycles. We then rendered the scene as video files from our virtual cameras and saved the exact calibration parameters. We applied a \(3 \times 3\) pixel Gaussian blur afterwards to reduce sharp edges of the virtual scene compositing (Figure~\ref{fig_smooth}). This resulting image quality was considered as “standard”.
 
 \begin{figure}[!ht]
