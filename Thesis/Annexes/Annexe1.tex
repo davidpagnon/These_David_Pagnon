@@ -24,7 +24,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Appendix A for the Robustness assessment}
+\chapter{Appendix A on Robustness assessment}
 \label{Ann:1}
 
 %==============================================================================	Résumé du chapitre
@@ -48,7 +48,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 \minitoc
 \newpage
 
-\section{Running task results}
+\section{Robustness: Running task results}
 
 \begin{figure}[!ht]
 	\centering
@@ -60,7 +60,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 \end{figure}
 
 \clearpage
-\section{Cycling task results}
+\section{Robustness: Cycling task results}
 
 \begin{figure}[!ht]
 	\centering
@@ -73,7 +73,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 
 
 \FloatBarrier
-\chapter{Appendix B  for the Accuracy assessment}
+\chapter{Appendix B on Accuracy assessment}
 \label{Ann:2}
 
 %==============================================================================	Résumé du chapitre
@@ -84,7 +84,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 \smallskip
 
 \textit{
-Supplementary figures for Chapter 5 on \nameref{ch:5}, for the upper-body analysis of the walking task, and the lower- and upper-body analysis of the running and cycling tasks. \newline\newline All details on methods and results are provided in the forementioned chapter.
+Supplementary figures for Chapter 5 on \nameref{ch:5}, for the lower-body analysis of the running and cycling tasks, and for the upper-body analysis of all three tasks. \newline\newline All details on methods and results on the lower-body are provided in the forementioned chapter. Results and discussion on the upper-body are debated section \ref{upper_acc}.
 }
 
 %\smallskip
@@ -100,7 +100,7 @@ Supplementary figures for Chapter 5 on \nameref{ch:5}, for the upper-body analys
 
 Lower-body graphs are provided on Figure~\ref{fig_qtmrun} and on Figure~\ref{fig_blandrun} for the running task, and on Figure~\ref{fig_qtmbike} and on Figure~\ref{fig_blandbike}. However, all results are discussed in the main body of the article on \nameref{ch:5}.
 
-\subsection{Running task results}
+\subsection{Accuracy: Running task results}
 
 \begin{figure}[!ht]
 	\centering
@@ -120,9 +120,9 @@ Lower-body graphs are provided on Figure~\ref{fig_qtmrun} and on Figure~\ref{fig
 	\label{fig_blandrun}
 \end{figure}
 
-\clearpage
 
-\subsection{Cycling task results}
+\clearpage
+\subsection{Accuracy: Cycling task results}
 
 \begin{figure}[!ht]
 	\centering
@@ -144,7 +144,7 @@ Lower-body graphs are provided on Figure~\ref{fig_qtmrun} and on Figure~\ref{fig
 
 \clearpage
 
-\section{Sacro-lumbar and upper-body results for all tasks}
+\section{Sacro-lumbar and upper-body results for all tasks}\label{upper_acc}
 
 Although the article focused on lower limb kinematics, we ran the same analysis on sacro-lumbar, elbow, and shoulder joints for all three tasks (Figure~\ref{fig_qtmwalkup} and Figure~\ref{fig_blandwalkup} for walking, Figure~\ref{fig_qtmrunup} and Figure~\ref{fig_blandrunup} for running, and Figure~\ref{fig_qtmbikeup} and Figure~\ref{fig_blandbikeup} for cycling). The OpenPose model we used does not allow for the capture of wrist deviation or pronation/supination, or of any hand or finger movement.
 
@@ -153,7 +153,7 @@ Results were generally less good than in the lower body, especially on sacro-lum
 In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the upper body, and is generally less accurate than for the lower body. This is mostly due to the lack of keypoints OpenPose detects. To date, OpenPose offers hand and face models but no detailed model of the upper limb exists. Pose2Sim could be used with other pose estimation algorithms, including custom ones leveraging DeepLabCut \cite{Mathis2018,Lauer2022}, for example, although it would involve manually labeling a large training dataset. This would enable the use of a more anatomically realistic kinematic model, such as the one proposed by \cite{Seth2016} for the shoulder girdle.
 
 \clearpage
-\subsection{Walking task results}
+\subsection{Accuracy: Upper-body results for the walking task}
 
 \begin{figure}[!ht]
 	\centering
@@ -173,8 +173,8 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 	\label{fig_blandwalkup}
 \end{figure}
 
-\FloatBarrier
-\subsection{Running task results}
+\clearpage
+\subsection{Accuracy: Upper-body results for the running task}
 
 \begin{figure}[!ht]
 	\centering
@@ -195,8 +195,8 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 \end{figure}
 
 
-\FloatBarrier
-\subsection{Cycling task results}
+\clearpage
+\subsection{Accuracy: Upper-body results for the cycling task}
 
 \begin{figure}[!ht]
 	\centering
@@ -218,7 +218,7 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 
 
 \FloatBarrier
-\chapter{Appendix C : Title}
+\chapter{Appendix C : Protocole}
 \label{Ann:3}
 
 %==============================================================================	Résumé du chapitre
@@ -228,7 +228,7 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Summary here.
+\textit{Summary here on protocole.
 }
 
 %\smallskip
@@ -241,11 +241,6 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 \newpage
 
 
-Ajouter annexes :
-
-Robustness
-
-Accuracy
 
 Protocole
 

@@ -100,9 +100,16 @@ The underlying idea presented in this article is to verify whether modifying ext
 
 To guarantee a tight control of the environment parameters, we captured our data in a dedicated studio platform called Kinovis \cite{Tsiminaki2014}, from which we were able to create realistic virtual views similar to outdoor video. This platform is a \(10 m \times 10 m \times 5.6 m\) green room equipped with 68 video cameras recording at 30 fps in 4 Mpixels resolution, for a practical acquisition space of about \(5 m  \times 5 m  \times 3 m\). The system computes 3D textured meshes by convex visual hull reconstruction \cite{Laurentini1994}. The meshes were inserted in a virtual environment composed of an environment texture map captured from a BMX racetrack, and a custom-made virtual floor. It should be noted that three people were present in the background, which introduced a realistic artifact of multiple subjects.
 
-We developed a script for Autodesk Maya \cite{Maya1998} (see \nameref{subsec:viztools}) that allows us to render the textured mesh files, as well as to virtually set any cameras with specific properties (position, orientation, resolution, focal length, distortion, pixel size, binning factor). Views seen through virtual cameras can be saved as video files and visualized into a global 3D environment (Figure 3). The generated video files were used as input to the 3D kinematics pipeline.
+We developed a script for Autodesk Maya \cite{Maya1998} (see \nameref{subsec:viztools}) that allows us to render the textured mesh files, as well as to virtually set any cameras with specific properties (position, orientation, resolution, focal length, distortion, pixel size, binning factor). Views seen through virtual cameras can be saved as video files and visualized into a global 3D environment (Figure~\ref{fig_kinovis}). The generated video files were used as input to the 3D kinematics pipeline.
 
-% add Figure~\ref{fig_kinovis} and adjust pages
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap4/Figures/Fig_Kinovis.png"}
+	\caption{The Kinovis room allows for the capture of 3D textured meshes. These meshes are placed in a virtual environment, and then filmed from virtual cameras.}
+	\label{fig_kinovis}
+\end{figure}
 
 For the purpose of this study, we created 8 virtual video cameras. Resolution was set to \(1280 \times 768\) pixels, focal length to 9 mm, pixel size to 5.54 µm, and no distortion nor binning was introduced. Binning refers to the process of grouping pixels in order to increase sensitivity to light, at the expense of decreasing resolution. Cameras were regularly distributed 8 m away from the center of the captured volume, at a height of 1 m, so that the whole body could be detected for a maximum of movement cycles. We then rendered the scene as video files from our virtual cameras and saved the exact calibration parameters. We applied a \(3 \times 3\) pixel Gaussian blur afterwards to reduce sharp edges of the virtual scene compositing (Figure~\ref{fig_smooth}). This resulting image quality was considered as “standard”.
 
