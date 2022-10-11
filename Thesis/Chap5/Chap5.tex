@@ -14,7 +14,10 @@
       {\fancyplain{}{\thepage}} %\bfseries
 \rfoot[\fancyplain{}{}]%
      {\fancyplain{}{\scriptsize}}
-
+     
+\addto\captionsenglish{%
+     \renewcommand\tablename{Table}    %Changement de Tab. en Tableau
+   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%                      Start part here                          %%%%%%
@@ -86,7 +89,7 @@ First, Pose2Sim scale factors were compared to marker-based ones, and RMS errors
 
 The Bland–Altman analysis gives some more information about the agreement between the considered markerless and marker-based systems \cite{Bland1986,Atkinson1998}. It consists of plotting the difference between the values given by both systems against their mean, for all angular points at all time instances. Limits of agreement were defined as the interval within which 95\% of data will be found, i.e., between mean difference ±1.96 standard deviation, provided that the differences follow a normal distribution. Bland–Altman plots also help to identify the potential presence of heteroscedasticity, i.e., the fact that the spread of the error may depend on the angle magnitude \cite{Atkinson1998}.
 
-Finally, root-mean-square errors (RMSE), mean errors (\(Mean_{err}\)), and ROM errors (ROMerr) were computed for the walking task to enable comparison with previously published metrics obtained using Theia3D, a commercial markerless solution \cite{Kanko2021b}, and Xsens \cite{Zhang2013}, a commercial system based on IMUs. Theia3D’s ROM results were approximated from reported graphics along the flexion/extension degree of freedom.
+Finally, root-mean-square errors (RMSE), mean errors (\(Mean_{err}\)), and ROM errors (\(ROM_{err}\)) were computed for the walking task to enable comparison with previously published metrics obtained using Theia3D, a commercial markerless solution \cite{Kanko2021b}, and Xsens \cite{Zhang2013}, a commercial system based on IMUs. Theia3D’s ROM results were approximated from reported graphics along the flexion/extension degree of freedom.
 
 
 \section{Results}
@@ -119,7 +122,7 @@ CMC assesses waveform similarities between Pose2Sim and the marker-based referen
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[height=\dimexpr\textheight-100pt]{"../Chap5/Figures/Fig_QTMWalk.png"}
-	\caption{Pose2Sim (cyan) and marker-based (black) lower-body joint angles for the walking task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (ROMerr) for gain, and overall mean errors (\(Mean_{err}\)) for offset. Mean error and standard deviations are also represented at the bottom of the graphics. See Appendix A for running and cycling results, and for sacro-lumbar and upper-body results. }
+	\caption{Pose2Sim (cyan) and marker-based (black) lower-body joint angles for the walking task. Coefficient of multiple correlation (CMC) is indicated, and broken down into, respectively, Pearson’s coefficient (r) for correlation assessment, range of motion errors (\(ROM_{err}\)) for gain, and overall mean errors (\(Mean_{err}\)) for offset. Mean error and standard deviations are also represented at the bottom of the graphics. See \hyperref[Ann:2]{Appendix B} for running and cycling results, and for sacro-lumbar and upper-body results. }
 	\label{fig_qtmwalk}
 \end{figure}
 
@@ -147,21 +150,86 @@ CMC assesses waveform similarities between Pose2Sim and the marker-based referen
                     &Hip& 0.92 & 0.97 & -5.91* & 6.12* & nan & 0.14 & 1.72* & -5.62* & nan & -0.07 & 3.07* & 2.11*	\\
           \bottomrule
       \end{tabular}}
-      \caption{Summary of comparisons between Pose2Sim and marker-based angle waveforms. A specific formulation of the Coefficient of Multiple Correlation (CMC) was used, specifically designed to compare different protocols or measurement systems. CMC jointly evaluates correlation, gain, and offset, which were respectively assessed with r-Pearson's coefficient, range of motion errors (ROMerr), and mean errors (Meanerr). *Significant at 5\% level. $^1$Despite ankle subtalar angle combines abduction/adduction and internal/external rotation, it is thereafter reported in the abduction/adduction column. }
+      \caption{Summary of comparisons between Pose2Sim and marker-based angle waveforms. A specific formulation of the Coefficient of Multiple Correlation (CMC) was used, specifically designed to compare different protocols or measurement systems. CMC jointly evaluates correlation, gain, and offset, which were respectively assessed with r-Pearson's coefficient, range of motion errors (\(ROM_{err}\)), and mean errors (\(Mean_{err}\)). *Significant at 5\% level. $^1$Despite ankle subtalar angle combines abduction/adduction and internal/external rotation, it is thereafter reported in the abduction/adduction column. }
         \label{table:tab_mkcomp}
   \end{table}
 
-  Pearson’s r correlation coefficient results were close to the CMC ones, albeit they became very good to excellent in the two angles that were affected by an offset. When averaged over all joint angles, errors in the range of motion (\(ROM_{err}\)) were 2.7° (sd = 2.1°), 2.3° (sd = 1.1°), and 4.3° (sd = 2.5°) in walking, running, and cycling, respectively. Along the flexion/extension degree of freedom, they were below 2°, 4°, and 6°, in walking, running, and cycling, respectively. Along the internal/external rotation degree of freedom, they stayed below 5°; however, they reached up to 10° along the abduction/adduction degree of freedom. Average mean angle errors (\(Mean_{err}\)) were 3.0° (sd = 1.0°), 4.1° (sd = 1.6°), and 4.0° (sd = 0.59°), in walking, running, and cycling, respectively. In walking and running, mean errors remained under 5.3° in all degrees of freedom, apart from the hip flexion/extension angle in running, which was offset by 15°. Although they were noticeably larger, mean errors were always under 7° in cycling  (Table~\ref{table:tab_mkcomp}, Figure~\ref{fig_qtmwalk}, Figure~\ref{fig_qtmrun}, and Figure~\ref{fig_qtmbike})
-  (TABLE 4).
-  
-  Limits of Agreement (LoA) values were relatively evenly and randomly distributed among all tasks, degrees of freedom, and joints, averaging to an interval of 15° within which 95\% of the errors would lie (Table 3, Figure 5, Figure A4 and Figure A8). Due to the limited range of motion of sacro-lumbar and upper-body angles, limits of agreement were smaller in these joint angles (Figure A2, Figure A6 and Figure A10). Angle magnitude did not have an influence on the spread of errors (hence the data are homoscedastic), except for the cycling task for ankle angles and flexion/extension hip angles.
+  Pearson’s r correlation coefficient results were close to the CMC ones, albeit they became very good to excellent in the two angles that were affected by an offset. When averaged over all joint angles, errors in the range of motion (\(ROM_{err}\)) were 2.7° (sd = 2.1°), 2.3° (sd = 1.1°), and 4.3° (sd = 2.5°) in walking, running, and cycling, respectively. Along the flexion/extension degree of freedom, they were below 2°, 4°, and 6°, in walking, running, and cycling, respectively. Along the internal/external rotation degree of freedom, they stayed below 5°; however, they reached up to 10° along the abduction/adduction degree of freedom. Average mean angle errors (\(Mean_{err}\)) were 3.0° (sd = 1.0°), 4.1° (sd = 1.6°), and 4.0° (sd = 0.59°), in walking, running, and cycling, respectively. In walking and running, mean errors remained under 5.3° in all degrees of freedom, apart from the hip flexion/extension angle in running, which was offset by 15°. Although they were noticeably larger, mean errors were always under 7° in cycling  (Table~\ref{table:tab_mkcomp} and Table~\ref{table:tab_bland}, Figure~\ref{fig_qtmwalk}, Figure~\ref{fig_qtmrun}, and Figure~\ref{fig_qtmbike})
+    
+  \begin{table}[!ht]
+      \centering
+      \resizebox{0.73\textwidth}{!}{
+      \begin{tabular}{llllllll}
+          \toprule
+              \multirow{2}{*}{\textbf{Task}} & \multirow{2}{*}{\textbf{Joint}} & \multicolumn{2}{c}{\textbf{ Flex./Ext.}} & \multicolumn{2}{c}{\textbf{Abd./Add.*}} & \multicolumn{2}{c}{\textbf{Int./Ext. rot.}}\\ 
+                  \cmidrule(l{2pt}r{2pt}){3-4}\cmidrule(l{2pt}r{2pt}){5-6}\cmidrule(l{2pt}r{2pt}){7-8}
+                  ~ & ~ & \(\mathrm{Mean_{err}} (°)\) & 95\% LoA (°) & \(\mathrm{Mean_{err}} (°)\) & 95\% LoA (°) & \(\mathrm{Mean_{err}} (°)\) & 95\% LoA (°) \\ 
+                  \specialrule{0.14 em}{0pc}{0pc}
+                  \multirow{3}{*}{Walking} & Ankle	& -2.79 &	[-9.4,3.8]&	2.56&	[-6.9,12]&	 	—& 	— \\
+                  &	Knee& -1.92 & [-12,8.4] 	& —& —& —& —\\
+                  &	Hip& -3.04 & [-11,5.2]& -2.6 & [-6.9,1.7] & -5.27 & [-14,3.5]	\\
+                  \midrule
+                  \multirow{3}{*}{Running} & Ankle&	-0.71   & [-4.5,3.0] & 0.96 & [-5.3,7.2] & —& 	— \\
+                    &Knee & -0.65 & [-2.9,1.6] & —& —& —& —\\
+                    &Hip& 15.18 & [5.5,25] & -3.76 & [-9.2,1.6] & -3.49 & [-9.3,2.4]	\\
+                  \midrule
+                  \multirow{3}{*}{Cycling} & Ankle& -6.73 & [-16,2.1] & 1.59 & [-9.8,13] & —& 	— \\
+                    &Knee&	2.12 & [-1.1,5.3] & —& —& —& —\\
+                    &Hip& 6.12 & [-1.7,14] & -5.62 & [-10,-1.1] & 2.11 & [-4.5,8.7]\\
+          \bottomrule
+      \end{tabular}}
+      \caption{Bland–Altman analysis results of 3D angle errors between Pose2Sim analysis and the reference marker-based one. Mean errors (\(Mean_{err}\)) and 95\% limits of agreement (LoA) are represented. *Although ankle subtalar angle combines abduction/adduction and internal/external rotation, it is hereafter reported in the abduction/adduction column.}
+        \label{table:tab_bland}
+  \end{table}
+
+Limits of Agreement (LoA) values were relatively evenly and randomly distributed among all tasks, degrees of freedom, and joints, averaging to an interval of 15° within which 95\% of the errors would lie (Table~\ref{table:tab_bland}, Figure~\ref{fig_blandwalk}, Figure~\ref{fig_blandrun}, and Figure~\ref{fig_blandbike}). Due to the limited range of motion of sacro-lumbar and upper-body angles, limits of agreement were smaller in these joint angles (Figure~\ref{fig_blandwalkup}, Figure~\ref{fig_blandrunup}, and Figure~\ref{fig_blandbikeup}). Angle magnitude did not have an influence on the spread of errors (hence the data are homoscedastic), except for the cycling task for ankle angles and flexion/extension hip angles.
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.97\linewidth]{"../Chap5/Figures/Fig_BlandWalk.png"}
+	\caption{Bland–Altman analysis of lower-body joint angle errors for the walking task. Mean bias is represented as a horizontal solid, bold line, and 95\% limits of agreement are represented as dotted lines. See \hyperref[Ann:2]{Appendix B} for running and cycling results, and for sacro-lumbar and upper-body results.}
+	\label{fig_blandwalk}
+\end{figure}
+
+\clearpage 
 
 \subsection{Comparison with other systems}
-\blindtext
+
+The RMSE reported by Theia3D \cite{Kanko2021b} was, on average, 1.5° higher than that of Pose2Sim, and its ROM errors were consistently higher, at least along the flexion/extension degree of freedom. However, the study using Xsens \cite{Zhang2013} reported mean errors 0.3° lower on average, and ROM errors 1.0° lower on average (Table~\ref{table:tab_theiaxsens}).
+
+\begin{table}[!ht]
+      \resizebox{\textwidth}{!}{
+      \centering
+      \begin{tabular}{lllllllllll}
+          \toprule
+              \multirow{2}{*}{\shortstack{\textbf{Error}\\ \textbf{metric}}} & \multirow{2}{*}{\textbf{Joint}} & \multicolumn{3}{c}{\textbf{ Flex./Ext.}} & \multicolumn{3}{c}{\textbf{Abd./Add.}} & \multicolumn{3}{c}{\textbf{Int./Ext. rot.}}\\ 
+                  \cmidrule(l{2pt}r{2pt}){3-5}\cmidrule(l{2pt}r{2pt}){6-8}\cmidrule(l{2pt}r{2pt}){9-11}
+                  ~ & ~ &  \textbf{Ours} & Theia  & Xsens  &  \textbf{Ours} & Theia & Xsens &  \textbf{Ours} & Theia & Xsens \\ 
+                  \specialrule{0.14 em}{0pc}{0pc}
+                  \multirow{3}{*}{RMSE (°)} & Ankle	& 4 & 6.7 & — & 5.1 & 8 & — & — & — & —\\
+                  &	Knee&5.1 & 3.3 & — & — & — & — & — & — & — \\
+                  &	Hip& 5.6 & 11 & — & 3.1 & 2.6 & — & 6.6 & 6.9 & — \\
+                  \midrule
+                  \multirow{3}{*}{Mean\(_{err}\) (°)} & Ankle	& 2.79 & — & 2.15 & 2.56 & — & 1.81 & — & — & — \\
+                    &Knee&	1.92 & — & 1.87 & — & — & — & — & — & — \\
+                    &	Hip&3.04 & — & 2.47 & 2.6 & — & 4.83 & 5.27 & — & 3.02 \\
+                    \midrule
+                  \multirow{3}{*}{ROM\(_{err}\) (°)} & Ankle	& -1.22 & $\approx$ -10 & 0.4 & 6.48 & — & 1.38 & — & — & — \\
+                    &Knee& -0.3 & $\approx$ -1 & 0.8 & — & — & — & — & — & — \\
+                    &	Hip& -1.7 & $\approx$ -10 & 2.42 & -1.81 & — & 5.37 & 4.68 & — & 0.04 \\
+          \bottomrule
+      \end{tabular}}
+      \caption{Pose2Sim results compared to Theia3D \cite{Kanko2021b} and to Xsens \cite{Zhang2013} in the walking task. Root-mean-square error (RMSE), mean error (Meanerr), and range of motion (ROM) are examined. Theia3D’s ROM results were approximated from reported graphics along the flexion/extension degree of freedom. Both studies to which we compared our results involved a different setup (participants, cameras, protocol, etc.), therefore the differences cannot be totally attributed to the different technologies (markerless or IMU) nor to the different algorithm (Pose2Sim or Theia3D). * Although ankle subtalar angle combines abduction/adduction and internal/external rotation, it is hereafter reported in the abduction/adduction column.}
+      \label{table:tab_theiaxsens}
+\end{table}
 
 
 \section{Discussion}
+
 \subsection{Strengths of Pose2Sim and of markerless kinematic}
+
 \blindtext
 
 \subsection{Limits and perspectives}
