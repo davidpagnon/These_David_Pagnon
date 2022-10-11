@@ -79,7 +79,7 @@ Camera calibration can be challenging outside, due to large volume spaces, brigh
 
 \subsection{Assessing robustness}
 
-Before assessing the robustness of the workflow on walking, running, and cycling sequences, the relevance of the computed 3D full-body angles needs to be estimated. This will be done by comparing our angle results to those of a normative walking database. Further concurrent validation of the accuracy will be determined in the next chapter on \nameref{ch:5}. Repeatability will be evaluated by comparing movement cycles to each other, within each task and each capture condition. 
+Because \cite{Needham2021a} showed that the quality of markerless results were task specific, we will examine walking, running, and cycling. Before assessing the robustness of the workflow, the relevance of the computed 3D full-body angles needs to be estimated. This will be done by comparing our angle results to those of a normative walking database. Further concurrent validation of the accuracy will be determined in the next chapter on \nameref{ch:5}. Repeatability will be evaluated by comparing movement cycles to each other, within each task and each capture condition. 
 
 Robustness itself will be assessed through all three types of movements, in accordance with the open problems previously described:
 \begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
@@ -383,22 +383,24 @@ Kinematics were more robust in the flexion/extension plane (Table~\ref{table:tab
       \centering
       \begin{tabular}{lllllllllll}
           \toprule
-              \multirow{2}{*}{\textbf{Task}} & \multirow{2}{*}{\textbf{Cond.}} & \multicolumn{3}{c}{\textbf{ Flex./Ext.}} & \multicolumn{3}{c}{\textbf{Abd./Add.}} & \multicolumn{3}{c}{\textbf{Int./Ext. rot.}}\\ 
+              \multirow{2}{*}{\textbf{Task}} & \multirow{2}{*}{\textbf{Cond.}} & \multicolumn{3}{c}{\textbf{ Flex./Ext.}} & \multicolumn{3}{c}{\textbf{Abd./Add.*}} & \multicolumn{3}{c}{\textbf{Int./Ext. rot.}}\\ 
                   \cmidrule(l{2pt}r{2pt}){3-5}\cmidrule(l{2pt}r{2pt}){6-8}\cmidrule(l{2pt}r{2pt}){9-11}
                   ~ & ~ &  \(\mathrm{std/std_{ref}}\) & r & MAE (°) &  \(\mathrm{std/std_{ref}}\) & r & MAE (°)&  \(\mathrm{std/std_{ref}}\) & r & MAE (°) \\ 
                   \specialrule{0.14 em}{0pc}{0pc}
                   \multirow{3}{*}{Walking} & Im	& 1.11&	1.00&	1.48&	1.28&	0.98&	1.05&	1.23&	0.89&	2.47 \\
                   &	4c&	1.15&	1.00&	0.90&	1.29&	0.93&	1.28&	1.54&	0.94&	3.35\\
                   &	Cal&	1.01&	1.00&	0.19&	1.04&	0.99&	0.50&	1.04&	0.99&	0.54\\
+                  \midrule
                   \multirow{3}{*}{Running} & Im	& 1.03&   1.00&	0.98&	1.08&	0.98&	0.48&	1.13&	0.98&	1.41\\
                     &4c	&1.03&	1.00&	0.98&	1.18&	0.93&	1.00&	1.14&	0.97&	4.06\\
                     &Cal&	1.00&	1.00&	0.30&	0.99&	0.99&	0.53&	0.92&	1.00&	0.80\\
+                  \midrule
                   \multirow{3}{*}{Cycling} & Im	& 0.99	&0.97&	1.89&	1.27&	0.66&	1.45&	0.99&	0.97&	1.71\\
                     &4c&	1.31&	0.96&	1.43&	3.10&	0.46&	1.76&	1.71&	0.97&	1.47\\
                     &Cal&	1.00&	1.00&	0.39&	1.06&	0.96&	0.36&	1.02&	1.00&	1.00\\
           \bottomrule
       \end{tabular}}
-      \caption{Summary of angles statistics in the three rotation planes, averaged over all joints (n = 5, 3, 2 for Flexion/Extension, Abduction/Adduction, and Internal/External Rotation, respectively.). All conditions are represented: degraded image quality (Im), four cameras instead of eight (4c), and degraded calibration (Cal). These conditions were compared to the reference one (Ref) by calculating the ratio of standard deviation (std/stdref), the Pearson’s correlation coefficient (r), and the mean absolute error (MAE). * Ankle subtalar angle is assimilated to an abduction/adduction angle.}
+      \caption{Summary of angles statistics in the three rotation planes, averaged over all joints (n = 5, 3, 2 for Flexion/Extension, Abduction/Adduction, and Internal/External Rotation, respectively.). All conditions are represented: degraded image quality (Im), four cameras instead of eight (4c), and degraded calibration (Cal). These conditions were compared to the reference one (Ref) by calculating the ratio of standard deviation (std/stdref), the Pearson’s correlation coefficient (r), and the mean absolute error (MAE). *Ankle subtalar angle is assimilated to an abduction/adduction angle.}
       \label{table:tab_statsperplane}
 \end{table}
 
