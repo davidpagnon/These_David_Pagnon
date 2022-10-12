@@ -30,8 +30,9 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Pose2Sim in suboptimal conditions: \newline \newline
-This chapter is adapted from the poster presented at the congress of the Europen College of Sport Science (ECSS): "A 3D markerless protocol with action cameras – Key performance indicators in boxing" \cite{Pagnon2022c}.
+\textit{Boxing is a challenging sport for motion analysis, because movements are fast, 3 dimensional, and involves the whole body. Moreover, it is usually not possible to equip a boxer with markers, lightning conditions and large capture volumes make the classic marker-based difficult, research-grade cameras are too cumbersome to set up in a timely way and lower-end cameras can't be synchronized by hardware, nor with a flash in the context of a competition.\newline\newline
+The objective of the study was to verify whether it is possible to accurately measure Key Performance Indicators (KPIs) in boxing, with a markerless protocol and under suboptimal conditions. This was concurrently validated with a marker-based protocol. A secondary goal was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model. We conclude that KPIs are remarkably well evaluated in all conditions, although the choice of the 2D pose estimator is more influential than the protocol. \newline \newline
+This chapter is adapted from the poster presented at the congress of the European College of Sport Science (ECSS): "A 3D markerless protocol with action cameras – Key performance indicators in boxing" \cite{Pagnon2022c}.
 }
 
 %\smallskip
@@ -40,28 +41,58 @@ This chapter is adapted from the poster presented at the congress of the Europen
 \rule{0.7\linewidth}{.5pt}
 \end{center}
 
+\clearpage
+
 \minitoc
 \newpage
 
 
-Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
 
-Along with synchronization, this topic will be detailed in Chapter 6 on \nameref{ch:6}.
 
-La calibration sera impossible si vous êtes trop loin. Les marqueurs réfléchissants ne réfléchiront pas la lumière des caméras (à tester : marqueurs actifs).  
-Si vous voulez effectuer une post-calibration avec un checkerboard (avec cette méthode par exemple), il faudra que le checkerboard soit assez grand pour qu’il soit bien détecté. Une règle simple : pour avoir de bons résultats, la largeur du checkerboard doit remplir au moins un cinquième de l’image. Si vous voulez couvrir une scène de 20 m, il faudra un checkerboard de 4 m de large...  
-Autre solution non testée : Calculer hors manip les paramètres intrinsèques des caméras vidéo. En manip, placer côte à côte des caméras MoCap Arqus et vidéo Miqus, faire la calibration des Arqus (plus performantes), et ajouter une translation dans les paramètres extrinsèques des Arqus pour avoir ceux des Miqus. 
 
+Estimating forces (intro de ça https://www.mdpi.com/1424-8220/22/17/6522/htm)
 
 \section{Objectives}
+
 \subsection{Key Performance Indicators in boxing}
-\blindtext
+
+Kinematic analysis in sports helps improve sports technique, prevent injuries, and reveal different motor skills among athletes.
+
+In boxing, punching speed is of uttermost importance. However, it is not generated in the same way in jabs (mostly translational movement) as in hooks (mostly rotational). Key performance indicators (KPIs) have been determined [1], but they are usually investigated with subjective visual observation. 
+
 
 \subsection{Limits of research-grade systems in competitions}
-\blindtext
+
+When finer analysis is needed, marker-based kinematics is usually employed. 
+
+However, what if:
+
+•Wearing markers is not conceivable? 
+
+•Research-grade cameras are not available?
+
+•Classic marker-based calibration is impossible? 
+
+•Usual synchronization methods are not feasible? 
+
+Subsidiary question: Does the choice of the 2D pose estimation model matter?
+
+
+
+Markers, Cameras et setup, Calibration, synchronization, Feedback
+
+
+
+% Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
+
+% La calibration sera impossible si vous êtes trop loin. Les marqueurs réfléchissants ne réfléchiront pas la lumière des caméras (à tester : marqueurs actifs).  
+% Si vous voulez effectuer une post-calibration avec un checkerboard (avec cette méthode par exemple), il faudra que le checkerboard soit assez grand pour qu’il soit bien détecté. Une règle simple : pour avoir de bons résultats, la largeur du checkerboard doit remplir au moins un cinquième de l’image. Si vous voulez couvrir une scène de 20 m, il faudra un checkerboard de 4 m de large...  
+% Autre solution non testée : Calculer hors manip les paramètres intrinsèques des caméras vidéo. En manip, placer côte à côte des caméras MoCap Arqus et vidéo Miqus, faire la calibration des Arqus (plus performantes), et ajouter une translation dans les paramètres extrinsèques des Arqus pour avoir ceux des Miqus. 
+
 
 \subsection{Objectives}
-\blindtext
+
+Concurrently validating the accuracy of KPI measurements in boxing with suboptimal markerless protocols.
 
 
 \section{Methods}

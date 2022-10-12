@@ -40,6 +40,7 @@ ENTRY
     series
     title
     type
+    url
     volume
     year
   }
