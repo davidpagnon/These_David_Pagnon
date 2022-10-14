@@ -50,15 +50,39 @@ This chapter is adapted from the poster presented at the congress of the Europea
 
 
 
-Estimating forces (intro de ça https://www.mdpi.com/1424-8220/22/17/6522/htm)
 
 \section{Objectives}
 
 \subsection{Key Performance Indicators in boxing}
 
-Kinematic analysis in sports helps improve sports technique, prevent injuries, and reveal different motor skills among athletes.
+Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Butterworth2013}.
+
+Determining them would typically be done with Principal Component Analysis (PCA)\\\cite{Hotelling1933} by statisticians or data scientists, for example in tennis \cite{ODonoghue2008}. However, this might lead to the selection of indicators which may be hard to retrieve, or not intuitively meaningful (for example, if they consist in the combination of some seemingly unrelated variables.) Moreover, coaches have a very fine and comprehensive understanding of what to look for in their sport. As a consequence, another way of determining KPIs is to simply ask them for guidance, and then to run correlation analysis. 
+
+cf antrhopometric armlength
+
+
+and they are the ones who will use the results of the analysis. Therefore, it is important to involve them in the process of identifying the KPIs, and to make sure that they are meaningful for them.
+
+oftentimes already know what they need to measure, and they have a very fine view of the 
+
+come up to the same conclusions as coaches have, decades ago
+
+
+
+In boxing, the analysis of the kinematics of the upper body is of particular interest, because it is the main source of power in punches. The main objective of this study was to evaluate the accuracy of the 3D kinematic analysis of the upper body in boxing, using a markerless protocol and action cameras. The secondary objective was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model.
+
+
+However, the kinematics of some sports is less impredictive (marathon running vs. boxing)
+
+Kinematic analysis in sports helps improve sports technique, prevent injuries, and reveal different motor skills among athletes. 
+
 
 In boxing, punching speed is of uttermost importance. However, it is not generated in the same way in jabs (mostly translational movement) as in hooks (mostly rotational). Key performance indicators (KPIs) have been determined [1], but they are usually investigated with subjective visual observation. 
+
+
+
+
 
 
 \subsection{Limits of research-grade systems in competitions}
@@ -129,5 +153,10 @@ Cloud computing?
 Temporal consistency?
 
 Shape information for less cameras?
+
+Rolling shutter: Pour les GoPros, la fréquence de roll du shutter de haut en bas est approxivement la même que la fréquence d'acquisition, donc vu qu'on peut filmer jusqu'à 240 Hz en full HD, 120Hz en 4K, et 60Hz à 5.3k, je doute que ce soit un vrai problème...
+Pas de retour visuel instantanné
+Synchro : nouvelles avec GPS, sinon méthodes
+Calib : Mieux qu'avec Qualisys en plein air
 
 \blindtext

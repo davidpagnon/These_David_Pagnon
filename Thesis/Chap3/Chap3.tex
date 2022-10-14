@@ -373,16 +373,16 @@ Calibration remains a challenging task in daylight, at a distance, and with non 
 
 \subsection{Visualization tools}\label{subsec:viztools}
 
-Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to adopt the tool. However, the code has been adopted by other entities. A 3D animation add-on engineer built a Blender \cite{Blender1998} extension using Pose2Sim for realistic 3D markerless animation. However, it is not free nor open-source \cite{Barreto2022} (Figure~\ref{fig_mpp2sos}). In addition, the CAMERA laboratory of the University of Bath is currently developing a GUI around Pose2Sim, which would make the tool more accessible. 
+Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to adopt the tool. However, the code has been adopted by other entities. The 3D animation "CEB" studio built a Blender \cite{Blender1998} extension using Pose2Sim for realistic 3D markerless animation. However, it is not free nor open-source \cite{Barreto2022} (Figure~\ref{fig_mpp2sos}). In addition, the CAMERA laboratory of the University of Bath is currently developing a GUI around Pose2Sim, which would make the tool more accessible. 
 
 \begin{figure}[hbtp]
       \centering
       \def\svgwidth{1\columnwidth}
       \fontsize{10pt}{10pt}\selectfont
       \href{https://blendermarket.com/products/mocap-mpp2soss}{
-            \includegraphics[width=0.95\linewidth]{"../Chap3/Figures/Fig_MPP2SOS.png"}
+            \includegraphics[width=0.93\linewidth]{"../Chap3/Figures/Fig_MPP2SOS.png"}
       }
-      \caption{The MPP2SOS Blender add-on uses Pose2Sim for realistic 3D markerless animation}
+      \caption{CEB Studio built the MPP2SOS Blender add-on, which uses Pose2Sim for realistic 3D markerless animation}
       \label{fig_mpp2sos}
 \end{figure}
 
@@ -428,4 +428,4 @@ Currently, Pose2Sim does not work in real time. This is a drawback for coaches a
 
 \subsection{Other perspectives}
 
-Other minor adjustments could be made in order to improve the triangulation and the filtering steps. Implementing Random Simple Consensus (RANSAC) triangulation \cite{Fischler1981} as an alternative to our weighted Direct Linear Transform (DLT) \cite{Pagnon2021}, and opting for optimal fixed-interval Kalman smoothing instead of low-pass filtering \cite{Rauch1965,Needham2021a}, may reduce errors, especially in large outliers. Performing the pose estimation, the triangulation, and the inverse kinematics on the cloud rather than on a local computer could allow athletes and coaches to use the software in a web application.
+Other minor adjustments could be made in order to improve the triangulation and the filtering steps. Implementing Random Simple Consensus (RANSAC) triangulation \cite{Fischler1981} as an alternative to our weighted Direct Linear Transform (DLT) \cite{Pagnon2021}, and opting for optimal fixed-interval Kalman smoothing instead of low-pass filtering \cite{Rauch1965,Needham2021a}, may reduce errors, especially in large outliers. Performing the pose estimation, the triangulation, and the inverse kinematics on the cloud rather than on a local computer could allow athletes and coaches to use the software in a web application. Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform \cite{Oh2013,Johnson2018,Mundt2019}.
