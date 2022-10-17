@@ -29,44 +29,39 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\lettrine[lines=1]{G}{ }eneral introduction.
+\autoref{ch:1}: Motion capture in sports is traditionally performed with marker-based systems. However, these systems are hardly compatible with sports analysis, as they involve marker placement on the skin, and a heavy setup. Markerless analysis from video sources represents one of the most promising prospects for sports movement analysis. 
 
+\autoref{ch:2}: Markerless motion capture is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to physically consistent kinematics. 
 
-VISUAL ABSTRACT BOXE and BMX
+\autoref{ch:3}: I proposed and released an open-source workflow striving to answer this need, called Pose2Sim \cite{Pagnon2022b} It takes 2D keypoint coordinates obtained with machine learning models as input, robustly triangulates them, and leads to an OpenSim result (Figure 1). 
 
+\autoref{ch:4}: Pose2Sim robustness has been evaluated, regarding people entering and exiting the field of view, image quality, calibration errors, and low number of cameras \cite{Pagnon2021} (Figure 2). 
 
+\autoref{ch:5}: Its accuracy has also been assessed, and deemed sufficient for walking, running, and cycling analysis \cite{Pagnon2022a} (Figure 3). 
 
-Intérêt markerless dans le sport
+\autoref{ch:6}: I also tested the workflow in more challenging conditions, on fast, full-body boxing sequences, captured with GoPro cameras, post-calibrated on geometric cues, and post-synchronized by correlation of keypoint speeds. We concluded that key performance indicators could be correctly evaluated, and that the protocol, whether it employed a full marker-based system, or a markerless one with research-grade hardware, or a markerless one with consumer-grade hardware, mattered less than the choice of a good 2D pose estimator \cite{Pagnon2022c} (Figure 4).  
 
-Problèmes de détection de features dans image, calibration et triangulation, scaling et cinématique inverse, et où mon travail s'inscrit (bridge between 2D feature detection in computer vision, and physically consistent 3D biomechanics for sports)
-
-Présentation détaillée de chaque chapitre
-
-Schéma résumé: acquisition, calibration, pose estimation, triangulation\&filtrage, scaling, inverse kinematics + applications
-
-Insérer graphical abstracts (pour Pose2Sim, Robustness, Accuracy). Autre pour state of the arts, theoretical framework, et pour Boxe et BMX ?
-
-Liste des artiles publiés
+\autoref{ch:7}: Finally, I analyzed BMX start sequences, and jointly used OpenPose for 2D pose estimation, and DeepLabCut for bike detection. The goal was to perform joint inverse kinematics, with an OpenSim model constraining handles to hands, and pedals to feet. The field was too large, and the image quality too low to obtain results. However, we previously captured marker data of a similar scene. Keeping only markers similar to those detected by OpenPose and DeepLabCut, we were able to run the analysis. As a consequence, we hypothesize that assuming sufficiently good image quality, it would be possible to provide joint \{bike+pilot\} kinematics to coaches. 
 
 
 
-CNRS, LJK, Pprime, FFC (start with simple)
 
-Motivation,
-Objectives,
-Contributions,
-Content
 
+This thesis lead to the publication of 3 articles, 1 conference paper, and the release of an open-source package. Another article has been published during this doctoral program, although it is related to it.
+
+Liste des articles publiés
+
+
+It has been Perf-analytics, blablabla 
+CNRS, LJK, Pprime, FFC
 
 
 -----
 
-Motion capture in sports is traditionally performed with marker-based systems. However, these systems are hardly compatible with sports analysis, as they involve marker placement on the skin, and a heavy setup. Markerless analysis from video sources represents one of the most promising prospects for sports movement analysis. It is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to physically consistent kinematics. 
 
-I proposed and released an open-source workflow striving to answer this need, called Pose2Sim [Pagnon2022b]. It takes 2D keypoint coordinates obtained with machine learning models as input, robustly triangulates them, and leads to an OpenSim result. Its robustness has been evaluated, regarding people entering and exiting the field of view, image quality, calibration errors, and low number of cameras [Pagnon2021]. Its accuracy has also been assessed, and deemed sufficient for walking, running, and cycling analysis [Pagnon2022a]. 
 
-I also tested the workflow in more challenging conditions, on fast, full-body boxing sequences, captured with GoPro cameras, post-calibrated on geometric cues, and post-synchronized by correlation of keypoint speeds. We concluded that key performance indicators could be correctly evaluated, and that the protocol, whether it employed a full marker-based system, or a markerless one with research-grade hardware, or a markerless one with consumer-grade hardware, mattered less than the choice of a good 2D pose estimator [Pagnon2022c].  
 
-Finally, I analyzed BMX start sequences, and jointly used OpenPose for 2D pose estimation, and DeepLabCut for bike detection. The goal was to perform joint inverse kinematics, with an OpenSim model constraining handles to hands, and pedals to feet. The field was too large, and the image quality too low to obtain results. However, we previously captured marker data of a similar scene. Keeping only markers similar to those detected by OpenPose and DeepLabCut, we were able to run the analysis. As a consequence, we hypothesize that assuming sufficiently good image quality, it would be possible to provide joint bike+pilot kinematics to coaches. 
+
+
 
 
