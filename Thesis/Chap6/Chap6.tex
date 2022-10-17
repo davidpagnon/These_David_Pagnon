@@ -55,11 +55,14 @@ This chapter is adapted from the poster presented at the congress of the Europea
 
 \subsection{Key Performance Indicators in boxing}
 
-Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Butterworth2013}.
+Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Butterworth2013}. Determining them would typically be done with Principal Component Analysis (PCA) \cite{Hotelling1933}, which helps to find the main over a large amount of measurable variables, for example in tennis \cite{ODonoghue2008}. However, this might lead to the selection of indicators which may be hard to retrieve, or not intuitively meaningful (for example, if they consist in the combination of some seemingly unrelated variables.) Moreover, coaches usually have a very fine and comprehensive understanding of what to look for in their sport. As a consequence, another way of determining KPIs is to simply ask them for guidance, and verifying which then to run correlation analysis. 
 
-Determining them would typically be done with Principal Component Analysis (PCA)\\\cite{Hotelling1933} by statisticians or data scientists, for example in tennis \cite{ODonoghue2008}. However, this might lead to the selection of indicators which may be hard to retrieve, or not intuitively meaningful (for example, if they consist in the combination of some seemingly unrelated variables.) Moreover, coaches have a very fine and comprehensive understanding of what to look for in their sport. As a consequence, another way of determining KPIs is to simply ask them for guidance, and then to run correlation analysis. 
 
-cf antrhopometric armlength
+
+eigenvectors, helps grouping data together
+
+
+cf anthropometric arm length
 
 
 and they are the ones who will use the results of the analysis. Therefore, it is important to involve them in the process of identifying the KPIs, and to make sure that they are meaningful for them.
@@ -112,6 +115,10 @@ Markers, Cameras et setup, Calibration, synchronization, Feedback
 % La calibration sera impossible si vous êtes trop loin. Les marqueurs réfléchissants ne réfléchiront pas la lumière des caméras (à tester : marqueurs actifs).  
 % Si vous voulez effectuer une post-calibration avec un checkerboard (avec cette méthode par exemple), il faudra que le checkerboard soit assez grand pour qu’il soit bien détecté. Une règle simple : pour avoir de bons résultats, la largeur du checkerboard doit remplir au moins un cinquième de l’image. Si vous voulez couvrir une scène de 20 m, il faudra un checkerboard de 4 m de large...  
 % Autre solution non testée : Calculer hors manip les paramètres intrinsèques des caméras vidéo. En manip, placer côte à côte des caméras MoCap Arqus et vidéo Miqus, faire la calibration des Arqus (plus performantes), et ajouter une translation dans les paramètres extrinsèques des Arqus pour avoir ceux des Miqus. 
+
+
+% Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform [Oh2013, Johnson2018, Mundt2019].
+% Using Xsens markers hidden by clothes in Kinovis? Although not gold-standard
 
 
 \subsection{Objectives}
