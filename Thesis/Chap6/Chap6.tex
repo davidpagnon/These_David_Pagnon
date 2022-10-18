@@ -67,52 +67,30 @@ This chapter is adapted from the poster presented at the congress of the Europea
 
 \subsection{Key Performance Indicators in boxing}
 
-Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Butterworth2013}. Determining them would typically be done with Principal Component Analysis (PCA) \cite{Hotelling1933}, which helps to find the main over a large amount of measurable variables, for example in tennis \cite{ODonoghue2008}. However, this might lead to the selection of indicators which may be hard to retrieve, or not intuitively meaningful (for example, if they consist in the combination of some seemingly unrelated variables.) Moreover, coaches usually have a very fine and comprehensive understanding of what to look for in their sport. As a consequence, another way of determining KPIs is to simply ask them for guidance, and verifying which then to run correlation analysis. 
+Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Hughes2002,Butterworth2013}. Determining them would typically be done in two steps. First, through discussions with coaches, who usually have a subjective, but nevertheless very fine and comprehensive understanding of their sport. Then, the most relevant of these variables can be selected, for example by Principal Component Analysis (PCA) \cite{Hotelling1933}. PCA allows for grouping the variables that explain most of the performance, and excluding the others \cite{ODonoghue2008}.
 
+However, this approach has the disadvantage that prior to pursuing any further statistical analysis, all the potential variables first need to be extensively recorded. Only then, the most relevant ones can be determined. Moreover, it might lead to the selection of indicators which can be hard to retrieve, or be not intuitively meaningful as they potentially consist in the linear combination of some seemingly unrelated variables. In this case, one can choose the performance indicator most associated with each principal component \cite{ODonoghue2008}. Other methods exist, such as exclusive expert coach opinion, hierarchical models based on breaking down individual techniques, or notational analysis based on scoring events and actions along a competition, or other inferential statistics such as regression analysis, and more \cite{Hughes2002,Butterworth2013}.
 
+KPIs in boxing can be separated into several categories: action annotations (such as points scored, number of recorder jabs punches or dodging by leaning backwards \cite{Thomson2013}), anthropometric KPIs (such as long arm length and high muscle percentage \cite{Chaabene2015}), physiological (such as high velocity at maximal oxygen uptake and high anaerobic power \cite{Chaabene2015}), or biomechanical (such as ground reaction force of the rear leg before execution of a cross punch, activation of the latissiums dorsi during the hook punch, or extension of the elbow at the end of the execution of the jab \cite{Lenetsky2020}). 
 
-eigenvectors, helps grouping data together
+Among all these KPIs, we focus on a subset of the biomechanic ones, namely kinematics. Ultimately, a decisive aspect in a punch is its speed, which determines how powerful it is (along with force), and how difficult it will be for the opponent to dodge it. However, speed is not generated the same way in jabs as in hooks, since one is a mostly translational movement whereas the other is mostly rotational. \cite{Lenetsky2020} broke down the phases of both techniques. Among other body motions, the jab involves translating the lead foot toward the target, then the pelvis and the torso follow, while the lead arm flexes at the elbow to store elastic energy prior to throwing the punch. Finally, the elbow extends, until the fist is brought into contact with the target. Regarding the rear hook, it starts with flexion of the rear knee, while the pelvis and torso rotate horizontally away from the target. Then the motion is reversed, as the knee extends and the pelvis and torso rotate toward the target. Lastly, the attacking arm abducts at the shoulder until the fist reaches the target. 
 
-
-cf anthropometric arm length
-
-
-and they are the ones who will use the results of the analysis. Therefore, it is important to involve them in the process of identifying the KPIs, and to make sure that they are meaningful for them.
-
-oftentimes already know what they need to measure, and they have a very fine view of the 
-
-come up to the same conclusions as coaches have, decades ago
-
-
-
-In boxing, the analysis of the kinematics of the upper body is of particular interest, because it is the main source of power in punches. The main objective of this study was to evaluate the accuracy of the 3D kinematic analysis of the upper body in boxing, using a markerless protocol and action cameras. The secondary objective was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model.
-
-
-However, the kinematics of some sports is less impredictive (marathon running vs. boxing)
-
-Kinematic analysis in sports helps improve sports technique, prevent injuries, and reveal different motor skills among athletes. 
-
-
-In boxing, punching speed is of uttermost importance. However, it is not generated in the same way in jabs (mostly translational movement) as in hooks (mostly rotational). Key performance indicators (KPIs) have been determined [1], but they are usually investigated with subjective visual observation. 
-
-shadow boxing
-
-
+As a consequence, it seems like the lead foot translation, the pelvis translation, the lead elbow extension, and the lead fist velocity would consist in good KPIs for the jab, and the rear knee flexion, the pelvis rotation, the rear shoulder extension, and the rear fist velocity would be valuable to estimate for the rear hook.
 
 
 \subsection{Limits of research-grade systems in competitions}
 
-When finer analysis is needed, marker-based kinematics is usually employed. 
+When fine kinematic analysis is needed, the de facto method is marker-based motion capture. However, it is not appropriate in sports, as it involves laying markers directly on the skin, which is not conceivable during a match or a sparring session. It is intrusive and cumbersome, and usually involves specific environment conditions. Moreover, markers can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-However, what if:
+Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, and they need at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't require any cabling, and the operator has nothing to do but clicking the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
 
-•Wearing markers is not conceivable? 
 
-•Research-grade cameras are not available?
 
-•Classic marker-based calibration is impossible? 
 
-•Usual synchronization methods are not feasible? 
+
+•Classic marker-based calibration is impossible? (cameras at a distance or outdoors)
+
+•Usual synchronization methods are not feasible? (no cables, no flash, no clap)
 
 Subsidiary question: Does the choice of the 2D pose estimation model matter?
 
@@ -120,6 +98,15 @@ Subsidiary question: Does the choice of the 2D pose estimation model matter?
 
 Markers, Cameras et setup, Calibration, synchronization, Feedback
 
+
+étude avec imus \cite{Haralabidis2020}
+
+
+In boxing, the analysis of the kinematics of the upper body is of particular interest, because it is the main source of power in punches. The main objective of this study was to evaluate the accuracy of the 3D kinematic analysis of the upper body in boxing, using a markerless protocol and action cameras. The secondary objective was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model.
+
+
+
+shadow boxing
 
 
 % Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
@@ -134,6 +121,8 @@ Markers, Cameras et setup, Calibration, synchronization, Feedback
 
 
 \subsection{Objectives}
+
+\cite{Haralabidis2020} monitored the effect of fatigue on punching performance by fusing the outputs of IMUs with those of OpenPose processed videos. However, is this is not a full markerless protocol, we opt for performing kinematic analysis with Pose2Sim \cite{Pagnon2022b} (see \autoref{ch:3}).
 
 Concurrently validating the accuracy of KPI measurements in boxing with suboptimal markerless protocols.
 
