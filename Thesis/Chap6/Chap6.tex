@@ -88,51 +88,134 @@ As a consequence, it seems like the lead foot translation, the pelvis translatio
 
 When fine kinematic analysis is needed, the de facto method is marker-based motion capture. However, it is not appropriate in sports, as it involves laying markers directly on the skin, which is not conceivable during a match or a sparring session. It is intrusive and cumbersome, and usually involves specific environment conditions. Moreover, markers can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, which are cumbersome and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but clicking the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
+Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, which are cumbersome and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
 
-When outdoors, in direct sunlight and with large capture volumes, extrinsic calibration of video cameras with markers becomes very delicate, too. Markers are inconstantly detected, and no reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless it is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus2017}. Alternatively, it is possible to calibrate extrinsics on any object of known dimensions \cite{Dawson-Howe1994}, be it a human being \cite{Liu2022a}.
+When outdoors, in direct sunlight and with large capture volumes, extrinsic calibration of video cameras with markers becomes very delicate, too. Markers are inconstantly detected, and no reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless it is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus2017}. 
+% Since there only 2 collinear points are tracked on a wand, extrinsic parameters cannot be calculated on one single frame. Hence, Argus assumes an \textit{a priori} calibration, triangulates wand points, and minimizes reprojection errors by sparse bundle adjustment (SBA) frame after frame, while being delivered additional wand points. Then 
+% Essential matrix via 8 points algorithm, minimization via SVD (and not SBA?), decomposition of E to get projection matrice (and then homographic matrice by multiplying by K-1?)
+Alternatively, it is possible to calibrate extrinsics on any object of known dimensions \cite{Dawson-Howe1994}, be it a human being \cite{Liu2022a}.
 
 Lastly, synchronization can also be a problem. Using a trigger signal is the most accurate method, but again, it generally involves using wired cameras. Other methods rely on using a flash, or an audio clap, but they are not possible in the context of a competition. Moreover, the speed of sound is not instantaneous, and the synchronization will not be very accurate on a large capture space if the distance from cameras to sound source is not taken into account \cite{Hasler2009}. For example, a 20 meters difference would lead to a 60 ms shift, which represents 7 frames at 120 fps. Other procedures can be explored, such as WiFi synchronization \cite{Romanov2019} or Bluetooth synchronization \cite{Asgarian2022}, but they usually require using external devices. GPS synchronization is compatible with GoPro 9 and plus, but it has not been evaluated yet \cite{GoPro2022}. Another way to synchronize is to cross-correlate different data streams, and to infer the delay between them from the time of maximum correlation \cite{Plotz2012}. 
 
 
 \subsection{Objectives}
 
-Evaluating kinematic KPIs in boxing is challenging both with marker-based and markerless techniques, mainly because movements are fast, 3 dimensional, and whole body. Moreover, addressing motion capture in sports leads to constraints on the protocol, and involve carefully thinking about the hardware, about the calibration method, and about the synchronization procedure. These three elements determine 3D reconstruction. However, before this stage comes the 2D pose estimation. 
+Evaluating kinematic KPIs in boxing is challenging both with marker-based and markerless techniques, mainly because movements are fast, 3 dimensional, and involve the whole body. Moreover, addressing motion capture in sports leads to constraints on the protocol, and require carefully thinking about the hardware, the calibration method, and the synchronization procedure. These three elements determine 3D reconstruction. However, before this stage comes the 2D pose estimation. 
 
 Numerous solutions exist in this regard. AlphaPose \cite{Fang2017} and OpenPose \cite{Cao2019} are the most common, and the most accurate \cite{Needham2021b,Mroz2021}. OpenPose is even more widely used than AlphaPose, which is why we will focus on this human pose detector. Its standard model is body\_25, however the body\_25B subset of the single-network whole-body pose estimation \cite{Hidalgo2019} also provides 25 points, is as fast as the standard one, and is claimed to be more accurate and to reduce false positives \cite{Hidalgo2019,Pagnon2021}. 
 
-The objective of this study is to evaluate how accurately KPIs are retrieved in suboptimal conditions. We will analyze the impact of choosing a markerless protocol, with lower-end cameras, post-calibration on the boxing ring dimensions, post-synchronization on cross-correlation of 2D keypoint speeds, and a standard but less accurate 2D pose estimation model.
+The objective of this study is to evaluate how accurately KPIs are retrieved in suboptimal conditions. We will analyze the impact of choosing a markerless protocol, with lower-end cameras, post-calibration on the boxing ring dimensions, post-synchronization on cross-correlation of 2D keypoint speeds, and a standard but less accurate 2D pose estimation model. 
+
+
+\section{Methods}
+\subsection{Data collection}
+3 adult male elite boxers were selected, from different weight categories and with different morphologies: one right-handed female, one right-handed male, and one left-handed male. Details are provided in Table~\ref{table:participants_details}. They all provided informed written consent. Participants were equipped with 44 reflective markers, placed by one single operator, following the recommendations of the International Society of Biomechanics (ISB) \cite{Wu2002, Wu2005}. See marker set and marker placement Figure~\ref{fig_mkboxe}.
+
+A professional coach instructed the athletes to perform a sequence of shadow-boxing 6 times, consisting in a jab, a high rear hook, and a low rear hook. They executed these movements in their usual training center, on a competition boxing ring. They executed these movements in their usual training center, on a competition boxing ring. 
+
+\begin{table}[!ht]
+      \centering
+      \begin{tabular}{llllll}
+          \toprule
+          \textbf{Participant} & \textbf{Gender} & \textbf{Handedness} & \textbf{Age (years)} & \textbf{Height (m)} & \textbf{Weight (kg)} \\ 
+          \specialrule{0.14 em}{0pc}{0pc}
+          1 & Male & Right-handed & 20 & 1.72 & 54 \\ 
+          2 & Male & Left-handed & 18 & 1.90 & 78\\ 
+          3 & Male & Right-handed & 19 & 1.63 & 59\\ 
+          \bottomrule
+      \end{tabular}
+      \caption{Demographic details on the participants.}
+        \label{table:participants_details}
+\end{table}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_MkBoxe.PNG"}
+	\caption{Marker location on the body. Image courtesy of \cite{Lahkar2022}.}
+	\label{fig_mkboxe}
+\end{figure}
+
+\newpage
+
+The boxing sequences were recorded by 12 opto-electronic Qualisys cameras (7 Miqus M3, resolution 2 MP, framerate 300 fps, and 5 Arqus A5, resolution 5 MP, framerate 300 fps), 10 video Qualisys cameras (Miqus videos, resolution 2 MP, framerate 60 fps), and 8 GoPros (4 GoPro 7 and 4 GoPro 8, 2 MP, 120 fps, linear field of view). Marker-based and markerless Qualisys cameras were set up as pairs, except for 2 optoelectronic cameras. Aperture, focus, shutter speed, and other parameters were carefully adjusted. The data stream was recorded with the Qualysis QTM software, which allowed for calibration and synchronization, and for a common frame of reference. GoPro cameras did not need any adjustment prior to recording. However, calibration and synchronization were performed after the capture, following the methods proposed in the next two sections. 
+
+3D marker-based coordinates were calculated with the Qualisys QTM software. These marker data were augmented with joint centers: shoulder centers were defined based on the regression equations adopted from \cite{Dumas2018}, and elbow, wrist, knee, and ankle joints were defined as the midpoints between epicondyle markers \cite{Pohl2010}. Markerless videos were processed by OpenPose v1.6 \cite{Cao2019}, both with body\_25 and body\_25B models. Tracking, triangulation, and filtering were then done with Pose2Sim \cite{Pagnon2022b}. Both marker-based and markerless 3D coordinates were processed by a 10 Hz, 4th order low-pass Butterworth filter \cite{Butterworth1930}, which was deemed appropriate to filter out noise without missing peak values. Inverse kinematics of both were processed with the same OpenSim model \cite{Pagnon2022b}, in order to not interfere with the differences in protocols which were actually investigated.
+
+
+\subsection{Post-calibration on ring dimensions}
+
+Figure~\ref{fig_calib}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_Calib.png"}
+	\caption{Blabla.}
+	\label{fig_calib}
+\end{figure}
+
+
+
+\subsection{Post-synchronization on 2D movement speeds}
+
+Figure~\ref{fig_sync}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_Sync.png"}
+	\caption{Blabla.}
+	\label{fig_sync}
+\end{figure}
+
+
+\subsection{GoPro spatio-temporal base into Qualysis'}
+
+\blindtext
+
+
+\subsection{4 conditions}
+
+KPIs: list
+
+Waveforms of KPIs variables compared with marker-based results
+
+Markerless with Qualisys, markerless with GoPros, markerless with gopros et body\_25B
 
 
 
 
 
-shadow boxing
 
 
 
 Concurrently validating the accuracy of KPI measurements in boxing with suboptimal markerless protocols.
 
 
-\section{Methods}
-\subsection{4 conditions}
-\blindtext
 
-\subsection{Pose-calibration on ring dimensions}
-\blindtext
 
-\subsection{Post-synchronization on 2D movement speeds}
-\blindtext
-
-\subsection{GoPro spatio-temporal base into Qualysis'}
-\blindtext
 
 \subsection{Statistical analysis}
-\blindtext
+
+Inter-protocol CMC \cite{Ferrari2010} (correlation, gain, offset)
 
 
 \section{Results}
-\blindtext
+
+Figure~\ref{fig_graphkpi}
+
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_GraphKPI.png"}
+	\caption{Blabla.}
+	\label{fig_graphkpi}
+\end{figure}
 
 
 \section{Discussion}
@@ -150,6 +233,8 @@ We evaluated that the 3D reconstruction could work reliably in most conditions, 
 
 
 % Subject not well detected?
+
+% Other KPIs?
 
 % Markers, Cameras et setup, Calibration, synchronization, Feedback
 
