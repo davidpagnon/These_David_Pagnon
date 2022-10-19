@@ -105,15 +105,11 @@ The objective of this study is to evaluate how accurately KPIs are retrieved in 
 
 
 
-Subject not well detected?
-
-Markers, Cameras et setup, Calibration, synchronization, Feedback
 
 
 shadow boxing
 
 
-\cite{Haralabidis2020} monitored the effect of fatigue on punching performance by fusing the outputs of IMUs with those of OpenPose processed videos. However, is this is not a full markerless protocol, we opt for performing kinematic analysis with Pose2Sim \cite{Pagnon2022b} (see \autoref{ch:3}).
 
 Concurrently validating the accuracy of KPI measurements in boxing with suboptimal markerless protocols.
 
@@ -146,10 +142,16 @@ We evaluated that the 3D reconstruction could work reliably in most conditions, 
 
 % Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
 
+% \cite{Haralabidis2020} monitored the effect of fatigue on punching performance by fusing the outputs of IMUs with upper-body videos processed with OpenPose. However, this is not a full markerless protocol, we opt for performing kinematic analysis with Pose2Sim \cite{Pagnon2022b} (see \autoref{ch:3}).
 
 
 % Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform [Oh2013, Johnson2018, Mundt2019].
 % Using Xsens markers hidden by clothes in Kinovis? Although not gold-standard
+
+
+% Subject not well detected?
+
+% Markers, Cameras et setup, Calibration, synchronization, Feedback
 
 
 \subsection{Pros and cons of different systems}
