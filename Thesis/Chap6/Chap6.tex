@@ -23,6 +23,12 @@
 \chapter{Application to boxing, using action cameras}
 \label{ch:6}
 
+%%% TITRE ARTICLE
+%%% Evaluation of kinematic performance indicators in boxing in suboptimal conditions
+%%% TITRE
+
+
+
 %==============================================================================	Résumé du chapitre
 
 \begin{center}
@@ -30,7 +36,7 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Boxing is a challenging sport for motion analysis, because movements are fast, 3 dimensional, and involves the whole body. Moreover, it is usually not possible to equip a boxer with markers, lightning conditions and large capture volumes make the classic marker-based difficult, research-grade cameras are too cumbersome to set up in a timely way and lower-end cameras can't be synchronized by hardware, nor with a flash in the context of a competition.\newline\newline
+\textit{Boxing is a challenging sport for motion analysis, because movements are fast, 3 dimensional, and involve the whole body. Moreover, it is usually not possible to equip a boxer with markers, lightning conditions and large capture volumes make the classic marker-based difficult, research-grade cameras are too cumbersome to set up in a timely way and lower-end cameras can't be synchronized by hardware, nor with a flash in the context of a competition.\newline\newline
 The objective of the study was to verify whether it is possible to accurately measure Key Performance Indicators (KPIs) in boxing, with a markerless protocol and under suboptimal conditions. This was concurrently validated with a marker-based protocol. A secondary goal was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model. We conclude that KPIs are remarkably well evaluated in all conditions, although the choice of the 2D pose estimator is more influential than the protocol. \newline \newline
 This chapter is adapted from the poster presented at the congress of the European College of Sport Science (ECSS): "A 3D markerless protocol with action cameras – Key performance indicators in boxing" \cite{Pagnon2022c}.
 }
@@ -63,7 +69,7 @@ This chapter is adapted from the poster presented at the congress of the Europea
 
 
 
-\section{Objectives}
+\section{Introduction}
 
 \subsection{Key Performance Indicators in boxing}
 
@@ -82,45 +88,30 @@ As a consequence, it seems like the lead foot translation, the pelvis translatio
 
 When fine kinematic analysis is needed, the de facto method is marker-based motion capture. However, it is not appropriate in sports, as it involves laying markers directly on the skin, which is not conceivable during a match or a sparring session. It is intrusive and cumbersome, and usually involves specific environment conditions. Moreover, markers can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, and they need at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't require any cabling, and the operator has nothing to do but clicking the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
+Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, which are cumbersome and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but clicking the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
+
+When outdoors, in direct sunlight and with large capture volumes, extrinsic calibration of video cameras with markers becomes very delicate, too. Markers are inconstantly detected, and no reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless it is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus2017}. Alternatively, it is possible to calibrate extrinsics on any object of known dimensions \cite{Dawson-Howe1994}, be it a human being \cite{Liu2022a}.
+
+Lastly, synchronization can also be a problem. Using a trigger signal is the most accurate method, but again, it generally involves using wired cameras. Other methods rely on using a flash, or an audio clap, but they are not possible in the context of a competition. Moreover, the speed of sound is not instantaneous, and the synchronization will not be very accurate on a large capture space if the distance from cameras to sound source is not taken into account \cite{Hasler2009}. For example, a 20 meters difference would lead to a 60 ms shift, which represents 7 frames at 120 fps. Other procedures can be explored, such as WiFi synchronization \cite{Romanov2019} or Bluetooth synchronization \cite{Asgarian2022}, but they usually require using external devices. GPS synchronization is compatible with GoPro 9 and plus, but it has not been evaluated yet \cite{GoPro2022}. Another way to synchronize is to cross-correlate different data streams, and to infer the delay between them from the time of maximum correlation \cite{Plotz2012}. 
+
+
+\subsection{Objectives}
+
+Evaluating kinematic KPIs in boxing is challenging both with marker-based and markerless techniques, mainly because movements are fast, 3 dimensional, and whole body. Moreover, addressing motion capture in sports leads to constraints on the protocol, and involve carefully thinking about the hardware, about the calibration method, and about the synchronization procedure. These three elements determine 3D reconstruction. However, before this stage comes the 2D pose estimation. 
+
+Numerous solutions exist in this regard. AlphaPose \cite{Fang2017} and OpenPose \cite{Cao2019} are the most common, and the most accurate \cite{Needham2021b,Mroz2021}. OpenPose is even more widely used than AlphaPose, which is why we will focus on this human pose detector. Its standard model is body\_25, however the body\_25B subset of the single-network whole-body pose estimation \cite{Hidalgo2019} also provides 25 points, is as fast as the standard one, and is claimed to be more accurate and to reduce false positives \cite{Hidalgo2019,Pagnon2021}. 
+
+The objective of this study is to evaluate how accurately KPIs are retrieved in suboptimal conditions. We will analyze the impact of choosing a markerless protocol, with lower-end cameras, post-calibration on the boxing ring dimensions, post-synchronization on cross-correlation of 2D keypoint speeds, and a standard but less accurate 2D pose estimation model.
 
 
 
-
-
-•Classic marker-based calibration is impossible? (cameras at a distance or outdoors)
-
-•Usual synchronization methods are not feasible? (no cables, no flash, no clap)
-
-Subsidiary question: Does the choice of the 2D pose estimation model matter?
-
-
+Subject not well detected?
 
 Markers, Cameras et setup, Calibration, synchronization, Feedback
 
 
-étude avec imus \cite{Haralabidis2020}
-
-
-In boxing, the analysis of the kinematics of the upper body is of particular interest, because it is the main source of power in punches. The main objective of this study was to evaluate the accuracy of the 3D kinematic analysis of the upper body in boxing, using a markerless protocol and action cameras. The secondary objective was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model.
-
-
-
 shadow boxing
 
-
-% Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
-
-% La calibration sera impossible si vous êtes trop loin. Les marqueurs réfléchissants ne réfléchiront pas la lumière des caméras (à tester : marqueurs actifs).  
-% Si vous voulez effectuer une post-calibration avec un checkerboard (avec cette méthode par exemple), il faudra que le checkerboard soit assez grand pour qu’il soit bien détecté. Une règle simple : pour avoir de bons résultats, la largeur du checkerboard doit remplir au moins un cinquième de l’image. Si vous voulez couvrir une scène de 20 m, il faudra un checkerboard de 4 m de large...  
-% Autre solution non testée : Calculer hors manip les paramètres intrinsèques des caméras vidéo. En manip, placer côte à côte des caméras MoCap Arqus et vidéo Miqus, faire la calibration des Arqus (plus performantes), et ajouter une translation dans les paramètres extrinsèques des Arqus pour avoir ceux des Miqus. 
-
-
-% Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform [Oh2013, Johnson2018, Mundt2019].
-% Using Xsens markers hidden by clothes in Kinovis? Although not gold-standard
-
-
-\subsection{Objectives}
 
 \cite{Haralabidis2020} monitored the effect of fatigue on punching performance by fusing the outputs of IMUs with those of OpenPose processed videos. However, is this is not a full markerless protocol, we opt for performing kinematic analysis with Pose2Sim \cite{Pagnon2022b} (see \autoref{ch:3}).
 
@@ -150,7 +141,16 @@ Concurrently validating the accuracy of KPI measurements in boxing with suboptim
 
 \section{Discussion}
 \subsection{Equipment and protocol vs. pose estimation model}
-\blindtext
+
+We evaluated that the 3D reconstruction could work reliably in most conditions, and that with the current state of the art, carefully choosing a good 2D pose estimation model was more important. However, kinematics from video cameras involve 3 main stages: 2D pose estimation, 3D reconstruction, and kinematic optimization. The last one has not been evaluated, and yet, it is of crucial importance. Choosing a good kinematic model with consistent constraints and bone definitions will determine whether the results can be trusted, or not. In particular, in this study the shoulder was defined as a ball joint, both on the marker-based and on the markerless analysis. However, the scapulothoracic girdle is a very complex multi-articulated joint, which allows for 3 rotations and 3 translations \cite{Seth2016}. Considering how little keypoints are tracked by the standard 3D pose estimators, it is impossble to use a more complex model. However, our shoulder abduction results can probably not be entirely trusted, neither for our markerless nor for our marker-based protocol (see \nameref{ch3_lim} in \autoref{ch:3}).
+
+% Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
+
+
+
+% Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform [Oh2013, Johnson2018, Mundt2019].
+% Using Xsens markers hidden by clothes in Kinovis? Although not gold-standard
+
 
 \subsection{Pros and cons of different systems}
 
@@ -167,4 +167,3 @@ Pas de retour visuel instantanné
 Synchro : nouvelles avec GPS, sinon méthodes
 Calib : Mieux qu'avec Qualisys en plein air
 
-\blindtext
