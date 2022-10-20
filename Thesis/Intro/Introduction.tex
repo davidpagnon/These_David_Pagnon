@@ -66,10 +66,10 @@ The original goal shifted along the program, as it was initially mostly intended
 The thesis is organized as follows:
 
 \vspace*{0.2cm}
-\noindent\autoref{ch:1}: Motion capture in sports is traditionally performed with marker-based systems. However, these systems are hardly compatible with sports analysis, as they involve marker placement on the skin, and a heavy setup. Markerless analysis from video sources represents one of the most promising prospects for sports movement analysis. 
+\noindent\autoref{ch:1}: Motion capture is traditionally performed with marker-based systems. However, these solutions are hardly compatible with on-field sports analysis, as they involve marker placement on the skin, and a heavy setup. As a consequence, markerless approaches are being investigated. 
 
 \vspace*{0.2cm}
-\noindent\autoref{ch:2}: Markerless motion capture is at the intersection of machine learning with 2D pose estimation, computer vision with 3D reconstruction, and biomechanics with constraining coordinates to physically consistent kinematics. 
+\noindent\autoref{ch:2}: Sports movements are often complex and don’t only lie in the sagittal plane, and they are subject to occlusions. Moreover, although the need is not as strong as for clinical applications, it is also important for results to be as coherent as possible. Hence, addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model, represents one of the most promising prospects for sports movement analysis.  Such research field is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to anatomically consistent kinematics. 
 
 \vspace*{0.2cm}
 \noindent\autoref{ch:3}: Pose2Sim, an open-source Python package striving to answer this need, has been proposed and released \cite{Pagnon2022b}. It takes 2D keypoint coordinates obtained with machine learning models as input, robustly triangulates them, and leads to an OpenSim result (Figure~\ref{fig_visabstract1_1}). 
