@@ -37,8 +37,8 @@
 \smallskip
 
 \textit{Boxing is a challenging sport for motion analysis, because movements are fast, 3 dimensional, and involve the whole body. Moreover, it is usually not possible to equip a boxer with markers, lightning conditions and large capture volumes make the classic marker-based difficult, research-grade cameras are too cumbersome to set up in a timely way and lower-end cameras can't be synchronized by hardware, nor with a flash in the context of a competition.\newline\newline
-The objective of the study was to verify whether it is possible to accurately measure Key Performance Indicators (KPIs) in boxing, with a markerless protocol and under suboptimal conditions. This was concurrently validated with a marker-based protocol. A secondary goal was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model. We conclude that KPIs are remarkably well evaluated in all conditions, although the choice of the 2D pose estimator is more influential than the protocol. \newline \newline
-This chapter is adapted from the poster presented at the congress of the European College of Sport Science (ECSS): "A 3D markerless protocol with action cameras – Key performance indicators in boxing" \cite{Pagnon2022c}.
+The objective of the study was to verify whether it is possible to accurately measure Key Performance Indicators (KPIs) in boxing, with a markerless protocol and under suboptimal conditions. This was concurrently validated with a marker-based protocol. A secondary goal was to compare the impact on result quality of a markerless analysis with post-calibration and post-synchronization, to the impact of choosing a different 2D pose estimation model. We conclude that KPIs are remarkably well evaluated in all conditions, although the choice of the 2D pose estimator is more influential than the protocol.\newline \newline
+This chapter is adapted from the poster presented at the congress of the European College of Sport Science (ECSS): "A 3D markerless protocol with action cameras – Key performance indicators in boxing" \cite{Pagnon2022c}. See Figure~\ref{fig_visabstract4} for a visual abstract.
 }
 
 %\smallskip
@@ -75,42 +75,42 @@ This chapter is adapted from the poster presented at the congress of the Europea
 
 Key Performance Indicators (KPIs) are a set of variables which need to be measured in priority, in order to assess performance, or to evaluate main areas where work is needed. Although they are more known in the fields of management or of the industry, identifying them is also important in sports \cite{Hughes2002,Butterworth2013}. Determining them would typically be done in two steps. First, through discussions with coaches, who usually have a subjective, but nevertheless very fine and comprehensive understanding of their sport. Then, the most relevant of these variables can be selected, for example by Principal Component Analysis (PCA) \cite{Hotelling1933}. PCA allows for grouping the variables that explain most of the performance, and excluding the others \cite{ODonoghue2008}.
 
-However, this approach has the disadvantage that prior to pursuing any further statistical analysis, all the potential variables first need to be extensively recorded. Only then, the most relevant ones can be determined. Moreover, it might lead to the selection of indicators which can be hard to retrieve, or be not intuitively meaningful as they potentially consist in the linear combination of some seemingly unrelated variables. In this case, one can choose the performance indicator most associated with each principal component \cite{ODonoghue2008}. Other methods exist, such as exclusive expert coach opinion, hierarchical models based on breaking down individual techniques, or notational analysis based on scoring events and actions along a competition, or other inferential statistics such as regression analysis, and more \cite{Hughes2002,Butterworth2013}.
+However, this approach has the disadvantage that prior to pursuing any further statistical analysis, all the potential variables first need to be extensively recorded. Only then, the most relevant ones can be determined. Moreover, it might lead to the selection of indicators which can be hard to retrieve, or be not intuitively meaningful as they potentially consist in the linear combination of some seemingly unrelated variables. In this case, one can choose the performance indicator most associated with each principal component \cite{ODonoghue2008}. Other methods exist, such as exclusive expert coach opinion, hierarchical models obtained by breaking down individual techniques, or notational analysis based on scoring events and actions along a competition, or other inferential statistic methods such as regression analysis, and more \cite{Hughes2002,Butterworth2013}.
 
-KPIs in boxing can be separated into several categories: action annotations (such as points scored, number of recorder jabs punches or dodging by leaning backwards \cite{Thomson2013}), anthropometric KPIs (such as long arm length and high muscle percentage \cite{Chaabene2015}), physiological (such as high velocity at maximal oxygen uptake and high anaerobic power \cite{Chaabene2015}), or biomechanical (such as ground reaction force of the rear leg before execution of a cross punch, activation of the latissiums dorsi during the hook punch, or extension of the elbow at the end of the execution of the jab \cite{Lenetsky2020}). 
+KPIs in boxing can be separated into several categories: action annotations (such as scored points, number of recorded jabs punches or dodges by leaning backwards \cite{Thomson2013}), anthropometric KPIs (such as arm length and muscle percentage \cite{Chaabene2015}), physiological (such as velocity at maximal oxygen uptake and anaerobic power \cite{Chaabene2015}), or biomechanical (such as ground reaction force of the rear leg before execution of a cross punch, activation of the latissiums dorsi during the hook punch, or extension of the elbow at the end of the execution of the jab \cite{Lenetsky2020}). 
 
-Among all these KPIs, we focus on a subset of the biomechanic ones, namely kinematics. Ultimately, a decisive aspect in a punch is its speed, which determines how powerful it is (along with force), and how difficult it will be for the opponent to dodge it. However, speed is not generated the same way in jabs as in hooks, since one is a mostly translational movement whereas the other is mostly rotational. \cite{Lenetsky2020} broke down the phases of both techniques. Among other body motions, the jab involves translating the lead foot toward the target, then the pelvis and the torso follow, while the lead arm flexes at the elbow to store elastic energy prior to throwing the punch. Finally, the elbow extends, until the fist is brought into contact with the target. Regarding the rear hook, it starts with flexion of the rear knee, while the pelvis and torso rotate horizontally away from the target. Then the motion is reversed, as the knee extends and the pelvis and torso rotate toward the target. Lastly, the attacking arm abducts at the shoulder until the fist reaches the target. 
+Among all these KPIs, we focus on a subset of the biomechanic ones, namely kinematics. Ultimately, a decisive aspect in a punch is its speed. First, a fast punch is difficult for the opponent to dodge. Then, speed multiplied by force is equal to punch power. In addition, punch force is also correlated to hand velocity \cite{Mack2010}. However, speed is not generated the same way in jabs as in hooks, since one is a mostly translational movement whereas the other is mostly rotational. \cite{Lenetsky2020} broke down the phases of both techniques. Among other body motions, the jab first involves translating the lead foot toward the target, then the pelvis and the torso, while the lead arm flexes at the elbow to store elastic energy prior to throwing the punch. Finally, the elbow extends, until the fist is brought into contact with the target. Regarding the rear hook, it starts with flexing the rear knee, while the pelvis and torso rotate horizontally away from the target. Then the motion is reversed, as the knee extends and the pelvis and torso rotate toward the target. Lastly, the attacking arm abducts at the shoulder until the fist reaches the target. 
 
-As a consequence, it seems like the lead foot translation, the pelvis translation, the lead elbow extension, and the lead fist velocity would consist in good KPIs for the jab, and the rear knee flexion, the pelvis rotation, the rear shoulder extension, and the rear fist velocity would be valuable to estimate for the rear hook.
+As a consequence, it appears that lead foot translation, pelvis translation, lead elbow extension, and lead fist velocity would consist in good KPI variables for the jab. Similarly, rear knee flexion, pelvis rotation, rear shoulder extension, and rear fist velocity would be valuable to characterize the rear hook.
 
 \newpage
 
 \subsection{Limits of research-grade systems in competitions}
 
-When fine kinematic analysis is needed, the de facto method is marker-based motion capture. However, it is not appropriate in sports, as it involves laying markers directly on the skin, which is not conceivable during a match or a sparring session. It is intrusive and cumbersome, and usually involves specific environment conditions. Moreover, markers can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
+When fine kinematic analysis is needed, the de facto method is marker-based motion capture. However, it is not appropriate in sports, since it involves laying markers directly on the skin, which is not conceivable during a match or a sparring session. Markers are intrusive and cumbersome, and usually involve specific environmental conditions. Moreover, they can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with cumbersome power and synchronization cables, which are cumbersome and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
+Another constraint of sports analysis is the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with power and synchronization cables, which are obstructing and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
 
-When outdoors, in direct sunlight and with large capture volumes, extrinsic calibration of video cameras with markers becomes delicate, too. Markers are inconstantly detected, and no reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless the board is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard \cite{Zhang2000}, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus2017}. 
+When outdoors, in direct sunlight and with large capture volumes, calibration of video cameras becomes delicate, too: markers on a calibration wand are inconstantly detected. No reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless the board is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard \cite{Zhang2000}, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus2017}. 
 % Since there only 2 collinear points are tracked on a wand, extrinsic parameters cannot be calculated on one single frame. Hence, Argus assumes an \textit{a priori} calibration, triangulates wand points, and minimizes reprojection errors by sparse bundle adjustment (SBA) frame after frame, while being delivered additional wand points. Then 
 % Essential matrix via 8 points algorithm, minimization via SVD (and not SBA?), decomposition of E to get projection matrice (and then homographic matrice by multiplying by K-1?)
 Alternatively, it is possible to calibrate extrinsics on any object of known dimensions \cite{Dawson-Howe1994}, be it a human being \cite{Liu2022a}.
 
-Lastly, synchronization can also be a problem. Using a trigger signal is the most accurate method, but again, it generally involves using wired cameras. Other methods rely on using a flash, or an audio clap, but they are not possible in the context of a competition. Moreover, the speed of sound is not instantaneous, and the synchronization will not be very accurate on a large capture space if the distance from cameras to sound source is not taken into account \cite{Hasler2009}. For example, a 20 meters difference would lead to a 60 ms shift, which represents 7 frames at 120 fps. Identifying the instant of a sharp movement is sometimes used as a time reference, but it is generally not accurate enough for a synchronization to the frame, especially if the framerate is high. Other procedures can be explored, such as WiFi synchronization \cite{Romanov2019} or Bluetooth synchronization \cite{Asgarian2022}, but they usually require using external devices. GPS synchronization is compatible with GoPro 9 and plus, but it has not been evaluated yet \cite{GoPro2022}. Another way to synchronize is to cross-correlate different data streams, and to infer the delay between them from the time of maximum correlation \cite{Plotz2012}. 
+Lastly, synchronization can also be a problem. Using a trigger signal is the most accurate approach, but again, it generally involves using wired cameras. Other methods rely on using a flash, or an audio clap, but they are not possible in the context of a competition. Moreover, the speed of sound is not instantaneous, and the synchronization will not be very accurate on a large capture space if the distance from cameras to sound source is not taken into account \cite{Hasler2009}. For example, a 20 meters difference would lead to a 60 ms shift, which represents 7 frames at 120 fps. Identifying the instant of a sharp movement is sometimes used as a time reference, but it is generally not accurate enough for a synchronization to the frame, especially if the framerate is high. Other procedures can be explored, such as WiFi synchronization \cite{Romanov2019} or Bluetooth synchronization \cite{Asgarian2022}, but they usually require using external devices. GPS synchronization is compatible with GoPro 9 and plus, but it has not been evaluated yet \cite{GoPro2022}. Another way to synchronize data streams is to cross-correlate them, and to infer the delay between them from the time of maximum correlation \cite{Plotz2012}. 
 
 
 \subsection{Objectives}
 
-Evaluating kinematic KPIs in boxing is challenging both with marker-based and markerless techniques, mainly because movements are fast, 3 dimensional, and involve the whole body. Moreover, addressing motion capture in sports leads to constraints on the protocol, and require carefully thinking about the hardware, the calibration method, and the synchronization procedure. These three elements determine 3D reconstruction. However, before this stage comes the 2D pose estimation. 
+Evaluating kinematic KPIs in boxing is inconvenient with marker-based techniques, and challenging with markerless ones. Indeed, boxing movements are fast, 3 dimensional, and involve the whole body. Moreover, addressing motion capture in ecologically valid context involves dealing with constraints on the protocol, and requires carefully thinking about the hardware, the calibration method, and the synchronization procedure. These three elements determine 3D reconstruction. However, before this stage comes the 2D pose estimation. 
 
-Numerous solutions exist in this regard. AlphaPose \cite{Fang2017} and OpenPose \cite{Cao2019} are the most common, and the most accurate \cite{Needham2021b,Mroz2021}. OpenPose is even more widely used than AlphaPose, which is why we will focus on this human pose detector. Its standard model is body\_25, however the body\_25B subset of the single-network whole-body pose estimation \cite{Hidalgo2019} also provides 25 points, is as fast as the standard one, and is claimed to be more accurate and to reduce false positives \cite{Hidalgo2019,Pagnon2021}. 
+Numerous solutions exist in this regard. AlphaPose \cite{Fang2017} and OpenPose \cite{Cao2019} are both the most common and the most accurate \cite{Needham2021b,Mroz2021}. OpenPose is even more widely used than AlphaPose, hence this is the one we choose to focus on. Its standard model is body\_25, however the body\_25B subset of the single-network whole-body pose estimation \cite{Hidalgo2019} also provides 25 points, is as fast as the standard one, and is claimed to be more accurate and to reduce false positives \cite{Hidalgo2019,Pagnon2021}. 
 
-The objective of this study is to evaluate how accurately KPIs are retrieved in suboptimal conditions. We will analyze the impact of choosing a markerless protocol, with lower-end cameras, post-calibration on the boxing ring dimensions, post-synchronization on cross-correlation of 2D keypoint speeds, and a standard but less accurate 2D pose estimation model. 
+The objective of this study is to evaluate how accurately KPIs can be retrieved in suboptimal conditions, concurrently with a marker-based analysis. Results will be evaluated for a research-grade markerless system, for a consumer-grade markerless one with post-calibration and post-synchronization, and for the same consumer-grade system used with a slightly less accurate pose estimation model. A subsidiary question is whether the 3D reconstruction procedure has more or less impact on accuracy than the 2D pose estimation model.
 
 
 \section{Methods}
-\subsection{Data collection}
-3 adult male elite boxers were selected, from different weight categories and with different morphologies: one right-handed female, one right-handed male, and one left-handed male. Details are provided in Table~\ref{table:participants_details}. They all provided informed written consent. Participants were equipped with 44 reflective markers, placed by one single operator, following the recommendations of the International Society of Biomechanics (ISB) \cite{Wu2002, Wu2005}. See marker set and marker placement Figure~\ref{fig_mkboxe}.
+\subsection{Participants and protocol}
+3 adult elite boxers were selected, from different weight categories and with different morphologies: one right-handed female, one right-handed male, and one left-handed male. Details are provided in Table~\ref{table:participants_details}. They all provided informed written consent. Participants were equipped with 44 reflective markers, placed by one single operator, following the recommendations of the International Society of Biomechanics (ISB) \cite{Wu2002, Wu2005}. Marker set and marker placement are detailed Figure~\ref{fig_mkboxe}.
 
 A professional coach instructed the athletes to perform a sequence of shadow-boxing 6 times, consisting in a jab, a high rear hook, and a low rear hook. They executed these movements in their usual training center, on a competition boxing ring. 
 
@@ -138,11 +138,9 @@ A professional coach instructed the athletes to perform a sequence of shadow-box
 	\label{fig_mkboxe}
 \end{figure}
 
-% \newpage
+The boxing sequences were recorded by 12 opto-electronic Qualisys cameras (7 Miqus M3, resolution 2 MP, framerate 300 fps; and 5 Arqus A5, resolution 5 MP, framerate 300 fps), 8 video Qualisys cameras (Miqus videos, resolution 2 MP, framerate 60 fps), and 8 GoPros (4 GoPro 7 and 4 GoPro 8, 2 MP, 120 fps, linear field of view). GoPro videos were down-sampled to 60 fps before pursuing further analysis. Marker-based and markerless Qualisys cameras were placed next to each other as pairs, except for the 2 surplus optoelectronic cameras. Aperture, focus, shutter speed, and other parameters were carefully adjusted by hand. Both data streams were recorded within the Qualysis QTM software, which allowed for calibration and synchronization, and for a common frame of reference. GoPro cameras did not need any adjustment prior to recording. However, calibration and synchronization were performed after the capture, following the methods proposed in the next two sections. 
 
-The boxing sequences were recorded by 12 opto-electronic Qualisys cameras (7 Miqus M3, resolution 2 MP, framerate 300 fps, and 5 Arqus A5, resolution 5 MP, framerate 300 fps), 10 video Qualisys cameras (Miqus videos, resolution 2 MP, framerate 60 fps), and 8 GoPros (4 GoPro 7 and 4 GoPro 8, 2 MP, 120 fps, linear field of view). Marker-based and markerless Qualisys cameras were set up as pairs, except for 2 optoelectronic cameras. Aperture, focus, shutter speed, and other parameters were carefully adjusted. The data stream was recorded with the Qualysis QTM software, which allowed for calibration and synchronization, and for a common frame of reference. GoPro cameras did not need any adjustment prior to recording. However, calibration and synchronization were performed after the capture, following the methods proposed in the next two sections. 
-
-Marker-based coordinates were calculated with the Qualisys QTM software. These 3D marker data were augmented with joint centers: shoulder centers were defined based on the regression equations adopted from \cite{Dumas2018}, and elbow, wrist, knee, and ankle joints were defined as the midpoints between epicondyle markers \cite{Pohl2010}. Markerless videos from GoPro and Qualisys cameras were processed by OpenPose v1.6 \cite{Cao2019}, both with body\_25 and body\_25B models. Tracking, triangulation, and filtering were then done with Pose2Sim \cite{Pagnon2022b}. Both marker-based and markerless 3D coordinates were processed by a 10 Hz, 4th order low-pass Butterworth filter \cite{Butterworth1930}, which was deemed appropriate to filter out noise without missing peak values. Inverse kinematics of both were processed with the same OpenSim model \cite{Pagnon2022b}, in order to not interfere with the other protocol variations which were actually investigated.
+Marker-based 3D coordinates were calculated with the Qualisys QTM software. These marker data were augmented with joint center coordinates: shoulder centers were defined based on the regression equations adopted from \cite{Dumas2018}, and elbow, wrist, knee, and ankle joints were defined as the midpoints between epicondyle markers \cite{Pohl2010}. Markerless videos from GoPro and Qualisys cameras were processed by OpenPose v1.6 \cite{Cao2019}, both with body\_25 and body\_25B models. Once calibration and camera synchronization were solved (see next two sections), tracking, triangulation, and filtering were done with Pose2Sim \cite{Pagnon2022b}. Both marker-based and markerless 3D coordinates were processed by a 10 Hz, 4th order low-pass Butterworth filter \cite{Butterworth1930}, which was deemed appropriate to filter out noise without missing peak values. Inverse kinematics of both were processed with the same OpenSim model \cite{Pagnon2022b}, in order to not interfere with the other protocol variations which were actually investigated.
 
 
 \subsection{Post-calibration on ring dimensions}
@@ -160,9 +158,10 @@ Unlike with Qualisys optoelectronic and video cameras, there is no live calibrat
         \bottomrule
     \end{tabular}
     \caption{Intrinsic parameters of the GoPro 7 and GoPro 8 cameras. The optical center was assumed to be at the center of the image. Focal length was supposed to be identical in both directions, the pixel to be square and not skewed, and $6^{th}$ order radial and $2^{nd}$ order tangential distortion coefficient to be null.}
-	\label{table:tab_intrinsic}
+      \label{table:tab_intrinsic}
 \end{table}
 
+\newpage
 Extrinsic parameters can then be solved by pairing global 3D coordinates of an object to its corresponding 2D coordinates on the image. This is classically done with a frame or a checkerboard laid on the floor (where it can be seen by all cameras), but when cameras are too low or too far from the center of the scene, image coordinates can be imprecise and lead to inaccurate extrinsic calibration. In this case, any object of known dimensions on the scene can be used: in our case, we measured the ring dimensions, and retrieved the corresponding 2D coordinates on each camera view. We then used the Perspective-n-Point (PnP) algorithm using non-linear Levenberg-Marquardt minimization scheme to solve extrinsic parameters \cite{Marchand2015} (see Figure~\ref{fig_calib}). Dimensions of the ring were measured approximately, thus we iteratively adjusted its coordinates in order to minimize the grand average error for all cameras between 2D coordinates and projected 3D coordinates, until all camera errors stayed under 3 cm. 
 
 \begin{figure}[!ht]
@@ -177,74 +176,156 @@ Extrinsic parameters can then be solved by pairing global 3D coordinates of an o
 
 \subsection{Post-synchronization on 2D movement speeds}
 
+GoPro videos were roughly cut to select the approximate same sequence from all cameras. OpenPose 2D keypoint trajectories were differentiated, in order to obtain 2D keypoint speeds. We assumed that two nearby cameras were synchronized when 2D speeds were maximally correlated. 
 
-
-Figure~\ref{fig_sync}
+Hence, we used time-lagged cross-correlation to determine this offset (Figure~\ref{fig_sync}). This can be done for one specific point, or for all of them at once with attributing a different weight to each keypoint. Typically, larger weights could be attributed to fists or to other fast moving keypoints. In practice, all weights were set to 1, since it made results more robust without causing them to be less accurate.
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_Sync.png"}
-	\caption{Blabla.}
-	\label{fig_sync}
+	\caption{\textit{Top:} 2D keypoint speed comparison between two cameras. \textit{Bottom:} The offset frame with maximum correlation corresponds to the synchronization offset.}
+      \label{fig_sync}
 \end{figure}
 
 
-\subsection{GoPro spatio-temporal base into Qualysis'}
+\FloatBarrier
+\subsection{GoPro to Qualisys spatio-temporal coordinate system}
 
-\blindtext
-
-
-\subsection{4 conditions}
-
-4 conditions were compared
-
-KPIs: list
-
-Waveforms of KPIs variables compared with marker-based results
-
-Markerless with Qualisys, markerless with GoPros, markerless with gopros et body\_25B
-
-
-Larger weights could be attributed to fists or to other fast moving keypoints. In practice, we set all weights to 1, since it made results more robust without making them less accurate.
- 
-
-
-
-
-Concurrently validating the accuracy of KPI measurements in boxing with suboptimal markerless protocols.
-
-
-
+In order to be able to compare GoPro results to Qualisys ones, they need to share a common spatio-temporal base. We synchronized both 3D coordinates outputs in the same way as previously described, however with 3D instead of 2D speeds. Then, we transformed GoPro 3D coordinate results to the Qualisys' coordinate system. The rotation and translation needed were found by minimizing the differenc between GoPro and Qualisys 3D coordinates.
 
 
 \subsection{Statistical analysis}
 
-Inter-protocol CMC \cite{Ferrari2010} (correlation, gain, offset)
+Calibration accuracy was assessed by comparing residual reprojection errors with the GoPro protocol to those with the Qualisys one. There is no objective metric for assessing synchronization accuracy, however we estimated it by comparing average Pearson correlation coefficients between 2D keypoint speeds after GoPro synchronization, to the same coefficient obtained with the perfectly synchronized Qualisys system.
+
+We examined time series for lead foot translation, pelvis translation, lead elbow extension, and lead fist velocity for the jab; and rear knee flexion, pelvis rotation, rear shoulder extension, and rear fist velocity for the rear hook. 
+% Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent.
+Waveform similarity between the reference marker-based method and all other markerless ones was assessed with the inter-protocol coefficient of multiple correlation (CMC) \cite{Ferrari2010}, which quantifies in one single value the concurrent effects of differences in correlation, gain, and offset (see \nameref{stats_accuracy} \autoref{ch:5}).
+
+We also retrieved certain quantifiable indicators on the aforementioned recorded variables. For joint angles, rotations, and speeds, we reported peak values and peak times. Since there is no peak in translations, we inspected ranges of motion and times at inflection point. We compared mean absolute differences (MAE) and standard deviation (std) with the reference marker-based method. 
 
 
+\newpage
 \section{Results}
 
-CALIBRATION: 
-In average, mean absolute reprojection errors (MAE) were 2.59 px, which corresponded to 1.93 cm at the center of the scene. Conversely, Qualisys calibration average residuals stayed under 1 mm.
+Calibrating GoPro cameras on ring dimensions led to an average of 2.59 px reprojection error, which corresponds to 1.93 cm of error at the center of the scene. Conversely, Qualisys average residuals for calibration stayed under 1 mm. After synchronization, Pearson correlation coefficient between 2D speeds was 0.69 in average for GoPros, while it was 0.73 with the Qualisys system. 
 
-Figure~\ref{fig_graphkpi}
+Waveforms were very dissimilar across participants, especially for the hook technique. However, they very much alike among each participant's trials. Differences were almost imperceptible across protocols, although the use of the standard body\_25 model hampered the results more (Figure~\ref{fig_graphkpi}).
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_GraphKPI.png"}
-	\caption{Blabla.}
+	\caption{Waveforms comparison of selected variables for a sequence of jab, high hook, and low hook in boxing. Waveforms look very similar across all protocols, even though the use of the standard OpenPose body\_25b model instead of the experimental body\_25b one seems to cause more discrepancy when compared to the reference marker-based analysis.}
 	\label{fig_graphkpi}
 \end{figure}
 
+\clearpage
+Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). However, the use of the default body\_25 OpenPose model instead of the experimental body\_25b one led to a slight decrease in accuracy both with research-grade and with consumer-grade protocols, even results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90. Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
 
+\begin{table}[!ht]
+      \centering
+      \resizebox{0.7\textwidth}{!}{
+      \begin{tabular}{lllll}
+          \toprule
+          \shortstack{\\ \textbf{Marker-based vs. $\rightarrow$}} & \shortstack{\textbf{Markerless}\\\textbf{with Qualisys}} & \shortstack{\textbf{Markerless}\\ \textbf{with GoPros}} & \shortstack{\textbf{Markerless with}\\\textbf{Qualisys \& body\_25}} & \shortstack{\textbf{Markerless with}\\\textbf{GoPros \& body\_25}} \\
+          \midrule
+          \textbf{CMC} & \multicolumn{4}{c}{Jab punch} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          Lead foot translation & 1.00 & 1.00 & - & 1.00\\
+          Pelvis translation & 1.00 & 1.00 & - & 1.00\\
+          Lead elbow extension & 1.00 & 0.98 & - & 0.95\\
+          Lead fist velocity & 0.99 & 0.97 & - & 0.91\\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          ~ & \multicolumn{4}{c}{Hook punches} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          Rear knee flexion & 0.99 & 0.99 & - & 0.99\\
+          Pelvis rotation & 0.99 & 0.98 & - & 0.96\\
+          Rear shoulder rot. & 0.98 & 0.97 & - & 0.91 \\
+          Rear fist velocity & 0.99 & 0.97 & - & 0.90\\
+          \bottomrule
+      \end{tabular}}
+      \caption{The Coefficient of Multiple Correlation (CMC) was used to assess the waveform similarity of the variables of interest. Agreement is deemed excellent if CMC>0.95, and very good if CMC>0.85 \cite{Ferrari2010}.}
+      \label{table:tab_cmcboxe}
+\end{table}
+
+\begin{table}[!ht]
+      \centering
+      \resizebox{\textwidth}{!}{
+      \begin{tabular}{llllll}
+          \toprule
+          ~ & \shortstack{\textbf{Marker-based}\\ ~} & \shortstack{\textbf{Markerless}\\\textbf{with Qualisys}} & \shortstack{\textbf{Markerless}\\ \textbf{with GoPros}} & \shortstack{\textbf{Markerless with}\\\textbf{Qualisys \& body\_25}} & \shortstack{\textbf{Markerless with}\\\textbf{GoPros \& body\_25}} \\
+          \midrule
+          \textbf{Peak value mean (std) \emph{or}} \\ \textbf{Range of motion mean (std)\(^1\)} & \multicolumn{5}{c}{\shortstack{Jab punch\\~}} \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          Lead foot translation\(^1\) & - & - & - & - \\
+          Pelvis translation\(^1\) & - & - & - & - \\
+          Lead elbow extension & - & - & - & - \\
+          Lead fist velocity & - & - & - & - \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          ~ & \multicolumn{5}{c}{Hook punches} \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          Rear knee flexion & - & - & - & - \\
+          Pelvis rotation & - & - & - & - \\
+          Rear shoulder rot. & - & - & - & - \\
+          Rear fist velocity & - & - & - & - \\
+          \midrule
+          \textbf{Peak time mean (std) \emph{or}} \\ \textbf{Inflection point mean (std)\(^1\)}  & \multicolumn{5}{c}{\shortstack{Jab punch\\~}} \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          Rear knee flexion & - & - & - & - \\
+          Pelvis rotation & - & - & - & - \\
+          Rear shoulder rot. & - & - & - & - \\
+          Rear fist velocity & - & - & - & - \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          ~ & \multicolumn{5}{c}{Hook punches} \\
+          \cmidrule(l{2pt}r{2pt}){2-6}
+          Rear knee flexion & - & - & - & - \\
+          Pelvis rotation & - & - & - & - \\
+          Rear shoulder rot. & - & - & - & - \\
+          Rear fist velocity & - & - & - & - \\
+          \bottomrule
+      \end{tabular}}
+      \caption{Peak values and peak time difference for each variable captured through each protocol, as compared to marker-based reference results. \(^1\) As there is no peak in translations, we evaluated range of motion differences and time of inflection point instead. Std: standard deviation. * indicates statistically significant differences (p<0.05).}
+      \label{table:tab_peakboxe}
+\end{table}
+
+
+
+
+
+
+\FloatBarrier
 \section{Discussion}
 \subsection{Equipment and protocol vs. pose estimation model}
 
+Ecologically valid context (competition ring, markerless possible, minimal interference with the athlete and with the event taking place). Not multi-person, problematic for a match. Planned to be implemented to Pose2Sim shortly.
+
+Markerless performs remarkably well in all conditions, for all the monitored kinematics KPIs.
+And yet, the movements were challenging: 3D, high speed, whole body. This opens the way to sports kinematic analysis and to KPI determination in context, when marker-based analysis is not possible. 
+Equipment and protocol matter less than the choice of the pose estimation model, which should be chosen with special care.Some other models provided by OpenPose or other methods are less accurate \cite{Needham2021b}, and may lead to divergent results. 
+Translations and rotations are in excellent agreement with marker-based results, except from shoulder rotations. Velocities in very good agreement but less exact: they derive from positions, and thus amplify these errors. The shoulder is modeled as a ball joint in our OpenSimmodel, which must cause inaccuracies in all results, including marker-based ones.
+
+The GoPro markerless analysis used light-weight and consumer-grade hardware, it involved a calibration procedure which caused larger residual errors than the one done with a wand equipped with reflective markers, and it synchronized streams based on 2D movement speeds instead of on a hardware trigger. In spite of all this, there was virtually no difference between the analysis done by the Qualisys system and the GoPro one. The output being virtually the same as long as the right 2D pose detection model is used, practical considerations remain: a setup with action cameras is cheap, easy to transport, fast to set up, and not cumbersome; however, it does not provide any light feedback, and requires careful planning for sparing battery life, and potentially involves more complicated post-processing in terms of calibration and synchronization (it can be semi-automatized).
+
+Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent. High waveform variability between boxers (technique repeatable by all of them, however hook technique different between boxers even though they were asked to perform the same boxing sequence, and despite they were all elite boxers. Jab technique pretty similar between boxers.)
+
+Simpler KPIs such as the Center of Pressure (CoP) trajectory or the height difference between fists and the nose should be negligible.
+
+Peak velocities in jabs and hooks were in accordance with previously reported results \cite{Whiting1988,Piorkowski2011}.
+
+With the help of both IMUs and videos together, it has been shown that along with fatigue, boxers tend to release their guard, lift their elbow, and increase their shoulder abduction. Assuming that the OpenSim model used for both marker-based and markerless analysis is accurate enough for the measure of shoulder abduction, it is possible to monitor it without the use of markers, IMUs, or any apparatus other than non-invasive and consumer-grade video cameras.  
+
 We evaluated that the 3D reconstruction could work reliably in most conditions, and that with the current state of the art, carefully choosing a good 2D pose estimation model was more important. However, kinematics from video cameras involve 3 main stages: 2D pose estimation, 3D reconstruction, and kinematic optimization. The last one has not been evaluated, and yet, it is of crucial importance. Choosing a good kinematic model with consistent constraints and bone definitions will determine whether the results can be trusted, or not. In particular, in this study the shoulder was defined as a ball joint, both on the marker-based and on the markerless analysis. However, the scapulothoracic girdle is a very complex multi-articulated joint, which allows for 3 rotations and 3 translations \cite{Seth2016}. Considering how little keypoints are tracked by the standard 3D pose estimators, it is impossble to use a more complex model. However, our shoulder abduction results can probably not be entirely trusted, neither for our markerless nor for our marker-based protocol (see \nameref{ch3_lim} in \autoref{ch:3}).
+
+
+
+
+
+
+
 
 % Calibration remains a challenging task in daylight, at a distance, with non research-grade cameras, and in a sports scene. It could be useful to make it more robust, either by implementing the Aniposelib library \cite{Karashchuk2020}, or by calibrating automatically on people’s limb length \cite{Liu2022a}.
 
@@ -264,11 +345,13 @@ We evaluated that the 3D reconstruction could work reliably in most conditions, 
 
 \subsection{Pros and cons of different systems}
 
+
+
 Auto-calibration with person?
 
 Cloud computing?
 
-Temporal consistency?
+Temporal consistency? 2 frames de retard par section d'une minute -> pas exactement 60 fps, mais 59,96 fps -> shift is predictable
 
 Shape information for less cameras?
 
