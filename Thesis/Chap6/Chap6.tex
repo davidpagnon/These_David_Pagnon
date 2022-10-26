@@ -118,8 +118,8 @@ A professional coach instructed the athletes to perform a sequence of shadow-box
           \textbf{Participant} & \textbf{Gender} & \textbf{Handedness} & \textbf{Age (years)} & \textbf{Height (m)} & \textbf{Weight (kg)} \\ 
           \specialrule{0.14 em}{0pc}{0pc}
           1 & Male & Right-handed & 20 & 1.72 & 54 \\ 
-          2 & Male & Left-handed & 18 & 1.90 & 78\\ 
-          3 & Male & Right-handed & 19 & 1.63 & 59\\ 
+          2 & Female & Right-handed & 19 & 1.63 & 59\\ 
+          3 & Male & Left-handed & 18 & 1.90 & 78\\ 
           \bottomrule
       \end{tabular}
       \caption{Demographic details on the participants.}
@@ -348,7 +348,11 @@ Auto-calibration with person?
 
 Cloud computing?
 
-Temporal consistency? 2 frames de retard par section d'une minute -> pas exactement 60 fps, mais 59,96 fps -> shift is predictable
+120 fps mode of GoPro actually samples at 119.88 fps, i.e., 59.94 fps after resampling. This is a holdout from the introduction of color on television in North America in the 1950s. This leads to a 3.6 frames delay per minute (0.06 s) when compared to the true 60 fps by Qualisys cameras. This led to a temporal drift, and artificially hampered our results on peak time comparisons, which could be close to perfect. However, this is not a problem in practice, as long as all cameras involved in the capture shoot at the same framerate.
+% https://www.youtube.com/watch?v=3GJUM6pCpew
+% image & son devaient être compactés dans une fenêtre de 6 Mhz (4.5MHz utilisables). Pour ajouter la couleur (chrominance) sans interférer avec image (luminance) ni le son, il faut mettre la couleur à un intervalle bien précis. Plusieurs choix : changer la résolution horizontale, ou changer la fréquence. Le format NTSC a choisi de changer la fréquence, de passer de 30Hz à 29.97Hz. 
+% PAL a choisi de changer la résolution (sur une base de courant à 50Hz, on arrive à 25 fps). 
+% Avantage: fréquence moins absurde, ils auraient pu faire pareil aux USA, ce qui aurait résulté en la même résolution et une meilleure compatibilité. Inconvénient: les vieilles TV noir et blanc n'auraient pas été compatibles.
 
 Shape information for less cameras?
 
