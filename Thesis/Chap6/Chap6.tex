@@ -226,6 +226,11 @@ Waveforms were very dissimilar across participants, especially for the hook tech
 \clearpage
 Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). However, the use of the default body\_25 OpenPose model instead of the experimental body\_25b one led to a slight decrease in accuracy both with research-grade and with consumer-grade protocols, even results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90. Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
 
+ONSET INSTEAD OF INFLECTION TIME: THRESHOLD ON MOVING AVERAGE OVER 3 frames (0.05 s) (adaptive depending on variable and on subject)
+
+
+No apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. Mean and standard deviation were only computer for the other 2 subjects.
+
 \begin{table}[!ht]
       \centering
       \resizebox{0.7\textwidth}{!}{
@@ -321,9 +326,9 @@ With the help of both IMUs and videos together, it has been shown that along wit
 We evaluated that the 3D reconstruction could work reliably in most conditions, and that with the current state of the art, carefully choosing a good 2D pose estimation model was more important. However, kinematics from video cameras involve 3 main stages: 2D pose estimation, 3D reconstruction, and kinematic optimization. The last one has not been evaluated, and yet, it is of crucial importance. Choosing a good kinematic model with consistent constraints and bone definitions will determine whether the results can be trusted, or not. In particular, in this study the shoulder was defined as a ball joint, both on the marker-based and on the markerless analysis. However, the scapulothoracic girdle is a very complex multi-articulated joint, which allows for 3 rotations and 3 translations \cite{Seth2016}. Considering how little keypoints are tracked by the standard 3D pose estimators, it is impossble to use a more complex model. However, our shoulder abduction results can probably not be entirely trusted, neither for our markerless nor for our marker-based protocol (see \nameref{ch3_lim} in \autoref{ch:3}).
 
 
+Limited statistical power: only 6 trials for 3 subjects, which is not enough to fully qualify a system or a movement pattern.
 
-
-
+Not very exact for peak times, but okay for peak values (plateau)
 
 
 
