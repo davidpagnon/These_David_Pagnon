@@ -78,7 +78,7 @@ KPIs in boxing can be separated into several categories: action annotations (suc
 
 Among all these KPIs, we focus on a subset of the biomechanic ones, namely kinematics. Ultimately, a decisive aspect in a punch is its speed. First, a fast punch is difficult for the opponent to dodge. Then, speed multiplied by force is equal to punch power. In addition, punch force is also correlated to hand velocity \cite{Mack2010}. However, speed is not generated the same way in jabs as in hooks, since one is a mostly translational movement whereas the other is mostly rotational. \cite{Lenetsky2020} broke down the phases of both techniques. Among other body motions, the jab first involves translating the lead foot toward the target, then the pelvis and the torso, while the lead arm flexes at the elbow to store elastic energy prior to throwing the punch. Finally, the elbow extends, until the fist is brought into contact with the target. Regarding the rear hook, it starts with flexing the rear knee, while the pelvis and torso rotate horizontally away from the target. Then the motion is reversed, as the knee extends and the pelvis and torso rotate toward the target. Lastly, the attacking arm abducts at the shoulder until the fist reaches the target. 
 
-As a consequence, it appears that lead foot translation, pelvis translation, lead elbow extension, and lead fist velocity would consist in good KPI variables for the jab. Similarly, rear knee flexion, pelvis rotation, rear shoulder extension, and rear fist velocity would be valuable to characterize the rear hook.
+As a consequence, it appears that lead foot translation, pelvis translation, lead elbow extension, and lead fist velocity would consist in good KPI variables for the jab. Similarly, rear knee flexion, pelvis rotation, rear shoulder extension, and rear fist velocity would be valuable to characterize the rear hook. 
 
 \newpage
 
@@ -201,7 +201,10 @@ We examined time series for lead foot translation, pelvis translation, lead elbo
 % Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent.
 Waveform similarity between the reference marker-based method and all other markerless ones was assessed with the inter-protocol coefficient of multiple correlation (CMC) \cite{Ferrari2010}, which quantifies in one single value the concurrent effects of differences in correlation, gain, and offset (see \nameref{stats_accuracy} \autoref{ch:5}).
 
-We also retrieved certain quantifiable indicators on the aforementioned recorded variables. For joint angles, rotations, and speeds, we reported peak values and peak times. Since there is no peak in translations, we inspected ranges of motion and times at inflection point. We compared mean absolute differences (MAE) and standard deviation (std) with the reference marker-based method. 
+We also retrieved certain quantifiable indicators on the aforementioned recorded variables. We examined peak times and values for angles and speeds, and onset times and ranges of motion for translations. Once normality of the differences with the reference marker-based method was verified, we used paired t-tests to assess whether these differences were statistically significant. Lastly, we performed a Bland-Altman analysis, i.e., we reported mean differences and 95\% Limits of Agreement (95\% LoA) \cite{Bland1986}. 
+
+
+
 
 
 \newpage
@@ -223,6 +226,11 @@ Waveforms were very dissimilar across participants, especially for the hook tech
 \clearpage
 Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). However, the use of the default body\_25 OpenPose model instead of the experimental body\_25b one led to a slight decrease in accuracy both with research-grade and with consumer-grade protocols, even results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90. Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
 
+ONSET INSTEAD OF INFLECTION TIME: THRESHOLD ON MOVING AVERAGE OVER 3 frames (0.05 s) (adaptive depending on variable and on subject)
+
+
+No apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. Mean and standard deviation were only computer for the other 2 subjects.
+
 \begin{table}[!ht]
       \centering
       \resizebox{0.7\textwidth}{!}{
@@ -232,17 +240,17 @@ Results of the research-grade markerless setup, with specialized cameras, marker
           \midrule
           \textbf{CMC} & \multicolumn{4}{c}{Jab punch} \\
           \cmidrule(l{2pt}r{2pt}){2-5}
-          Lead foot translation & 1.00 & 1.00 & - & 1.00\\
-          Pelvis translation & 1.00 & 1.00 & - & 1.00\\
-          Lead elbow extension & 1.00 & 0.98 & - & 0.95\\
-          Lead fist velocity & 0.99 & 0.97 & - & 0.91\\
+          Lead foot translation & 1.00 & 1.00 & 1.00 & 1.00\\
+          Pelvis translation & 1.00 & 1.00 & 1.00 & 1.00\\
+          Lead elbow extension & 1.00 & 0.98 & 0.99 & 0.95\\
+          Lead fist velocity & 0.99 & 0.97 & 0.98 & 0.91\\
           \cmidrule(l{2pt}r{2pt}){2-5}
           ~ & \multicolumn{4}{c}{Hook punches} \\
           \cmidrule(l{2pt}r{2pt}){2-5}
-          Rear knee flexion & 0.99 & 0.99 & - & 0.99\\
-          Pelvis rotation & 0.99 & 0.98 & - & 0.96\\
-          Rear shoulder rot. & 0.98 & 0.97 & - & 0.91 \\
-          Rear fist velocity & 0.99 & 0.97 & - & 0.90\\
+          Rear knee flexion & 0.99 & 0.99 & 0.99 & 0.99\\
+          Pelvis rotation & 0.99 & 0.99 & 0.99 & 0.98\\
+          Rear shoulder rot. & 0.99 & 0.99 & 0.99 & 0.95\\
+          Rear fist velocity & 0.99 & 0.97 & 0.98 & 0.90\\
           \bottomrule
       \end{tabular}}
       \caption{The Coefficient of Multiple Correlation (CMC) was used to assess the waveform similarity of the variables of interest. Agreement is deemed excellent if CMC>0.95, and very good if CMC>0.85 \cite{Ferrari2010}.}
@@ -252,40 +260,40 @@ Results of the research-grade markerless setup, with specialized cameras, marker
 \begin{table}[!ht]
       \centering
       \resizebox{\textwidth}{!}{
-      \begin{tabular}{llllll}
+      \begin{tabular}{lcccc}
           \toprule
-          ~ & \shortstack{\textbf{Marker-based}\\ ~} & \shortstack{\textbf{Markerless}\\\textbf{with Qualisys}} & \shortstack{\textbf{Markerless}\\ \textbf{with GoPros}} & \shortstack{\textbf{Markerless with}\\\textbf{Qualisys \& body\_25}} & \shortstack{\textbf{Markerless with}\\\textbf{GoPros \& body\_25}} \\
+          \shortstack{\textbf{\(\mathbf{Mean_{err}}\) (std) of }\\ \textbf{Marker-based vs. $\rightarrow$}} & \shortstack{\textbf{Markerless}\\\textbf{with Qualisys}} & \shortstack{\textbf{Markerless}\\ \textbf{with GoPros}} & \shortstack{\textbf{Markerless with}\\\textbf{Qualisys \& body\_25}} & \shortstack{\textbf{Markerless with}\\\textbf{GoPros \& body\_25}} \\
           \midrule
-          \textbf{Peak value mean (std) \emph{or}} \\ \textbf{Range of motion mean (std)\(^1\)} & \multicolumn{5}{c}{\shortstack{Jab punch\\~}} \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          Lead foot translation\(^1\) & - & - & - & - \\
-          Pelvis translation\(^1\) & - & - & - & - \\
-          Lead elbow extension & - & - & - & - \\
-          Lead fist velocity & - & - & - & - \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          ~ & \multicolumn{5}{c}{Hook punches} \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          Rear knee flexion & - & - & - & - \\
-          Pelvis rotation & - & - & - & - \\
-          Rear shoulder rot. & - & - & - & - \\
-          Rear fist velocity & - & - & - & - \\
+          \textbf{Peak value \emph{or} ROM\(^1\)} & \multicolumn{4}{c}{Jab punch} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          \raggedleft Lead foot translation\(^1\) & -10.6 (6.69) & -9.97 (7.39) & -1.08 (9.82) & 4.85 (11.96) \\
+          \raggedleft{Pelvis translation\(^1\)} & -6.85 (6.00) & 4.33 (5.25) & 4.11 (7.40) & 11.2 (9.47) \\
+          Lead elbow extension & -2.92 (2.01) & -8.56 (3.50) & 10.2 (4.26) & 17.2 (6.08) \\
+          Lead fist velocity & -0.42 (0.05) & -0.23 (0.15) & -0.43 (0.15) & -0.43 (0.15) \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          ~ & \multicolumn{4}{c}{Hook punches} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          Rear knee flexion & 5.35 (1.92) & 3.99 (2.06) & -0.51 (1.87) & 1.74 (2.84) \\
+          Pelvis rotation & -3.87 (4.76) & -7.88 (2.66) & -6.89 (4.07) & 11.8 (5.69) \\
+          Rear shoulder rot. & -4.10 (2.22) & -2.73 (2.94) & -3.44 (2.70) & -0.91 (6.22) \\
+          Rear fist velocity & -0.14 (0.10) & -0.35 (0.22) & -0.34 (0.14) & -0.40 (0.61) \\
           \midrule
-          \textbf{Peak time mean (std) \emph{or}} \\ \textbf{Inflection point mean (std)\(^1\)}  & \multicolumn{5}{c}{\shortstack{Jab punch\\~}} \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          Rear knee flexion & - & - & - & - \\
-          Pelvis rotation & - & - & - & - \\
-          Rear shoulder rot. & - & - & - & - \\
-          Rear fist velocity & - & - & - & - \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          ~ & \multicolumn{5}{c}{Hook punches} \\
-          \cmidrule(l{2pt}r{2pt}){2-6}
-          Rear knee flexion & - & - & - & - \\
-          Pelvis rotation & - & - & - & - \\
-          Rear shoulder rot. & - & - & - & - \\
-          Rear fist velocity & - & - & - & - \\
+          \textbf{Peak time \emph{or} Onset time\(^1\)} & \multicolumn{4}{c}{Jab punch} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          Rear knee flexion & -0.93 (2.27) & -14.8 (11.35) & -1.85 (5.31) & -34.3 (18.2) \\
+          Pelvis rotation & 6.48 (8.65) & -7.41 (13.79) & 7.41 (5.31) & -14.8 (18.2) \\
+          Rear shoulder rot. & -3.70 (5.31) & -2.78 (11.91) & -3.70 (6.38) & -19.4 (19.8) \\
+          Rear fist velocity & -8.33 (8.78) & -13.0 (9.8) & -10.2 (10.4) & -20.4 (15.1) \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          ~ & \multicolumn{4}{c}{Hook punches} \\
+          \cmidrule(l{2pt}r{2pt}){2-5}
+          Rear knee flexion & 15.3 (27.0) & 9.72 (31.24) & -19.4 (34.5) & -19.4 (48.2) \\
+          Pelvis rotation & 18.5 (41.8) & 28.5 (49.5) & 31.5 (58.0) & 32.4 (38.2) \\
+          Rear shoulder rot. & -58.3 (52.1) & -40.3 (45.0) & -56.4 (59.6) & -15.3 (55.5) \\
+          Rear fist velocity & 0.93 (2.27) & -7.41 (19.41) & -2.78 (9.00) & -14.8 (28.0) \\
           \bottomrule
       \end{tabular}}
-      \caption{Peak values and peak time difference for each variable captured through each protocol, as compared to marker-based reference results. \(^1\) As there is no peak in translations, we evaluated range of motion differences and time of inflection point instead. Std: standard deviation. * indicates statistically significant differences (p<0.05).}
+      \caption{Mean and standard deviation (std) errors of the boxing KPIs captured through each protocol, as compared to marker-based reference results. \(^1\) Peak values and times were observed for rotations and speeds, and ROMs and onset times for translations. Translations are expressed in millimeters (mm), rotations in degrees (°), speeds in meters per second (m/s), and times in milliseconds (ms).  ROM: Range Of Motion. * indicates statistically significant differences (p<0.05).}
       \label{table:tab_peakboxe}
 \end{table}
 
@@ -303,9 +311,11 @@ Ecologically valid context (competition ring, markerless possible, minimal inter
 Markerless performs remarkably well in all conditions, for all the monitored kinematics KPIs.
 And yet, the movements were challenging: 3D, high speed, whole body. This opens the way to sports kinematic analysis and to KPI determination in context, when marker-based analysis is not possible. 
 Equipment and protocol matter less than the choice of the pose estimation model, which should be chosen with special care.Some other models provided by OpenPose or other methods are less accurate \cite{Needham2021b}, and may lead to divergent results. 
-Translations and rotations are in excellent agreement with marker-based results, except from shoulder rotations. Velocities in very good agreement but less exact: they derive from positions, and thus amplify these errors. The shoulder is modeled as a ball joint in our OpenSimmodel, which must cause inaccuracies in all results, including marker-based ones.
+Translations and rotations are in excellent agreement with marker-based results, except from shoulder rotations. Velocities in very good agreement but less exact: they derive from positions, and thus amplify these errors. The shoulder is modeled as a ball joint in our OpenSim model, which must cause inaccuracies in all results, including marker-based ones.
 
 The GoPro markerless analysis used light-weight and consumer-grade hardware, it involved a calibration procedure which caused larger residual errors than the one done with a wand equipped with reflective markers, and it synchronized streams based on 2D movement speeds instead of on a hardware trigger. In spite of all this, there was virtually no difference between the analysis done by the Qualisys system and the GoPro one. The output being virtually the same as long as the right 2D pose detection model is used, practical considerations remain: a setup with action cameras is cheap, easy to transport, fast to set up, and not cumbersome; however, it does not provide any light feedback, and requires careful planning for sparing battery life, and potentially involves more complicated post-processing in terms of calibration and synchronization (it can be semi-automatized).
+GoPros: wider field of view, which means the athlete was smaller on image than with Qualysis. However, it is good when filming in more restricted space.
+
 
 Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent. High waveform variability between boxers (technique repeatable by all of them, however hook technique different between boxers even though they were asked to perform the same boxing sequence, and despite they were all elite boxers. Jab technique pretty similar between boxers.)
 
@@ -318,9 +328,9 @@ With the help of both IMUs and videos together, it has been shown that along wit
 We evaluated that the 3D reconstruction could work reliably in most conditions, and that with the current state of the art, carefully choosing a good 2D pose estimation model was more important. However, kinematics from video cameras involve 3 main stages: 2D pose estimation, 3D reconstruction, and kinematic optimization. The last one has not been evaluated, and yet, it is of crucial importance. Choosing a good kinematic model with consistent constraints and bone definitions will determine whether the results can be trusted, or not. In particular, in this study the shoulder was defined as a ball joint, both on the marker-based and on the markerless analysis. However, the scapulothoracic girdle is a very complex multi-articulated joint, which allows for 3 rotations and 3 translations \cite{Seth2016}. Considering how little keypoints are tracked by the standard 3D pose estimators, it is impossble to use a more complex model. However, our shoulder abduction results can probably not be entirely trusted, neither for our markerless nor for our marker-based protocol (see \nameref{ch3_lim} in \autoref{ch:3}).
 
 
+Limited statistical power: only 6 trials for 3 subjects, which is not enough to fully qualify a system or a movement pattern.
 
-
-
+Not very exact for peak times, but okay for peak values (plateau)
 
 
 
