@@ -195,7 +195,7 @@ In order to be able to compare GoPro results to Qualisys ones, they need to shar
 
 \subsection{Statistical analysis}
 
-Calibration accuracy was assessed by comparing residual reprojection errors with the GoPro protocol to those with the Qualisys one. There is no objective metric for assessing synchronization accuracy, however we estimated it by comparing average Pearson correlation coefficients between 2D keypoint speeds after GoPro synchronization, to the same coefficient obtained with the perfectly synchronized Qualisys system.
+Calibration accuracy was assessed by comparing residual reprojection errors with the GoPro protocol to those with the Qualisys one. There is no objective metric for assessing synchronization accuracy, however we estimated it indirectly. Once GoPro cameras were synchronized two by two, we retrieved the resulting Pearson correlation coefficient between 2D speeds, and averaged it across all cameras. Similarly, we calculated the same coefficient for the perfectly synchronized Qualisys system. We assumed that the difference was mostly due to the synchronization error. A correlation is generally considered to be weak if r<0.5, moderate if 0.5<r<0.7, and strong if r>0.7.
 
 We examined time series for lead foot translation, pelvis translation, lead elbow extension, and lead fist velocity for the jab; and rear knee flexion, pelvis rotation, rear shoulder extension, and rear fist velocity for the rear hook. 
 % Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent.
@@ -203,46 +203,28 @@ Waveform similarity between the reference marker-based method and all other mark
 
 We also retrieved certain quantifiable indicators on the aforementioned recorded variables. Ranges of motion and onset times were examined for translations, and peak values and times for angles and speeds. We computed mean differences and standard deviation (std) between marker-based results and all other protocol results. The impact of the camera type, and of the 2D pose estimation model, were similarly explored. 
 
-Normality of the distribution of differences was verified with a Shapiro-Wilk test 
-
-, we used paired t-tests to  Significance of differences among
-
-As differences were not normally distributed, paired t-test could not be rigorously performed; and as they were more frequently null or tied than not, Wilcoxon signed-rank tests could not be used either. As a consequence, we could not reject the null hypothesis that results are identical in average. 
-However, we could still compare the magnitude of differences between protocols, and between camera types and 2D pose estimation models.
+Normality of the distribution of differences was verified with a Shapiro-Wilk test \cite{Shapiro1965}. If this condition was satisfied, we used paired t-tests to test the null hypothesis that there was no statistical difference between protocols \cite{Student1908}. If not, we used the Wilcoxon signed-rank test \cite{Wilcoxon1945}. When some paired differences were equal to zero, the normal approximation was used. When less than 10 of the paired differences were non-zero, we could not reject the null hypothesis that mean paired results were equal. We used a significance level of 0.05.
 
 
-
-% the differences between the reference and the markerless methods. We also used the Wilcoxon signed-rank test to compare the differences between the reference and the markerless methods when normality was not verified. We used a significance level of 0.05.
-
-% with the reference marker-based method was verified, we used paired t-tests to assess whether these differences were statistically significant. Lastly, we performed a Bland-Altman analysis, i.e., we reported mean differences and 95\% Limits of Agreement (95\% LoA) \cite{Bland1986}. 
-
-
-
-
-
-\newpage
 \section{Results}
 
-Calibrating GoPro cameras on ring dimensions led to an average of 2.59 px reprojection error, which corresponds to 1.93 cm of error at the center of the scene. Conversely, Qualisys average residuals for calibration stayed under 1 mm. After synchronization, Pearson correlation coefficient between 2D speeds was 0.69 in average for GoPros, while it was 0.73 with the Qualisys system. 
+\subsection{Calibration and synchronization accuracies}
 
-Waveforms were very dissimilar across participants, especially for the hook technique. However, they very much alike among each participant's trials. Differences were almost imperceptible across protocols, although the use of the standard body\_25 model hampered the results more (Figure~\ref{fig_graphkpi}).
+Calibrating GoPro cameras on ring dimensions led to an average of 2.59 px reprojection error, which corresponds to 1.93 cm of error at the center of the scene. Conversely, Qualisys average residuals for calibration stayed under 1 mm, which is approximately 20 times better. After synchronization, Pearson correlation coefficient between 2D speeds was 0.69 in average (moderate correlation) for GoPros, while it was 0.73 in average (strong correlation) with the Qualisys system. 
+
+
+\subsection{Waveform comparison}
+
+Waveforms were very dissimilar across participants, especially for the hook technique. For example, no apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. On the opposite, differences were almost imperceptible across protocols (Figure~\ref{fig_graphkpi}). Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). The same was true with Qualisys cameras used with the default body\_25 model (CMC > 0.95). However, the combined use of GoPro cameras and of the default body\_25 OpenPose model led to a slight decrease in accuracy, even if results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90 (Table~\ref{table:tab_cmcboxe}).
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap6/Figures/Fig_GraphKPI.png"}
+	\includegraphics[width=1\linewidth]{"../Chap6/Figures/Fig_GraphKPI.png"}
 	\caption{A representative trial by one of the athletes. Comparison of selected variables for a sequence of jab, high hook, and low hook in boxing. Waveforms look very similar across all protocols, even though the use of the standard OpenPose body\_25b model instead of the experimental body\_25b one seems to cause more discrepancy when compared to the reference marker-based analysis.}
 	\label{fig_graphkpi}
 \end{figure}
-
-\clearpage
-Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). However, the use of the default body\_25 OpenPose model instead of the experimental body\_25b one led to a slight decrease in accuracy both with research-grade and with consumer-grade protocols, even results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90. Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
-
-ONSET INSTEAD OF INFLECTION TIME: THRESHOLD ON MOVING AVERAGE OVER 3 frames (0.05 s) (adaptive depending on variable and on subject)
-
-
-No apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. Mean and standard deviation were only computer for the other 2 subjects.
 
 \begin{table}[!ht]
       \centering
@@ -270,6 +252,10 @@ No apparent peak could be found on hook trials for subject 2 on rear knee flexio
       \label{table:tab_cmcboxe}
 \end{table}
 
+
+\clearpage
+\subsection{KPI accuracy assessment}
+
 \begin{table}[!ht]
       \centering
       \resizebox{\textwidth}{!}{
@@ -288,27 +274,50 @@ No apparent peak could be found on hook trials for subject 2 on rear knee flexio
           \cmidrule(l{2pt}r{2pt}){2-5}
           Rear knee flexion\(^2\) (°) & 5.4 ($\pm$1.9) * & 4.0 ($\pm$2.1) * & -0.5 ($\pm$1.9) & 1.7 ($\pm$2.8) \\
           Pelvis rotation (°) & -3.9 ($\pm$4.8) * & -7.9 ($\pm$2.7) * & -6.9 ($\pm$4.1) * & 11.8 ($\pm$5.7) *\\
-          Rear shoulder rot.\(^2\) (°) & -4.1 ($\pm$2.2) * & -2.7 ($\pm$2.9) * & -3.4 ($\pm$2.7) * & -0.9 ($\pm$6.2) \\
-          Rear fist velocity (m/s) & -0.1 ($\pm$0.1) * & -0.4 ($\pm$0.2) * & -0.3 ($\pm$0.1) * & -0.4 ($\pm$0.6) \\
+          Rear shoulder rot.\(^2\) (°) & -4.1 ($\pm$2.2) * & -2.7 ($\pm$2.9) & -3.4 ($\pm$2.7) * & -0.9 ($\pm$6.2) \\
+          Rear fist velocity (m/s) & -0.1 ($\pm$0.1) * & -0.4 ($\pm$0.2) & -0.3 ($\pm$0.1) * & -0.4 ($\pm$0.6) \\
           \midrule
           \textbf{Onset time\(^1\) \emph{or} Peak time} & \multicolumn{4}{c}{Jab punch} \\
           \cmidrule(l{2pt}r{2pt}){2-5}
           Lead foot translation\(^1\) (ms) & -0.9 ($\pm$2.3) & -14.8 ($\pm$11.4) * & -1.9 ($\pm$5.3) & -34.3 ($\pm$18.2) * \\
-          Pelvis translation\(^1\) (ms) & 6.5 ($\pm$8.7) * & -7.4 ($\pm$13.8) * & 7.4 ($\pm$5.3) * & -14.8 ($\pm$18.2) * \\
-          Lead elbow extension (ms) & -3.7 ($\pm$5.3) * & -2.8 ($\pm$11.9) & -3.7 ($\pm$6.4) & -19.4 ($\pm$19.8) * \\
-          Lead fist velocity (ms)& -8.3 ($\pm$8.8) * & -13.0 ($\pm$9.8) * & -10.2 ($\pm$10.4) * & -20.4 ($\pm$15.1) * \\
+          Pelvis translation\(^1\) (ms) & 6.5 ($\pm$8.7) & -7.4 ($\pm$13.8) & 7.4 ($\pm$5.3) * & -14.8 ($\pm$18.2) * \\
+          Lead elbow extension (ms) & -3.7 ($\pm$5.3) & -2.8 ($\pm$11.9) & -3.7 ($\pm$6.4) & -19.4 ($\pm$19.8) * \\
+          Lead fist velocity (ms)& -8.3 ($\pm$8.8) & -13.0 ($\pm$9.8) * & -10.2 ($\pm$10.4) * & -20.4 ($\pm$15.1) * \\
           \cmidrule(l{2pt}r{2pt}){2-5}
           ~ & \multicolumn{4}{c}{Hook punches} \\
           \cmidrule(l{2pt}r{2pt}){2-5}
           Rear knee flexion\(^2\) (ms) & 15.3 ($\pm$27.0) & 9.7 ($\pm$31.2) & -19.4 ($\pm$34.5) & -19.4 ($\pm$48.2) \\
-          Pelvis rotation (ms) & 18.5 ($\pm$41.8) & 28.5 ($\pm$49.5) & 31.5 ($\pm$58.0) & 32.4 ($\pm$38.2) * \\
-          Rear shoulder rot.\(^2\) (ms) & -58.3 ($\pm$52.1) * & -40.3 ($\pm$45.0) * & -56.4 ($\pm$59.6) & -15.3 ($\pm$55.5) \\
-          Rear fist velocity (ms) & 0.9 ($\pm$2.3) & -7.4 ($\pm$19.4) & -2.8 ($\pm$9.0) & -14.8 ($\pm$28.0) \\
+          Pelvis rotation (ms) & 18.5 ($\pm$41.8) & 28.5 ($\pm$49.5) & 31.5 ($\pm$58.0) * & 32.4 ($\pm$38.2) * \\
+          Rear shoulder rot.\(^2\) (ms) & -58.3 ($\pm$52.1) & -40.3 ($\pm$45.0) * & -56.4 ($\pm$59.6) & -15.3 ($\pm$55.5) \\
+          Rear fist velocity (ms) & 0.9 ($\pm$2.3) & -7.4 ($\pm$19.4) * & -2.8 ($\pm$9.0) & -14.8 ($\pm$28.0) * \\
           \bottomrule
       \end{tabular}}
       \caption{Mean and standard deviation ($\pm$std) errors of the boxing KPIs captured through each protocol, as compared to marker-based reference results. \(^1\)Peak values and times were observed for rotations and speeds, and ROMs and onset times for translations. \(^2\)Participant 2 was not taken into account in rear knee flexion nor on rear shoulder abduction results, since her movement patterns did not lead to any peak in these variables.  ROM: Range Of Motion. *indicates statistically significant differences (p<0.05).}
       \label{table:tab_peakboxe}
 \end{table}
+
+\clearpage
+
+
+No clear conclusion could be drawn from tests of significance. KPI results were more often significantly different for the jab than for the hook punches, and for magnitudes than for times. 
+
+As differences were never normally distributed, paired t-tests could not be rigorously performed. As a consequence, we only used Wilcoxon signed-rank tests. However, in many cases, especially for time results, most paired differences were equal to zero. In these cases, we could not reject the null hypothesis that results were identical in average. 
+
+no apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. Hence, mean and standard deviation were only computed for the other 2 subjects.
+
+COMPARER MAINTENANT LES MOYENNES
+
+% Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
+
+% ONSET INSTEAD OF INFLECTION TIME: THRESHOLD ON MOVING AVERAGE OVER 3 frames (0.05 s) (adaptive depending on variable and on subject)
+
+% Time differences were mostly statistically significant when GoPros were used
+
+% 
+
+
+However, we could still compare the average magnitude of differences between marker-based results and other protocol results, and the average impact of camera types and 2D pose estimation models.
+
 
 
 Almost always significantly different from  marker-based. Peak translations: up to about 10 cm differences. Peak velocities: up to about 0.4 m/s difference (), always underestimated. 
@@ -322,20 +331,20 @@ Almost always significantly different from  marker-based. Peak translations: up 
             \toprule
             ~ & \multicolumn{2}{c}{\textbf{Qualisys vs. GoPros}} & \multicolumn{2}{c}{\textbf{Body\_25b vs. Body\_25}}\\
             \cmidrule(l{2pt}r{2pt}){2-3} \cmidrule(l{2pt}r{2pt}){4-5}
-            \(\mathbf{Mean_{err}}\) \textbf{($\pm$std)} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value}\\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value} \\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} \\
+            \shortstack{\(\mathbf{Mean_{err}}\) \textbf{($\pm$std)} \\~} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value}\\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value} \\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} \\
             \cmidrule(l{2pt}r{2pt}){2-2} \cmidrule(l{2pt}r{2pt}){3-3}
             \cmidrule(l{2pt}r{2pt}){4-4} \cmidrule(l{2pt}r{2pt}){5-5}
             \textbf{Jab}\\
-            Lead foot translation\(^1\) (mm) & 3.3 ($\pm$8.9) * & -23.1 ($\pm$18.9) * & 12.2 ($\pm$10.9) * & -10.2 ($\pm$16.1) *\\
-            Pelvis translation\(^1\) (mm) & 13.3 ($\pm$10.4) * & -18.1 ($\pm$18.4)  & 4.8 ($\pm$8.2) * &-3.2 ($\pm$15.8) *\\
-            Lead elbow extension (°) & -6.5 ($\pm$10.8) * & -7.4 ($\pm$16.6) * & -7.8 ($\pm$9.5) * & -8.3 ($\pm$17.1) *\\
-            Lead fist velocity (m/s) & 0.1 ($\pm$0.2) * & -7.4 ($\pm$15.7) * & -0.1 ($\pm$0.2) * & -4.6 ($\pm$11.0) *\\
+            Lead foot translation\(^1\) & 3.3 ($\pm$8.9) * & -23.1 ($\pm$18.9) * & 12.2 ($\pm$10.9) * & -10.2 ($\pm$16.1) *\\
+            Pelvis translation\(^1\) & 13.3 ($\pm$10.4) * & -18.1 ($\pm$18.4) * & 4.8 ($\pm$8.2) * &-3.2 ($\pm$15.8) \\
+            Lead elbow extension & -6.5 ($\pm$10.8) * & -7.4 ($\pm$16.6) * & -7.8 ($\pm$9.5) * & -8.3 ($\pm$17.1) *\\
+            Lead fist velocity & 0.1 ($\pm$0.2) * & -7.4 ($\pm$15.7)  & -0.1 ($\pm$0.2) * & -4.6 ($\pm$11.0) *\\
             \\
             \textbf{Hook}\\
-            Rear knee flexion\(^2\) (ms) & 0.5 ($\pm$3.2) * & -2.8 ($\pm$29.8) * & -4.1 ($\pm$2.6) * & -31.9 ($\pm$58.8)\\
-            Pelvis rotation (ms) &  -4.4 ($\pm$6.9) * & 5.5 ($\pm$59.8) & -3.5 ($\pm$5.2) * & 8.4 ($\pm$50.7)\\
-            Rear shoulder rot.\(^2\) (ms) & 2.0 ($\pm$5.2) & 29.9 ($\pm$80.6) & 1.2 ($\pm$4.6) & 13.2 ($\pm$68.9) \\
-            Rear fist velocity (ms)& -0.1 ($\pm$0.7) & -10.2 ($\pm$30.1) & -0.1 ($\pm$0.5) & -5.6 ($\pm$21.8)\\
+            Rear knee flexion\(^2\) & 0.5 ($\pm$3.2) & -2.8 ($\pm$29.8) & -4.1 ($\pm$2.6) * & -31.9 ($\pm$58.8) * \\
+            Pelvis rotation &  -4.4 ($\pm$6.9) * & 5.5 ($\pm$59.8) * & -3.5 ($\pm$5.2) & 8.4 ($\pm$50.7)\\
+            Rear shoulder rotaion\(^2\) & 2.0 ($\pm$5.2) * & 29.9 ($\pm$80.6) & 1.2 ($\pm$4.6) & 13.2 ($\pm$68.9) \\
+            Rear fist velocity & -0.1 ($\pm$0.7) & -10.2 ($\pm$30.1) * & -0.1 ($\pm$0.5) & -5.6 ($\pm$21.8)\\
             \bottomrule
       \end{tabular}}
       \caption{Mean and standard deviation (std) errors of the boxing KPIs, compared between camera types, and 2D pose estimation models. Qualisys cameras are research-grade, while GoPro cameras are consumer-grade and involve different calibration and synchronization procedures. OpenPose Body\_25b model is claimed to be more accurate than the standard body\_25 model.\(^1\)Peak values and times were observed for rotations and speeds, and ROMs and onset times for translations. \(^2\)Participant 2 was not taken into account in rear knee flexion nor on rear shoulder abduction results, since her movement patterns did not lead to any peak in these variables.  ROM: Range Of Motion. *indicates statistically significant differences (p<0.05).}
