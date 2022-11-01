@@ -201,7 +201,9 @@ We examined time series for lead foot translation, pelvis translation, lead elbo
 % Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent.
 Waveform similarity between the reference marker-based method and all other markerless ones was assessed with the inter-protocol coefficient of multiple correlation (CMC) \cite{Ferrari2010}, which quantifies in one single value the concurrent effects of differences in correlation, gain, and offset (see \nameref{stats_accuracy} \autoref{ch:5}).
 
-We also retrieved certain quantifiable indicators on the aforementioned recorded variables. Ranges of motion and onset times were examined for translations, and peak values and times for angles and speeds. We computed mean differences and standard deviation (std) between marker-based results and all other protocol results. The impact of the camera type, and of the 2D pose estimation model, were similarly explored. 
+We also retrieved certain quantifiable indicators on the aforementioned recorded variables. Ranges of motion and onset times were examined for translations, and peak values and times for angles and speeds. 
+% Onset time: threshold (depending on variables and on subject) on moving average over 3 frames (0.05 s)
+We computed mean differences and standard deviation (std) between marker-based results and all other protocol results. The impact of the camera type, and of the 2D pose estimation model, were similarly explored. 
 
 Normality of the distribution of differences was verified with a Shapiro-Wilk test \cite{Shapiro1965}. If this condition was satisfied, we used paired t-tests to test the null hypothesis that there was no statistical difference between protocols \cite{Student1908}. If not, we used the Wilcoxon signed-rank test \cite{Wilcoxon1945}. When some paired differences were equal to zero, the normal approximation was used. When less than 10 of the paired differences were non-zero, we could not reject the null hypothesis that mean paired results were equal. We used a significance level of 0.05.
 
@@ -215,14 +217,14 @@ Calibrating GoPro cameras on ring dimensions led to an average of 2.59 px reproj
 
 \subsection{Waveform comparison}
 
-Waveforms were very dissimilar across participants, especially for the hook technique. For example, no apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. On the opposite, differences were almost imperceptible across protocols (Figure~\ref{fig_graphkpi}). Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis. Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). The same was true with Qualisys cameras used with the default body\_25 model (CMC > 0.95). However, the combined use of GoPro cameras and of the default body\_25 OpenPose model led to a slight decrease in accuracy, even if results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90 (Table~\ref{table:tab_cmcboxe}).
+Waveforms were very dissimilar across participants, especially for the hook technique. For example, no apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. On the opposite, differences were almost imperceptible across protocols (Figure~\ref{fig_graphkpi}). Results of the research-grade markerless setup, with specialized cameras, marker-based calibration, and hardware synchronization, were almost identical to those of the marker-based analysis (CMC > 0.99). Results from GoPro cameras with calibration on ring dimensions and synchronization on 2D keypoint speeds were also in excellent agreement (CMC > 0.95). The same was true with Qualisys cameras used with the default body\_25 model (CMC > 0.95). However, the combined use of GoPro cameras and of the default body\_25 OpenPose model led to a slight decrease in accuracy, even if results were still in very good agreement (CMC > 0.85). Velocities and shoulder rotation were the least in agreement, although CMC stayed over 0.90 (Table~\ref{table:tab_cmcboxe}).
 
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=1\linewidth]{"../Chap6/Figures/Fig_GraphKPI.png"}
-	\caption{A representative trial by one of the athletes. Comparison of selected variables for a sequence of jab, high hook, and low hook in boxing. Waveforms look very similar across all protocols, even though the use of the standard OpenPose body\_25b model instead of the experimental body\_25b one seems to cause more discrepancy when compared to the reference marker-based analysis.}
+	\caption{A representative trial by one of the athletes. Comparison of selected variables for a sequence of jab, high hook, and low hook in boxing. Waveforms look very similar across all protocols, even though the use of the standard OpenPose body\_25 model instead of the experimental body\_25B one seems to cause more discrepancy when compared to the reference marker-based analysis.}
 	\label{fig_graphkpi}
 \end{figure}
 
@@ -253,8 +255,15 @@ Waveforms were very dissimilar across participants, especially for the hook tech
 \end{table}
 
 
-\clearpage
 \subsection{KPI accuracy assessment}
+
+As KPI differences across protocols were never normally distributed, paired t-tests could not be rigorously performed. As a consequence, we only used Wilcoxon signed-rank tests. Nonetheless, in many cases, especially for time results, most paired differences were equal to zero. In these instances, we could not reject the null hypothesis that results were identical in average. It should be noted that for rear knee flexion and for rear shoulder abduction in hook punches, KPI means and standard deviations did not take participant 2 into account, since her movement patterns did not present any peak in these variables.
+% In any case, no clear conclusion could be drawn from tests of significance. KPI results were more often significantly different from marker-based ones for magnitudes than for times, and for jabs than for hooks, regardless of the protocol (Table~\ref{table:tab_peakboxe}). The same can be said of the significance of differences across camera types, and across 2D pose estimation models (Table~\ref{table:tab_protoc}).
+
+\clearpage
+Range of motion errors usually remained under $\pm$10 mm, as compared to the marker-based protocol. Mean errors were even lesser with body\_25 model, but with more variation around the mean, which did not lead to any significant differences. Elbow extension, knee extension, shoulder abduction, and pelvis rotation peak angles were generally underestimated, by 2.9° to 5.4° with the Qualisys cameras and body\_25B model, by 2.7° to 10.2° when using GoPro cameras or body\_25 model, and by more than 11.8° to 17.2° when using the most suboptimal protocol with both GoPro cameras and body\_25 model. Peak fist velocity errors did not broadly depend on the choice of protocol. However, they were underestimated by up to 0.4 m/s (1.4 km/h) for both hands (Table~\ref{table:tab_peakboxe}).
+
+Peak times were usually estimated too early with GoPro cameras, by about 10 to 40 ms, i.e., 0.6 to 2.4 frames at 60 fps. Most other onset and peak time errors were not statistically significant, especially for Qualisys cameras when used with the experimental Body\_25B pose estimation model. Rear shoulder abduction demonstrated the largest peak time error, up to about 50 ms (3 frames).
 
 \begin{table}[!ht]
       \centering
@@ -274,7 +283,7 @@ Waveforms were very dissimilar across participants, especially for the hook tech
           \cmidrule(l{2pt}r{2pt}){2-5}
           Rear knee flexion\(^2\) (°) & 5.4 ($\pm$1.9) * & 4.0 ($\pm$2.1) * & -0.5 ($\pm$1.9) & 1.7 ($\pm$2.8) \\
           Pelvis rotation (°) & -3.9 ($\pm$4.8) * & -7.9 ($\pm$2.7) * & -6.9 ($\pm$4.1) * & 11.8 ($\pm$5.7) *\\
-          Rear shoulder rot.\(^2\) (°) & -4.1 ($\pm$2.2) * & -2.7 ($\pm$2.9) & -3.4 ($\pm$2.7) * & -0.9 ($\pm$6.2) \\
+          Rear shoulder abduction\(^2\) (°) & -4.1 ($\pm$2.2) * & -2.7 ($\pm$2.9) & -3.4 ($\pm$2.7) * & -0.9 ($\pm$6.2) \\
           Rear fist velocity (m/s) & -0.1 ($\pm$0.1) * & -0.4 ($\pm$0.2) & -0.3 ($\pm$0.1) * & -0.4 ($\pm$0.6) \\
           \midrule
           \textbf{Onset time\(^1\) \emph{or} Peak time} & \multicolumn{4}{c}{Jab punch} \\
@@ -288,7 +297,7 @@ Waveforms were very dissimilar across participants, especially for the hook tech
           \cmidrule(l{2pt}r{2pt}){2-5}
           Rear knee flexion\(^2\) (ms) & 15.3 ($\pm$27.0) & 9.7 ($\pm$31.2) & -19.4 ($\pm$34.5) & -19.4 ($\pm$48.2) \\
           Pelvis rotation (ms) & 18.5 ($\pm$41.8) & 28.5 ($\pm$49.5) & 31.5 ($\pm$58.0) * & 32.4 ($\pm$38.2) * \\
-          Rear shoulder rot.\(^2\) (ms) & -58.3 ($\pm$52.1) & -40.3 ($\pm$45.0) * & -56.4 ($\pm$59.6) & -15.3 ($\pm$55.5) \\
+          Rear shoulder abduction\(^2\) (ms) & -58.3 ($\pm$52.1) & -40.3 ($\pm$45.0) * & -56.4 ($\pm$59.6) & -15.3 ($\pm$55.5) \\
           Rear fist velocity (ms) & 0.9 ($\pm$2.3) & -7.4 ($\pm$19.4) * & -2.8 ($\pm$9.0) & -14.8 ($\pm$28.0) * \\
           \bottomrule
       \end{tabular}}
@@ -296,40 +305,15 @@ Waveforms were very dissimilar across participants, especially for the hook tech
       \label{table:tab_peakboxe}
 \end{table}
 
-\clearpage
 
-
-No clear conclusion could be drawn from tests of significance. KPI results were more often significantly different for the jab than for the hook punches, and for magnitudes than for times. 
-
-As differences were never normally distributed, paired t-tests could not be rigorously performed. As a consequence, we only used Wilcoxon signed-rank tests. However, in many cases, especially for time results, most paired differences were equal to zero. In these cases, we could not reject the null hypothesis that results were identical in average. 
-
-no apparent peak could be found on hook trials for subject 2 on rear knee flexion nor on rear shoulder abduction. Hence, mean and standard deviation were only computed for the other 2 subjects.
-
-COMPARER MAINTENANT LES MOYENNES
-
-% Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
-
-% ONSET INSTEAD OF INFLECTION TIME: THRESHOLD ON MOVING AVERAGE OVER 3 frames (0.05 s) (adaptive depending on variable and on subject)
-
-% Time differences were mostly statistically significant when GoPros were used
-
-% 
-
-
-However, we could still compare the average magnitude of differences between marker-based results and other protocol results, and the average impact of camera types and 2D pose estimation models.
-
-
-
-Almost always significantly different from  marker-based. Peak translations: up to about 10 cm differences. Peak velocities: up to about 0.4 m/s difference (), always underestimated. 
-
-
+Using GoPros instead of Qualisys cameras had a comparable impact as switching back to the standard body\_25 OpenPose model on ranges of motion (up to 13 mm difference), peak angles (up to 7°), and peak velocities (0.1 m/s). However, using GoPro cameras lead to larger delays than choosing the body\_25 model: about 20 ms vs. 10 ms (1.2 vs; 0.6 frames) for translations, and 10 ms vs. 5 ms (0.6 vs. 0.3 frames) for velocities. No general conclusion could be drawn for time differences in joint angles, as peaks were more challenging to accurately detect, especially when using the body\_25 model which led to noisier waveforms (Table~\ref{table:tab_protoc}).
 
 \begin{table}[!ht]
       \centering
       \resizebox{\textwidth}{!}{
       \begin{tabular}{lcccc}
             \toprule
-            ~ & \multicolumn{2}{c}{\textbf{Qualisys vs. GoPros}} & \multicolumn{2}{c}{\textbf{Body\_25b vs. Body\_25}}\\
+            ~ & \multicolumn{2}{c}{\textbf{Qualisys vs. GoPros}} & \multicolumn{2}{c}{\textbf{Body\_25B vs. Body\_25}}\\
             \cmidrule(l{2pt}r{2pt}){2-3} \cmidrule(l{2pt}r{2pt}){4-5}
             \shortstack{\(\mathbf{Mean_{err}}\) \textbf{($\pm$std)} \\~} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value}\\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} & \shortstack{\textbf{ROM\(^1\) \emph{or} Peak value} \\(mm, °, or m/s)} & \shortstack{\textbf{Onset\(^1\) \emph{or} Peak time}\\(ms)} \\
             \cmidrule(l{2pt}r{2pt}){2-2} \cmidrule(l{2pt}r{2pt}){3-3}
@@ -343,23 +327,39 @@ Almost always significantly different from  marker-based. Peak translations: up 
             \textbf{Hook}\\
             Rear knee flexion\(^2\) & 0.5 ($\pm$3.2) & -2.8 ($\pm$29.8) & -4.1 ($\pm$2.6) * & -31.9 ($\pm$58.8) * \\
             Pelvis rotation &  -4.4 ($\pm$6.9) * & 5.5 ($\pm$59.8) * & -3.5 ($\pm$5.2) & 8.4 ($\pm$50.7)\\
-            Rear shoulder rotaion\(^2\) & 2.0 ($\pm$5.2) * & 29.9 ($\pm$80.6) & 1.2 ($\pm$4.6) & 13.2 ($\pm$68.9) \\
+            Rear shoulder abduction\(^2\) & 2.0 ($\pm$5.2) * & 29.9 ($\pm$80.6) & 1.2 ($\pm$4.6) & 13.2 ($\pm$68.9) \\
             Rear fist velocity & -0.1 ($\pm$0.7) & -10.2 ($\pm$30.1) * & -0.1 ($\pm$0.5) & -5.6 ($\pm$21.8)\\
             \bottomrule
       \end{tabular}}
-      \caption{Mean and standard deviation (std) errors of the boxing KPIs, compared between camera types, and 2D pose estimation models. Qualisys cameras are research-grade, while GoPro cameras are consumer-grade and involve different calibration and synchronization procedures. OpenPose Body\_25b model is claimed to be more accurate than the standard body\_25 model.\(^1\)Peak values and times were observed for rotations and speeds, and ROMs and onset times for translations. \(^2\)Participant 2 was not taken into account in rear knee flexion nor on rear shoulder abduction results, since her movement patterns did not lead to any peak in these variables.  ROM: Range Of Motion. *indicates statistically significant differences (p<0.05).}
+      \caption{Mean and standard deviation (std) errors of the boxing KPIs, compared between camera types, and 2D pose estimation models. Qualisys cameras are research-grade, while GoPro cameras are consumer-grade and involve different calibration and synchronization procedures. OpenPose Body\_25B model is claimed to be more accurate than the standard body\_25 model.\(^1\)Peak values and times were observed for rotations and speeds, and ROMs and onset times for translations. \(^2\)Participant 2 was not taken into account in rear knee flexion nor on rear shoulder abduction results, since her movement patterns did not lead to any peak in these variables.  ROM: Range Of Motion. *indicates statistically significant differences (p<0.05).}
       \label{table:tab_protoc}
 \end{table}
+
+
+
+\FloatBarrier
+\section{Discussion}
+\subsection{Equipment and protocol vs. pose estimation model}
+
+% Comparer avec autres erreurs d'autres méthodes estimant lengths, peak velocities, peak angles, peak times
+% Here, very specific moments rather than spatio-temporal parameters averaged over a full gait cycle (cf Kanko). -> much more sensitive to noise and to smaller errors. Durations vs. instants, average speeds vs peak instantaneous speeds. Ranges of motion // stride width and length (slightly larger: order of a cm vs order mm)
+
+% In line with our results on upper and lower body \cite{Pagnon2022a}, and with Theia \cite{Kankospatio} (step length 0.0 mm difference?)
+
+
+
+% Peak values and times were not always as accurate, as curves were subject to more noise with the use of the standard model. (MEAN DIFF and STD AVERAGED AMONG VARIABLES for each protocol). In particular, and especially with the standard body\_25 model, fist velocities were less accurate, as well as upper-body joint angles. Elbow extension was underestimated. Conversely, the ranges of motion measured for the translations of the lead foot and of the pelvis were not significantly different from marker-based results, regardless of the protocol. Similar accurate outcome was observed with times of inflection points. (DETAILLER DIFF SIGNIF?)
+
+
+% Time differences were mostly statistically significant when GoPros were used
+
 
 
 Curves remarkably similar, but peak values, peak times, ranges of motion, and onset times more different (magnitude?)
 Effect of camera grade and of 2D pose estimation protocol similar magnitude
 
-What is an acceptable range?
 
-\FloatBarrier
-\section{Discussion}
-\subsection{Equipment and protocol vs. pose estimation model}
+
 
 Ecologically valid context (competition ring, markerless possible, minimal interference with the athlete and with the event taking place). Not multi-person, problematic for a match. Planned to be implemented to Pose2Sim shortly.
 
@@ -370,6 +370,8 @@ Translations and rotations are in excellent agreement with marker-based results,
 
 The GoPro markerless analysis used light-weight and consumer-grade hardware, it involved a calibration procedure which caused larger residual errors than the one done with a wand equipped with reflective markers, and it synchronized streams based on 2D movement speeds instead of on a hardware trigger. In spite of all this, there was virtually no difference between the analysis done by the Qualisys system and the GoPro one. The output being virtually the same as long as the right 2D pose detection model is used, practical considerations remain: a setup with action cameras is cheap, easy to transport, fast to set up, and not cumbersome; however, it does not provide any light feedback, and requires careful planning for sparing battery life, and potentially involves more complicated post-processing in terms of calibration and synchronization (it can be semi-automatized).
 GoPros: wider field of view, which means the athlete was smaller on image than with Qualysis. However, it is good when filming in more restricted space.
+
+What is an acceptable range?
 
 
 Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent. High waveform variability between boxers (technique repeatable by all of them, however hook technique different between boxers even though they were asked to perform the same boxing sequence, and despite they were all elite boxers. Jab technique pretty similar between boxers.)
@@ -407,7 +409,8 @@ Not very exact for peak times, but okay for peak values (plateau)
 
 \subsection{Pros and cons of different systems}
 
-
+Contexte compliqué,
+variables variées different body parts (upper and lower body), and different types of continuous variables (translations, rotations, joint angles, velocities), and different sorts of kinematic KPIs (ROMs, onset times, peak values and times).
 
 Auto-calibration with person?
 

@@ -180,7 +180,7 @@ Then, we used Pose2Sim to robustly triangulate OpenPose outputs and feed the res
 
 \subsubsection{2D pose estimation}
 
-We applied OpenPose (version 1.6) on all the captured videos. We used the experimental body\_25b model (see~Figure\ref{fig_body25b}) with highest accuracy parameters, which is more accurate than the default body\_25 one and reduces the number of false positives \cite{Hidalgo2019}.
+We applied OpenPose (version 1.6) on all the captured videos. We used the experimental body\_25B model (see~Figure\ref{fig_body25b}) with highest accuracy parameters, which is more accurate than the default body\_25 one and reduces the number of false positives \cite{Hidalgo2019}.
 
 \subsubsection{Tracking, triangulation, and filtering}
 
@@ -263,7 +263,7 @@ Depending on the considered frame, the reprojection error of a joint coordinate 
           & Cal & 1.68 & 1.4 & 4.24 (RBigToe) & 6.9 px (3.4 cm) & 1.0 px (0.51 cm) & 8.9 px (4.4 cm, Head) \\ 
       \bottomrule
       \end{tabular}}
-      \caption{Descriptive statistics on the triangulation step performed by Pose2Sim from OpenPose body\_25b model. Mean absolute reprojection error and mean number of excluded cameras were calculated over time. Mean (mean), standard deviation (std), and maximum (max) in each of these variables are displayed. Walking, running, and cycling tasks were investigated in each four conditions: reference (Ref), poor image quality (Im), four cameras instead of eight (4c), and calibration errors (Cal).}
+      \caption{Descriptive statistics on the triangulation step performed by Pose2Sim from OpenPose body\_25B model. Mean absolute reprojection error and mean number of excluded cameras were calculated over time. Mean (mean), standard deviation (std), and maximum (max) in each of these variables are displayed. Walking, running, and cycling tasks were investigated in each four conditions: reference (Ref), poor image quality (Im), four cameras instead of eight (4c), and calibration errors (Cal).}
 	\label{table:tab_descstat}
   \end{table}
 
@@ -435,7 +435,7 @@ Repeatability was simply assessed by the standard deviation of angle time series
 
 Robustness was investigated based on the criteria exposed by \cite{Moeslund2001}. First, people could be in the background. Then, several movement tasks have been investigated. Last, the workflow was confronted to three degraded conditions regarding image quality, camera number, and calibration. The results were also robust, since degraded conditions still gave consistent joint angles. A further SPM study showed occasional statistical differences along time, but did not reveal any part of the movement cycle to be more problematic than another. There was no apparent outlier in the 3D angle results, even in the degraded conditions. This was in spite of the presence of other people in the field of view and in spite of the subject walking out of it.
 
-All stages of the workflow contributed to its robustness. First, we never had to deal with limb swapping, unlike other studies \cite{Nakano2019,Slembrouck2020}. This may be due to our use of the experimental Body\_25b OpenPose model, which is claimed to decrease the number of false positives \cite{Hidalgo2019}. Then, we used Pose2Sim to robustly sort the detected people and to triangulate 2D coordinates. These coordinates were the least precise in the Im condition where the image was strongly blurred and darkened, but Pose2Sim partly solved it by taking the OpenPose likelihood into account and by excluding the most inaccurate cameras: twice as many cameras were excluded as compared to the reference condition, which resulted in a reprojection error only 10\% higher.
+All stages of the workflow contributed to its robustness. First, we never had to deal with limb swapping, unlike other studies \cite{Nakano2019,Slembrouck2020}. This may be due to our use of the experimental Body\_25B OpenPose model, which is claimed to decrease the number of false positives \cite{Hidalgo2019}. Then, we used Pose2Sim to robustly sort the detected people and to triangulate 2D coordinates. These coordinates were the least precise in the Im condition where the image was strongly blurred and darkened, but Pose2Sim partly solved it by taking the OpenPose likelihood into account and by excluding the most inaccurate cameras: twice as many cameras were excluded as compared to the reference condition, which resulted in a reprojection error only 10\% higher.
 
 Finally, we used OpenSim to take advantage of a physically consistent full-body model and of an inverse kinematics optimization algorithm, which allowed us to refine our 3D data coordinates and to obtain 3D joint angles. The Cal condition simulated calibration errors, which bypassed the Pose2Sim safeguards since the OpenPose likelihood was unaffected, and the reprojection error stayed below the threshold. Despite it producing the largest reprojection error, virtually no difference with the reference condition was observed after the OpenSim pass. A 2 px calibration error ($\approx$1 cm) is much worse than the maximum 1 px, or 3 mm usually recommended, but the mean absolute error it induced for us stayed below 0.5°.
 \clearpage
