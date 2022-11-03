@@ -221,7 +221,7 @@ Now, classification of a whole image is not sufficient in sports motion analysis
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.4\linewidth]{"../Chap2/Figures/Fig_XKCD.png"}
-	\caption{The amazingly rigourous world of machine learning. Image courtesy of \href{https://xkcd.com/1838/}{XKCD} .} 
+	\caption{The amazingly rigourous world of machine learning \href{https://xkcd.com/1838/}{XKCD} .} 
 	\label{fig_xkcd}
 \end{figure}
 
@@ -253,6 +253,7 @@ Like all previously presented methods, OpenPose has been trained on the COCO dat
 
 \FloatBarrier
 \section{3D reconstruction}\label{sec:3D reconstruction}
+\label{ch:2.2}
 
 Once the pose of an athlete is correctly detected, the next step is to obtain their 3D pose. While some approaches strive to infer 3D pose from a monocular video source, they are generally not considered sufficiently accurate, especially when body parts are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain more reliable 3D coordinates.
 
@@ -364,7 +365,39 @@ Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT)
 
 
 
-\section{3D joint kinematics}
+\section{3D joint kinematics}\label{sec:3D joint kin}
+
+
+---Direct kinematics
+6 DoF 
+
+1 reference frame / coordinate system per segment (at least 3 markers per segment) \cite{Wu2002, Wu2005}
+no need for assumptions
+
+
+
+---Inverse kinematics 
+Model-based
+
+initially for 3D animation applications
+
+Model based:
+- model, kinematic chain
+- scaling
+- IK
+IK vs forward kinematics (joint angles -> segment orientation)
+
+
+Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods)
+
+
+Global optimization / multibody kinematic optimization, reduces sensitivity to soft tissue artifact, reduces number of markers needed (1 per joint if fully constrained \cite{Slater2018}, vs. 3 min for 6DoF, no need for interpolation or redo capture if marker falls) -> Fohanno2014?, more potential information on muscle activation for example \cite{Robinson2013,Kainz2016}
+Slightly slower, assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population, not garanteed to work on pathological population nor on unusual body structures (joint laxity cannot be qualified for example)
+
+Résultats similaires si STA limités et modèle approprié \cite{Kainz2016}
+
+
+
 
 \subsection{Physically consistent model}
 
@@ -378,9 +411,16 @@ bref
 
 \subsection{Inverse kinematics}
 
+
+
 As opposed to forward kinematics \newline
 Compare with 2D angles between 3 points \newline
 Different methods (model based vs autres) for angles (cf mail starred)\newline
+
+
+Model constrained, based on mechanical joint modeling, and on constraints inferred from  
+optimize the posture of a physically consistent skeleton, scaled to each individual subject. In particular, this allows for obtaining 3D joint angles at each point in time, commonly referred to as inverse kinematics (IK.)
+
 
 
 
