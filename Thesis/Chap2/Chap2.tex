@@ -52,7 +52,7 @@ Sports movements don’t generally only lie in the sagittal plane, and they ofte
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
-Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there is other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective.
+Two broad approaches can be implemented: the first one consists in using dedicated algorithms for each task. The gist of it is to understand the task well enough to build an appropriate solution: this is a knowledge-driven approach. Among other techniques, corner and contour detection, color thresholding, affine transformation, template matching, watershed segmentation, can be used. For example, if one wants to differentiate two boxers wearing respectively a blue and a red shirt, they can filter them by color. If one needs to identify on which portion of a speed climbing wall an athlete is, they can match the template of each holds on the whole image. OpenCV \cite{Bradski2000} provides convenient tools for this purpose, in C++ and Python languages. This approach is often fast, but also quite complicated to implement, and neither flexible nor robust. If there are other red or blue patches in the boxing scene, if the boxer wears green or if the light is poor, this will not work anymore. Likewise for holds, if the sun casts a large shadow which changes its apparent shape, or if holds are seen from a different perspective. Likewise, semi-automatic approaches such as Kinovea \cite{Kinovea}, which tracks manually annotated points, do not generalize well to challenging contexts.
 
 % Ajouter triangulation de tracked keypoints (sans ML), plutôt que de kpt/obj détection ? SOURCES? CITER KINOVEA, EXPLORER UN PEU VISP 
 
@@ -146,7 +146,7 @@ The AI field survived by focusing on specific problems, called expert systems. I
       \begin{flalign*}
       \overrightarrow{X} = (1, velocity \ (m/s), force \ (hN) ), && 
       \end{flalign*}
-      and the classification of an athlete as "good" or "bad" as an output
+      and the classification of an athlete as "skilled" or "unskilled" as an output
       \(y = 1 \ or \ 0. \)\newline
       A batch of training data, i.e., example data the perceptron will learn from, could be: 
       \[ \bigl\{(\overrightarrow{X^i}, y^{i, expected})\bigr\}_{i\in [0,4]}
@@ -185,14 +185,14 @@ The AI field survived by focusing on specific problems, called expert systems. I
       \(y^{4, expected} = 1 = y^{4, pred} = 1\), so weights don't need to be updated.\newline
       \(\overrightarrow{W^5} = \overrightarrow{W^4} = (-9.3,1.3,2.1) (Figure~\ref{fig_perceptron}). \)\newline
 
-      \textbf{Next instances}: Once we have gone over the batch of training data, if the average error is below a given value, we can assume that the perceptron is trained. If not, we can use the next batch to pursue training. If it still didn't converge after all batches, we can iterate over all training data again, for a given number of times. If results are still not satisfying, either the data are not linearly separable, or the training sample is not large enough or of good enough quality. In our case, it seems like our example data have allowed us to correctly separate good and bad athletes based on their force and velocity test results (Figure~\ref{fig_perceptron}).
+      \textbf{Next instances}: Once we have gone over the batch of training data, if the average error is below a given value, we can assume that the perceptron is trained. If not, we can use the next batch to pursue training. If it still didn't converge after all batches, we can iterate over all training data again, for a given number of times. If results are still not satisfying, either the data are not linearly separable, or the training sample is not large enough or of good enough quality. In our case, it seems like our example data have allowed us to correctly separate skilled and unskilled athletes based on their force and velocity test results (Figure~\ref{fig_perceptron}).
 
       {
       \begin{center}
       \def\svgwidth{1\columnwidth}
       \fontsize{10pt}{10pt}\selectfont
       \centerline{\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Fig_perceptron.png"}}
-      \captionof{figure}{Classification of athletes as "good" (black dot) or "bad" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
+      \captionof{figure}{Classification of athletes as "skilled" (black dot) or "unskilled" (circle) according to their Force-Velocity results. Weights are adjusted (grey lines), until the perceptron classifies athletes correctly (black line.)}
       \label{fig_perceptron}
       \end{center}
       }
@@ -250,7 +250,7 @@ Mask R-CNN belongs to the first kind, as well as AlphaPose \cite{Fang2017}, whic
 	\label{fig_body25b}
 \end{figure}
 
-Like all previously presented methods, OpenPose has been trained on the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model provides foot keypoints, which are primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. A submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does (although in slightly different locations), and in addition decreases the number of false positives without hampering speed (Figure~\ref{fig_body25b}). In a similar way, AlphaPose provides full-body models, either trained on the Halpe dataset \cite{Li2020}, or on the COCO-WholeBody one \cite{Xu2022}. Note that BlazePose \cite{Bazarevsky2020}, trained on the GHUM dataset \cite{Xu2020b}, also provides hand and feet keypoints, but since it is a single-person pose estimation model, the architecture is different and will not be addressed here. Indeed, this is rarely suitable in sports conditions, where people are usually present in the background. 
+Like all previously presented methods, OpenPose has been trained on the COCO dataset \cite{Lin2014}. However, OpenPose body\_25 standard model also provides foot keypoints, which are often primordial in sports motion analysis. To do so, 6 more keypoints have been labeled for the feet on the COCO dataset before training. OpenPose also supports the single-network whole-body pose estimation network body\_135 \cite{Hidalgo2019}, which has been trained in the same time on COCO+foot,  MPII \cite{Andriluka2014}, and on Total Capture \cite{Xiang2019} in order to provide hand, face, feet, and body keypoints in one single network. The body\_135 model is slow and requires high capacity hardware, however a submodel of it is body\_25b, which provides body and foot keypoints as body\_25 does, and in addition decreases the number of false positives without hampering speed. Its keypoint definition differs slightly to the default model's (Figure~\ref{fig_body25b}): it adds the MPII head and neck keypoints, and removes the artificially created neck and middle hip points of the body\_25 model (which are simply the middle point of the shoulders and the hips). In a similar way, AlphaPose provides full-body models, either trained on the Halpe dataset \cite{Li2020}, or on the COCO-WholeBody one \cite{Xu2022}. Note that BlazePose \cite{Bazarevsky2020}, trained on the GHUM dataset \cite{Xu2020b}, also provides hand and feet keypoints, but since it is a single-person pose estimation model, the architecture is different and will not be addressed here. Indeed, this is rarely suitable in sports conditions, where people are usually present in the background. 
 
 
 \FloatBarrier
@@ -537,8 +537,8 @@ optimize the posture of a physically consistent skeleton, scaled to each individ
 % force_good = [5,4,1]
 % velocity_bad = [2,4]
 % force_bad = [3,1]
-% plt.scatter(velocity_good, force_good, s=20, edgecolors='k', facecolors='k', label = "Good athlete")
-% plt.scatter(velocity_bad, force_bad, s=20, edgecolors='k', facecolors='none', label="Bad athlete")
+% plt.scatter(velocity_good, force_good, s=20, edgecolors='k', facecolors='k', label = "Skilled athlete")
+% plt.scatter(velocity_bad, force_bad, s=20, edgecolors='k', facecolors='none', label="Unskilled athlete")
 % plt.legend(frameon=False)
 
 % # First lines with first weights, with dash greyed lines and label
