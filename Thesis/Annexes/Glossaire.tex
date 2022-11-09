@@ -38,7 +38,7 @@
 \noindent\underline{Markers vs. Keypoints:}\\
 \textbf{Markers} are objects attached to the body of the user, often small and round. They are used to indirectly track the posture of a user. Markers can sometimes be active and emit light, instead of passive and reflect light. They can also be anchored to the bone, for a more precise analysis exempt from Soft Tissue Artifact (STA). A marker-based analysis commonly refers to the use of passive markers, glued to the skin of the user.\\
 \textbf{Keypoints} are points of interest detected by a machine learning model, either in 2D or in 3D space. They can estimate the location of a human joint, or of a body part, or else of any point of interest of any object.\\
-Once triangulated, they can be treated like markers, for example while running inverse kinematic (IK) analysis.
+Once triangulated, keypoints can be treated like \textbf{virtual markers}, for example while running inverse kinematic (IK) analysis. Calculated markers are another kind of virtual markers, which can for example represent joint centers, or markers which have fallen off the body during capture.
 
 \vspace*{0.5cm}
 

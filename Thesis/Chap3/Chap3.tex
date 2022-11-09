@@ -202,12 +202,20 @@ If needed, other standalone tools are provided to further work on the .trc 3D co
 
 OpenSim \cite{Delp2007,Seth2018} is a widespread open-source software which helps compute consistent 3D joint angles, usually from marker coordinates. It lets scientists define a detailed musculoskeletal model, scale it to individual subjects, and perform inverse kinematics. Results are accurate and robust since biomechanical constraints can be adjusted and weighted, bones are set to a constant length, and joints limited to coherent angle limits. OpenSim provides other features such as net calculation of joint moments or resolution of individual muscle forces, although this is beyond the scope of our contribution.
 
-The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. The OpenSim model needs to be carefully crafted. Indeed, inverse kinematics is an under-constrained problem, that can be guided with carefully chosen joint constraints. Pose2Sim provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, with a coupling relationship between knee flexion and abduction/adduction and internal/external rotation. This allows for 3D knee kinematics with only one degree of freedom. The latter model has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. 
+The main contribution of Pose2Sim is to build a bridge between OpenPose and OpenSim. The OpenSim model needs to be carefully crafted. Indeed, inverse kinematics is an under-constrained problem, that can be guided with carefully chosen joint constraints. Pose2Sim provides a full-body model, adapted from the human gait full-body model \cite{Rajagopal2016} and the lifting full-body model \cite{Beaucage-Gauvreau2019}. The first one has a better definition of the knee joint, with a coupling relationship between knee flexion and abduction/adduction and internal/external rotation. These joint constraints allow for reducing the 3D knee kinematics to a problem with only one degree of freedom, assuming that the observed individual does not bear any strong anatomical divergence to the norm. In the same way, the latter model has a better definition of the spine: each lumbar vertebra is constrained to the next one, which makes it possible for the spine to bend in a coherent way with only a few tracked keypoints, without having to make it a rigid single bone. Combining those two models allows for ours to be as versatile as possible. Hand movements are locked, because the standard OpenPose models don't provide any hand detection. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. Of course, the user can also build their own OpenSim model, and use the markerset of their choice.
 
 The placement of markers on the model is also of paramount importance, especially with so little of them. OpenPose keypoints do not necessarily coincide with joint centers, probably because of systematic labelling errors in the training dataset \cite{Needham2021b}. Moreover, they may be located in a different anatomical position when limbs are fully extended in comparison to when they are fully flexed. However, once the markers are positioned in accordance with those of the 2D pose estimations, the scaling step is very fast and straightforward since the marker placement will not change from one session, subject, or operator to another. Our model takes these labelling errors into account, and offsets model markers as regards true joint centers accordingly (Figure~\ref{fig_mkmkl}).
 
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.85\linewidth]{"../Chap3/Figures/Fig_MkMkl.png"}
+	\caption{Triangulated anatomical markers and clusters (dark green), calculated joint centers (light green), and OpenPose body\_25B keypoints (pink) on a textured mesh. OpenPose’s eyes and ears keypoints were excluded. Mesh opacity was set to 0.5 in order to make all points visible. This view made it possible to precisely place OpenPose triangulated keypoints on the OpenSim model.}
+	\label{fig_mkmkl}
+\end{figure}
 
-Scaling in OpenSim can be broken down into two parts: first, the proper scaling of the model, which adjusts bone dimensions and inertial properties according to the positions of the joint markers; second, the adjustment of the other markers on the model, especially anatomical and cluster markers. If the model is defined properly, there is no need for further marker adjustment on the model, since markers will not be subject to placement variation due to human error or to skin movement artifact. Each body is scaled according to a factor computed as a ratio of distances, defined by the distance between pairs of model markers over distance between corresponding pairs of experimental markers. The markers used for scaling are chosen as follows:
+Scaling in OpenSim can be broken down into two parts: first, the proper scaling of the model, which adjusts bone dimensions and inertial properties according to the distances between the joint markers; second, the adjustment of the other markers on the model, especially anatomical and cluster markers. Joint centers are not trivial to obtain in marker-based approaches, since they must be calculated from the position of skin markers or from clusters: this is not an issue for OpenPose triangulated keypoints, which already represent joint centers in the first place. Moreover, if the model is defined properly, there is no need for further marker adjustment, since markers will not be subject to placement variation due to human error or to skin movement artifacts. Hence, only the first step of scaling must be undergone, and it is simpler than in marker-based approaches. Each body is scaled according to a factor computed as a ratio of distances, defined by the distance between pairs of model markers over distance between corresponding pairs of experimental markers. The markers used for scaling are chosen as follows:
 
 \begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
       \item{Arm: distance between shoulder and elbow markers;}
@@ -219,25 +227,11 @@ Scaling in OpenSim can be broken down into two parts: first, the proper scaling 
       \item{Torso: distance between neck and hip;}
       \item{Head: distance between head and nose;}
 \end{itemize}
-All weights of joint coordinates are set to 1, apart from those of the nose and the head, which are set to 0.2, and from those of the other head markers, which are set to 0. Since we process scaling during a standing pose, we add as a condition that ankle flexion should be fixed at a neutral 0° angle. 
+All weights of joint coordinates are set to 1, apart from those of the nose and the head, which are set to 0.2, and from those of the other head markers, which are set to 0. We recommend scaling on a standing pose, which is easy to keep for a second, usually not too far from sports poses, and accurately estimated by 2D pose detection models. Moreover, if this condition is satisfied, we can add as a scaling assumption that ankle flexion should be fixed at a neutral 0° angle. 
 
-The inverse kinematic tool is used with the same marker weights as in the scaling step.
-
-% \clearpage
-
-\begin{figure}[!ht]
-	\centering
-	\def\svgwidth{1\columnwidth}
-	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MkMkl.png"}
-	\caption{Triangulated anatomical markers and clusters (dark green), calculated joint centers (light green), and OpenPose body\_25B keypoints (pink) on a textured mesh. OpenPose’s eyes and ears keypoints were excluded. Mesh opacity was set to 0.5 in order to make all points visible. This view made it possible to precisely place OpenPose triangulated keypoints on the OpenSim model.}
-	\label{fig_mkmkl}
-\end{figure}
-
-Unlike in marker-based capture, keypoints detection hardly depends on the operator, the subject, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
+The inverse kinematic tool is used with the same marker weights as in the scaling step. Unlike in marker-based capture, keypoints detection hardly depends on the operator, the subject, nor the context. For this reason, the scaling and the inverse kinematic steps are straightforward, and the provided setup files require little to no adjusting.
 
 
-\clearpage
 \section{Installation and demonstration}
 
 \subsection{Installation}
@@ -260,9 +254,9 @@ Unlike in marker-based capture, keypoints detection hardly depends on the operat
             \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
                   pip install pose2sim
             \end{minted}
-            \item OPTION 2: \textit{Build from source.} Open a terminal in the directory of your choice and clone the Pose2Sim repository:
+            \item OPTION 2: \textit{Build from source and test the last changes.} Open a terminal in the directory of your choice and clone the Pose2Sim repository:
             \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
-                  git clone https://gitlab.inria.fr/perfanalytics/pose2sim.git
+                  git clone https://github.com/perfanalytics/pose2sim.git
                   cd pose2sim
                   pip install .
             \end{minted}
@@ -291,7 +285,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_FilterPlot.png"}
+	\includegraphics[width=0.75\linewidth]{"../Chap3/Figures/Fig_FilterPlot.png"}
 	\caption{Filtered results. Each keypoint trajectory is displayed in a different tab.}
 	\label{fig_filterplot}
 \end{figure}
@@ -300,7 +294,7 @@ You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fi
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Trc.png"}
+	\includegraphics[width=0.85\linewidth]{"../Chap3/Figures/Fig_Trc.png"}
 	\caption{An example .trc file of triangulated keypoint coordinates, directly usable in OpenSim.}
 	\label{fig_trc}
 \end{figure}
@@ -368,6 +362,8 @@ In the same vein as we would do with marker-based kinematics, the model first ne
 	\label{fig_opensimdemo}
 \end{figure}
 
+\clearpage
+
 Alternatively, OpenSim can be run in command-line:
 \begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
       \item Open an Anaconda terminal in your \mintinline{shell-session}{OpenSim/bin} directory, typically \\\mintinline{shell-session}{C:\OpenSim <Version>\bin} on Windows.\\
@@ -379,7 +375,8 @@ Alternatively, OpenSim can be run in command-line:
       \item You can also run OpenSim directly in Python:
       \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
             import subprocess
-            subprocess.call(["opensim-cmd", "run-tool", \\"<PATH TO YOUR SCALING OR IK SETUP FILE>.xml"])
+            subprocess.call(["opensim-cmd", "run-tool", 
+                  "<PATH TO YOUR SCALING OR IK SETUP FILE>.xml"])
       \end{minted}
       
       \item Or take advantage of the full the OpenSim Python API. See \href{https://simtk-confluence.stanford.edu:8443/display/OpenSim/Scripting+in+Python}{there} for installation instructions.\\
