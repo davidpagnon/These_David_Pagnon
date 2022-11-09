@@ -46,5 +46,27 @@ One way to solve this is enhancing the OpenPose dataset, by augmenting it with l
 
 Another approach, which could solve altogether the offsets in labeling, the dearth of keypoints, and the lack of accuracy on sports poses, could be to train on a whole new dataset. Note that this dataset should not base its labeling on marker positions, which could be interpreted as visual cues, that are not available in real sports situations. However, this condition is not sufficient: the dataset should also be large and diverse enough, represent a wide variety of body types and of sports movements \cite{Seethapathi2019}, and include images with motion blur such as found in sports videos. One way to do it is to build a synthetic dataset. For example, a mass of c3D motion files could be gathered from various sports, and be used to fit an SMPL+H mesh \cite{Pavlakos2019} with AMASS \cite{Mahmood2019}. These data could be augmented with already existing datasets for daily life activities, such as Agora \cite{Patel2021}. Then, it would be possible to take advantage of the fact that the topology of an SMPL mesh is constant, and assume that only labelling the first frame of any given sequence should be sufficient: label positions should be consistently propagated to the next frames. At this stage, one could place as many virtual markers as needed, for a precise evaluation of any movement and pose. However, only an expert should perform this task, and make sure that markers are correctly positioned: crowd-sourcing this task, like it is done for more basic image classification and segmentation with ImageNet \cite{Deng2009}, has been proved to lead to systematic offset errors \cite{Needham2021b}. Finally, random clothing, background, and light could be added (see \cite{Wood2021,Bolanos2021} for a detailed workflow), as well as variations in SMPL shape parameters. The scene would be filmed with numerous virtual cameras, in order to gather a large amount of diverse perspectives, and virtual markers would be automatically projected on the camera planes. This would result in an extensive sports dataset, created with minimal labelling work, on a potentially infinite amount of views. Nevertheless, before training the network, one should make sure that the generated data is as diverse as the real world, by using one of the metrics proposed by \cite{Borji2019, Borji2022}. Additionally, keypoint positions need to be precise enough: SMPL shape vertices can sometimes be more than 5 cm apart, which could cause imprecision errors similar to skin artifacts. Besides, instead of constraining pose estimation results with a physically consistent skeletal model, it would be interesting to develop a physics-informed pose estimation model \cite{Raissi2019}, which would offer the opportunity of embedding the kinematics priors as early as possible in the learning process.
 
+
+SHAPE?
+
+CALIBRATION / AUTO-CALIBRATION
+
+MULTIPERSON
+
 \subsection{inverse kinematics}
 True to all constrained models, as opposed to 6DOF approaches: only applicable with population close to the norm: limb missing, pathological joint, not okay
+
+
+GUI
+
+Bath, MPP2SOS, Maya-Mocap (Blender MoCapViz)
+
+
+\begin{figure}[hbtp]
+      \centering
+      \def\svgwidth{1\columnwidth}
+      \fontsize{10pt}{10pt}\selectfont
+      \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MayaMocap3.png"}
+      \caption{The organigram of Blender MoCapViz planned abilities.}
+      \label{fig_blendermocap}
+\end{figure}

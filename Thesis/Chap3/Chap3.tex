@@ -414,6 +414,7 @@ Pose2Sim bears several limitations. First, despite it is not altered by people e
 Currently, Pose2Sim does not work in real time. This is a drawback for coaches and athletes, who need feedback in a timely manner. However, a timely analysis of athletes’ movements directly on the sports field appears to be achievable. Indeed, OpenPose is faster than most of its competitors \cite{Chen2020}, and the rest of the process is not computationally costly. Moreover, the pose detection, the triangulation, and the OpenSim inverse kinematic optimization work frame by frame. As a consequence, it is conceivable to calibrate and scale the model first, and then to feed the GUI frame by frame. This would allow the system to work only with a few seconds of delay.
 
 
+\clearpage
 \subsection{Visualization tools}\label{subsec:viztools}
 
 Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to adopt the tool. However, the code has been adopted by other entities. The 3D animation "CEB" studio built a Blender \cite{Blender1998} extension using Pose2Sim for realistic 3D markerless animation. However, it is not free nor open-source \cite{Barreto2022} (Figure~\ref{fig_mpp2sos}). In addition, the CAMERA laboratory of the University of Bath is currently developing a GUI around Pose2Sim, which would make the tool more accessible. 
@@ -429,7 +430,7 @@ Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to
       \label{fig_mpp2sos}
 \end{figure}
 
-\begin{figure}[hbtp!]
+\begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{1\textwidth}
 		\centering
@@ -450,20 +451,14 @@ Pose2Sim does not provide a GUI yet. This can make it complicated for coaches to
             }
             \caption{Maya-Mocap can import several file types, e.g., a .trc motion file (bright green) or a textured animated 3D mesh. It can also load cameras from a calibration file, film with them, and display the filmed image sequences. In addition, it can reproject a selected point onto the camera plane (black lines), to make sure that it has been correctly triangulated. The 3D trajectory of a point can also be highlighted (red and blue lines).}
       \end{subfigure}
-      \begin{subfigure}[b]{1\textwidth}
-		\centering
-		\def\svgwidth{\columnwidth}
-		\fontsize{10pt}{10pt}\selectfont
-            \includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_MayaMocap3.png"}
-            \caption{The organigram of Maya-Mocap planned abilities.}
-      \end{subfigure}
- 	\caption{The Maya-Mocap add-on (a-b), and the tool set that it should eventually provide (c).}
+      \caption{The Maya-Mocap add-on}
 	\label{fig_mayamocap}
 \end{figure}
 
 I also developed a toolbox for Maya \cite{Maya1998} called Maya Mocap \cite{Pagnon2020}. First, it can import and display various types of motion files. Then, it can load cameras from a calibration file, film with them, and import the filmed image sequences. It can also help to make sure that triangulated points are well reprojected on the camera plane, by tracing a line from the point to the camera center. In addition, it can display the 3D trajectory of a point (see Figure~\ref{fig_mayamocap}). Next objectives would be to make it able to import an OpenSim model and its motion files, and to present it as a cleaner package, ready to be released. Since all the tools used in Pose2Sim are open-source, it would also be more consistent to translate it into Blender instead of Maya, in order to offer an entirely operational and open-source tool.
 
 
+\FloatBarrier
 \subsection{Other perspectives}
 
 Other minor adjustments could be made in order to improve the triangulation and the filtering steps. Implementing Random Simple Consensus (RANSAC) triangulation \cite{Fischler1981} as an alternative to our weighted Direct Linear Transform (DLT) \cite{Pagnon2021}, and opting for optimal fixed-interval Kalman smoothing instead of low-pass filtering \cite{Rauch1965,Needham2021a}, may reduce errors, especially in large outliers. Performing the pose estimation, the triangulation, and the inverse kinematics on the cloud rather than on a local computer could allow athletes and coaches to use the software in a web application. Adding muscles which were stripped from the skeleton in the OpenSim model could allow for joint kinetics prediction. Neural networks could be trained to estimate ground reaction forces from kinetics on specific tasks, without the use of a force platform \cite{Oh2013,Johnson2018,Mundt2019}.
