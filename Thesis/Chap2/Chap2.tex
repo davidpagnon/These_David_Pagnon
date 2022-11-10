@@ -262,28 +262,78 @@ Once the pose of an athlete is correctly detected, the next step is to obtain th
 
 \subsection{Pinhole camera model}\label{subsec:Pinhole model}
 
-If it passes through a small enough hole, the light emitted from a point can be seen as a fine ray rather than a large beam. Then, when all the rays from the object go through, they do not overlap, and actually recreate an inverted image of it, instead of a blurry spot of light. If the hole gives entrance to a dark enough room, and if a light-colored sheet is positioned close enough to the hole, one can observe the projection of a dim, but distinct image of the object. This is the principle of the camera obscura, or pinhole camera, which might have been discovered as early as in the paleolithic era, as cave paintings seem to suggest. The concept was later used as a drawing aid in the $17^{th}$ century by some artists, probably such as Vermeer or Canaletto \cite{Steadman2001}. In order to let more light in and to avoid diffraction issues, they increased the apperture of the hole and inserted in a convex lens, at the expense of a shorter depth of field and of some image distortion (Figure~\ref{fig_camobscura}). Then, if instead of a sheet, a light-sensitive film is placed, the image is progressively printed, after enough light has struck it. This is how photography was invented in the $19^{th}$ century, by the French inventors Niépce, and then Daguerre \cite{Marignier1999}.
+If it passes through a small enough hole, the light emitted from a point can be seen as a fine ray rather than a large beam. Then, when all the rays from the object go through, they do not overlap, and actually recreate an inverted image of it, instead of a blurry spot of light. If the hole gives entrance to a dark enough room, and if a light-colored sheet is positioned close enough to the hole, one can observe the projection of a dim, but distinct image of the object. This is the principle of the camera obscura, or pinhole camera, which might have been discovered as early as in the paleolithic era, as cave paintings seem to suggest. The concept was later used as a drawing aid in the $17^{th}$ century by some artists, probably such as Vermeer or Canaletto \cite{Steadman2001} (Figure~\ref{fig_camobscura}). In order to let more light in and to avoid diffraction issues, they increased the apperture of the hole and inserted in a convex lens, at the expense of a shorter depth of field and of some image distortion (Figure~\ref{fig_pinholelens}). Then, if instead of a sheet, a light-sensitive film is placed, the image is progressively printed, after enough light has struck it. This is how photography was invented in the $19^{th}$ century, by the French inventors Niépce, and then Daguerre \cite{Marignier1999}.
 
 \begin{figure}[hbtp]
 	\centering
-	\def\svgwidth{44\columnwidth}
+	\def\svgwidth{\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Camera_Obscura.jpg"}
-	\caption{A camera obscura used as a drawing aid, which uses a lens rather than a pinhole.} 
+	\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Camera_Obscura.jpg"}
+	\caption{A camera obscura used as a drawing aid, which uses a lens rather than a pinhole (unknown author). } 
 	\label{fig_camobscura}
 \end{figure}
 
-Lens vs pinhole
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=1\linewidth]{"../Chap2/Figures/Pinhole_Lens.png"}
+	\caption{(a) A pinhole camera does not need to be focused, because in theory, only one single ray per object point will pass through the apperture--which incidentally makes the image dimmer. (b) On the contrary, more light rays can pass through a lens, which makes the projected image clearer--but incidentally, it introduces a finite depth of field, as the image is focused on a different plane depending on the object distance to the lens.} 
+	\label{fig_pinholelens}
+\end{figure}
+
+When an object of size \(X_O\) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(w\). In this case, let the image size be \(u\). Thales' theorem gives (Figure~\ref{fig_thinlens}):
+\begin{equation}
+  \begin{aligned}
+  &\frac{u}{X_O} = \frac{w}{Z_O} \text{ (dashed triangles)},\\
+  &\frac{u}{X_O} = \frac{w-f}{f} \text{ (dotted triangles)},
+  \end{aligned}
+\end{equation}
+Which leads to the thin lens formula:
+\begin{equation}
+    \frac{1}{Z_O} = \frac{1}{f} - \frac{1}{w}
+\end{equation}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Thin_Lens.png"}
+	\caption{Thales' theorem leads to the thin lens equation. \(X_O\) is the object of size, and \(Z_O\) its distance to the lens; \(u\) is the image size, and \(u\) its distance to the lens; and\(f\) is the focal length \(f\).} 
+	\label{fig_thinlens}
+\end{figure}
+
+
+According to the thin lens formula, in the specific case where the the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(w\) equal to the focal length. 
+\begin{equation}
+    w=f
+\end{equation}
+
+This is generally true in motion capture, for which the camera lens is usually focused to infinity, i.e., it looks at objects at least 100 times as far as the focal length. In this case, the Thales theorem gives the relation:
+\begin{equation}
+  u=\frac{f\times X_O}{Z_O}
+\end{equation}
+
+This model is called the pinhole camera model, which is strickly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification, the image plane is often represented on the same side as the object (Figure~\ref{fig_cameralens}). 
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.4\linewidth]{"../Chap2/Figures/Camera_Lens.png"}
+	\caption{The simplified camera model, improperly called the pinhole camera model.} 
+	\label{fig_cameralens}
+\end{figure}
+
+
+\FloatBarrier
+In 2D
 
 
 
 
 
-
-% (otherwise equal to $size\ of\ the\ hole^2/0.0366$)
-
-
-The definition of a real-world camera can be separated between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
+However, a lens not only introduces a depth of field, but also distortions. This is simply taken into account by separating a real-world camera between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
 
 
 
