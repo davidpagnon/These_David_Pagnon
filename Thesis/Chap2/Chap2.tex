@@ -262,13 +262,15 @@ Once the pose of an athlete is correctly detected, the next step is to obtain th
 
 \subsection{Pinhole camera model}\label{subsec:Pinhole model}
 
+\noindent\textbf{History}
+
 If it passes through a small enough hole, the light emitted from a point can be seen as a fine ray rather than a large beam. Then, when all the rays from the object go through, they do not overlap, and actually recreate an inverted image of it, instead of a blurry spot of light. If the hole gives entrance to a dark enough room, and if a light-colored sheet is positioned close enough to the hole, one can observe the projection of a dim, but distinct image of the object. This is the principle of the camera obscura, or pinhole camera, which might have been discovered as early as in the paleolithic era, as cave paintings seem to suggest. The concept was later used as a drawing aid in the $17^{th}$ century by some artists, probably such as Vermeer or Canaletto \cite{Steadman2001} (Figure~\ref{fig_camobscura}). In order to let more light in and to avoid diffraction issues, they increased the apperture of the hole and inserted in a convex lens, at the expense of a shorter depth of field and of some image distortion (Figure~\ref{fig_pinholelens}). Then, if instead of a sheet, a light-sensitive film is placed, the image is progressively printed, after enough light has struck it. This is how photography was invented in the $19^{th}$ century, by the French inventors Niépce, and then Daguerre \cite{Marignier1999}.
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.9\linewidth]{"../Chap2/Figures/Camera_Obscura.jpg"}
+	\includegraphics[width=0.8\linewidth]{"../Chap2/Figures/Camera_Obscura.jpg"}
 	\caption{A camera obscura used as a drawing aid, which uses a lens rather than a pinhole (unknown author). } 
 	\label{fig_camobscura}
 \end{figure}
@@ -282,7 +284,10 @@ If it passes through a small enough hole, the light emitted from a point can be 
 	\label{fig_pinholelens}
 \end{figure}
 
-When an object of size \(X_O\) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(w\). In this case, let the image size be \(u\). Thales' theorem gives (Figure~\ref{fig_thinlens}):
+\newpage
+\noindent\textbf{Thin lens}
+
+When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(w\). In this case, let the image size be \(u\). Thales' theorem gives (Figure~\ref{fig_thinlens}):
 \begin{equation}
   \begin{aligned}
   &\frac{u}{X_O} = \frac{w}{Z_O} \text{ (dashed triangles)},\\
@@ -303,8 +308,9 @@ Which leads to the thin lens formula:
 	\label{fig_thinlens}
 \end{figure}
 
+\noindent\textbf{Pinhole model}
 
-According to the thin lens formula, in the specific case where the the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(w\) equal to the focal length. 
+According to the thin lens formula, in the specific case where the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(w\) equal to the focal length. 
 \begin{equation}
     w=f
 \end{equation}
@@ -314,26 +320,85 @@ This is generally true in motion capture, for which the camera lens is usually f
   u=\frac{f\times X_O}{Z_O}
 \end{equation}
 
-This model is called the pinhole camera model, which is strickly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification, the image plane is often represented on the same side as the object (Figure~\ref{fig_cameralens}). 
+Instead of expressing the image coordinates and the focal length in meters, it can be convenient to express them in pixels. Let \(p_u\) be the pixel size, then \(u_p = u/p_u\) and \(f_{pu} = f/p_u\). The relation becomes:
+\begin{equation}
+  u_p=\frac{f_{pu}\times X_O}{Z_O}
+\end{equation}
+
+This model is called the pinhole camera model, which is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification, the image plane is often represented on the same side as the object (Figure~\ref{fig_cameralens}). 
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.4\linewidth]{"../Chap2/Figures/Camera_Lens.png"}
+	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Camera_Lens.png"}
 	\caption{The simplified camera model, improperly called the pinhole camera model.} 
 	\label{fig_cameralens}
 \end{figure}
 
 
 \FloatBarrier
-In 2D
+\noindent\textbf{3D pinhole model}
+
+In 3 dimensions (Figure~\ref{fig_camera3d}), the relation becomes as follows. Note that although the focal length is fixed, the pixel size may not be the same in both directions. Hence, \(f_{pu}\) and \(f_{pv}\) are not necessarily equal.
+\begin{equation}
+  \begin{aligned}
+  &u_p=\frac{f_{pu}\times X_O}{Z_O},\\
+  &v_p=\frac{f_{pv}\times Y_O}{Z_O},
+  \end{aligned}
+\end{equation}
+With can be written as:
+\begin{equation}
+  Z_O \times \begin{pmatrix}u_p\\v_p\end{pmatrix} = \begin{pmatrix}f_{pu} & 0 \\0 & f_{pv}\end{pmatrix}\begin{pmatrix}X_O\\Y_O\end{pmatrix}
+\end{equation}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Camera_3D.png"}
+	\caption{The pinhole camera model in 3D.} 
+	\label{fig_camera3d}
+\end{figure}
+
+Some corrections can be brought to this model. First, then optical center may not be at the exact center of the image plane. In this case, the relation becomes:
+\begin{equation}
+  \begin{aligned}
+  &u_p-c_{pu}=\frac{f_{pu}\times X_O}{Z_O},\\
+  &v_p-c_{pv}=\frac{f_{pv}\times Y_O}{Z_O},
+  \end{aligned}
+\end{equation}
+With can be written as:
+\begin{equation}
+  Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & 0 & c_{pu} \\0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
+\end{equation}
+
+Second, the pixel sides may not be perfectly perpendicular. In this case, the relation becomes:
+\begin{equation}
+  Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & \gamma & c_{pu} \\ f_{pv} & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
+\end{equation}
+However, this is extremely rare, and in the overwhelming majority of cases, the skew factor $\gamma$
+can safely be set to zero \cite{Zhang2000}.
+
+More succinctly, this equation can be written as follws, with $q_p$ the image coordinates, $Q_O$ the object coordinates in the camera frame, and $K_p$ the intrinsic camera matrix: 
+\begin{equation}
+  Z_O \times q_p = K_p Q_O
+\end{equation}
+
+
+\noindent\textbf{Distortions}
+
+Third, a lens does not only introduce a finite depth of field, but also distortions. This is simply taken into account by separating a real-world camera between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
+
+
+% First, the camera is not perfectly aligned with the optical axis, and the image is not perfectly centered. This can be corrected by adding a translation vector \(t\), which is the distance between the camera center and the image center. Second, the camera is not perfectly parallel to the image plane, and the image is not perfectly perpendicular to the image plane. This can be corrected by adding a rotation matrix \(R\), which is the rotation between the camera and the image plane. The final model is thus:
+
+When a network of cameras is used, it is important to have a common frame of reference. The camera frame of reference needs to be expressed in a global frame of reference.
+
+% The camera frame of reference is defined by the camera position \(P_C\), and the camera orientation \(R_C\), which is the rotation matrix that transforms a vector from the camera frame of reference to the inertial frame of reference. The camera position and orientation are usually obtained from a calibration process, which is out of the scope of this book. The camera frame of reference is usually expressed in the form of a homogeneous transformation matrix \(T_C\), which is the concatenation of the rotation matrix \(R_C\) and the translation vector \(P_C\). The homogeneous transformation matrix \(T_C\) is defined as:
 
 
 
-
-
-However, a lens not only introduces a depth of field, but also distortions. This is simply taken into account by separating a real-world camera between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
 
 
 
