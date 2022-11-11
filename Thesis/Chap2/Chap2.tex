@@ -287,16 +287,17 @@ If it passes through a small enough hole, the light emitted from a point can be 
 \newpage
 \noindent\textbf{Thin lens}
 
-When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(w\). In this case, let the image size be \(u\). Thales' theorem gives (Figure~\ref{fig_thinlens}):
+When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(z\). In this case, let the image size be \(x\). Assuming that the lens is thin, and that the object is close to the optic axis(i.e., that paraxial conditions are satisfied), Thales' theorem gives (Figure~\ref{fig_thinlens}):
 \begin{equation}
   \begin{aligned}
-  &\frac{u}{X_O} = \frac{w}{Z_O} \text{ (dashed triangles)},\\
-  &\frac{u}{X_O} = \frac{w-f}{f} \text{ (dotted triangles)},
+  &\frac{x}{X_O} = \frac{z}{Z_O} \text{ (dashed triangles)},\\
+  &\frac{x}{X_O} = \frac{z-f}{f} \text{ (dotted triangles)},
   \end{aligned}
 \end{equation}
-Which leads to the thin lens formula:
+
+Which leads to the thin lens formula, discovered by Descartes in the $17^{th}$ century:
 \begin{equation}
-    \frac{1}{Z_O} = \frac{1}{f} - \frac{1}{w}
+    \frac{1}{Z_O} = \frac{1}{f} - \frac{1}{z}
 \end{equation}
 
 \begin{figure}[hbtp]
@@ -304,53 +305,63 @@ Which leads to the thin lens formula:
 	\def\svgwidth{\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Thin_Lens.png"}
-	\caption{Thales' theorem leads to the thin lens equation. \(X_O\) is the object of size, and \(Z_O\) its distance to the lens; \(u\) is the image size, and \(u\) its distance to the lens; and\(f\) is the focal length \(f\).} 
+	\caption{Thales' theorem leads to the thin lens equation. \(X_O\) is the object of size, and \(Z_O\) its distance to the lens; \(x\) is the image size, and \(z\) its distance to the lens; and\(f\) is the focal length \(f\).} 
 	\label{fig_thinlens}
 \end{figure}
 
-\noindent\textbf{Pinhole model}
+\noindent\textbf{Basic pinhole model}
 
-According to the thin lens formula, in the specific case where the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(w\) equal to the focal length. 
+According to the thin lens formula, in the specific case where the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(z\) equal to the focal length. 
 \begin{equation}
-    w=f
+    z=f
 \end{equation}
 
 This is generally true in motion capture, for which the camera lens is usually focused to infinity, i.e., it looks at objects at least 100 times as far as the focal length. In this case, the Thales theorem gives the relation:
 \begin{equation}
-  u=\frac{f\times X_O}{Z_O}
+  x=\frac{f\times X_O}{Z_O}
 \end{equation}
 
-Instead of expressing the image coordinates and the focal length in meters, it can be convenient to express them in pixels. Let \(p_u\) be the pixel size, then \(u_p = u/p_u\) and \(f_{pu} = f/p_u\). The relation becomes:
-\begin{equation}
-  u_p=\frac{f_{pu}\times X_O}{Z_O}
-\end{equation}
-
-This model is called the pinhole camera model, which is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification, the image plane is often represented on the same side as the object (Figure~\ref{fig_cameralens}). 
+This model is called the basic pinhole camera model \cite{Hartley1997,Zhang2000,Tomasi2017}. This is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification and since it does make a difference in practice, the image plane is usully represented upside-up and on the same side as the object (Figure~\ref{fig_cameralens}). 
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.5\linewidth]{"../Chap2/Figures/Camera_Lens.png"}
-	\caption{The simplified camera model, improperly called the pinhole camera model.} 
+	\caption{The simplified pinhole camera model.} 
 	\label{fig_cameralens}
 \end{figure}
 
 
 \FloatBarrier
-\noindent\textbf{3D pinhole model}
+\noindent\textbf{3D pinhole model in camera coordinate system}
 
-In 3 dimensions (Figure~\ref{fig_camera3d}), the relation becomes as follows. Note that although the focal length is fixed, the pixel size may not be the same in both directions. Hence, \(f_{pu}\) and \(f_{pv}\) are not necessarily equal.
+In 3 dimensions, the object can be represented in the camera coordinate system $(X_C, Y_C, Z_C)$, with $Y_C$ pointing downwards, and $Z_C$ facing toward the object (Figure~\ref{fig_camera3d}). The relation becomes:
 \begin{equation}
   \begin{aligned}
-  &u_p=\frac{f_{pu}\times X_O}{Z_O},\\
-  &v_p=\frac{f_{pv}\times Y_O}{Z_O},
+  &x=\frac{f\times X_C}{Z_C},\\
+  &y=\frac{f\times Y_C}{Z_C},
   \end{aligned}
 \end{equation}
-With can be written as:
+
+Which can be written as:
 \begin{equation}
-  Z_O \times \begin{pmatrix}u_p\\v_p\end{pmatrix} = \begin{pmatrix}f_{pu} & 0 \\0 & f_{pv}\end{pmatrix}\begin{pmatrix}X_O\\Y_O\end{pmatrix}
+  Z_C \times \begin{pmatrix}x\\y\end{pmatrix} 
+  = \begin{pmatrix}f & 0 \\0 & f\end{pmatrix}\begin{pmatrix}X_C\\Y_C\end{pmatrix}
 \end{equation}
+
+% In the camera frame of reference instead of the object one, $X_C = X_O$, $Y_C = -Y_O$, and $Z_C = -Z_O$: 
+% \begin{equation}
+%   \begin{aligned}
+%   &x=-\frac{f\times X_C}{Z_C},\\
+%   &y=+\frac{f\times Y_C}{Z_C},
+%   \end{aligned}
+% \end{equation}
+
+% Which leads to:
+% \begin{equation}
+%   -Z_C \times \begin{pmatrix}x\\y\end{pmatrix} = \begin{pmatrix}f & 0 \\0 & f\end{pmatrix}\begin{pmatrix}X_C\\-Y_C\end{pmatrix}
+% \end{equation}
 
 \begin{figure}[hbtp]
 	\centering
@@ -361,29 +372,95 @@ With can be written as:
 	\label{fig_camera3d}
 \end{figure}
 
-Some corrections can be brought to this model. First, then optical center may not be at the exact center of the image plane. In this case, the relation becomes:
+
+\noindent\textbf{3D pinhole model with pixel image coordinates}
+
+The origin of the image coordinates is not usually set on the optical axis (i.e., at the center of the sensor, also called the principal point), but typically at its upper left (Figure~\ref{fig_imagecoord}). With $c_u$ and $c_v$ the horizontal and vertical coordinates of the principal point, the coordinates in the image frame of reference can be written as: 
 \begin{equation}
   \begin{aligned}
-  &u_p-c_{pu}=\frac{f_{pu}\times X_O}{Z_O},\\
-  &v_p-c_{pv}=\frac{f_{pv}\times Y_O}{Z_O},
+    &u = x + c_u = \frac{f\times X_C}{Z_C} + c_u\\
+    &v = y + c_v = \frac{f\times Y_C}{Z_C} + c_v
   \end{aligned}
 \end{equation}
-With can be written as:
+
+The relation is thus:
 \begin{equation}
-  Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & 0 & c_{pu} \\0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
+    Z_C \times \begin{pmatrix}u\\v\\1\end{pmatrix} = \begin{pmatrix}f & 0 &c_u \\0 & f & c_v\\0&0&1\end{pmatrix}\begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
 \end{equation}
 
-Second, the pixel sides may not be perfectly perpendicular. In this case, the relation becomes:
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.3\linewidth]{"../Chap2/Figures/Image_Coord.png"}
+	\caption{Image coordinates in pixel vs. sensor coordinates in meters.} 
+	\label{fig_imagecoord}
+\end{figure}
+
+Moreover, instead of expressing the image coordinates and the focal length in meters, it can be convenient to express them in pixels. Let \(p_u, p_v\) be the pixel dimensions, then \(u_p = u/p_u\) and \(v_p = v/p_v\). The relation becomes:
+
 \begin{equation}
-  Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & \gamma & c_{pu} \\ f_{pv} & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
+  \begin{split}
+  Z_C \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} 
+  &= \begin{pmatrix}f/p_u & 0 &c_u/p_u \\0 & f/p_v & c_v/p_v\\0&0&1\end{pmatrix}\begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}\\
+  &= \begin{pmatrix}f_{pu} & 0 & c_{pu} \\0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
+  \end{split}
 \end{equation}
-However, this is extremely rare, and in the overwhelming majority of cases, the skew factor $\gamma$
+
+
+\vspace*{0.5cm}
+\noindent\textbf{3D pinhole model in world coordinate system}
+
+When several cameras are used in the same time, for instance for 3D reconstruction, it is important that they share a common frame of reference. Hence, the camera coordinate system needs to be expressed in the "world" accordingly. Assuming that the camera is translated along a vector $T_{3\times 1}$ and rotated according to a matrix $R_{3\times 3}$, the coordinates in the camera frame of reference can be expressed in the world frame of reference as:
+\begin{equation}
+  \begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
+  = R_{3\times 3} \times \begin{pmatrix}X_W\\Y_W\\Z_W\end{pmatrix} + T_{3\times 1}
+\end{equation}
+
+This formalism does not represent a linear system connecting the world and the camera coordinates, which can make calculations complicated. Instead, one can add one more dimension to the system and use the homogeneous coordinates, introduced by Möbius in 1927 \cite{Mobius1827}, and which constitutes one of the basis of projective geometry.
+\begin{equation}
+  \begin{pmatrix}X_C\\Y_C\\Z_C\\1\end{pmatrix}
+  = \begin{pmatrix} &  & & \\ & R_{3\times 3} &  & T_{3\times 1} \\ &&&& \\ 0&0&0&1\end{pmatrix} \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}
+\end{equation}
+
+\clearpage
+Finally, the full pinhole model becomes (the $\textcolor{lightgray}{I_3|0}$ matrix is used to convert from the 3D to the projective space):
+\begin{equation}
+  \boxed{
+  Z_C \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix}_{\!\!3\times 1} 
+  = \begin{pmatrix}f_{pu} & 0 & c_{pu}\\ 0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}_{\!\!3\times 3}
+    \textcolor{lightgray}{\begin{pmatrix} &  & & 0\\ & I_{3\times 3} &  & 0 \\ &&&0&\end{pmatrix}_{\!\!3\times 4}} 
+    \begin{pmatrix} \\ & R_{3\times 3} &  & T_{3\times 1} \\  \\ 0&0&0&1\end{pmatrix}_{\!\!4\times 4} 
+    \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}_{\!\!4\times1}
+  }
+\end{equation}
+
+Or more concisely, with $q$ the 2D image coordinates, $Q_w$ the 3D world coordinates, $K$ the intrinsic matrix, $H$ the homogeneous matrix of extrinsic parameters, and $P$ the projection matrix:
+\begin{equation}
+  \boxed{
+  \begin{aligned}
+  Z_C \ q &= K \ \textcolor{lightgray}{I_3|0} \ H \ Q_w\\
+  &= P \ Q_w
+  \end{aligned}
+  }
+\end{equation}
+
+To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, thus not computationally intensive to solve. The intrinsic matrix $K$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $H$ depends on the camera position and orientation. The projection matrix $P$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and can be considered as an arbitrary scaling factor.
+
+
+\vspace*{0.5cm}
+\noindent\textbf{Skew factor and distortions}
+
+Some corrections can be brought to this model. First, the pixel sides may not be perfectly perpendicular. In this case, a skew parameter $\gamma$ has to be added to the intrinsic matrix, and the relation becomes:
+\begin{equation}
+  Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & \gamma & c_{pu} \\ 0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
+\end{equation}
+However, this is extremely rare, and in the overwhelming majority of cases, $\gamma$
 can safely be set to zero \cite{Zhang2000}.
 
-More succinctly, this equation can be written as follws, with $q_p$ the image coordinates, $Q_O$ the object coordinates in the camera frame, and $K_p$ the intrinsic camera matrix: 
-\begin{equation}
-  Z_O \times q_p = K_p Q_O
-\end{equation}
+Second, the use of a lens introduces some distortions to the pinhole model. 
+
+% The most common are radial distortions, which are caused by the curvature of the lens. The image is not a perfect projection of the object, but is deformed. The distortion is described by two parameters, the radial distortion coefficients $k_1$ and $k_2$, which are used to correct the image coordinates as follows:
 
 
 \noindent\textbf{Distortions}
@@ -391,11 +468,7 @@ More succinctly, this equation can be written as follws, with $q_p$ the image co
 Third, a lens does not only introduce a finite depth of field, but also distortions. This is simply taken into account by separating a real-world camera between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
 
 
-% First, the camera is not perfectly aligned with the optical axis, and the image is not perfectly centered. This can be corrected by adding a translation vector \(t\), which is the distance between the camera center and the image center. Second, the camera is not perfectly parallel to the image plane, and the image is not perfectly perpendicular to the image plane. This can be corrected by adding a rotation matrix \(R\), which is the rotation between the camera and the image plane. The final model is thus:
 
-When a network of cameras is used, it is important to have a common frame of reference. The camera frame of reference needs to be expressed in a global frame of reference.
-
-% The camera frame of reference is defined by the camera position \(P_C\), and the camera orientation \(R_C\), which is the rotation matrix that transforms a vector from the camera frame of reference to the inertial frame of reference. The camera position and orientation are usually obtained from a calibration process, which is out of the scope of this book. The camera frame of reference is usually expressed in the form of a homogeneous transformation matrix \(T_C\), which is the concatenation of the rotation matrix \(R_C\) and the translation vector \(P_C\). The homogeneous transformation matrix \(T_C\) is defined as:
 
 
 
@@ -426,6 +499,10 @@ camera coordinate system
 
 
 \subsection{Calibration}
+
+Camera calibration consists in determining both intrinsic parameters of the camera, and its position and orientation as regards to the center of the scene (i.e., its extrinsic parameters). The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 9 parameters of rotation, and 3 of translation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. This amounts for a total of 10 unknowns.
+% , which can be determined with 7 points in the scene. The calibration can be performed with a single camera, or with several cameras, in which case the extrinsic parameters of the other cameras are known. The calibration is performed by minimizing the reprojection error, which is the distance between the projected points and the actual points in the image. The reprojection error is the sum of the squared distances between the projected points and the actual points in the image. The reprojection error is minimized by solving the following system of equations:
+
 
 \cite{Marchand2015}
 
