@@ -287,12 +287,12 @@ If it passes through a small enough hole, the light emitted from a point can be 
 \newpage
 \noindent\textbf{Thin lens}
 
-When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(z\). In this case, let the image size be \(x\). Assuming that the lens is thin, and that the object is close to the optic axis(i.e., that paraxial conditions are satisfied), Thales' theorem gives (Figure~\ref{fig_thinlens}):
+When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(z\). In this case, let the image size be \(x\). Assuming that the lens is thin, and that the object is close to the optical axis(i.e., that paraxial conditions are satisfied), Thales' theorem gives (Figure~\ref{fig_thinlens}):
 \begin{equation}
-  \begin{aligned}
+  \begin{cases}
   &\frac{x}{X_O} = \frac{z}{Z_O} \text{ (dashed triangles)},\\
   &\frac{x}{X_O} = \frac{z-f}{f} \text{ (dotted triangles)},
-  \end{aligned}
+  \end{cases}
 \end{equation}
 
 Which leads to the thin lens formula, discovered by Descartes in the $17^{th}$ century:
@@ -321,7 +321,7 @@ This is generally true in motion capture, for which the camera lens is usually f
   x=\frac{f\times X_O}{Z_O}
 \end{equation}
 
-This model is called the basic pinhole camera model \cite{Hartley1997,Zhang2000,Tomasi2017}. This is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification and since it does make a difference in practice, the image plane is usully represented upside-up and on the same side as the object (Figure~\ref{fig_cameralens}). 
+This model is called the basic pinhole camera model \cite{Zhang2000,Hartley2003,Tomasi2017}. This is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification and since it does make a difference in practice, the image plane is usully represented upside-up and on the same side as the object (Figure~\ref{fig_cameralens}). 
 
 \begin{figure}[hbtp]
 	\centering
@@ -338,10 +338,10 @@ This model is called the basic pinhole camera model \cite{Hartley1997,Zhang2000,
 
 In 3 dimensions, the object can be represented in the camera coordinate system $(X_C, Y_C, Z_C)$, with $Y_C$ pointing downwards, and $Z_C$ facing toward the object (Figure~\ref{fig_camera3d}). The relation becomes:
 \begin{equation}
-  \begin{aligned}
+  \begin{cases}
   &x=\frac{f\times X_C}{Z_C},\\
   &y=\frac{f\times Y_C}{Z_C},
-  \end{aligned}
+  \end{cases}
 \end{equation}
 
 Which can be written as:
@@ -377,10 +377,10 @@ Which can be written as:
 
 The origin of the image coordinates is not usually set on the optical axis (i.e., at the center of the sensor, also called the principal point), but typically at its upper left (Figure~\ref{fig_imagecoord}). With $c_u$ and $c_v$ the horizontal and vertical coordinates of the principal point, the coordinates in the image frame of reference can be written as: 
 \begin{equation}
-  \begin{aligned}
+  \begin{cases}
     &u = x + c_u = \frac{f\times X_C}{Z_C} + c_u\\
     &v = y + c_v = \frac{f\times Y_C}{Z_C} + c_v
-  \end{aligned}
+  \end{cases}
 \end{equation}
 
 The relation is thus:
@@ -411,7 +411,7 @@ Moreover, instead of expressing the image coordinates and the focal length in me
 \vspace*{0.5cm}
 \noindent\textbf{3D pinhole model in world coordinate system}
 
-When several cameras are used in the same time, for instance for 3D reconstruction, it is important that they share a common frame of reference. Hence, the camera coordinate system needs to be expressed in the "world" accordingly. Assuming that the camera is translated along a vector $T_{3\times 1}$ and rotated according to a matrix $R_{3\times 3}$, the coordinates in the camera frame of reference can be expressed in the world frame of reference as:
+When several cameras are used in the same time, for instance for 3D reconstruction, it is important that they share a common frame of reference. Hence, the camera coordinate system needs to be expressed in the "world" system accordingly. Assuming that the camera is translated along a vector $T_{3\times 1}$ and rotated according to a matrix $R_{3\times 3}$, the coordinates in the camera frame of reference can be expressed in the world frame of reference as:
 \begin{equation}
   \begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
   = R_{3\times 3} \times \begin{pmatrix}X_W\\Y_W\\Z_W\end{pmatrix} + T_{3\times 1}
@@ -419,33 +419,34 @@ When several cameras are used in the same time, for instance for 3D reconstructi
 
 This formalism does not represent a linear system connecting the world and the camera coordinates, which can make calculations complicated. Instead, one can add one more dimension to the system and use the homogeneous coordinates, introduced by Möbius in 1927 \cite{Mobius1827}, and which constitutes one of the basis of projective geometry.
 \begin{equation}
-  \begin{pmatrix}X_C\\Y_C\\Z_C\\1\end{pmatrix}
-  = \begin{pmatrix} &  & & \\ & R_{3\times 3} &  & T_{3\times 1} \\ &&&& \\ 0&0&0&1\end{pmatrix} \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}
+  \begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
+  = \begin{pmatrix} &  & & \\ & R_{3\times 3} &  & T_{3\times 1} \\ &&&&\end{pmatrix} \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}
 \end{equation}
 
-\clearpage
-Finally, the full pinhole model becomes (the $\textcolor{lightgray}{I_3|0}$ matrix is used to convert from the 3D to the projective space):
-\begin{equation}
+Finally, the full pinhole model becomes:% (the $\textcolor{lightgray}{I_3|0}$ matrix is used to convert from the 3D to the projective space):
+\begin{equation}\label{eq:pinhole}
   \boxed{
   Z_C \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix}_{\!\!3\times 1} 
   = \begin{pmatrix}f_{pu} & 0 & c_{pu}\\ 0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}_{\!\!3\times 3}
-    \textcolor{lightgray}{\begin{pmatrix} &  & & 0\\ & I_{3\times 3} &  & 0 \\ &&&0&\end{pmatrix}_{\!\!3\times 4}} 
-    \begin{pmatrix} \\ & R_{3\times 3} &  & T_{3\times 1} \\  \\ 0&0&0&1\end{pmatrix}_{\!\!4\times 4} 
+    % \textcolor{lightgray}{\begin{pmatrix} &  & & 0\\ & I_{3\times 3} &  & 0 \\ &&&0&\end{pmatrix}_{\!\!3\times 4}} 
+    % \begin{pmatrix} \\ & R_{3\times 3} &  & T_{3\times 1} \\  \\ 0&0&0&1\end{pmatrix}_{\!\!4\times 4} 
+    \begin{pmatrix} \\ & \textbf{R}_{3\times 3} &  & \textbf{T}_{3\times 1} \\  \\\end{pmatrix}_{\!\!3\times 4} 
     \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}_{\!\!4\times1}
   }
 \end{equation}
 
-Or more concisely, with $q$ the 2D image coordinates, $Q_w$ the 3D world coordinates, $K$ the intrinsic matrix, $H$ the homogeneous matrix of extrinsic parameters, and $P$ the projection matrix:
-\begin{equation}
+Or more concisely, with $\overrightarrow{q_p}$ the 2D image coordinates, $\overrightarrow{Q_w}$ the 3D world coordinates, $\textbf{K}$ the intrinsic matrix, $\textbf{H}$ the homogeneous matrix of extrinsic parameters, and $\textbf{P}$ the projection matrix:
+\begin{equation}\label{eq:pinhole_short}
   \boxed{
   \begin{aligned}
-  Z_C \ q &= K \ \textcolor{lightgray}{I_3|0} \ H \ Q_w\\
-  &= P \ Q_w
+  % Z_C \ \overrightarrow{q_p} &= \bm{K} \ \bm{\textcolor{lightgray}{I_3|0}} \ \bm{H} \ \overrightarrow{Q_w}\\
+  Z_C \ \overrightarrow{q_p} &= \textbf{K} \ \textbf{H} \ \overrightarrow{Q_w}\\
+  &= \textbf{P} \ \overrightarrow{Q_w}
   \end{aligned}
   }
 \end{equation}
 
-To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, thus not computationally intensive to solve. The intrinsic matrix $K$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $H$ depends on the camera position and orientation. The projection matrix $P$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and can be considered as an arbitrary scaling factor.
+To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, thus not computationally intensive to solve. The intrinsic matrix $\textbf{K}$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $\textbf{H}$ depends on the camera position and orientation. The projection matrix $\textbf{P}$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and is considered as an arbitrary scaling factor.
 
 
 \vspace*{0.5cm}
@@ -455,69 +456,226 @@ Some corrections can be brought to this model. First, the pixel sides may not be
 \begin{equation}
   Z_O \times \begin{pmatrix}u_p\\v_p\\1\end{pmatrix} = \begin{pmatrix}f_{pu} & \gamma & c_{pu} \\ 0 & f_{pv} & c_{pv} \\ 0&0&1\end{pmatrix}\begin{pmatrix}X_O\\Y_O\\Z_O\end{pmatrix}
 \end{equation}
-However, this is extremely rare, and in the overwhelming majority of cases, $\gamma$
+However, this is extremely rare in practice, and in the overwhelming majority of cases, $\gamma$
 can safely be set to zero \cite{Zhang2000}.
 
-Second, the use of a lens introduces some distortions to the pinhole model. 
+\vspace*{0.5cm}
+Second, the use of a lens instead of a pinhole not only introduce a finite depth of field, but also distortions. These are mostly radial, caused by the curvature of the lens, especially if it has a wide angle. Radial distortions are particularly visible when using a wide angle lens, in the form of a "barrel" effect. Straight lines are then curved near the edges of the image (Figure~\ref{fig_distortions}). Some tangential distortion can also be observed, in case the sensor is not perfectly perpendicular to the optical axis. 
 
-% The most common are radial distortions, which are caused by the curvature of the lens. The image is not a perfect projection of the object, but is deformed. The distortion is described by two parameters, the radial distortion coefficients $k_1$ and $k_2$, which are used to correct the image coordinates as follows:
+These can be corrected by adding radial and tangential terms to $x$ and $y$, the image coordinates as regards to its center \cite{Weng1992}:
+\begin{equation}
+  \begin{cases}
+  \begin{array}{rlcccc}
+    x' &= x &+ &\underbrace{x(k_1 r^2 + k_2 r^4 + k_3 r^6)} &+ &\underbrace{2 p_1 x y + p_2(r^2 + 2 x^2)}\\
+    &= x &+ &\Delta x_{radial} &+ &\Delta x_{tangential}\\
+    \\
+    y' &= y &+ &\underbrace{y(k_1 r^2 + k_2 r^4 + k_3 r^6)} &+ &\underbrace{2 p_1 x y + p_2(r^2 + 2 y^2)}\\
+    &= y &+ &\Delta y_{radial} &+ &\Delta y_{tangential}
+    \end{array}
+  \end{cases}
+\end{equation}
+Where $k_1$, $k_2$, $k_3$ are the radial distortion coefficients, and $p_1$ and $p_2$ the tangential distortion ones. $r^2 = x^2 + y^2$ is the distance from the center of the sensor. This is called the DR3DT2 model, also called the Brown-Conrady distortion model \cite{Conrady1919,Brown1966}. Note that it is possible to introduce more coefficients for an even more accurate model, and that in the case of an ultra wide-angle or fisheye lens, the Kannala-Brandt model \cite{Kannala2006} is mode appropriate.
 
-
-\noindent\textbf{Distortions}
-
-Third, a lens does not only introduce a finite depth of field, but also distortions. This is simply taken into account by separating a real-world camera between a simple pinhole model, and (multiplied by?) some radial and tangential parameters
-
-
-
-
-
-
-
-
-
-lens distortion
-
-Instead of just a small hole, they used  with the addition of a convex lens instead of just a hole
-
- an object emitting or reflecting light light is focusing
-
-lens: more light, but depth of field smaller (image focused (sharp) at a specific distance from the lens)
-
-camera coordinate system
-
-
-% https://ressources.unisciel.fr/DAEU/physique/bases-optique/co/Lent_Conjugaison.html
-% http://www.optique-ingenieur.org/fr/cours/OPI_fr_M04_C01/co/Contenu01.html
-% https://en.wikipedia.org/wiki/Camera
-% https://en.wikipedia.org/wiki/Camera_obscura
-% https://en.wikipedia.org/wiki/Pinhole_camera
-% https://fr.wikipedia.org/wiki/Calibration_de_cam%C3%A9ra
-% https://docs.opencv.org/4.x/d9/db7/tutorial_py_table_of_contents_calib3d.html
-% https://docs.opencv.org/4.x/d6/d55/tutorial_table_of_content_calib3d.html
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap2/Figures/Distortions.png"}
+	\caption{Lens distortions are mostly radial (left image, with "barrel" effect), and sometimes tangential (right image). Image from \cite{Ricolfe2010}.} 
+	\label{fig_distortions}
+\end{figure}
 
 
-
-
+\FloatBarrier
 \subsection{Calibration}
 
-Camera calibration consists in determining both intrinsic parameters of the camera, and its position and orientation as regards to the center of the scene (i.e., its extrinsic parameters). The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 9 parameters of rotation, and 3 of translation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. This amounts for a total of 10 unknowns.
+\noindent\textbf{The calibration problem}
+
+Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 9 parameters of rotation, and 3 of translation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
+
+\vspace*{0.5cm}
+\noindent\textbf{Direct Linear Transform (DLT) of calibration equations}
+
+Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation between image points and their 3D coordinates (see Equation~\ref{eq:pinhole}) can be written as \cite{Hartley2003} :
+\begin{equation}
+  \begin{aligned}
+    Z_C \times \begin{pmatrix}u_p\\v_p\\1 \end{pmatrix}_{\!\!3\times 1} 
+    &= \begin{pmatrix}&&&\\&\textbf{P}&\\&&& \end{pmatrix}_{3 \times 4} 
+    \begin{pmatrix} X_W \\ Y_W \\ Z_W \\ 1 \end{pmatrix}_{4\times 1}\\
+    &= \begin{pmatrix}\overrightarrow{P_1} & \rule[.5ex]{3.em}{0.4pt}\\   
+      \overrightarrow{P_2} &\rule[.5ex]{3.em}{0.4pt} \\ 
+      \overrightarrow{P_3} &\rule[.5ex]{3.em}{0.4pt}\end{pmatrix}_{\!\!3\times 4}
+      \begin{pmatrix} \vline \\ \overrightarrow{Q_W} \\ \vline \end{pmatrix}_{4\times 1}
+  \end{aligned}
+  \end{equation}
+  Or equivalently:
+  \begin{equation}
+    \begin{cases}
+      & Z_C \ u_p = \overrightarrow{P_1} \cdot \overrightarrow{Q_W} = \overrightarrow{Q_W^T} \cdot \overrightarrow{P_1^T}\\
+      & Z_C \ v_p = \overrightarrow{P_2} \cdot \overrightarrow{Q_W} = \overrightarrow{Q_W^T} \cdot \overrightarrow{P_2^T}\\
+      & Z_C \ \ \ \ = \overrightarrow{P_3} \cdot \overrightarrow{Q_W} = \overrightarrow{Q_W^T} \cdot \overrightarrow{P_3^T}\\
+    \end{cases}
+  \end{equation}
+  Or:
+  \begin{equation}
+    \begin{cases}
+      & \overrightarrow{Q_W^T} \cdot \overrightarrow{P_1^T} - u_p \ \overrightarrow{Q_W^T} \cdot \overrightarrow{P_3^T} = 0\\
+      & \overrightarrow{Q_W^T} \cdot \overrightarrow{P_2^T} - v_p \ \overrightarrow{Q_W^T} \cdot \overrightarrow{P_3^T} = 0\\
+    \end{cases}
+  \end{equation}
+  Which can be written as:
+  \begin{equation}\label{eq:calib}
+    \boxed{
+      \begin{pmatrix}
+        \overrightarrow{Q_W^T} & \overrightarrow{0^T} & - u_p \ \overrightarrow{Q_W^T}\\   
+        \overrightarrow{0^T} & \overrightarrow{Q_W^T} & - v_p \ \overrightarrow{Q_W^T} \\ 
+      \end{pmatrix}_{\!\!2\times 12}
+      \begin{pmatrix} \overrightarrow{P_1^T} \\ \overrightarrow{P_2^T} \\ \overrightarrow{P_3^T} \end{pmatrix}_{\!\!12\times 1}
+      = \begin{pmatrix} 0 \\ 0 \end{pmatrix}_{\!\!2\times 1}
+    }
+  \end{equation}
+
+This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate numerical resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
+
+\vspace*{0.5cm}
+\noindent\textbf{Calibration from one single image}
+
+Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
+\begin{equation}
+  \begin{pmatrix}
+    \overrightarrow{Q_{W1}^T} & \overrightarrow{0} & - u_{p1} \ \overrightarrow{Q_{W1}^T}\\   
+    \overrightarrow{0} & \overrightarrow{Q_{W1}^T} & - v_{p1} \ \overrightarrow{Q_{W1}^T} \\ 
+    \vdots & \vdots & \vdots\\
+    \overrightarrow{Q_{WM}^T} & \overrightarrow{0} & - u_{pN} \ \overrightarrow{Q_{WM}^T}\\   
+    \overrightarrow{0} & \overrightarrow{Q_{WM}^T} & - v_{pN} \ \overrightarrow{Q_{WM}^T} \\ 
+  \end{pmatrix}_{\!\!2M\times 12}
+  \begin{pmatrix} \overrightarrow{P_1^T} \\ \overrightarrow{P_2^T} \\ \overrightarrow{P_3^T} \end{pmatrix}_{\!\!12\times 1}
+  = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \\ 0 \end{pmatrix}_{\!\!2M\times 1}
+\end{equation}
+
+This system is now overdetermined. As it can be written in the form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a least-squares pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it needs to be denormalized. 
+
+Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, into the form:
+\begin{equation} 
+  \begin{aligned}
+      \textbf{P} &= \textbf{K \ H} \\
+                 &= \textbf{K \ (R\ \vline \ T)} \\
+                 &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
+  \end{aligned}
+\end{equation}   
+$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves the problem, providing that the camera and image axes point in the same direction.
+
+
+\begin{algorithm}[!ht]
+  \caption{Least-square pseudo-solution of \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
+  \begin{algorithmic}[1]
+      \STATEx Let $\textbf{A}$ be a rectangular matrix of size $2M \times N$, composed of real or complex coefficients, and $\overrightarrow{X}$ be a vector of size $N$. The objective is to solve 
+      \begin{equation}
+        \textbf{A} \overrightarrow{X} = \overrightarrow{0}
+      \end{equation}
+      \STATEx If $2M>N$, then the system is overdetermined, but a least-square pseudo-solution can be found.
+      
+      \STATE \textbf{A} can be factorized by Singular Value Decomposition (SVD):
+      \begin{equation}
+        A = \textbf{U} \ \textbf{S} \ \textbf{V}^T
+      \end{equation}
+      with $\textbf{U}$ an orthonormal basis of size $2M \times 2M$, \(\textbf{S}\) the rectangular diagonal matrix of \textbf{A} of size $2M \times N$, filled with its singular values \(\sigma_1, \dots, \sigma_{2M}\), and $\textbf{V}$ an orthonormal basis of size $N \times N$. $\textbf{U}$, $\textbf{V}$, and $\textbf{S}$ can be efficiently computed by the Python function \href{https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html}{numpy.linalg.svd()}.
+      
+      \STATE \(\overrightarrow{X}\) can be expressed as a linear combination of basis vectors: 
+      \begin{equation}\label{eq:xva}
+        \overrightarrow{X} = \textbf{V} \overrightarrow{\alpha},
+      \end{equation}
+      with \(\overrightarrow{\alpha}\) an undetermined vector of size $N$.  
+      
+      \STATE Minimizing \((\textbf{A}\overrightarrow{X})^2\) also minimizes \(\textbf{A}\overrightarrow{X}\).
+      \begin{equation}
+          \begin{aligned}
+          (\textbf{A}\overrightarrow{X})^2 & = (\textbf{A} \overrightarrow{X})^T (\textbf{A} \overrightarrow{X})\\
+          & = (\overrightarrow{\alpha}^T \textbf{V}^T \ \textbf{V} \textbf{S} \textbf{U}^T)(\textbf{U} \textbf{S} \textbf{V}^T \ \textbf{V}\overrightarrow{\alpha})\\
+          & = \overrightarrow{\alpha}^T \textbf{S} \overrightarrow{\alpha}\\
+          & = \sum_{i \in [1,N]} \alpha_i^2 \sigma_i^2
+          \end{aligned}
+      \end{equation}
+      which is minimum when all \(\alpha\) factors are set to zero, except for the factor of the smallest singular value \(\sigma\). 
+
+      \STATE Assuming that \(\sigma_{min} = \sigma_N\), then \((\textbf{A}\overrightarrow{X})^2\) is minimum when all $\alpha_i$ are null, except for $\alpha_N$.
+      \begin{equation}
+          (\textbf{A} \overrightarrow{X})_{min}^2 = \alpha_N \sigma_N
+      \end{equation}
+      and from equation~\ref{eq:xva}:
+      \begin{equation}
+          \overrightarrow{X} = 
+          \textbf{V} \overrightarrow{\alpha} 
+          = \begin{pmatrix} V_{11} & \dots & V_{1N} \\
+           \vdots &  & \vdots \\
+          V_{N1} & \dots & V_{NN}\end{pmatrix} \begin{pmatrix}0 \\ \vdots \\0 \\\alpha_N\end{pmatrix} 
+          = \alpha_N \begin{pmatrix}V_{1N} \\ \vdots \\V_{NN}\end{pmatrix} 
+      \end{equation} 
+      \algstore{alg0}
+    \end{algorithmic}
+  \end{algorithm}
+  
+  \begin{algorithm}
+        \begin{algorithmic}[1]
+          \algrestore{alg0}
+      \STATE Hence, $\overrightarrow{X}$ is solved up to a scale factor $\alpha_N$. The full system can be determined by imposing one arbitrary constraint, for example $||\overrightarrow{X}||=1$. 
+  \end{algorithmic}
+\end{algorithm}
+
+\FloatBarrier
+
+
+
+
+\noindent\textbf{Calibration from several images: Zhang method.} 
+% The previous section has shown how to estimate the camera pose from a single image. However, in practice, the camera pose is estimated from several images, and the camera pose is then refined by minimizing the reprojection error. This is done by minimizing the sum of the squared reprojection errors, which is a non-linear optimization problem. The solution is found by an iterative algorithm, such as the Levenberg-Marquardt algorithm \cite{Levenberg1944, Marquardt1963}. This algorithm is implemented in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP()} function. The algorithm is initialized with the camera pose estimated from the first image, and then refined with the camera pose estimated from the second image, and so on. The algorithm stops when the reprojection error is below a threshold, or when the maximum number of iterations is reached. The reprojection error is the Euclidean distance between the 3D point and the 2D point projected on the image plane. The reprojection error is computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga6b7a3d5f3f0f0c3e9e0d0f0d3d7d5c1b}{projectPoints()} function. The reprojection error is computed for all the 3D points, and the sum of the squared reprojection errors is minimized. The reprojection error is also used to compute the confidence of the camera pose, which is the probability that the camera pose is correct. This is done by computing the probability density function (PDF) of the reprojection error, and then computing the probability that the reprojection error is below a threshold. This is done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga0f0f0f9a5f43989e4d4dcbca185a54d8}{computeReprojectionErrors()} function. The confidence is then computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga0f0f0f9
+
+In practice, a more robust method would use more than one single image of a checkerboard for calibration. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 3 steps: first, 
+
+, which is assumed to be place at the origin of the world  has the advantage of having regularly spaced corners of known dimensions, and of being planar. Z = 0
+
+Intrinsic at any moment, in theory constant for a given camera
+
+Extrinsic depends on position: done at every new capture, considering that once cameras have been moved, it is usually too late (even though some options such as presented chapter 6 are possible, as well as autocalibration, which is not standardized enough to be detailed here. See cite for more details)
+
+Distortions: non linear so optimization by bundle adjustment, hence slow (videos need to be undistorted is significant distortion before proceeding to 3D reconstruction (or GoPro does it on the fly if filming in linear mode)) -> not addressed, see cite ? 
+
+
+shortly before, or after, or during the capture of the image
+
+
 % , which can be determined with 7 points in the scene. The calibration can be performed with a single camera, or with several cameras, in which case the extrinsic parameters of the other cameras are known. The calibration is performed by minimizing the reprojection error, which is the distance between the projected points and the actual points in the image. The reprojection error is the sum of the squared distances between the projected points and the actual points in the image. The reprojection error is minimized by solving the following system of equations:
 
 
-\cite{Marchand2015}
+opencv cv2.calibrateCamera()
+
+\cite{Marchand2015} pour solvePnP
+
+essential geometry in case of stereovision (2 cameras) -> N-view
+
+Wand ? Argus
+
+
+
+
 
 
 \subsection{Triangulation}\label{triangulation}
 
+If distortions are significant, undistort before triangulation (alternatively, GoPro linear mode on the fly)
+
 Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT), commonly used to solve the triangulation of 2D coordinates from several cameras with a least square approach.
 
+Reprojection error
 
 \begin{algorithm}[!ht]
-      \caption{Direct Linear Transform (DLT)}\label{alg:dlt}
+      \caption{Triangulation by Direct Linear Transform (DLT)}\label{alg:dlt}
       \begin{algorithmic}[1]
           \STATEx Let \(\overrightarrow{Q} = (X, Y, Z, 1)\) be the homogeneous coordinates of a 3D object point, 
           \STATEx \(\overrightarrow{q} = (u, v, 1)\) the homogeneous coordinates of a 2D image point on a given camera,
           \STATEx \(\textbf{P} = (P_1^T, P_2^T, P_3^T, P_4^T)\) the projection matrix of the same camera, with \(P_1^T, P_2^T, P_3^T, P_4^T\) the rows of \textbf{P}, and \(\lambda\) an unknown scale factor. 
+          eq 2.17: Zc qp = P Qw
+          This time, we cant to solve for Q, not for P. Equation 2.22 equivalent to 
           \STATE The equation
             \begin{equation}
               \lambda \overrightarrow{q} = \bm{P} \overrightarrow{Q}
@@ -591,7 +749,7 @@ Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT)
 
 
 
-
+\FloatBarrier
 \section{3D joint kinematics}\label{sec:3D joint kin}
 
 
