@@ -79,13 +79,13 @@ Camera calibration can be challenging outside, due to large volume spaces, brigh
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=\linewidth]{"../Chap4/Figures/Fig_PixelMeterCorrespondance.png"}
-	\caption{The pinhole camera model permits a correspondence between image coordinates and object coordinates. f: focal distance, D: object to camera distance, $Err^{Img}$: error on image plane, $Err^{Obj}$: error on object plane. f and $Err^{Img}$ are usually expressed in pixels, while D and $Err^{Obj}$ are expressed in meters.}
+	\includegraphics[width=0.6\linewidth]{"../Chap4/Figures/Fig_PixelMeterCorrespondance.png"}
+	\caption{The pinhole camera model permits a correspondence between image coordinates and object coordinates. $f$: focal distance, $Z_C$: object to camera distance, $Err^{Img}$: error on image plane, $Err^{Obj}$: error on object plane. $f$ and $Err^{Img}$ are usually expressed in pixels, while $Z_C$ and $Err^{Obj}$ are expressed in meters.}
 	\label{fig_pixmeterscorrespondance}
 \end{figure}
 
 \begin{equation}
-      Err^{Img} = \frac{f \times Err^{Obj}}{D} 
+      Err^{Img} = \frac{f \times Err^{Obj}}{Z_C} 
       \label{eqn:errobjimg}
 \end{equation}
 
@@ -103,7 +103,6 @@ Robustness itself will be assessed through all three types of movements, in acco
 
 The underlying idea presented in this article is to verify whether modifying external environment parameters significantly impacts variability in joint angle estimation.
 
-\newpage
 \section{Methods}
 
 \href{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap4/Figures/Vid_Protocol.mp4?raw=true}{See video here} for a visual description of the protocol.
@@ -129,7 +128,7 @@ For the purpose of this study, we created 8 virtual video cameras. Resolution wa
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=.98\linewidth]{"../Chap4/Figures/Fig_Smooth.png"}
+	\includegraphics[width=.95\linewidth]{"../Chap4/Figures/Fig_Smooth.png"}
 	\caption{To smooth out sharp edges due to compositing, we applied a \(3 \times 3\) pixel Gaussian blur to the videos filmed from our virtual scene.}
 	\label{fig_smooth}
 \end{figure}
@@ -319,7 +318,8 @@ Flexion/extension lower-limb angles were compared to a normative walking gait da
 	\label{fig_compnorm}
 \end{figure}
 
-When averaged over all joint angles, the stride-to-stride standard deviations lay between 1.7° and 3.2° for all conditions and tasks (Table 3). The walking task was the most variable, while the cycling one was the least variable; however, in the latter the upper body was static and artificially drew the mean down, which was revealed after removing it from the statistics (Table~\ref{table:tab_sumstats}). In the walking task, the stride-to-stride standard deviation of our individual lower body angles was higher than \cite{Kang2008}, who used a marker-based approach (Table~\ref{table:tab_comp_mk}).
+\newpage
+When averaged over all joint angles, the stride-to-stride standard deviations lay between 1.7° and 3.2° for all conditions and tasks (Table~\ref{table:tab_sumstats}). The walking task was the most variable, while the cycling one was the least variable; however, in the latter the upper body was static and artificially drew the mean down, which was revealed after removing it from the statistics (Table~\ref{table:tab_sumstats}). In the walking task, the stride-to-stride standard deviation of our individual lower body angles was higher than \cite{Kang2008}, who used a marker-based approach (Table~\ref{table:tab_comp_mk}).
 
 \begin{table}[!ht]
       \centering

@@ -538,7 +538,7 @@ Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation 
 This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate numerical resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
 
 \vspace*{0.5cm}
-\noindent\textbf{Calibration from one single image}
+\noindent\textbf{Calibration from one single image with DLT method}
 
 Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
 \begin{equation}
@@ -553,7 +553,7 @@ Assuming that the checkerboard is used to set the origin of the world frame, the
   = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \\ 0 \end{pmatrix}_{\!\!2M\times 1}
 \end{equation}
 
-This system is now overdetermined. As it can be written in the form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a least-squares pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it needs to be denormalized. 
+This system is now overdetermined. As it can be written in the form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a least-squares pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it can be denormalized. 
 
 Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, into the form:
 \begin{equation} 
@@ -622,32 +622,35 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
   \end{algorithmic}
 \end{algorithm}
 
-\FloatBarrier
+
+\noindent\textbf{Calibration from several images with Zhang method.} 
+
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, estimating calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The functional that needs to be minimized is the reprojection error for each M point on each N image, defined as such:
+\begin{equation}
+  \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
+  ||\ \overrightarrow{q_{ij}} -
+  \overrightarrow{\hat{q_{ij}}(\textbf{K},k_1,k_2,\overrightarrow{R_i},\overrightarrow{T_i},\overrightarrow{Q_j})}\ 
+  ||^2
+\end{equation} 
+The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\hat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\hat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns intrinsic, distortion, and extrincic parameters.
+
+\vspace*{0.5cm}
+\noindent\textbf{In practice, Wand Argus} 
+% The reprojection error is computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga1019495a2c8d1743ed5cc23fa0daff8c}{projectPoints()} function. 
 
 
-
-
-\noindent\textbf{Calibration from several images: Zhang method.} 
-% The previous section has shown how to estimate the camera pose from a single image. However, in practice, the camera pose is estimated from several images, and the camera pose is then refined by minimizing the reprojection error. This is done by minimizing the sum of the squared reprojection errors, which is a non-linear optimization problem. The solution is found by an iterative algorithm, such as the Levenberg-Marquardt algorithm \cite{Levenberg1944, Marquardt1963}. This algorithm is implemented in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP()} function. The algorithm is initialized with the camera pose estimated from the first image, and then refined with the camera pose estimated from the second image, and so on. The algorithm stops when the reprojection error is below a threshold, or when the maximum number of iterations is reached. The reprojection error is the Euclidean distance between the 3D point and the 2D point projected on the image plane. The reprojection error is computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga6b7a3d5f3f0f0c3e9e0d0f0d3d7d5c1b}{projectPoints()} function. The reprojection error is computed for all the 3D points, and the sum of the squared reprojection errors is minimized. The reprojection error is also used to compute the confidence of the camera pose, which is the probability that the camera pose is correct. This is done by computing the probability density function (PDF) of the reprojection error, and then computing the probability that the reprojection error is below a threshold. This is done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga0f0f0f9a5f43989e4d4dcbca185a54d8}{computeReprojectionErrors()} function. The confidence is then computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga0f0f0f9
-
-In practice, a more robust method would use more than one single image of a checkerboard for calibration. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 3 steps: first, 
-
-, which is assumed to be place at the origin of the world  has the advantage of having regularly spaced corners of known dimensions, and of being planar. Z = 0
 
 Intrinsic at any moment, in theory constant for a given camera
 
 Extrinsic depends on position: done at every new capture, considering that once cameras have been moved, it is usually too late (even though some options such as presented chapter 6 are possible, as well as autocalibration, which is not standardized enough to be detailed here. See cite for more details)
 
-Distortions: non linear so optimization by bundle adjustment, hence slow (videos need to be undistorted is significant distortion before proceeding to 3D reconstruction (or GoPro does it on the fly if filming in linear mode)) -> not addressed, see cite ? 
+Bundle adjustment?
 
-
-shortly before, or after, or during the capture of the image
 
 
 % , which can be determined with 7 points in the scene. The calibration can be performed with a single camera, or with several cameras, in which case the extrinsic parameters of the other cameras are known. The calibration is performed by minimizing the reprojection error, which is the distance between the projected points and the actual points in the image. The reprojection error is the sum of the squared distances between the projected points and the actual points in the image. The reprojection error is minimized by solving the following system of equations:
 
 
-opencv cv2.calibrateCamera()
 
 \cite{Marchand2015} pour solvePnP
 
@@ -662,7 +665,9 @@ Wand ? Argus
 
 \subsection{Triangulation}\label{triangulation}
 
-If distortions are significant, undistort before triangulation (alternatively, GoPro linear mode on the fly)
+If distortions are significant, undistort before triangulation (with distortion coeffs found while calibrating, or alternatively, GoPro linear mode on the fly)
+Distortions: non linear so optimization by bundle adjustment, hence slow (videos need to be undistorted is significant distortion before proceeding to 3D reconstruction (or GoPro does it on the fly if filming in linear mode)) -> not addressed, see cite ? 
+
 
 Algorithm~\ref{alg:dlt} for a proof of the classic direct linear transform (DLT), commonly used to solve the triangulation of 2D coordinates from several cameras with a least square approach.
 
