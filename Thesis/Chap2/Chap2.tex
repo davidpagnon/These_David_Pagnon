@@ -223,7 +223,7 @@ Now, classification of a whole image is not sufficient in sports motion analysis
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.4\linewidth]{"../Chap2/Figures/Fig_XKCD.png"}
-	\caption{The amazingly rigourous world of machine learning \href{https://xkcd.com/1838/}{XKCD} .} 
+	\caption{The amazingly rigourous world of machine learning. \href{https://xkcd.com/1838/}{XKCD} .} 
 	\label{fig_xkcd}
 \end{figure}
 
@@ -491,7 +491,7 @@ Where $k_1$, $k_2$, $k_3$ are the radial distortion coefficients, and $p_1$ and 
 
 \noindent\textbf{The calibration problem}
 
-Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. Extrinsic parameters are especially important to obtain for 3D reconstruction, which involves knowing the position of each camera. Intrinsic parameters can be determined at any time, however extrinsic parameters depend on the camera positions at the moment of capture, which involves that it is complicated to retrieve them afterwards -- although we proposed a method to address this issue in \nameref{ch:6}.
+Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. Extrinsic parameters are especially important to obtain for 3D reconstruction, which involves knowing the position of each camera. Intrinsic parameters can be determined at any time, however extrinsic parameters depend on the camera positions at the moment of capture, which involves that it is complicated to retrieve them afterwards -- although we proposed a method to address this issue in \autoref{ch:6}.
 
 The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 3 parameters of translation, and 9 of rotation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
 
@@ -540,7 +540,7 @@ Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation 
 This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate numerical resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
 
 \vspace*{0.5cm}
-\noindent\textbf{Calibration from one single image with DLT method}
+\noindent\textbf{Camera calibration from one single image of a checkerboard, with DLT method}
 
 Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
 \begin{equation}
@@ -557,17 +557,7 @@ Assuming that the checkerboard is used to set the origin of the world frame, the
 
 This system is now overdetermined. As it can be written in the form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a least-squares pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it can be denormalized. 
 
-Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, into the form:
-\begin{equation} 
-  \begin{aligned}
-      \textbf{P} &= \textbf{K \ H} \\
-                 &= \textbf{K \ (R\ \vline \ T)} \\
-                 &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
-  \end{aligned}
-\end{equation}   
-$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves this issue, providing that the camera and image axes point in the same direction.
-
-
+\newpage
 \begin{algorithm}[!ht]
   \caption{Least-square pseudo-solution of \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
   \begin{algorithmic}[1]
@@ -613,96 +603,107 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
           V_{N1} & \dots & V_{NN}\end{pmatrix} \begin{pmatrix}0 \\ \vdots \\0 \\\alpha_N\end{pmatrix} 
           = \alpha_N \begin{pmatrix}V_{1N} \\ \vdots \\V_{NN}\end{pmatrix} 
       \end{equation} 
-      \algstore{alg0}
-    \end{algorithmic}
-  \end{algorithm}
+  %     \algstore{alg0}
+  %   \end{algorithmic}
+  % \end{algorithm}
   
-  \begin{algorithm}
-        \begin{algorithmic}[1]
-          \algrestore{alg0}
+  % \begin{algorithm}
+  %       \begin{algorithmic}[1]
+  %         \algrestore{alg0}
       \STATE Hence, $\overrightarrow{X}$ is solved up to a scale factor $\alpha_N$. The full system can be determined by imposing one arbitrary constraint, for example $||\overrightarrow{X}||=1$. 
   \end{algorithmic}
 \end{algorithm}
 
 
-\noindent\textbf{Calibration from several images with Zhang method.} 
+\newpage
+Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, in the form:
+\begin{equation} 
+  \begin{aligned}
+      \textbf{P} &= \textbf{K \ H} \\
+                 &= \textbf{K \ (R\ \vline \ T)} \\
+                 &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
+  \end{aligned}
+\end{equation}   
+$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves this issue, providing that the camera and image axes point in the same direction.
 
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The functional that needs to be minimized is the reprojection error for each M point on each N image, defined as such:
-\begin{equation}
+\vspace*{0.5cm}
+\noindent\textbf{Camera calibration from several images of a checkerboard, with Zhang method} 
+
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
+\begin{equation}\label{eq:LM_algo}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
   ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
   \overrightarrow{\widehat{q_{ij}}(\textbf{K},k_1,k_2,\overrightarrow{R_i},\overrightarrow{T_i},\overrightarrow{Q_j})}\ 
   ||^2
 \end{equation} 
-The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion.
+The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion coefficients.
 
 \vspace*{0.5cm}
-\noindent\textbf{Wand calibration with Sparse Bundle Adjustment (SBA)} 
+\noindent\textbf{Calibration of all cameras together with a wand, with Sparse Bundle Adjustment (SBA)} 
 
-When using several cameras, they need to share a common frame of reference. Under those circumstances, the checkerboard needs to be visible by all cameras on one frame at least 
+In biomechanics, numerous cameras are usually needed, in order to obtain accurate 3D reconstruction in spite of occlusions. Hence, cameras are often placed around the subject. This can be problematic for the determination of a common frame of reference with a checkerboard, since it needs to be observed by all cameras simultaneously. When laying flat in the center, the checkerboard is positioned at a long distance from the camera, and oriented at a challenging angle. This makes it hard for it to be detected accurately, which is consequently susceptible to deteriorate extrinsic calibration. 
 
-extrinsic parameters need to be seen
+On the other hand, spherical markers placed on a wand are more likely to be detected by all cameras simultaneously, regardless of their position and orientation in space. However, they only represent either a single point, or a 1D length if they are placed at both extremities of a wand. A planar object like a checkerboard, on the contrary, is sufficient to determine a 3D coordinate system. This implies that using a wand does not allow for direct 2D image point to 3D coordinate correspondences. Hence, 3D positions also need to be optimized, which involves calibrating all cameras together instead of one by one. This has a few implications: first, cameras need to be synchronized, and then, more parameters have to be optimized, which tends to make this method less stable. It should also make the optimization extremely computationally intensive. Luckily, one can take advantage of the sparsity of the Jacobian of the objective function, which allows for considerable computation savings. This method, called Sparse Bundle Adjustment (SBA), will not be described in details, but extensive explanations can be found in \cite{Lourakis2009}.
 
-The Zhang method performs better when the checkerboard is visible from  images are seen by 
-When using several cameras, one image of the checkerboard needs to be seen clearly by all the cameras together
+In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in camera image $k$.
 
-
-the extrinsic parameters need to be shared by 
-The frame used for extrinsic
-When cameras are disposed around athletes, extrinsic calibration with a checkerboard can be complicated. The checkerboard needs to be seen by all cameras simultaneously, 
-
-Wand peut plus facilement être visible de toutes les caméras, alors qu'avec un checkerboard on court généralement le risque de montrer son dos. Problème: pas de coordonnées 3D comme avec 2D plan, parce que 1D object: sparse variant of Levenberg-Macquardt algo, robust to missing points, done over numerous points  
-
-Wand: TABLE ? voir articles + protocole.docx
-- Résultats similaires à checkerboard, sub-pixel
-- Much less cumbersome (transportation). 
-- Plus simple: Utilisée par quasi toutes les solutions commerciales + easywand + argus.
-- Position relative des cams calculée sur toutes les frames, puis global coordinate system avec autre objet. Pas besoin que toutes les cams voient l'origine. Checkerboard: position de chaque cam par rapport à checkerboard sur une seule frame, pas de position relative: si une caméra ne détecte pas l'origine (trop petit, ou pas bien vu quand à plat), pas utilisable. Ou alors, utiliser plus grand object et solvePnP cf chap 6
-- Calibre toutes les caméras ensemble: 1. calculs intenses, heureusement, Jacobien creux. 2. Besoin d'initialisation solide (plus général, plus de variables à optimiser), avec L frame par exemple pour calib initiale, ou matrice intrinsèque précalculée. 3. besoin de synchronisation
-- Moins bien pour distorsion
-- 2 markers durs à différencier de l'arrière plan, contrairement à motif complexe comme checkerboard (mais checkerboard pour extrinsèque devrait être grand)
-- No good library in Python
-
-
-
-
-SBA sparse bundle adjustment \cite{Lourakis2009}: EasyWand \cite{Theriault2014} or Argus \cite{Argus,Jackson2016} (portabilité pour python)
-
-Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> sur quoi se base opencv ?
-
-OpenCV = portabilité python de Bouguet matlab 
-
-
-Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
-
-Wand se limite à 2 points, qui forment une seule ligne 1D et ne suffisent pas à calculer ces paramètres. Il faut donc faire une triangulation a priori, et minimiser peu à peu l'erreur de reprojection au fur et à mesure qu'on lui donne les deux points suivants image par image (par optimisation par sparse bundle adjustment, SBA). Une fois que l'erreur est assez faible, on peut calculer les paramètres extrinsèques par SVD. C'est donc plus lent, et généralement moins exact.
+\begin{equation}
+  \sum_{k \in [1,K]} \sum_{j \in [1,M]} 
+  \nu_{kj} \ ||\ \overrightarrow{q_{kj}^{\ ^{\ ^{\ ^{\ }}}}} - \ 
+  \overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}\ 
+  ||^2,  
+  \textrm{ with }  
+  \nu_{kj} = 
+    \begin{cases}
+        & 1 \textrm{ if point } j \textrm{ detected by camera image} k \\
+        & 0 \textrm{ if unseen}
+    \end{cases}
+\end{equation} 
 
 
 \vspace*{0.5cm}
 \noindent\textbf{In practice}  
 
-Intrinsic and distortion at any moment, in theory constant for a given camera. With several images of checkerboard, close to the camera, various orientations.
+Both checkerboard Zhang and wand SBA methods show similar residual errors, of the order of a millimeter in a roughly $4\times 2 \times 1.5\ m^3$ capture volume \cite{Pribanic2009,Silvatti2012} (see Tables~\ref{table:tab_calib}). This is better than the classic DLT approach. Nonetheless, the wand approach does not estimate distortion coefficients as accurately as the checkerboard method. If a fisheye or a wide lens is used, the checkerboard method should be favored.
 
-Extrinsic depends on position: done at every new capture, considering that once cameras have been moved, it is usually too late (even though some options such as presented chapter 6 are possible, as well as autocalibration, which is not standardized enough to be detailed here. See cite for more details). With one image, must be seen by all cameras, and large enough to be correctly detected. 
+Unlike a checkerboard, wand points are visible from all angles. Moreover, the wand method has the advantage of estimating the relative position of all cameras together, and then setting the global coordinate system with another object. This represents an additional step, and it implies that cameras are synchronized, although it also means that the reference object does not need to be visible by all cameras. Conversely, with the checkerboard approach, all cameras are calibrated independently: if the checkerboard representing the global origin cannot be detected in a certain viewpoint, the corresponding camera cannot be used for 3D reconstruction. 
 
-Zhang computes them simultaneously for all image view, but if intrinsic camera parameters already determined, possible to calibrated extrinsic with one single image of any 3D object of known dimensions: solvePnP \cite{Marchand2015} 
+Nevertheless, the wand approach also optimizes over more parameters, which makes it less stable and involves a careful initialization, e.g., with an additional object of known position and dimensions, or simply by reducing the number of parameters, e.g., by fixing intrinsic parameters, which would have to be calibrated priorly. Moreover, while a checkerboard has a clearly recognizable pattern, two points of a wand are more likely to be subject to false positives errors.
 
+In practice, a wand is much less cumbersome and much easier to transport than a checkerboard, especially for sports motion analysis where capture volumes can be large, and the checkerboard size needs to be scaled accordingly. In fact, a wand is not even necessary, and it can be replaced with the automatic detection of body segments by a 2D pose estimation model such as OpenPose \cite{Takahashi2018, Xu2021, Liu2022a}. This is, however, less accurate. The wand method is widely used by all commercial software solutions, such as Qualisys \cite{Qualisys}, as well as for free GUI such as EasyWand \cite{Theriault2014} in Matlab, or its Python version, Argus \cite{Argus,Jackson2016}. These are free, but not open-source. However, SBA is not implemented in OpenCV, and there is actually no widely supported Python version of the algorithm.
 
+\begin{table}
+	\centering
+	\resizebox{\textwidth}{!}{
+	\begin{tabular}{lll} 
+	\toprule
+	\textbf{Issue} & \textbf{Checkerboard calibration} \cite{Zhang2000} & \textbf{Wand calibration (SBA)} \cite{Lourakis2009} \\
+	\specialrule{0.14 em}{0pc}{0pc}
+    Accuracy & $\approx$ 1 mm  & \begin{tabular}[c]{@{}l@{}}$\approx$ 1 mm, \\unless large distorsions (e.g., fisheye)\end{tabular} \\
+    	\midrule
+    \begin{tabular}[c]{@{}l@{}}Transportation \& \\manipulation\end{tabular} & Large \& cumbersome & Lightweight \& foldable \\
+    	\midrule
+    Availability & Open-source (e.g., OpenCV) & \begin{tabular}[c]{@{}l@{}}Mostly commercial (e.g., Qualisys), or\\freeware but not open-source (e.g., Argus)\end{tabular}\\
+    	\midrule
+    Detection & \begin{tabular}[c]{@{}l@{}}Recognizable pattern \\but sensitive to orientation\end{tabular} & \begin{tabular}[c]{@{}l@{}}Sensitive to false positives \\but not to orientation\end{tabular}\\
+    	\midrule
+    GCS estimation & \begin{tabular}[c]{@{}l@{}}All cameras need to detect the reference \\object (which is sensitive to orientation)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Not all cameras need to detect it, since\\camera positions known relative to each other\end{tabular}\\ 
+    	\midrule    
+    Optimization robustness & Robust & \begin{tabular}[c]{@{}l@{}}Need for careful initialization or \\reducing on parameters number\end{tabular}\\
+    	\midrule    
+    Computational cost & A few seconds & A few seconds\\
+	\bottomrule
+    \end{tabular}}
+	\caption{Comparison of the main two approaches for accurate camera calibration: with a checkerboard \cite{Zhang2000}, or with a wand \cite{Lourakis2009}. Not that some hybrid approaches exist, e.g., those which use a checkerboard for intrinsic calibration, and a wand for extrinsic calibration. SBA: Sparse Bundle Adjustment. GCS: Global Coordinate System.}
+	\label{table:tab_calib}
+\end{table}
 
+\newpage
+Other options, explored in \autoref{ch:6}, would be to compute intrinsic and extrinsic parameters independently. Intrinsic parameters and distortion coefficients can be calculated an any convenient moment, since they are in theory constant for a given camera. This can be done with a checkerboard, either with OpenCV raw coding, or by using a GUI like Argus \cite{Argus}. On the other hand, extrinsic parameters depend on the camera positions: they need to be computed upon every new capture setting. One way to do this consists in performing an extrinsic calibration on the spot with a wand, with fixed intrinsic parameters. Another option, if wand calibration is not possible, is to use a method analogous to Zhang's, with any 3D object of known dimensions, large enough to cover a substantial field of view for each camera. This would leverage a Perspective-n-Point approach, which consists in a Levenberg-Marquardt optimization similar to Equation~\href{eq:LM_algo}, but with fixed intrinsic parameters \cite{Marchand2015}. This can be done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP} OpenCV function. 
 
+% Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> OpenCV = portabilité python de Bouguet matlab ?
 
-
-
-
-
-
-
-
-
-- ADD DLTDV8 p10 avec Kinovea, et dans tableau. can also triangulate if cams calibrated, on matlab (not free)
-
-
-% The reprojection error is computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga1019495a2c8d1743ed5cc23fa0daff8c}{projectPoints()} function. 
+% Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
 
 
 \subsection{Triangulation}\label{triangulation}
