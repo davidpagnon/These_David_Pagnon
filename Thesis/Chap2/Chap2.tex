@@ -654,13 +654,13 @@ When cameras are disposed around athletes, extrinsic calibration with a checkerb
 Wand peut plus facilement être visible de toutes les caméras, alors qu'avec un checkerboard on court généralement le risque de montrer son dos. Problème: pas de coordonnées 3D comme avec 2D plan, parce que 1D object: sparse variant of Levenberg-Macquardt algo, robust to missing points, done over numerous points  
 
 Wand: TABLE ? voir articles + protocole.docx
-Résultats similaires à checkerboard, sub-pixel
-much less cumbersome (transportation). 
-calibre toutes les caméras ensemble (plus général, mais plus dur à optimiser: heureusement, Jacobien creux), 
-Besoin de calibration initiale, avec L frame par exemple . 
-Extrinsic utilise toutes les frames, plutôt calculée pour chaque frame (pas besoin d'une frame avec toutes les caméras qui voient le checkerboard.
-Moins bien pour distorsion
-2 markers durs à différencier de l'arrière plan, contrairement à motif complexe comme checkerboard (mais checkerboard pour extrinsèque devrait être grand)
+- Résultats similaires à checkerboard, sub-pixel
+- Much less cumbersome (transportation). 
+- Plus simple: Utilisée par quasi toutes les solutions commerciales + easywand + argus.
+- Position relative des cams calculée sur toutes les frames, puis global coordinate system avec autre objet. Pas besoin que toutes les cams voient l'origine. Checkerboard: position de chaque cam par rapport à checkerboard sur une seule frame, pas de position relative: si une caméra ne détecte pas l'origine (trop petit, ou pas bien vu quand à plat), pas utilisable. Ou alors, utiliser plus grand object et solvePnP cf chap 6
+- Calibre toutes les caméras ensemble: 1. calculs intenses, heureusement, Jacobien creux. 2. Besoin d'initialisation solide (plus général, plus de variables à optimiser), avec L frame par exemple pour calib initiale, ou matrice intrinsèque précalculée. 
+- Moins bien pour distorsion
+- 2 markers durs à différencier de l'arrière plan, contrairement à motif complexe comme checkerboard (mais checkerboard pour extrinsèque devrait être grand)
 
 
 
