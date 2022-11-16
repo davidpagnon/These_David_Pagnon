@@ -491,7 +491,9 @@ Where $k_1$, $k_2$, $k_3$ are the radial distortion coefficients, and $p_1$ and 
 
 \noindent\textbf{The calibration problem}
 
-Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 9 parameters of rotation, and 3 of translation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
+Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. Extrinsic parameters are especially important to obtain for 3D reconstruction, which involves knowing the position of each camera. Intrinsic parameters can be determined at any time, however extrinsic parameters depend on the camera positions at the moment of capture, which involves that it is complicated to retrieve them afterwards -- although we proposed a method to address this issue in \nameref{ch:6}.
+
+The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 3 parameters of translation, and 9 of rotation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
 
 \vspace*{0.5cm}
 \noindent\textbf{Direct Linear Transform (DLT) of calibration equations}
@@ -563,7 +565,7 @@ Once the projection matrix $\textbf{P}$ has been found, it needs to be decompose
                  &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
   \end{aligned}
 \end{equation}   
-$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves the problem, providing that the camera and image axes point in the same direction.
+$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves this issue, providing that the camera and image axes point in the same direction.
 
 
 \begin{algorithm}[!ht]
@@ -625,45 +627,87 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
 
 \noindent\textbf{Calibration from several images with Zhang method.} 
 
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, estimating calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The functional that needs to be minimized is the reprojection error for each M point on each N image, defined as such:
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The functional that needs to be minimized is the reprojection error for each M point on each N image, defined as such:
 \begin{equation}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
-  ||\ \overrightarrow{q_{ij}} -
-  \overrightarrow{\hat{q_{ij}}(\textbf{K},k_1,k_2,\overrightarrow{R_i},\overrightarrow{T_i},\overrightarrow{Q_j})}\ 
+  ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
+  \overrightarrow{\widehat{q_{ij}}(\textbf{K},k_1,k_2,\overrightarrow{R_i},\overrightarrow{T_i},\overrightarrow{Q_j})}\ 
   ||^2
 \end{equation} 
-The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\hat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\hat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns intrinsic, distortion, and extrincic parameters.
+The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion.
 
 \vspace*{0.5cm}
-\noindent\textbf{In practice, Wand Argus} 
+\noindent\textbf{Wand calibration with Sparse Bundle Adjustment (SBA)} 
+
+When using several cameras, they need to share a common frame of reference. Under those circumstances, the checkerboard needs to be visible by all cameras on one frame at least 
+
+extrinsic parameters need to be seen
+
+The Zhang method performs better when the checkerboard is visible from  images are seen by 
+When using several cameras, one image of the checkerboard needs to be seen clearly by all the cameras together
+
+
+the extrinsic parameters need to be shared by 
+The frame used for extrinsic
+When cameras are disposed around athletes, extrinsic calibration with a checkerboard can be complicated. The checkerboard needs to be seen by all cameras simultaneously, 
+
+Wand peut plus facilement être visible de toutes les caméras, alors qu'avec un checkerboard on court généralement le risque de montrer son dos. Problème: pas de coordonnées 3D comme avec 2D plan, parce que 1D object: sparse variant of Levenberg-Macquardt algo, robust to missing points, done over numerous points  
+
+Wand: TABLE ? voir articles + protocole.docx
+Résultats similaires à checkerboard, sub-pixel
+much less cumbersome (transportation). 
+calibre toutes les caméras ensemble (plus général, mais plus dur à optimiser: heureusement, Jacobien creux), 
+Besoin de calibration initiale, avec L frame par exemple . 
+Extrinsic utilise toutes les frames, plutôt calculée pour chaque frame (pas besoin d'une frame avec toutes les caméras qui voient le checkerboard.
+Moins bien pour distorsion
+2 markers durs à différencier de l'arrière plan, contrairement à motif complexe comme checkerboard (mais checkerboard pour extrinsèque devrait être grand)
+
+
+
+
+
+SBA sparse bundle adjustment \cite{Lourakis2009}: EasyWand \cite{Theriault2014} or Argus \cite{Argus,Jackson2016} (portabilité pour python)
+
+Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> sur quoi se base opencv ?
+
+OpenCV = portabilité python de Bouguet matlab 
+
+
+Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
+
+Wand se limite à 2 points, qui forment une seule ligne 1D et ne suffisent pas à calculer ces paramètres. Il faut donc faire une triangulation a priori, et minimiser peu à peu l'erreur de reprojection au fur et à mesure qu'on lui donne les deux points suivants image par image (par optimisation par sparse bundle adjustment, SBA). Une fois que l'erreur est assez faible, on peut calculer les paramètres extrinsèques par SVD. C'est donc plus lent, et généralement moins exact.
+
+
+\vspace*{0.5cm}
+\noindent\textbf{In practice}  
+
+Intrinsic and distortion at any moment, in theory constant for a given camera. With several images of checkerboard, close to the camera, various orientations.
+
+Extrinsic depends on position: done at every new capture, considering that once cameras have been moved, it is usually too late (even though some options such as presented chapter 6 are possible, as well as autocalibration, which is not standardized enough to be detailed here. See cite for more details). With one image, must be seen by all cameras, and large enough to be correctly detected. 
+
+Zhang computes them simultaneously for all image view, but if intrinsic camera parameters already determined, possible to calibrated extrinsic with one single image of any 3D object of known dimensions: solvePnP \cite{Marchand2015} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+- ADD DLTDV8 p10 avec Kinovea, et dans tableau. can also triangulate if cams calibrated, on matlab (not free)
+
+
 % The reprojection error is computed with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga1019495a2c8d1743ed5cc23fa0daff8c}{projectPoints()} function. 
 
 
-
-Intrinsic at any moment, in theory constant for a given camera
-
-Extrinsic depends on position: done at every new capture, considering that once cameras have been moved, it is usually too late (even though some options such as presented chapter 6 are possible, as well as autocalibration, which is not standardized enough to be detailed here. See cite for more details)
-
-Bundle adjustment?
-
-
-
-% , which can be determined with 7 points in the scene. The calibration can be performed with a single camera, or with several cameras, in which case the extrinsic parameters of the other cameras are known. The calibration is performed by minimizing the reprojection error, which is the distance between the projected points and the actual points in the image. The reprojection error is the sum of the squared distances between the projected points and the actual points in the image. The reprojection error is minimized by solving the following system of equations:
-
-
-
-\cite{Marchand2015} pour solvePnP
-
-essential geometry in case of stereovision (2 cameras) -> N-view
-
-Wand ? Argus
-
-
-
-
-
-
 \subsection{Triangulation}\label{triangulation}
+
+Assumes cameras not only calibrated, but also synchronized. Classically hardware, can be on flash, clap (even if speed of sound is finite), wireless signal such as WiFi, bluetooth or GPS, or other approaches based on cross-correlation of feature speeds on each cameras, such as proposed chapter 6
 
 If distortions are significant, undistort before triangulation (with distortion coeffs found while calibrating, or alternatively, GoPro linear mode on the fly)
 Distortions: non linear so optimization by bundle adjustment, hence slow (videos need to be undistorted is significant distortion before proceeding to 3D reconstruction (or GoPro does it on the fly if filming in linear mode)) -> not addressed, see cite ? 

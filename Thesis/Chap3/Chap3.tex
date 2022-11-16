@@ -142,9 +142,7 @@ We recommend choosing the neck point or one of the hip points. In most cases the
 
 \subsection{Triangulating}
 
-Aside from ours, a number of tools have been made available for triangulating OpenPose data: the experimental OpenPose 3D reconstruction module \cite{Hidalgo2021}, the FreeMoCap Python and Blender toolbox \cite{Matthis2022}, or the pose3d Matlab toolbox \cite{Sheshadri2020}, and the EasyMocap pipeline \cite{Easymocap2021}. 
-
-Pose2Sim triangulation is robust, largely because instead of using classic Direct Linear Transformation (DLT) \cite{Hartley1997}, we propose a weighted DLT, i.e., a triangulation procedure where each OpenPose keypoint coordinate is weighted with its confidence score \cite{Pagnon2021}. This is a good compromise between losing all confidence information, and triangulating the whole heatmap in a volumetric way \cite{Iskakov2019}, which is very slow. The weighted DLT has been independently introduced by \cite{Barone2020}, in the context of camera calibration. See Algorithm~\ref{alg:weighted_dlt} for the proposed solution. For more details on the classic DLT, see Algorithm~\ref{alg:dlt} in Chapter 2, section \nameref{triangulation}.
+Pose2Sim triangulation is robust, largely because instead of using classic Direct Linear Transformation (DLT) (see previous chapter on \nameref{triangulation}) like other approaches do \cite{Hidalgo2021,Matthis2022,Sheshadri2020,Easymocap2021}, we propose a weighted DLT, i.e., a triangulation procedure where each OpenPose keypoint coordinate is weighted with its confidence score \cite{Pagnon2021}. This is a good compromise between losing all confidence information, and triangulating the whole heatmap in a volumetric way \cite{Iskakov2019}, which is very slow. The weighted DLT has been independently introduced by \cite{Barone2020}, in the context of camera calibration. See Algorithm~\ref{alg:weighted_dlt} for the proposed solution. 
 
 \begin{algorithm}[!ht]
       \caption{Weighted DLT}\label{alg:weighted_dlt}
@@ -163,7 +161,7 @@ Other parameters can be specified, such as:
 \begin{itemize}[itemsep=0em, topsep=0em, leftmargin=*]
       \item The minimum likelihood \(conf_{min}\) below which a 2D point will not be taken into account for triangulation. Each detected keypoint is attributed a confidence score by OpenPose.
       \item The maximum in reprojection error \(error_{max}\) above which triangulation results will not be accepted. This can happen if OpenPose provides a bad 2D keypoint estimate, or if the person of interest leaves the camera field. Triangulation will then be tried again on all subsets of all cameras minus one. If the best of the resulting reprojection errors is below the threshold, it is retained. If it is still above the threshold, one more camera is excluded.
-      \item The minimum number of "good" cameras, \(cams_{min}\) (i.e., cameras remaining after the last two steps) required for triangulating a keypoint. If there are not enough cameras left, the 3D keypoint is dropped for this frame.
+      \item The minimum number of "good" cameras, \(ncams_{min}\) (i.e., cameras remaining after the last two steps) required for triangulating a keypoint. If there are not enough cameras left, the 3D keypoint is dropped for this frame.
 \end{itemize}
 
 See Algorithm~\ref{alg:pose2sim_trig} for the full algorithm of triangulation of a keypoint. Once all frames are triangulated, the ones with missing keypoint coordinates are interpolated. The interpolation method can also be chosen from among linear, slinear, quadratic, and cubic. The mean reprojection error over all frames is given for each point and saved to a log file, as well as the number of cameras excluded to reach the demanded thresholds. The resulting 3D coordinates are formatted as a .trc file, which is a tabulation-separated text format used by OpenSim.
@@ -171,30 +169,32 @@ See Algorithm~\ref{alg:pose2sim_trig} for the full algorithm of triangulation of
 \begin{algorithm}[!ht]
       \caption{Pose2Sim triangulation of a keypoint}\label{alg:pose2sim_trig}
       \begin{algorithmic}[0]
-            \STATE Let $error_{max}$ be the maximum allowed reprojection error, $cams_{min}$ the minimum number of cameras demanded for triangulation, and $conf_{min}$ the minimum confidence accepted for a keypoint to be used.
-            \WHILE {$error > error_{max}$ AND $cams > cams_{min}$}
-                \FOR {all combinations $\binom{ncams}{cams}$}
-                    \IF {$conf>conf_{min}$}
-                        \STATE Add keypoint to equation system
-                    \ENDIF
+            \STATE Let $error_{max}$ be the maximum allowed reprojection error, $ncams_{min}$ the minimum number of cameras demanded for triangulation (among $ncams_{tot}$ available cameras), and $conf_{min}$ the minimum confidence accepted for a keypoint to be used.
+            \WHILE {$error > error_{max}$ AND $ncams > cams_{min}$}
+                \FOR {all combinations $\binom{ncams_{tot}}{ncams}$}
+                      \FOR {all cameras}
+                        \IF {$conf>conf_{min}$}
+                              \STATE $weighted\_DLT \gets add\_keypoint$
+                        \ENDIF
+                      \ENDFOR
                     \STATE $Q \gets solve\_weighted\_DLT$
                     \STATE $error \gets calculate\_reprojection\_error$
                 \ENDFOR
                 \IF {$min(error) < error_{max}$}
                     \STATE \textbf{return} $Q[min(error)], min(error)$
                 \ELSE 
-                    \STATE $cams \gets cams-1$
+                    \STATE $ncams \gets ncams-1$
                 \ENDIF                
             \ENDWHILE
       \end{algorithmic}
 \end{algorithm}
 
 
-\FloatBarrier
 \subsection{Filtering and other operations}
 
 Different filters can be chosen, and their parameters can be adjusted. The user can choose a zero-phase low-pass Butterworth filter \cite{Butterworth1930} that they can apply either on keypoint positions or on their speeds, a LOESS filter \cite{Cleveland1981}, a Gaussian filter, or a median filter. We recommend choosing the first option, as it is the most customary method used in biomechanic sciences. Waveforms before and after filtering can be displayed and compared.
 
+\FloatBarrier
 If needed, other standalone tools are provided to further work on the .trc 3D coordinate files (Figure~\ref{fig_opensimutilities}). Among others, it is possible to undersample a file from a higher to a lower framerate, or to convert a file from Z-up to Y-up axis convention. The resulting 3D coordinates can be plotted for verification. Additionally, a tool is provided to detect gait events from point coordinates, according to the equations given by \cite{Zeni2008}.
 
 
@@ -210,7 +210,7 @@ The placement of markers on the model is also of paramount importance, especiall
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
-	\includegraphics[width=0.85\linewidth]{"../Chap3/Figures/Fig_MkMkl.png"}
+	\includegraphics[width=.95\linewidth]{"../Chap3/Figures/Fig_MkMkl.png"}
 	\caption{Triangulated anatomical markers and clusters (dark green), calculated joint centers (light green), and OpenPose body\_25B keypoints (pink) on a textured mesh. OpenPose’s eyes and ears keypoints were excluded. Mesh opacity was set to 0.5 in order to make all points visible. This view made it possible to precisely place OpenPose triangulated keypoints on the OpenSim model.}
 	\label{fig_mkmkl}
 \end{figure}
