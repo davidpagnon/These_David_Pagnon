@@ -26,7 +26,9 @@
 % \usepackage{gensymb} %pour obtenir le symbole \degree
 \usepackage{calligra}
 
-
+% \usepackage{emoji} 
+\usepackage{rotating}
+\usepackage[absolute,overlay]{textpos}
 \usepackage{animate}
 
 \usepackage{blindtext}
@@ -63,6 +65,19 @@
 \definecolor{mygreen2}{RGB}{0,120,0} % dark green
 \definecolor{myblue3}{HTML}{1a4091} % dark blue 	
 \definecolor{couleur_marie}{RGB}{0,102,204} % dark green
+
+\def\emojibell{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/bell.png"}}{\textrm{\textbigcircle}}} %Mikaela
+\def\emojimedal{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/medal.png"}}{\textrm{\textbigcircle}}} %Maman
+\def\emojichurch{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/church.png"}}{\textrm{\textbigcircle}}} %David
+\def\emojiegg{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/egg.png"}}{\textrm{\textbigcircle}}} % Easter eggs
+\def\emojihatching{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/hatching-chick.png"}}{\textrm{\textbigcircle}}} %Cedric
+\def\emojirunner{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/runner.png"}}{\textrm{\textbigcircle}}} %Clement
+\def\emojigirl{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/girl.png"}}{\textrm{\textbigcircle}}} %Soeurs
+\def\emojirabbit{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/rabbit.png"}}{\textrm{\textbigcircle}}} %Famille
+\def\emojicross{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/cross.png"}}{\textrm{\textbigcircle}}} %God
+\def\emojitube{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/test-tube.png"}}{\textrm{\textbigcircle}}} %Labo
+\def\emojihi{\scalerel*{\includegraphics{"../Annexes/Figures/emoji/hi.png"}}{\textrm{\textbigcircle}}} %All others
+%all others that I know, used to know, or will know!
 
 %\newcommand*\maboite[1]{%
 %\fcolorbox{GrisPasTropClair}{BleuClair}{\hspace{1em}#1\hspace{1em}}}
@@ -106,6 +121,7 @@
 \usepackage{subcaption}
 \usepackage[export]{adjustbox}
 \usepackage{pgf}
+\usepackage{scalerel}  % Required for emoji \scalerel
 
 \usepackage{pgfplots}
 \usepgfplotslibrary{external}

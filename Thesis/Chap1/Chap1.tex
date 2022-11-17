@@ -173,7 +173,7 @@ The earliest 3D pose estimation approaches were addressing the issue under the p
 \newpage
 Some research attempts to solve 3D pose estimation from a network of uncalibrated cameras, i.e., cameras whose extrinsic parameters (translation and rotation with respect to the coordinate system), intrinsic parameters (focal length, pixel size, etc.), and distortion coefficients are not known (See \autoref{ch:2.2} on \nameref{sec:3D reconstruction} for more details.) It either uses 2D pose estimations of each view as visual cues to calibrate on \cite{Takahashi2018, Xu2021, Liu2022a}, or an adversarial network that predicts views of other cameras, compares them to real views, and adjusts its calibration accordingly \cite{Ershadi-Nasab2021}. Dong et al. recover 3D human motion from unsynchronized and uncalibrated videos of a repeatable movement found on internet videos (such as a tennis serve performed by a celebrity) \cite{Dong2020}. Using uncalibrated videos is still a very experimental trend, that would require more research before being used in biomechanics. 
 
-As a consequence, we focus on methods which infer 3D pose by triangulating 2D pose estimations, from a network of multiple calibrated and synchronized cameras. They require a more complex setup, but they allow for more accurate 3D reconstruction, based on geometry rather than on statistics. They are also more reliable than monocular methods in a wider variety of contexts, in particular when occlusions are encountered. The classical evaluation metric is the MPJPE (Mean Per Joint Position Error), which is the average Euclidian distance between the estimated joint coordinate and its ground truth. DLTdv8 provides a user-friendly GUI written on Matlab for semi-automatically tracking 2D points, which can be enhanced with a simple deep-learning approach \cite{Hedrick2008,DLTdv8}. These points can then be triangulated by Direct Linear Transform (DLT, see section \nameref{sec:triangulate}) to obtain 3D coordinates. 
+As a consequence, we focus on methods which infer 3D pose by triangulating 2D pose estimations, from a network of multiple calibrated and synchronized cameras. They require a more complex setup, but they allow for more accurate 3D reconstruction, based on geometry rather than on statistics. They are also more reliable than monocular methods in a wider variety of contexts, in particular when occlusions are encountered. The classical evaluation metric is the MPJPE (Mean Per Joint Position Error), which is the average Euclidian distance between the estimated joint coordinate and its ground truth. DLTdv8 provides a user-friendly GUI written on Matlab for semi-automatically tracking 2D points, which can be enhanced with a simple deep-learning approach \cite{Hedrick2008,DLTdv8}. These points can then be triangulated by Direct Linear Transform (DLT, see section \nameref{triangulation}) to obtain 3D coordinates. 
 
 However, when human beings are concerned, most 3D pose estimation methods take OpenPose as an input for triangulation, and more specifically the body\_25 model. Aside from ours, a number of tools have been made available for triangulating OpenPose, although usually not peer-reviewed: the experimental OpenPose 3D reconstruction module \cite{Hidalgo2021}, the FreeMoCap Python and Blender toolbox \cite{Matthis2022}, or the pose3d Matlab toolbox \cite{Sheshadri2020}, and the EasyMocap pipeline \cite{Easymocap2021}. Labuguen et al. evaluate 3D joint positions of a pop dancer with a simple Direct Linear Transform triangulation (DLT \cite{Hartley1997,Miller1980}) from 4 cameras \cite{Labuguen2020}. Apart from the upper body for which error goes up to almost 700 mm, the average joint position error is about 100 mm. Nakano et al. examine three motor tasks (walking, countermovement jumping, and ball throwing), captured with 5 cameras and triangulated with the same methods, with a subsequent Butterworth filter \cite{Nakano2019}. 47\% of the errors are under 20 mm, 80\% under 30 mm, and 10\% are above 40 mm. The largest errors are mostly caused by OpenPose wrongly tracking a joint, for example by swapping the left and the right limb, that causes large errors up to 700 mm. This may be fixed either by using a better 2D pose estimator, or by using more cameras to reduce the impact of an error on a camera, or else by considering the temporal continuity in movement. Needham et al. use 9 cameras and find that ankle MPJPEs are within the margin of error of marker-based technologies (1–15 mm), whereas knee and hip MPJPEs are greater (30–50 mm). These errors are systematic and likely due to "ground-truth" images being mislabeled in the training dataset \cite{Needham2021b}. They also run the comparison with AlphaPose and with DeepLabCut. While AlphPose's results are similar to OpenPose’s; DeepLabCut errors are substantially higher.
 
@@ -339,3 +339,90 @@ The objective of this thesis is to participate in building a bridge between the 
 % plt.show()
 % fig.savefig(r'D:\softs\github_david\These_David_Pagnon\Thesis\Chap1\Figures\Fig_exp.png', dpi=300)
 
+
+
+
+
+% "__comment__": "Next lines for using minted in latex",
+% "latex-workshop.latex.tools": [
+% 	{
+% 		"name": "lualatex",
+% 		"command": "lualatex",
+% 		"args": [
+% 			"--shell-escape", 
+% 			"-synctex=1",
+% 			"-interaction=nonstopmode",
+% 			"-file-line-error",
+% 			"-output-directory=%OUTDIR%",           
+% 			"%DOC%.tex"
+% 		]
+% 	},
+% 	{
+% 		"name": "latexmk",
+% 		"command": "latexmk",
+% 		"args": [
+% 			"--shell-escape",
+% 			"-synctex=1",
+% 			"-interaction=nonstopmode",
+% 			"-file-line-error",
+% 			"-pdf",
+% 			"-outdir=%OUTDIR%",
+% 			"%DOC%.tex"
+% 		]
+% 	},
+% 	{
+% 		"name": "pdflatex",
+% 		"command": "pdflatex",
+% 		"args": [
+% 			"--shell-escape",
+% 			"-synctex=1",
+% 			"-interaction=nonstopmode",
+% 			"-file-line-error",
+% 			"%DOC%.tex"
+% 		]
+% 	},
+% 	{
+% 		"name": "bibtex",
+% 		"command": "bibtex",
+% 		"args": [
+% 			"%DOCFILE%"
+% 		]
+% 	}
+% ],
+
+
+% "latex-workshop.latex.recipes": [
+% {
+% 	"name": "lualatex",
+% 	"tools": [
+% 		"lualatex",
+% 		"bibtex",
+% 		"lualatex",
+% 		"bibtex",
+% 		"lualatex",
+% 		"bibtex",
+% 		"lualatex"
+% 	]
+% },
+% {
+% 	"name": "pdflatex -> bibtex THRICE",
+% 	"tools": [
+% 		"pdflatex",
+% 		"bibtex",
+% 		"pdflatex",
+% 		"bibtex",
+% 		"pdflatex",
+% 		"bibtex",
+% 		"pdflatex"
+% 	]
+% }        
+% ]
+
+
+
+% \begin{textblock*}{5cm}(10cm,5cm) % {block width} (coords) 
+% 	\begin{turn}{45} 
+% 	\scriptsize \emojiegg Voilà test \emojiegg 
+%	%cf Packages.tex
+% 	\end{turn}
+% \end{textblock*}
