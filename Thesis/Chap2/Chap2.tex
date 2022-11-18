@@ -56,7 +56,7 @@ Two broad approaches can be implemented: the first one consists in using dedicat
 
 % Ajouter triangulation de tracked keypoints (sans ML), plutôt que de kpt/obj détection ? SOURCES? CITER KINOVEA, EXPLORER UN PEU VISP 
 
-The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxing gloves or holds in challenging conditions, they simply have to include such examples while training the model. The machine learning approach is also suitable for other tasks, such as whole-image classification (e.g., determining whether this is a boxing or a BMX scene), object detection (e.g., localization of a bike and of a person with a bounding box), background extraction \cite{Bouwmans2019}, semantic and instance segmentation (e.g., extracting the shape of the bike and of the person) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers and keypoints on a bike \cite{Chen2020}) (Figure~\ref{fig_classif_detec}). By 2015, data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports motion analysis from videos (Figure~\ref{fig_exp}).
+The second approach takes advantage of machine learning algorithms, which constitute an entirely different paradigm. The idea is to show the machine enough examples for it to "understand" by itself its underlying attributes, so that it manages to detect and label automatically new images: this is a data-driven approach. It can be used for both aforementioned tasks, in a much more flexible way: if one wants the system to recognize boxing gloves or holds in challenging conditions, they simply have to include such examples while training the model. The machine learning approach is also suitable for other tasks, such as whole-image classification (e.g., determining whether this is a boxing or a BMX scene), object detection (e.g., localization of a bike and of a person with a bounding box), background extraction \cite{Bouwmans2019}, semantic and instance segmentation (e.g., extracting the shape of the bike and of the person) \cite{Minaee2021}, or keypoint detection (e.g., localization of human joint centers and keypoints on a bike \cite{Chen2020a}) (Figure~\ref{fig_classif_detec}). By 2015, data-driven methods definitely took over knowledge-driven ones in vision analysis problems, and by extension in sports motion analysis from videos (Figure~\ref{fig_exp}).
 
 \clearpage
 \begin{figure}[!ht]
@@ -321,7 +321,7 @@ This is generally true in motion capture, for which the camera lens is usually f
   x=\frac{f\times X_O}{Z_O}
 \end{equation}
 
-This model is called the basic pinhole camera model \cite{Zhang2000,Hartley2003,Tomasi2017}. This is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification and since it does make a difference in practice, the image plane is usully represented upside-up and on the same side as the object (Figure~\ref{fig_cameralens}). 
+This model is called the basic pinhole camera model \cite{Zhang2000,Hartley2003,Tomasi2017}. This is strictly speaking improper, since a pinhole camera does not have any focal length. For the sake of simplification and since it does make a difference in practice, the image plane is usually represented upside-up and on the same side as the object (Figure~\ref{fig_cameralens}). 
 
 \begin{figure}[hbtp]
 	\centering
@@ -670,7 +670,7 @@ Unlike a checkerboard, wand points are visible from all angles. Moreover, the wa
 
 Nevertheless, the wand approach also optimizes over more parameters, which makes it less stable and involves a careful initialization, e.g., with an additional object of known position and dimensions, or simply by reducing the number of parameters, e.g., by fixing intrinsic parameters, which would have to be calibrated priorly. Moreover, while a checkerboard has a clearly recognizable pattern, two points of a wand are more likely to be subject to false positives errors.
 
-In practice, a wand is much less cumbersome and much easier to transport than a checkerboard, especially for sports motion analysis where capture volumes can be large, and the checkerboard size needs to be scaled accordingly. In fact, a wand is not even necessary, and it can be replaced with the automatic detection of body segments by a 2D pose estimation model such as OpenPose \cite{Takahashi2018, Xu2021, Liu2022a}. This is, however, less accurate. The wand method is widely used by all commercial software solutions, such as Qualisys \cite{Qualisys}, as well as for free GUI such as EasyWand \cite{Theriault2014} in Matlab, or its Python version, Argus \cite{Argus,Jackson2016}. These are free, but not open-source. However, SBA is not implemented in OpenCV, and there is actually no widely supported Python version of the algorithm.
+In practice, a wand is much less cumbersome and much easier to transport than a checkerboard, especially for sports motion analysis where capture volumes can be large, and the checkerboard size needs to be scaled accordingly. In fact, a wand is not even necessary, and it can be replaced with the automatic detection of body segments by a 2D pose estimation model such as OpenPose \cite{Takahashi2018, Xu2021, Liu2022a}. This is, however, less accurate. The wand method is widely used by all commercial software solutions, such as Qualisys \cite{Qualisys}, as well as for free GUI such as EasyWand \cite{Theriault2014} in Matlab, or its Python version, Argus \cite{Argus,Jackson2016}. These are free, but not open-source. However, SBA is not implemented in OpenCV, and there is actually no widely supported Python version of the algorithm. Lastly, autocalibration procedures are being developed, which usually consist in automatically tracking features of interest in images, matching them across camera views, and then estimating intrinsic and extrinsic parameters in a method similar to SBA \cite{Faugeras1992,Hartley2003}. This approach is promising, but it is still in its infancy, and will not be described.
 
 \begin{table}
 	\centering
@@ -698,19 +698,21 @@ In practice, a wand is much less cumbersome and much easier to transport than a 
 	\label{table:tab_calib}
 \end{table}
 
-\newpage
-Other options, explored in \autoref{ch:6}, would be to compute intrinsic and extrinsic parameters independently. Intrinsic parameters and distortion coefficients can be calculated an any convenient moment, since they are in theory constant for a given camera. This can be done with a checkerboard, either with OpenCV raw coding, or by using a GUI like Argus \cite{Argus}. On the other hand, extrinsic parameters depend on the camera positions: they need to be computed upon every new capture setting. One way to do this consists in performing an extrinsic calibration on the spot with a wand, with fixed intrinsic parameters. Another option, if wand calibration is not possible, is to use a method analogous to Zhang's, with any 3D object of known dimensions, large enough to cover a substantial field of view for each camera. This would leverage a Perspective-n-Point approach, which consists in a Levenberg-Marquardt optimization similar to Equation~\href{eq:LM_algo}, but with fixed intrinsic parameters \cite{Marchand2015}. This can be done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP} OpenCV function. 
+Other options, explored in \autoref{ch:6}, would be to compute intrinsic and extrinsic parameters independently. Intrinsic parameters and distortion coefficients can be calculated an any convenient moment, since they are in theory constant for a given camera. This can be done with a checkerboard, either with OpenCV raw coding, or by using a GUI like Argus \cite{Argus}. On the other hand, extrinsic parameters depend on the camera positions: they need to be computed upon every new capture setting. One way to do this consists in performing an extrinsic calibration on the spot with a wand, with fixed intrinsic parameters. Another option, if wand calibration is not possible, is to use a method analogous to Zhang's, with any 3D object of known dimensions, large enough to cover a substantial field of view for each camera. This would leverage a Perspective-n-Point approach, which consists in a Levenberg-Marquardt optimization similar to Equation~\ref{eq:LM_algo}, but with fixed intrinsic parameters \cite{Marchand2015}. This can be done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP} OpenCV function. 
 
 % Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> OpenCV = portabilité python de Bouguet matlab ?
 
 % Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
 
-
+% \newpage
 \subsection{Triangulation}\label{triangulation}
  
 After 2D points are detected on all cameras, and considering that their intrinsic properties, positions and orientations are known, points can be reconstructed in the 3D space. Note that cameras not only need to share a 3D global reference frame, but also a common time reference. Otherwise, the same frame risks relating to a different instant in the athlete's motion, in which case the 3D reconstruction would not make sense. This is classically done with a wired hardware trigger, but other approaches use a flash, a sound, a wireless signal such as Wi-Fi, Bluetooth or GPS. In \autoref{ch:6}, we proposed another approach based on cross-correlation of 2D feature speeds.
 
-Assuming that cameras are indeed synchronized, the most straightforward, and computationally efficient method, is a DLT approach. This does not take distortions into account, and assumes either that distortions are negligible, or that videos have been priorly undistorted based on the coefficients found during intrinsic calibration \cite{Jackson2016}. Alternatively, some action cameras such as the GoPro 5+ have a linear mode, which undistorts videos on the fly upon capture. 
+Assuming that cameras are indeed synchronized, the most straightforward, and computationally efficient method, is a DLT approach \cite{Hartley2003}. This does not take distortions into account, and assumes either that distortions are negligible, or that videos have been priorly undistorted based on the coefficients found during intrinsic calibration \cite{Jackson2016}. Alternatively, some action cameras such as the GoPro 5+ have a linear mode, which undistorts videos on the fly upon capture. 
+
+\vspace*{0.5cm}
+\noindent\textbf{Triangulation with a DLT approach}  
 
 The DLT procedure for triangulation is slightly different from the one previously detailed for calibration. Indeed, since 3D coordinates are now the unknown variables, they are the ones factorized rather than the projection parameters. From Equation~\ref{eq:calib_system} applied to a point $\overrightarrow{Q_W}$ projected on one camera, we have:
 
@@ -722,7 +724,7 @@ The DLT procedure for triangulation is slightly different from the one previousl
   \end{cases}
 \end{equation}
 Which can be reduced as a system of two equations:
-\begin{equation}
+\begin{equation}\label{eq:factortrig}
   \begin{cases}
     &  (\overrightarrow{P_1} - u_p \ \overrightarrow{P_3} ) \cdot \overrightarrow{Q_W}  = 0\\
     &  (\overrightarrow{P_2} - v_p \ \overrightarrow{P_3} ) \cdot \overrightarrow{Q_W}  = 0\\
@@ -761,16 +763,49 @@ As a consequence, the 3D coordinates of the triangulated point are:
   }
 \end{equation}  
 
+All points can be triangulated in a similar fashion, frame after frame. Since the procedure entirely relies on linear algebra, it is very fast, assuming that distortions are small or that they have been corrected. However, it is not robust to outliers. Other methods have been proposed \cite{Chen2020b}, such as 
+
+METHODES TRIG (2)
+
+refinement step with learning approach
 
 
-Conclusion
+METHODES MATCHING (3)
 
-RANSAC, etc
+In case of multi-person detection, a prior step needs to be undertaken
+nearest neighbour, learning
 
-Reprojection error
+matching: If enough viewpoints are available, a variant of this approach uses a Random Sample Consensus (RANSAC) algorithm. It randomly takes a subset of the 2D points to be reconstructed in 3D, and 
+% then tries to find the best solution for the remaining points. This is repeated several times, and the best solution is kept. This is a robust approach, but it is computationally more expensive.
+Triangulate only from best 2D estimations, called inliers, and will ignore outliers
+In practice, no need for triangulating all points (hip; neck)
 
 
+\vspace*{0.5cm}
+\noindent\textbf{Reprojection error}  
 
+The reprojection error is the distance between the projection $(\widehat{u_p}, \widehat{v_p})$ of a triangulated keypoint $Q_W$ on an image, and its actual estimated 2D coordinates $(u_p, v_p)$). It can be used to jointly evaluate the accuracy of the 2D pose estimation and of the 3D reconstruction. From Equation~\ref{eq:factortrig}, we have:
+\begin{equation}
+    \begin{cases}
+      &  \overrightarrow{P_1}\cdot \overrightarrow{Q_W} = \widehat{u_p} \ \overrightarrow{P_3} \cdot \overrightarrow{Q_W}\\
+      &  \overrightarrow{P_2} \cdot \overrightarrow{Q_W} = \widehat{v_p} \ \overrightarrow{P_3} \cdot \overrightarrow{Q_W}\\
+    \end{cases}
+\end{equation}
+Which leads to the reprojected coordinates:
+\begin{equation}
+    \begin{cases}
+      & \widehat{u_p} = \frac{\overrightarrow{P_1}\cdot \overrightarrow{Q_W}}{\overrightarrow{P_3} \cdot \overrightarrow{Q_W}}\\
+      & \widehat{v_p} = \frac{\overrightarrow{P_2}\cdot \overrightarrow{Q_W}}{\overrightarrow{P_3} \cdot \overrightarrow{Q_W}}\\
+    \end{cases}
+\end{equation}
+And the mean reprojection error of this point for all C cameras can be calculated:
+\begin{equation}
+  \boxed{
+  err = \frac{1}{2C} \sum_{c \in [0,C]} (|\widehat{u_p}-u_p|^2 + |\widehat{v_p}-v_p|^2) 
+  }
+\end{equation}
+
+Note that this formula is also used to calculate residual errors from calibration. Instead of reprojecting triangulated keypoints, one reprojects the 3D calibration points detected from a checkerboard or from a wand.
 
 
 
