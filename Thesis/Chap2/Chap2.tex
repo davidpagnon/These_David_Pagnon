@@ -813,41 +813,52 @@ Again, this formulation does not take distortions into account, so it should be 
 
 
 
-\FloatBarrier
+\newpage
 \section{3D joint kinematics}\label{sec:3D joint kin}
 
 \subsection{The kinematics problem}
 
-Rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
+Rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
 
-theta = f-1(x)
+In order for its position and orientation to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. Additionally, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
+% parler de robotique, animation, biomécanique?
 
 \subsection{The 6DoF approach}
 
-The standard approach to obtain 3D joint angles is to use direct kinematics. 
+The traditional method for obtaining 3D joint angles consists in computing positions and orientations of all body segments independently: it is called the 6DoF (6 Degrees of Freedom) free-body approach. This assumes that there are at least as many known variables (marker positions) as unknown degrees of freedom (joint angles). This excludes most of the current pose estimation models from operating in this paradigm. However, as the biomechanics community make theirs the concepts of learning-based keypoint estimation, other models with more complete labelling may arise. Hence, for the sake of completeness, this approach is broached below.
 
-% This consists in using the 3D coordinates of the joint and of its neighbors, and then applying a mathematical formula to calculate the joint angles. This is the approach used in \autoref{ch:6}, where we used the 3D coordinates of the shoulder, elbow and wrist to calculate the elbow flexion/extension angle. This approach is very efficient, but it requires a priori knowledge of the joint kinematics, which is not always available. Moreover, it is not always possible to obtain the 3D coordinates of all the joints, especially in the case of a crowded scene. In this case, it is possible to use indirect kinematics, which does not require the 3D coordinates of all the joints.
+If only 3 markers are used per segment, the problem can be solved analytically. The method is then called Direct Kinematics (DK, see \href{Ann:gloss}{Confusing concepts - Disambiguation}) \cite{Lu1999}. The local reference frame of each segment, i.e., its joint center and rotational axes, can be fully defined as regards to the locations of the markers. Simple trigonometric formulas can then be applied to infer inter-segmental rotations and translations. 
 
-direct/forward:Analytical/6DoF free body/segment optimization
--> trust markers
+In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow standards. Such standards are given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or by its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. For more general purposes, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}.
 
-1 reference frame / coordinate system per segment (at least 3 markers per segment) \cite{Wu2002, Wu2005}
-no need for assumptions. Free bodies
-assumes that markers are positionned very accurately, by one single trained operator, no STA.
-renders dislocations (good if there are some, bad if none)
+\begin{figure}[!ht]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.7\linewidth]{"../Chap2/Figures/ISBaxis.PNG"}
+	\caption{Careful placement of few markers are enough to determine the tibia/fibula coordinate system (XYZ) and the calcaneus coordinate system (xyz). Here, the ankle joint complex in the neutral position \cite{Wu2002}.}
+	\label{fig_isb}
+\end{figure}
 
-Ex: plug-in-gait
+If more than 3 markers are placed on the segment, the problem needs to be solved numerically. These methods are then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following function leads to a more robust approximation of the rotation and translation of the considered segment: 
+\begin{equation}
+  \sum_{m \in [1,M]}
+  ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
+\end{equation} 
+With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X_{init}^m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X_{target}^m}$. 
 
-Note that in the common usage of the term, the analytical solution to inverse kinematics is often called direct kinematics, not to be confused with forward kinematics. The previous solves joint angles from 3D coordinates, which can be done directly with trigonometry formulas, in the case that more coordinates are known than the amount of degrees of freedom to be determined. Forward kinematics, on the other hand, solves 3D coordinates from joint angles, which can also be done either with numerical or with analytical methods. In practice, forward  and direct kinematics are often confused.
 
-
-
-
+\newpage
 \subsection{The inverse kinematics approach}
 
-inverse:numerical=iterative/model based/global optimization
+Multibody Kinematic Optimization (MKO) or Global Optimization (GO)
+
+inverse:numerical=iterative/model based/global optimization/multibody kinematic optimization
 -> trust model
+
+theta = f-1(x)
+
 
 \textbf{Principles}
 initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models became more thorough and trustworthy
@@ -912,7 +923,19 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 
-full-body: 14 segments, at least 3 markers per segment for 3D carac=42 mk. Openpose: only 21: need for good model
+6DoF
+-> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
+-> no need for assumptions. Free bodies
+->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc)
+
+
+
+
+kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), pyomeca (opensim, biorbd), custom, pinocchio (Jacobian), OpenSim
+Vicon, QTM (Visual3D)
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Intéressant mais rendrait le pdf trop long               %
