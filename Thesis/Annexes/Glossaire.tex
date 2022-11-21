@@ -50,8 +50,8 @@ Note that approaches only using video (RGB), or depth-field video (RGB-D) sensor
 \vspace*{0.5cm}
 
 \noindent\underline{Gold standard vs. Silver standard:}\\
-A \textbf{gold-standard} method refers to the best currently available method, usually in terms of accuracy, which can be used as a reference to compare other methods. Marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. In contrast, bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are considered to be closer to a gold-standard. \\
-However, the latter methods are not available for all activities worthy of scientific interest, and marker-based ones are often preferred. Therefore, they are considered as a \textbf{silver-standard}. Nevertheless, the literature sometimes refer to them as gold-standard, as opposed to IMU or markerless systems, which are then considered as silver-standard.
+A \textbf{gold-standard} method refers to the most accurate of the currently available methods, which can be used as a reference to assess the performance of other methods. Bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are usually considered as gold-standard techniques for posture analysis. In contrast, marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. Hence, they are referred to as \textbf{silver-standard} methods. \\
+However, the previously listed methods are not available for most sports activities, and thus cannot be considered as standards at all. Hence, in this case, marker-based approaches are sometimes referred to as gold-standard, as opposed to IMU or markerless systems, which are then considered as silver-standard.
 
 \vspace*{0.5cm}
 
@@ -119,7 +119,7 @@ Forward kinematics: angles -> position
 Direct kinematics: position -> angles
 analytical solution (direct kinematics, 6DoF) vs. numerical solution (inverse kinematics)
 
-
+% Note that in the common usage of the term, the analytical solution to inverse kinematics is often called direct kinematics, not to be confused with forward kinematics. The previous solves joint angles from 3D coordinates, which can be done directly with trigonometry formulas, in the case that more coordinates are known than the amount of degrees of freedom to be determined. Forward kinematics, on the other hand, solves 3D coordinates from joint angles, which can also be done either with numerical or with analytical methods. In practice, forward  and direct kinematics are often confused.
 
 
 
