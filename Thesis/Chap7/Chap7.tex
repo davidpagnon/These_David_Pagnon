@@ -63,34 +63,60 @@ Chap3:
 On a different note, in a sports context, not only the human pose is of interest: sports gear can also be considerably important to detect, such as a ball \cite{Ghasemzadeh2021}, skis \cite{Ludwig2020}, or bike parts in the context of cycling (see Chapter 7 on \hyperref[ch:7]{Joint OpenPose and DeepLabCut detection}). This can help to analyze game dynamics, and to quantify posture cues related to a specific sports discipline. This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
 
 
+CF mail OpenPose DeepLabCut pour BMX
+pre manip, slt 6 cam, calib unsuccessful: on grid similar to other chapter, low image resolution
+other leads: bushing forces, ball joints
+scale avant et arriève vélo indépendament
+% Because OpenSim models have fewer degrees of freedom than the human body, it is easy to define a set of constraints that seems very reasonable but is not easy for the skeleton (rigid-body mechanism) to satisfy.
+% If it's appropriate for the movement you are simulating, you might consider allowing the toes and/or hands to rotate relative to the pedals
+% (see PointConstraint, https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1PointConstraint.html#details).
+% Alternatively, you could attach the toes and/or hands to the bike via BushingForces (https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1BushingForce.html#details).
+
+
 \section{Introduction}
 \subsection{The start in BMX racing}
-\blindtext
+
 
 
 \section{Methods}
 \subsection{Material and protocol}
-\blindtext
+
 
 \subsection{Pilot inverse kinematics}
-\blindtext
+
 
 \subsection{Bike inverse kinematics}
-\blindtext
+
+Voir thèse Princelle
+
 
 \subsection{Joined pilot and bike inverse kinematics}
 Marche pas avec nos qualités de vidéo : simulations
 
-\blindtext
+
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap7/Figures/BMXPilot.png"}
+	\caption{Note that the head is only big because the pilot was scaled with his helmet on. Since the head is at the end of the kinematic chain, and as kinetics are not addressed, it does not affect inverse kinematics. See animated version \href{https://github.com/perfanalytics/pose2sim/blob/main/Content/Activities_verylow.gif}{here}.}
+	\label{fig_bmxpilot}
+\end{figure}
+
+% \begin{frame}{Embedded Animation}
+%   \animategraphics[loop,controls,width=0.7\linewidth]{25}{"../Chap7/Figures/bmxgif/bmx"}{1}{180}
+% \end{frame}
+
 
 
 \section{Results}
-\blindtext
+
 
 
 \section{Discussion}
 \subsection{On these data}
-\blindtext
+
 
 \subsection{Limits and perspectives}
 

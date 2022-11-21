@@ -3,23 +3,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \phantomsection 
-\addcontentsline{toc}{chapter}{Glossary} \mtcaddchapter
+\addcontentsline{toc}{chapter}{Confusing concepts - Disambiguation} \mtcaddchapter
 \label{Ann:gloss}
 \addtocontents{toc}{\protect\addvspace{10pt}}
 
 \vspace*{-1.6cm}
 \begin{flushright}
-\section*{\fontsize{20pt}{20pt}\selectfont\textnormal{Glossary}}
+\section*{\fontsize{20pt}{20pt}\selectfont\textnormal{Confusing concepts - Disambiguation}}
 \end{flushright}
 \vspace{-0.2cm}
 
 
-\lhead[\fancyplain{}{Glossary}]
+\lhead[\fancyplain{}{Confusing concepts - Disambiguation}]
       {\fancyplain{}{}}
 \chead[\fancyplain{}{}]
       {\fancyplain{}{}}
 \rhead[\fancyplain{}{}]
-      {\fancyplain{}{Glossary}}
+      {\fancyplain{}{Confusing concepts - Disambiguation}}
 \lfoot[\fancyplain{}{}]
       {\fancyplain{}{}}
 \cfoot[\fancyplain{}{\thepage}]
@@ -50,16 +50,14 @@ Note that approaches only using video (RGB), or depth-field video (RGB-D) sensor
 \vspace*{0.5cm}
 
 \noindent\underline{Gold standard vs. Silver standard:}\\
-A \textbf{gold-standard} method refers to the best currently available method, usually in terms of accuracy, which can be used as a reference to compare other methods. \\
-Marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. In contrast, bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are considered to be closer to a gold-standard. \\
-However, the latter methods are not available for all activities worthy of scientific interest, and marker-based ones are often preferred. Therefore, they are considered as a \textbf{silver-standard}.\\
-Nevertheless, the literature sometimes refer to them as gold-standard, as opposed to IMU or markerless systems, which are then considered as silver-standard.
+A \textbf{gold-standard} method refers to the best currently available method, usually in terms of accuracy, which can be used as a reference to compare other methods. Marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. In contrast, bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are considered to be closer to a gold-standard. \\
+However, the latter methods are not available for all activities worthy of scientific interest, and marker-based ones are often preferred. Therefore, they are considered as a \textbf{silver-standard}. Nevertheless, the literature sometimes refer to them as gold-standard, as opposed to IMU or markerless systems, which are then considered as silver-standard.
 
 \vspace*{0.5cm}
 
 \noindent\underline{Silhouette vs. Shape:}\\
 A \textbf{silhouette} is the 2D cutout of a human being on an image. Silhouette segmentation is a specific case of \textbf{object segmentation}. 
-A \textbf{shape} is the equivalent of a silhouette in 3D space. A human shape can be used to characterize both pose, like 3D keypoints do, but also morphology. A mesh is the geometric representation of a shape, divided into smaller 2D cells (Figure~\ref{fig_meshmodel}).
+A \textbf{shape} is the equivalent of a silhouette in 3D space. A human shape can be used to characterize pose, like 3D keypoints do, but also morphology. A \textbf{mesh} is the geometric representation of a shape, divided into smaller 2D cells (Figure~\ref{fig_meshmodel}).
 
 \begin{figure}[hbtp]
 	\centering
@@ -93,15 +91,16 @@ Machine learning and Deep Learning, as well as Artificial Intelligence, Artifici
 \vspace*{0.5cm}
 
 \noindent\underline{Dataset vs. Labels: }\\
-A \textbf{dataset} is a collection of data used to train a machine learning model. These data need to be labelled prior to training. \textbf{Labels} and \textbf{annotations} can generally be considered as synonyms. Certain datasets come with several kinds of annotations: keypoints, instance segmentation, or image classification for example. A same dataset can also be annotated with several keypoint instances, e.g., one focusing on hands, and the other one on the full body.\\
-Once labeled, a dataset can be fed to a deep learning \textbf{architecture, \emph{or} algorithm}, upon which a specific \textbf{feature extractor, \emph{or} backbone} will be appended. A \textbf{model} results from this training, which can then be used to predict the labels of new data. Hand-labeled dataset can be used as \textbf{benchmarks} for competing architectures. \\
+A \textbf{dataset} is a collection of data used to train a machine learning model. \\
+These data need to be labelled prior to training. \textbf{Labels} and \textbf{annotations} can generally be considered as synonyms. Certain datasets come with several kinds of annotations: keypoints, instance segmentation, or image classification for example. Note that a same dataset can be annotated with several keypoint instances, e.g., one focusing on hands, and the other one on the full body.\\
+Once labeled, a dataset can be fed to a deep learning \textbf{architecture}, or \textbf{algorithm}, upon which is appended a \textbf{feature extractor}, or \textbf{backbone}, specific to the chosen labelling convention. A \textbf{model} results from this training, which can then be used to predict the labels of new data. Hand-labeled dataset can be used as \textbf{benchmarks} for assessing the model accuracy or speed. \\
 In the everyday use, datasets, labeling or annotation, architecture, and models, tend to be used in a confusing way. For instance, the standard OpenPose model has been trained on the COCO and MPII dataset, annotated with COCO, MPII, and additional foot keypoints, on the OpenPose architecture. This results in the OpenPose body\_25 model. 
 
 \vspace*{0.5cm}
 
 \noindent\underline{Single-view vs. Multi-view:}\\
-A \textbf{multi-view} (or multiview) system uses several cameras, while a \textbf{single-view, \emph{or} monocular} one, uses only one. While multi-view systems are always used to infer 3D information, monocular ones can either focus on 2D or 3D information retrieval.\\
-\textbf{Single-image, \emph{or} single-frame} approaches, specifically analyze one single image. In practice, video approaches often perform their analysis image by image.\\
+A \textbf{multi-view} (or multiview) system uses several cameras, while a \textbf{single-view}, or \textbf{monocular} one, uses only one. While multi-view systems are always used to infer 3D information, monocular ones can either focus on 2D or 3D information retrieval.\\
+\textbf{Single-image}, or \textbf{single-frame} approaches, specifically analyze one single image. In practice, video approaches often perform their analysis image by image.\\
 
 \vspace*{0.5cm}
 
@@ -116,7 +115,10 @@ both fall under the umbrella of kinematic data. In the customary usage, kinemati
 \vspace*{0.5cm}
 
 \noindent\underline{Forward kinematics vs. Direct kinematics:}\\
-vs. inverse kinematics
+Forward kinematics: angles -> position
+Direct kinematics: position -> angles
+analytical solution (direct kinematics, 6DoF) vs. numerical solution (inverse kinematics)
+
 
 
 

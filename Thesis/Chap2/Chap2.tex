@@ -636,7 +636,7 @@ In practice, a more accurate method would use more than one single image of a ch
   \overrightarrow{\widehat{q_{ij}}(\textbf{K},k_1,k_2,\overrightarrow{R_i},\overrightarrow{T_i},\overrightarrow{Q_j})}\ 
   ||^2
 \end{equation} 
-The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$ and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion coefficients.
+The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$, and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion coefficients.
 
 \vspace*{0.5cm}
 \noindent\textbf{Calibration of all cameras together with a wand, with Sparse Bundle Adjustment (SBA)} 
@@ -714,7 +714,7 @@ After 2D points are detected on all cameras, and considering that camera positio
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.7\linewidth]{"../Chap2/Figures/Triangulation.png"}
-	\caption{The 3D reconstructed point is approximated as the minimal distance between epipolar lines, which pass by the camera centers and the 2D detected points.}
+	\caption{The 3D reconstructed point can be approximated as the minimal distance between epipolar lines, which pass by each camera center and 2D detected points.}
 	\label{fig_triangulation}
 \end{figure}
 
@@ -816,52 +816,78 @@ Again, this formulation does not take distortions into account, so it should be 
 \FloatBarrier
 \section{3D joint kinematics}\label{sec:3D joint kin}
 
+\subsection{The kinematics problem}
 
-Rough 3D joint coordinates are not enough to provide an insightful understanding of the human motion. Three points can only describe a flexion/extension angle, and conceals any abduction/adduction or internal/external rotation angle. 
+Rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
----Direct kinematics
-6 DoF 
+theta = f-1(x)
+
+
+\subsection{The 6DoF approach}
+
+The standard approach to obtain 3D joint angles is to use direct kinematics. 
+
+% This consists in using the 3D coordinates of the joint and of its neighbors, and then applying a mathematical formula to calculate the joint angles. This is the approach used in \autoref{ch:6}, where we used the 3D coordinates of the shoulder, elbow and wrist to calculate the elbow flexion/extension angle. This approach is very efficient, but it requires a priori knowledge of the joint kinematics, which is not always available. Moreover, it is not always possible to obtain the 3D coordinates of all the joints, especially in the case of a crowded scene. In this case, it is possible to use indirect kinematics, which does not require the 3D coordinates of all the joints.
+
+direct/forward:Analytical/6DoF free body/segment optimization
+-> trust markers
 
 1 reference frame / coordinate system per segment (at least 3 markers per segment) \cite{Wu2002, Wu2005}
 no need for assumptions. Free bodies
-assumes that markers are positionned very accurately, by one single trained operator.
+assumes that markers are positionned very accurately, by one single trained operator, no STA.
+renders dislocations (good if there are some, bad if none)
+
+Ex: plug-in-gait
+
+Note that in the common usage of the term, the analytical solution to inverse kinematics is often called direct kinematics, not to be confused with forward kinematics. The previous solves joint angles from 3D coordinates, which can be done directly with trigonometry formulas, in the case that more coordinates are known than the amount of degrees of freedom to be determined. Forward kinematics, on the other hand, solves 3D coordinates from joint angles, which can also be done either with numerical or with analytical methods. In practice, forward  and direct kinematics are often confused.
 
 
 
----Inverse kinematics 
-Model-based
 
-initially for 3D animation applications
+\subsection{The inverse kinematics approach}
+
+inverse:numerical=iterative/model based/global optimization
+-> trust model
+
+\textbf{Principles}
+initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models became more thorough and trustworthy
+
+\textbf{Inverse Jacobian and cost function}
+
+\textbf{Model definition and scaling}
+
+- Kinematic chain (joint types, ranges of motion) 
+- segment data (length, inertial properties)
+- constraints
+- forces / muscles / contacts / controllers
+- markers
+
+
+Model-based (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
+Grown rapidly since the beginning of the 2000s \cite{Hicks2015}.
 
 Model based:
-- model, kinematic chain
+- model, kinematic chain: rigid multibody skeletal structure, with joint and segment definitions. Potentially with inertial properties, as well as neural and/or muscular system.
 - scaling
 - IK
 IK vs forward kinematics (joint angles -> segment orientation)
 
 
-Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods)
+Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods, same overall problem as in calibration, equations 2.32 and 2.33: least-square optimization: more unknown parameters in function q than measured (known) variables. Non-linear because q is not a linear function of its parameters. Thus, classically solved by Levenberg-Marquardt algorithm. Hybrid between gradient descent and Gauss-Newton: converges faster than the first, and is more robust to bad initial estimates than the second. All Use Jacobian)
 
 
 Global optimization / multibody kinematic optimization, reduces sensitivity to soft tissue artifact, reduces number of degrees of freedom to solve, and thus of markers needed (1 per joint if fully constrained \cite{Slater2018}, vs. 3 min for 6DoF, no need for interpolation or redo capture if marker falls) -> Fohanno2014?, more potential information on muscle activation for example \cite{Robinson2013,Kainz2016}
-Slightly slower, assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population, not garanteed to work on pathological population nor on unusual body structures (joint laxity cannot be qualified for example)
+Slightly slower, assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population, not guaranteed to work on pathological population nor on unusual body structures (joint laxity cannot be qualified for example)
 
 Résultats similaires si STA limités et modèle approprié \cite{Kainz2016}
+Aristidou2017: 
+- analytical: if low DoF, not lots of STA, if looking at pathological individuals (missing  clinically relevant movements), needs to be fast
+- numerical: more general, if less markers. Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be fast; data driven:
+
+slower than direct kinematics
 
 
 
-
-\subsection{Physically consistent model}
-
-autre
-
-
-\subsection{Scaling}
-
-bref
-
-
-\subsection{Inverse kinematics}
 
 
 
@@ -874,10 +900,19 @@ Model constrained, based on mechanical joint modeling, and on constraints inferr
 optimize the posture of a physically consistent skeleton, scaled to each individual subject. In particular, this allows for obtaining 3D joint angles at each point in time, commonly referred to as inverse kinematics (IK.)
 
 
+% Moreover, triangulated keypoints are likely to suffer from labelling bias, and to be noisy. 
+
+
+% The kinematic problem consists in finding the 3D coordinates of the joints, and the angles between the segments. This is a non-linear problem, as the 3D coordinates of the joints are not linearly dependent on the 3D coordinates of the keypoints. Moreover, the number of unknowns is much larger than the number of equations, as there are 3D coordinates for each joint, and only 3D coordinates for each keypoint. This is why the problem is usually solved iteratively, by first estimating the 3D coordinates of the keypoints, and then the 3D coordinates of the joints. 
 
 
 
+See OpenSim confluence for ID, Stat optim, RRA, CMC..
+kinematics: No account taken of physical laws that cause motion such as gravity, collisions, or more generally inertial properties and forces: only geometric constraints
 
+
+
+full-body: 14 segments, at least 3 markers per segment for 3D carac=42 mk. Openpose: only 21: need for good model
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Intéressant mais rendrait le pdf trop long               %
