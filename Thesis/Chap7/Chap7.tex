@@ -30,7 +30,7 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Numerous sports disciplines are practiced with special equipment, such as a board in skateboarding, a racket and a ball in tennis, or a bike in BMX racing. The interactions between the athlete and their gear are often important to retrieve. We analyzed BMX start sequences, by using OpenPose for 2D human pose estimation, and a custom trained DeepLabCut model for bike detection. We ran Pose2Sim on the joint {pilot+bike} 2D estimations, and performed 3D inverse kinematics on a custom OpenSim {pilot+bike} model. This showed that analyzing simultaneously the athlete and their equipment is possible, which provides additional perspectives for markerless sports motion analysis.\newline
+\textit{Numerous sports disciplines are practiced with special equipment, such as a board in skateboarding, a racket and a ball in tennis, or a bike in BMX racing. The interactions between the athlete and their gear are often important to retrieve. We analyzed a BMX start sequence, by using OpenPose for 2D human pose estimation, and a custom trained DeepLabCut model for bike detection. We ran Pose2Sim on the joint {pilot+bike} 2D estimations, and performed 3D inverse kinematics on a custom OpenSim {pilot+bike} model. This showed that analyzing simultaneously the athlete and their equipment is possible, which provides additional perspectives for markerless sports motion analysis.\newline
 See Figure~\ref{fig_visabstract5} for a visual abstract.
 }
 
@@ -58,9 +58,23 @@ See Figure~\ref{fig_visabstract5} for a visual abstract.
 \newpage
 
 
+Ski: lire intro sur equipement: https://sci-hub.se/https://ieeexplore.ieee.org/document/9105973 
+Formalisme joint vs constraint Part 3.1 https://sci-hub.se/https://ieeexplore.ieee.org/document/4587520
+https://www.google.com/search?client=firefox-b-e&q=constraint+vs+joint
+https://arxiv.org/pdf/2112.00627.pdf 42: ball as segmentation. eux: keypoint
+
+
+
+
+Preliminary experiment
+
+
+1. track equipment (shape or keypoints), Straight-forward with markers (hockey kays2017) or IMUs (boat ruffaldi2015), whereas specific training for markerless deep-learning (bike-snow Rosenhahn2008, ball Ghasemzadeh2021, skis ludwig2020)
+2. compute joint kinematics of the equipment (6DoF, or definition of model with kinematic chain) 
+3. solve combined kinematics of the whole system (closed loop)
 
 Chap3:
-On a different note, in a sports context, not only the human pose is of interest: sports gear can also be considerably important to detect, such as a ball \cite{Ghasemzadeh2021}, skis \cite{Ludwig2020}, or bike parts in the context of cycling (see Chapter 7 on \hyperref[ch:7]{Joint OpenPose and DeepLabCut detection}). This can help to analyze game dynamics, and to quantify posture cues related to a specific sports discipline. This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
+On a different note, in a sports context, not only the human pose is of interest: sports gear can also be considerably important to detect, such as a ball \cite{Ghasemzadeh2021}, a hockey stick \cite{Kays2017}, a rowing boat\cite{Ruffaldi2015}, a snowboard \cite{Rosenhahn2008} or skis \cite{Ludwig2020}, or bike parts in the context of cycling (see Chapter 7 on \hyperref[ch:7]{Joint OpenPose and DeepLabCut detection}). This can help to analyze game dynamics, and to quantify posture cues related to a specific sports discipline. This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
 
 
 CF mail OpenPose DeepLabCut pour BMX
@@ -74,6 +88,9 @@ scale avant et arriève vélo indépendament
 
 
 \section{Introduction}
+\subsection{The importance of equipment}
+
+
 \subsection{The start in BMX racing}
 
 
@@ -120,6 +137,8 @@ Marche pas avec nos qualités de vidéo : simulations
 
 \subsection{Limits and perspectives}
 
+
+Rosenhahn2008 snowboard: closed kinematic chain: pas évident, voir [17] ( reduced equations of robotic systems using Lie groups). Eux: soft constraints (invariances -> numeric) rather than joints (analytic)
 
 Mathis2020 Principles, pitfalls and perspectives
 

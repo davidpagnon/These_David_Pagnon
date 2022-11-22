@@ -852,6 +852,8 @@ With M the number of markers of the considered segment. The segment best matches
 \newpage
 \subsection{The inverse kinematics approach}
 
+Constrained system of rigid bodies / kinematic chain
+
 Multibody Kinematic Optimization (MKO) or Global Optimization (GO)
 2 méthodes: algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse, et optimisation sequentielle quadratique
 
@@ -930,7 +932,7 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 6DoF
 -> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
 -> no need for assumptions. Free bodies
-->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc)
+->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc) Comes from biomechanics rather than robotics (simple joints)
 
 
 
@@ -939,6 +941,12 @@ kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), pyomeca (opensim, biorbd), custo
 Vicon, QTM (Visual3D)
 
 
+
+\subsection{Other approaches}
+Learning based, ...
+
+
+ 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
