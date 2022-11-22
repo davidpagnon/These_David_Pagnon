@@ -629,7 +629,7 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
 \vspace*{0.5cm}
 \noindent\textbf{Camera calibration from several images of a checkerboard, with Zhang method} 
 
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{More1978}. The function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978}. The function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
 \begin{equation}\label{eq:LM_algo}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
   ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
@@ -769,7 +769,7 @@ As a consequence, the 3D coordinates of the triangulated point are:
   }
 \end{equation}  
 
-All points can be triangulated in a similar fashion, frame after frame. Since the procedure entirely relies on linear algebra, it is very fast. However, it is not robust to outliers. Other methods have been proposed, such as the Iteratively Reweighted MidPoint method (IRMP) which looks the smaller distance between all epipolar lines \cite{Yang2019}, the $L_2$ method which minimizes the sum of the squared reprojection errors \cite{More1978}, or the $L_\infty$ method which minimizes the maximum reprojection error \cite{Donne2015}, or the Q-sweep method which minimizes the median of the reprojection error, and thus is more robust to outliers \cite{Zhang2017}. Among all of these, the linear-eigen is the fastest by at least an order of magnitude, but the IRMP method may be an other good compromise in terms of speed and accuracy \cite{Chen2020b}. Some approaches also use a fast linear-eigen method, which is then refined with a (much) slower learning approach \cite{Tome2018}.
+All points can be triangulated in a similar fashion, frame after frame. Since the procedure entirely relies on linear algebra, it is very fast. However, it is not robust to outliers. Other methods have been proposed, such as the Iteratively Reweighted MidPoint method (IRMP) which looks the smaller distance between all epipolar lines \cite{Yang2019}, the $L_2$ method which minimizes the sum of the squared reprojection errors \cite{Marquardt1963,More1978}, or the $L_\infty$ method which minimizes the maximum reprojection error \cite{Donne2015}, or the Q-sweep method which minimizes the median of the reprojection error, and thus is more robust to outliers \cite{Zhang2017}. Among all of these, the linear-eigen is the fastest by at least an order of magnitude, but the IRMP method may be an other good compromise in terms of speed and accuracy \cite{Chen2020b}. Some approaches also use a fast linear-eigen method, which is then refined with a (much) slower learning approach \cite{Tome2018}.
 
 Note that these approaches do not take distortions into account, and assume either that distortions are negligible, or that videos have been priorly undistorted based on the coefficients found during intrinsic calibration \cite{Jackson2016}. Alternatively, some action cameras such as the GoPro 5+ offer a linear mode, which undistorts videos on the fly upon capture. 
 
@@ -837,7 +837,7 @@ In order for results to be consistent across subjects and across research studie
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=0.7\linewidth]{"../Chap2/Figures/ISBaxis.PNG"}
-	\caption{Careful placement of few markers are enough to determine the tibia/fibula coordinate system (XYZ) and the calcaneus coordinate system (xyz). Here, the ankle joint complex in the neutral position \cite{Wu2002}.}
+	\caption{A few carefully placed markers are enough to determine the tibia/fibula coordinate system (XYZ) and the calcaneus coordinate system (xyz). Here, the ankle joint complex in the neutral position \cite{Wu2002}.}
 	\label{fig_isb}
 \end{figure}
 
@@ -853,11 +853,15 @@ With M the number of markers of the considered segment. The segment best matches
 \subsection{The inverse kinematics approach}
 
 Multibody Kinematic Optimization (MKO) or Global Optimization (GO)
+2 méthodes: algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse, et optimisation sequentielle quadratique
 
 inverse:numerical=iterative/model based/global optimization/multibody kinematic optimization
 -> trust model
 
 theta = f-1(x)
+
+
+Modele: joints with dof, scaling for segment lengths
 
 
 \textbf{Principles}
@@ -899,7 +903,7 @@ slower than direct kinematics
 
 
 
-
+close loop?
 
 
 As opposed to forward kinematics \newline
@@ -931,7 +935,7 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 
-kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), pyomeca (opensim, biorbd), custom, pinocchio (Jacobian), OpenSim
+kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), pyomeca (opensim, biorbd), custom (jacobien et optim sqp), pinocchio (Jacobian), OpenSim (sqp?)
 Vicon, QTM (Visual3D)
 
 
