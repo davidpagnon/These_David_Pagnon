@@ -61,43 +61,37 @@ See Figure~\ref{fig_visabstract5} for a visual abstract.
 \section{Introduction}
 \subsection{The importance of equipment}
 
+Numerous sports disciplines involve equipment; and sometimes, the motion of this equipment and of the athlete are of equal importance. Tracking a ball in soccer can help understand anticipated actions and game dynamics \cite{Ghasemzadeh2021}, documenting the motion of a tennis racket \cite{Martin2013}, a hockey stick \cite{Kays2017} or oars of a rowing boat \cite{Ruffaldi2015} gives insight on the interactions between the athlete and their gear, and retrieving information about skis \cite{Ludwig2020} or bike parts \cite{Rosenhahn2008} can help quantify specific posture cues.
 
+However, this is challenging on several levels. First, the equipment needs to be tracked. This is straightforward with marker-based or IMU based technologies: one can simply equip the object with an additional marker, or sensor. However, this is more complicated with a markerless approach based on deep-learning, as it involves labelling each point or object of interest on numerous images, and training a specific model. Second, in case the equipment is multisegmented, its own kinematics needs to be calculated, either with a 6DoF approach, or via inverse kinematics. In the latter case, a specific model needs to be crafted, with accurate joint specifications and segment dimensions. Third, when the athlete is in contact with their equipment, it can be interesting to solve the combined kinematics of the whole $\{athlete+equipment\}$ system. The problem remains simple if the kinematic chain remains open like in a tennis serve \cite{Martin2013}, however when the equipment makes it a closed loop, this can become rapidly much more complex, and the privileged solution consists in modeling the kinematic chain as a set of open chains, constrained together \cite{Rosenhahn2008}. 
 
------
-
-Numerous sports disciplines are practiced with special equipment, such as a board in skateboarding, a  acket and a ball in tennis, or a bike in BMX racing. The interactions between the athlete and their gear are often important to retrieve. Example: angle athlete with skis, soccer anticipation ball, etc
-This can help to analyze game dynamics, and to quantify posture cues related to a specific sports discipline.
-
-On a different note, in a sports context, not only the human pose is of interest: sports gear can also be considerably important to detect, such as a ball \cite{Ghasemzadeh2021}, a hockey stick \cite{Kays2017}, a rowing boat\cite{Ruffaldi2015}, a snowboard \cite{Rosenhahn2008} or skis \cite{Ludwig2020}, or bike parts in the context of cycling.  
-
-1. track equipment (shape or keypoints), Straight-forward with markers (manual annotation hockey kays2017) or IMUs (boat ruffaldi2015), whereas specific training for markerless deep-learning (bike-snow Rosenhahn2008, ball Ghasemzadeh2021, skis ludwig2020)
-% This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. 
-2. compute joint kinematics of the equipment (6DoF, or definition of model with kinematic chain) 
-3. solve combined kinematics of the whole system (closed loop)
-
-
-
-Formalisme joint vs constraint Part 3.1 https://sci-hub.se/https://ieeexplore.ieee.org/document/4587520
-
-CF mail OpenPose DeepLabCut pour BMX
-other leads: bushing forces, ball joints
-scale avant et arriève vélo indépendament
-% Because OpenSim models have fewer degrees of freedom than the human body, it is easy to define a set of constraints that seems very reasonable but is not easy for the skeleton (rigid-body mechanism) to satisfy.
-% If it's appropriate for the movement you are simulating, you might consider allowing the toes and/or hands to rotate relative to the pedals
-% (see PointConstraint, https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1PointConstraint.html#details).
-% Alternatively, you could attach the toes and/or hands to the bike via BushingForces (https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1BushingForce.html#details).
-
-
-% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
+BMX race represents such a problem. Coaches are interested in the motion of the bike as regards to the athlete. As a consequence, the bike needs to be tracked, modeled, and then its kinematics needs to be computed. This is especially difficult, because both feet and both hands are in contact with the bike, which makes it a particularly constrained closed chain, hence very difficult to solve. 
 
 
 \subsection{The start in BMX racing}
+BMX race differs from other cycling disciplines in different ways, one of them being the short duration and of each race. At the elite level, they last about 30 to 40 seconds \cite{Cowell2012}. Hence, the winner is the one who has not only averaged the greatest speed, but also taken the shortest trajectory. In order to be able to choose the best one without being obstructed by other riders, one has to take a good start. \cite{Rylands2014} analyzed the statistics of 348 elite racers in UCI (Union cyclist international) competitions, and found a strong correlation between early placing and final placing. Most authors actually study the start, rather than any other part of the race \cite{Zabala2009,Gianikellis2011,Chiementin2012,Kalichova2013,Rylands2014}.
 
+Moreover, riders never sit on their saddle. When cycling off the saddle in road cycling, arms have been shown to be more involved since they push and pull the handlebar \cite{Stone1993}, as the body is brought upward and forward over the axis of crank rotation. Hence, this discipline requires conducting whole body analysis. \cite{Gianikellis2011} suggest that for a faster start, the Range Of Motion (ROM) of the knee needs to be smaller than that of the trunk. \cite{Kalichova2013} finds a clear asymmetry in upper-body motion, both in terms of elbow and shoulder joint angles. However, as these two are case studies, it is hard to give much trust to these measurements in terms of performance. More specifically, the first movement initiated during a BMX start is the so-called "slingshot" maneuver. It consists in moving the body down and forward, while the bike goes in the opposite direction, the front wheel lifting noticeably. This plyometric countermovement occurs before the first pedal stroke, and before the gate has entirely dropped. According to \cite{Gross2017}, this technique is highly effective. It involves a stretch-shortening cycle of the front knee, and the counter-movement is more pronounced and initiated earlier in better riders. This confirms that the complex motion of the bike as regards to the pilot at start is of crucial importance (see Figure~\ref{fig_bmxstart}). 
+
+\cite{Grigg2017} concludes her literature review by underlying that research associating kinematic characteristics and gate start performance would be useful for coaches. She also adds that both equipment and rider analysis are of critical importance. Finally, she points out that research should be done on-field, rather than in lab conditions which would introduce bias. As a consequence, we conducted a preliminary study about the start in BMX race, in ecologically valid conditions, capturing both the pilot and the bike movement in 3D with a markerless protocol. The objective is to 
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap7/Figures/BMXStart.PNG"}
+	\caption{The early slingshot maneuver in BMX race.}
+	\label{fig_bmxstart}
+\end{figure}
 
 
 \section{Methods}
 
 \subsection{Material and protocol}
+
+
+Critères perf
+
 
 Preliminary experiment
 pre manip, slt 6 cam, calib unsuccessful: on grid similar to other chapter, low image resolution
@@ -106,6 +100,10 @@ pre manip, slt 6 cam, calib unsuccessful: on grid similar to other chapter, low 
 
 
 \subsection{Bike inverse kinematics}
+
+% This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. 
+% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
+
 
 Voir thèse Princelle
 
@@ -142,6 +140,21 @@ Marche pas avec nos qualités de vidéo : simulations
 
 
 Rosenhahn2008 snowboard: closed kinematic chain: pas évident, voir [17] ( reduced equations of robotic systems using Lie groups). Eux: soft constraints (invariances -> numeric) rather than joints (analytic)
+
+Formalisme joint vs constraint Part 3.1 https://sci-hub.se/https://ieeexplore.ieee.org/document/4587520
+
+other leads: bushing forces, ball joints
+scale avant et arriève vélo indépendament
+% Because OpenSim models have fewer degrees of freedom than the human body, it is easy to define a set of constraints that seems very reasonable but is not easy for the skeleton (rigid-body mechanism) to satisfy.
+% If it's appropriate for the movement you are simulating, you might consider allowing the toes and/or hands to rotate relative to the pedals
+% (see PointConstraint, https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1PointConstraint.html#details).
+% Alternatively, you could attach the toes and/or hands to the bike via BushingForces (or sprint forces ?) (https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1BushingForce.html#details).
+
+
+% riders use a very particular technique for gaining speed in the bumps without pedaling, known as “pumping” 
+% [Cowell 2012, Rylands 2016]: on the way up they decrease their loss in gravitational potential energy by bending their arms and legs, and on the way down they increase their kinetic energy by extending their limbs. Finally, athletes have to take big jumps and to operate sharp turns without colliding with each other. Unfortunately, according to [Novak & Dascombe 2014] the majority of performance characteristics studies have been conducted on road cycling athletes.  [Cowell 2012] shows that hip and knee extensors, as well as horizontal shoulder abductors and adductors are heavily relied upon all along the race. 
+
+
 
 Mathis2020 Principles, pitfalls and perspectives
 

@@ -818,7 +818,7 @@ Again, this formulation does not take distortions into account, so it should be 
 
 \subsection{The kinematics problem}
 
-Rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
+\cite{Robertson2013} reminds that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
 
 In order for its position and orientation to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. Additionally, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
@@ -868,6 +868,7 @@ Modele: joints with dof, scaling for segment lengths
 
 \textbf{Principles}
 initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models became more thorough and trustworthy
+First step for inverse dynamics, estimation of muscle activation 
 
 \textbf{Inverse Jacobian and cost function}
 
