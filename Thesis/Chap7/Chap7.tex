@@ -95,24 +95,16 @@ The amateur pilot involved in this study signed a form of informed consent. He w
 
 \subsection{Pilot inverse kinematics}
 
-
-J'EN SUIS LA
-
-
+The pilot was detected, triangulated, scaled on a T-pose, and his kinematics was computed with the default Pose2Sim parameters \cite{Pagnon2022b}. Low number of cameras, low image resolution, low contrast, and strong occlusions lead to results of relatively poor quality, especially in the foot region which was subjected to jittering. Results were not much improved by changing OpenPose model, modifying Pose2Sim triangulation and filtering parameters, and adjusting OpenSim scaling and inverse kinematics weights, and thus we used the default parameters.
 
 
 \subsection{Bike inverse kinematics}
 
-Voir thèse Princelle
+OpenPose models only detect human beings, and up to our knownledge, there is no existing deep-learning based model for tracking a BMX bike. Several options were available: segmenting the bike in 2D, and reconstructing its shape, but it would have been difficult to rendered its handle, crank, pedals, and wheels movements. Hand labelling videos with \cite{Kinovea}, and tracking these points on the rest of the video is one common approach \cite{Grigg2018}, but the tracking tends to be lost when occlusions happen, and this is not scalable: the initial labelling has to be done again for each new video and each new point of view. Another option is to train our own deep-learning model.
 
-% This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. 
-% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
-% Détection OpenPose : c'est vraiment pas terrible : on n'a que 6 caméras, de qualité pas terrible, et l'équipement et les occlusions lui rendent vraiment la vie difficile.
-% DeepLabCut c'est pareil (j'ajouterais que je pourrais sûrement affiner l'entraînement pour avoir des résultats légèrement meilleurs).
-% Dans tous les cas, même en triturant tous les paramètres possibles pour la triangulation Pose2Sim, j'ai des résultats très moyens.
+DeepLabCut \cite{Mathis2018, Lauer2022} is a toolbox originally made to train custom models for animal keypoint recognition, which leverages transfer learning to achieve good results with minimal training data. We used it to label 9 keypoints on a BMX bike, enough to be able to correctly scale the model and to render its internal motion (see Figure~\ref{fig_bikemodel}). We labeled 210 images extracted from our videos and from videos found on YouTube, with varying perspectives, image qualities, and number of bikes on the frame. We trained DeepLabut in multiAnimal mode, which has been reported to be more complex to use and to take longer training time, but to produce more accurate results in challenging conditions. Network architecture and augmentation methods were left to default. Loss reached a plateau after 110,000 iterations, at which point we stopped the training procedure.
 
-% - Scaling : J'ai scalé le vélo et le pilote indépendamment, puis j'ai assemblé les deux.
-
+The same Pose2Sim parameters were used for tracking, weighted triangulation, and filtering of the bike coordinates. Due to our minimal experimental setup, results were also relatively poor.
 
 \begin{figure}[hbtp]
 	\centering
@@ -123,11 +115,31 @@ Voir thèse Princelle
 	\label{fig_bikemodel}
 \end{figure}
 
+An articulated BMX bike model was designed on SolidWorks, and although we don't need for kinematics, its inertial properties were validated against a real bike. Pin joints modeled the articulations between the fork and the frame, the frame and each wheel, the frame and the crankset, and the crankset and each pedal (see Figure~\ref{fig_bikemodel}). The frame, the handlebar, and the crankset were each scaled according to 3D keypoint pairs, uniformly along the 3 space dimensions. Marker weights were all set to 1 for inverse kinematics.
 
 
 
 
 \subsection{Joined pilot and bike inverse kinematics}
+No closed loop: constraints to "break" the chain
+Joints foot pedal: pin, duplicate foot and weld
+Joints hand handle: custom (2 dof translation+ rotation), duplicate hands -> weld
+
+after scaling
+
+
+
+Voir thèse Princelle 
+
+% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
+% Détection OpenPose : c'est vraiment pas terrible : on n'a que 6 caméras, de qualité pas terrible, et l'équipement et les occlusions lui rendent vraiment la vie difficile.
+% DeepLabCut c'est pareil (j'ajouterais que je pourrais sûrement affiner l'entraînement pour avoir des résultats légèrement meilleurs).
+% Dans tous les cas, même en triturant tous les paramètres possibles pour la triangulation Pose2Sim, j'ai des résultats très moyens.
+
+% - Scaling : J'ai scalé le vélo et le pilote indépendamment, puis j'ai assemblé les deux.
+
+
+
 % Marche pas avec nos qualités de vidéo : simulations
 
 % - Cinématique inverse : Ça marche si je relâche les contraintes entre le vélo et le pilote (mais dans ce cas, ça perd de son intérêt). 
@@ -142,19 +154,26 @@ Voir thèse Princelle
 
 \subsection{Performance indicators assessment}
 Critères perf
-- Pilot: Flexion of the front knee (Plyometric action), flexion of both elbows (asymmetric?)
+- Pilot: Flexion of the front knee (Plyometric action), flexion of both shoulder (asymmetric?)
 - Bike: Elevation of the front wheel, handlebar angle
 - Both: Forward Speed of the COM bike and pilot (diff directions, separate), Right foot and right pedal rotational excursion (constrained?) % (xped-xframe, yped-yframe), (xfoot-xframe, yfoot-yframe)
 
-
-
+% .mot:
+% - knee_angle_l: see plyo, although noisy. 
+% - arm_flex_l, arm_flex_r: no clear asymmetry 
+% bikepilot_BodyKin_pos.sto
+% - frontWheel_Y: see elevation, about 27 cm
+% pilot_BodyKin_vel.sto, bike_BodyKin_vel.sto
+% - center_of_mass_X: see opposite directions
+% bikepilot_BodyKin_pos.sto
+% - (toes_r_X-crankset_X, toes_r_Y-crankset_Y), (pedal_r_X-crankset_X, pedal_r_Y-crankset_Y): foot not constrained to pedal
 
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Chap7/Figures/BMXPilot.png"}
-	\caption{Note that the head is only big because the pilot was scaled with his helmet on. Since the head is at the end of the kinematic chain, and as kinetics are not addressed, it does not affect inverse kinematics. See animated version \href{https://github.com/perfanalytics/pose2sim/blob/main/Content/Activities_verylow.gif}{here}.}
+	\caption{OpenSim inverse kinematics for both the BMX pilot and bike, without constraints. Note that the feet and hands are jittering due to the low number of cameras and to occlusions, which could be improved if constraints were applied between feet and pedals, and hands and handle. See animated version \href{https://github.com/perfanalytics/pose2sim/blob/main/Content/Activities_verylow.gif}{here}.}
 	\label{fig_bmxpilot}
 \end{figure}
 
