@@ -20,7 +20,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Application to BMX racing, jointly capturing pilot and bike}
+\chapter{Capturing equipment along with the athlete - Application to BMX racing}
 \label{ch:7}
 
 %==============================================================================	Résumé du chapitre
@@ -73,7 +73,7 @@ BMX race differs from other cycling disciplines in different ways, one of them b
 
 Moreover, riders never sit on their saddle. When cycling off the saddle in road cycling, arms have been shown to be more involved since they push and pull the handlebar \cite{Stone1993}, as the body is brought upward and forward over the axis of crank rotation. Hence, this discipline requires conducting whole body analysis. \cite{Gianikellis2011} suggest that for a faster start, the Range Of Motion (ROM) of the knee needs to be smaller than that of the trunk. \cite{Kalichova2013} finds a clear asymmetry in upper-body motion, both in terms of elbow and shoulder joint angles. However, as these two are case studies, it is hard to give much trust to these measurements in terms of performance. More specifically, the first movement initiated during a BMX start is the so-called "slingshot" maneuver. It consists in moving the body down and forward, while the bike goes in the opposite direction, the front wheel lifting noticeably. This plyometric countermovement occurs before the first pedal stroke, and before the gate has entirely dropped. According to \cite{Gross2017}, this technique is highly effective. It involves a stretch-shortening cycle of the front knee, and the counter-movement is more pronounced and initiated earlier in better riders. This confirms that the complex motion of the bike as regards to the pilot at start is of crucial importance (see Figure~\ref{fig_bmxstart}). 
 
-\cite{Grigg2017} concludes her literature review by underlying that research associating kinematic characteristics and gate start performance would be useful for coaches. She also adds that both equipment and rider analysis are of critical importance. Finally, she points out that research should be done on-field, rather than in lab conditions which would introduce bias. As a consequence, we conducted a preliminary study about the start in BMX race, in ecologically valid conditions, capturing both the pilot and the bike movement in 3D with a markerless protocol. The objective is to 
+\cite{Grigg2017} concludes her literature review by underlying that research associating kinematic characteristics and gate start performance would be useful for coaches. She also adds that both equipment and rider analysis are of critical importance. Finally, she points out that research should be done on-field, rather than in lab conditions which would introduce bias. As a consequence, we captured the start in BMX race, in ecologically valid conditions, tracking both the pilot and the bike movement in 3 dimensions, with a markerless protocol. The goal was to propose a method for such an objective, and verify whether some kinematic variables could be measured.
 
 \begin{figure}[hbtp]
 	\centering
@@ -88,28 +88,64 @@ Moreover, riders never sit on their saddle. When cycling off the saddle in road 
 \section{Methods}
 
 \subsection{Material and protocol}
+As this was a preliminary experiment, we conducted this study on one single pilot, and examined one single start. Only 6 Qualisys Miqus cameras were used. The resolution was only of 1 megapixel, however the framerate was of 120 fps. Synchronization was achieved with a hardware trigger, but calibration was not successful with the standard method using a wand equipped with markers. In broad daylight, markers were either missing, or confused with artifact reflections. Hence, we calibrated on the grid dimensions, in the same way as described in previous chapter (see \nameref{calib_pnp}). Calibration was not as accurate as it would have been with a gold-standard method, but it remains in the centimetric order of magnitude.
 
+The amateur pilot involved in this study signed a form of informed consent. He was first captured standing on a T-pose for scaling the skeletal OpenSim model accordingly, and then performed 3 starts in conditions similar to those of a competition. He was accustomed to the BMX track and the 5 meters starting hill, as well as with the standard gate and sound signal used for setting off the start. He wore his usual equipment, and confirmed that his movement and concentration were not hindered by the capture. Among the 3 starts the pilot executed, only one of them was studied. 
 
-Critères perf
-
-
-Preliminary experiment
-pre manip, slt 6 cam, calib unsuccessful: on grid similar to other chapter, low image resolution
 
 \subsection{Pilot inverse kinematics}
 
 
+J'EN SUIS LA
+
+
+
+
 \subsection{Bike inverse kinematics}
-
-% This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. 
-% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
-
 
 Voir thèse Princelle
 
+% This can be done, for example, by separately process the video with OpenPose, as well as with a custom-trained DeepLabCut model. 
+% Resulting .trc coordinate files can be merged, and used in OpenSim. However, the DeeLabCut keypoints must be referenced on an OpenSim model, which may need to be crafted from scratch, such as a ball, skis, or bike, depending on the detected object.
+% Détection OpenPose : c'est vraiment pas terrible : on n'a que 6 caméras, de qualité pas terrible, et l'équipement et les occlusions lui rendent vraiment la vie difficile.
+% DeepLabCut c'est pareil (j'ajouterais que je pourrais sûrement affiner l'entraînement pour avoir des résultats légèrement meilleurs).
+% Dans tous les cas, même en triturant tous les paramètres possibles pour la triangulation Pose2Sim, j'ai des résultats très moyens.
+
+% - Scaling : J'ai scalé le vélo et le pilote indépendamment, puis j'ai assemblé les deux.
+
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap7/Figures/Bike_keypoints.PNG"}
+	\caption{The articulated bike model, and the labels DeepLabCut was trained to recognize.}
+	\label{fig_bikemodel}
+\end{figure}
+
+
+
+
 
 \subsection{Joined pilot and bike inverse kinematics}
-Marche pas avec nos qualités de vidéo : simulations
+% Marche pas avec nos qualités de vidéo : simulations
+
+% - Cinématique inverse : Ça marche si je relâche les contraintes entre le vélo et le pilote (mais dans ce cas, ça perd de son intérêt). 
+% Ça marche aussi si j'utilise toutes les données marqueurs.
+% Si je ne sélectionne que les marqueurs des centres articulaires et 9 marqueurs vélo (l'équivalent du workflow markerless s'il était assez exact), ça marche également.
+
+% Par contre, en markerless et avec les contraintes entre le vélo et le pilote, ça ne fonctionne plus... J'ai essayé en changeant les poids, en relâchant les contraintes, en libérant les limites articulaires, rien à faire. 
+% Le mieux que j'aie pu faire (cf gif), c'est avoir des résultats en n'utilisant que les contraintes pied/pédale (et pas celles mains/guidon). 
+% image.png
+
+
+
+\subsection{Performance indicators assessment}
+Critères perf
+- Pilot: Flexion of the front knee (Plyometric action), flexion of both elbows (asymmetric?)
+- Bike: Elevation of the front wheel, handlebar angle
+- Both: Forward Speed of the COM bike and pilot (diff directions, separate), Right foot and right pedal rotational excursion (constrained?) % (xped-xframe, yped-yframe), (xfoot-xframe, yfoot-yframe)
+
 
 
 
@@ -138,6 +174,7 @@ Marche pas avec nos qualités de vidéo : simulations
 
 \subsection{Limits and perspectives}
 
+pre manip, 1 pilot 1 start, slt 6 cam, low res, calib unsuccessful
 
 Rosenhahn2008 snowboard: closed kinematic chain: pas évident, voir [17] ( reduced equations of robotic systems using Lie groups). Eux: soft constraints (invariances -> numeric) rather than joints (analytic)
 

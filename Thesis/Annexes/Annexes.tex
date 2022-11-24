@@ -24,7 +24,185 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Appendix A on Robustness assessment}
+\chapter{Appendix A: Installation and Demonstration of Pose2Sim}
+\label{Ann:0}
+
+%==============================================================================	Résumé du chapitre
+
+\begin{center}
+	\rule{0.7\linewidth}{.5pt}
+	\begin{minipage}{0.7\linewidth}
+	\smallskip
+	
+	\textit{
+	Installation and demonstration of Pose2Sim, a Python package bridging 2D pose estimation to consistent 3D kinematics. Methods, limits, and perspectives of this solution have been described in Chapter 3 about \nameref{ch:3}.
+	}
+	
+	%\smallskip
+	\end{minipage}
+	\smallskip
+	\rule{0.7\linewidth}{.5pt}
+	\end{center}
+	
+	%\adjustmtc
+	\minitoc
+	\newpage
+
+
+\section{Installation}
+
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item Install \textbf{OpenPose} (instructions \href{https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md}{here}).\newline
+      Windows portable demo is enough.
+      \item Install \textbf{OpenSim 4.x} from \href{https://simtk.org/frs/index.php?group_id=91}{there}.\newline
+      Tested up to v4.4-beta on Windows. Has to be compiled from source on Linux (see \href{https://simtk-confluence.stanford.edu:8443/display/OpenSim/Linux+Support}{there}.
+      \item \textit{Optional:} Install \textbf{Anaconda} or \href{https://docs.conda.io/en/latest/miniconda.html}{Miniconda}.\newline
+      Open an Anaconda terminal and create a virtual environment by typing:
+      \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+            conda create -n Pose2Sim python=3.7
+            conda activate Pose2Sim
+      \end{minted}
+      \item Install \textbf{Pose2Sim}\newline
+      If you don't use Anaconda, type \mintinline{shell-session}{python -V} in terminal to make sure python>=3.6 is installed.
+      \begin{itemize}
+            \item OPTION 1: \textit{Quick install.} Type in terminal:
+            \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+                  pip install pose2sim
+            \end{minted}
+            \item OPTION 2: \textit{Build from source and test the last changes.} Open a terminal in the directory of your choice and clone the Pose2Sim repository:
+            \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+                  git clone https://github.com/perfanalytics/pose2sim.git
+                  cd pose2sim
+                  pip install .
+            \end{minted}
+      \end{itemize}
+\end{enumerate}
+
+\newpage
+\section{Demonstration Part-1: Build 3D TRC file on Python}
+
+This demonstration provides an example experiment of a person balancing on a beam, filmed with 4 calibrated cameras processed with OpenPose.
+
+Open a terminal and check package location with  \mintinline{shell-session}{pip show pose2sim | grep Location}. \newline
+Copy this path and go to the Demo folder with  \mintinline{shell-session}{cd <path>\pose2sim\Demo`}. \newline
+Type \mintinline{shell-session}{python}, and test the following code (Figures~\ref{fig_pose2sim}):
+\begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{python}
+      from Pose2Sim import Pose2Sim
+      Pose2Sim.calibrateCams()
+      Pose2Sim.track2D()
+      Pose2Sim.triangulate3D()
+      Pose2Sim.filter3D()
+\end{minted}
+
+You should obtain a plot of all the 3D coordinates trajectories (Figures~\ref{fig_filterplot}). You can check the logs in \mintinline{shell-session}{Demo\Users\logs.txt}. Results are stored as .trc files in the \mintinline{shell-session}{Demo\pose-3d} directory (Figures~\ref{fig_trc}). Note that when the functions are called without any argument, the Config file is searched in the default \mintinline{shell-session}{Users\Config.toml} location. These parameters can be edited by the user.
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.75\linewidth]{"../Chap3/Figures/Fig_FilterPlot.png"}
+	\caption{Filtered results. Each keypoint trajectory is displayed in a different tab.}
+	\label{fig_filterplot}
+\end{figure}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=0.85\linewidth]{"../Chap3/Figures/Fig_Trc.png"}
+	\caption{An example .trc file of triangulated keypoint coordinates, directly usable in OpenSim.}
+	\label{fig_trc}
+\end{figure}
+
+\begin{figure}[hbtp]
+	\centering
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Calib2D.png"}
+            \caption{Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Calibration errors are computed and provided.\newline}
+      \end{subfigure}
+	\qquad
+	\begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Track2D.png"}
+            \caption{If several persons are detected in the scene, a tracking step can be carried out in order to make sure that the right person from each camera will be triangulated.}
+      \end{subfigure}
+      \begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{1\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Triangulate3D.png"}
+            \caption{The triangulation is weighted by the OpenPose likelihood, and constrained by some thresholds defined in the Config.toml file. If these constraints are not met, e.g., if the reprojection error is too large or if the likelihood of a keypoint is too low, one or several cameras are excluded. The mean reprojection error and the number of cameras that have been excluded to meet the constraints is printed, for each keypoints.}
+      \end{subfigure}
+      \begin{subfigure}[b]{1\textwidth}
+		\centering
+		\def\svgwidth{1\columnwidth}
+		\fontsize{10pt}{10pt}\selectfont
+		\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_Filter3D.png"}
+            \caption{Triangulated data can be filtered, either with a low-pass Butterworth filter or with other types, and parameters can be adjusted.}
+      \end{subfigure}
+	\caption{First steps of Pose2Sim pipeline in Python. Calibration can either be done from a checkerboard, or by simply converting a Qualisys calibration file. Note that the functions can be used without any arguments if the Config.toml file is left in the default location.}
+	\label{fig_pose2sim}
+\end{figure}
+
+
+\FloatBarrier
+\section{Demonstration Part-2: Obtain 3D joint angles with OpenSim}
+In the same vein as we would do with marker-based kinematics, the model first needs to be scaled to each individual, and then inverse kinematics can be performed (Figures~\ref{fig_opensimdemo}).
+
+\textbf{Scaling:}
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item Open OpenSim.
+      \item Open the provided \mintinline{shell-session}{Model_Pose2Sim_Body25b.osim} model from \mintinline{shell-session}{pose2sim/Demo/opensim}. (File $\mapsto$ Open Model)
+      \item Load the provided \mintinline{shell-session}{Scaling_Setup_Pose2Sim_Body25b.xml} scaling file from \\\mintinline{shell-session}{pose2sim/Demo/opensim}. (Tools $\mapsto$ Scale model $\mapsto$ Load)
+      \item Run. You should see your skeletal model take the static pose.
+\end{enumerate}
+
+\textbf{Inverse kinematics}
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+    \item Load the provided \mintinline{shell-session}{IK_Setup_Pose2Sim_Body25b.xml} scaling file from \mintinline{shell-session}{pose2sim/Demo/opensim}. (Tools $\mapsto$ Inverse kinematics $\mapsto$ Load)
+    \item Run. You should see your skeletal model move in the Vizualizer window.
+\end{enumerate}
+
+\begin{figure}[hbtp]
+	\centering
+	\def\svgwidth{1\columnwidth}
+	\fontsize{10pt}{10pt}\selectfont
+	\includegraphics[width=\linewidth]{"../Chap3/Figures/Fig_OpenSimDemo.JPG"}
+	\caption{At the end of the demonstration, you should have a skeleton balancing on a beam in OpenSim.}
+	\label{fig_opensimdemo}
+\end{figure}
+
+\clearpage
+
+Alternatively, OpenSim can be run in command-line:
+\begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
+      \item Open an Anaconda terminal in your \mintinline{shell-session}{OpenSim/bin} directory, typically \\\mintinline{shell-session}{C:\OpenSim <Version>\bin} on Windows.\\
+      You will need to adjust the time\_range, output\_motion\_file, and enter the full paths to the input and output \mintinline{shell-session}{.osim, .trc, and .mot} files in your setup file.
+      \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}        
+            opensim-cmd run-tool <PATH TO YOUR SCALING OR IK SETUP FILE>.xml
+      \end{minted}
+
+      \item You can also run OpenSim directly in Python:
+      \begin{minted}[frame=single, rulecolor=\color{gray!40}, autogobble]{shell-session}
+            import subprocess
+            subprocess.call(["opensim-cmd", "run-tool", 
+                  "<PATH TO YOUR SCALING OR IK SETUP FILE>.xml"])
+      \end{minted}
+      
+      \item Or take advantage of the full the OpenSim Python API. See \href{https://simtk-confluence.stanford.edu:8443/display/OpenSim/Scripting+in+Python}{there} for installation instructions.\\
+      Note that it is easier to install on Python 3.7 and with OpenSim 4.2.
+
+\end{enumerate}
+
+
+
+
+\chapter{Appendix B: Robustness assessment}
 \label{Ann:1}
 
 %==============================================================================	Résumé du chapitre
@@ -73,7 +251,7 @@ Supplementary figures for Chapter 4 on \nameref{ch:4}, for the running and cycli
 
 
 \FloatBarrier
-\chapter{Appendix B on Accuracy assessment}
+\chapter{Appendix C: Accuracy assessment}
 \label{Ann:2}
 
 %==============================================================================	Résumé du chapitre
@@ -218,7 +396,7 @@ In conclusion, Pose2Sim does not evaluate some anatomical joint angles in the up
 
 
 \FloatBarrier
-\chapter{Appendix C : Protocol}
+\chapter{Appendix D : Protocol}
 \label{Ann:3}
 
 %==============================================================================	Résumé du chapitre

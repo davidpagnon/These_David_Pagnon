@@ -20,7 +20,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Theoretical framework}
+\chapter{From computer vision to biomechanics}
 \label{ch:2}
 
 %==============================================================================	Résumé du chapitre
@@ -46,7 +46,7 @@
 Sports movements don’t generally only lie in the sagittal plane, and they often cause body part occlusions. Moreover, although the need is not as strong as for clinical applications, it is important for results to be as biomechanically coherent as possible. Hence, one of the most promising prospects for sports movement analysis consists in addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model.  Such research is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction from a network of calibrated videos, and biomechanics for constraining 3D point coordinates to an anatomically consistent model, in order to obtain reliable kinematics. 
 
 
-\section{2D pose detection}
+\section{From image to 2D pose estimation}
 
 \subsection{Why machine learning?}
 
@@ -254,7 +254,7 @@ Like all previously presented methods, OpenPose has been trained on the COCO dat
 
 
 \FloatBarrier
-\section{3D reconstruction}\label{sec:3D reconstruction}
+\section{From 2D to 3D pose estimation}\label{sec:3D reconstruction}
 \label{ch:2.2}
 
 Once the pose of an athlete is correctly detected, the next step is to obtain their 3D pose. While some approaches strive to infer 3D pose from a monocular video source, they are generally not considered sufficiently accurate, especially when body parts are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain more reliable 3D coordinates.
@@ -814,7 +814,7 @@ Again, this formulation does not take distortions into account, so it should be 
 
 
 \newpage
-\section{3D joint kinematics}\label{sec:3D joint kin}
+\section{From 3D pose to 3D joint kinematics}\label{sec:3D joint kin}
 
 \subsection{The kinematics problem}
 
