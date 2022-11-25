@@ -124,10 +124,52 @@ Conversely, \textbf{inverse kinematics} deals with finding joint angles from the
 \textbf{Direct kinematics} is usually considered to be a synonym of forward kinematics. However, when there are exactly as many unknown variables as known parameters, joint angles and segment pose can be equally solved both ways. Hence, the term direct kinematics is sometimes also employed to describe the analytical calculation of joint angles from the position of markers.
 
 
+\vspace*{0.5cm}
 
-% Note that in the common usage of the term, the analytical solution to inverse kinematics is often called direct kinematics, not to be confused with forward kinematics. The previous solves joint angles from 3D coordinates, which can be done directly with trigonometry formulas, in the case that more coordinates are known than the amount of degrees of freedom to be determined. Forward kinematics, on the other hand, solves 3D coordinates from joint angles, which can also be done either with numerical or with analytical methods. In practice, forward  and direct kinematics are often confused.
+\noindent\underline{Overdetermined vs. Underdetermiend system:}\\
+Equation AX=B
+
+- If as many markers as degrees of freedom: rang syst = nb equations. analytical (exact) solution, direct computation (Single body direct kinematics)
+
+- If more markers than degrees of freedom: rang syst > nb equations. overdetermined, no solution. find \emph{approximate} or pseudo solution au sens des moindres carrés (optimal? //Jacobien?) by minimizing error (objective/loss function). Optimization par algorithmes itératifs ou par SVD (plus simple et plus rapide si A est petite --> algo solution 1X-B=0)
+(calibration with more coordinates of 2D-3D correspondences than unknown calibration parameters, triangulation from more than 2 cameras, single and multi body optimized kinematics with more than 3 markers per segment)
+
+- If less markers than degrees of freedom: rang syst < nb equations. underdetermined, infinite solutions: add constraints, eg closest to initial guess 
 
 
+
+
+Closed Chain :
+https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
+
+
+
+Kalman and co
+https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
+https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
+
+
+
+http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
+
+https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m 
+https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
+
+https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
+https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
+
+https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
+
+https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
+
+
+
+AX=B:  https://photos.google.com/album/AF1QipMZFY96xhu2I9OL5pcjLfCIhzVj6VfTbPec5gq2/photo/AF1QipPojy3zDDXo691bEdAQPtaQDH4HiSGm8R86sbzx
+
+
+% generalized coordinates: not exclusively cartesian coordinates (X,Y,Z). Can also be angles. Generalized forces can also be moments
 
 % top-down vs. bottom-up vs. single-person
+
+
 

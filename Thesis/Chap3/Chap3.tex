@@ -147,12 +147,12 @@ Pose2Sim triangulation is robust, largely because instead of using classic Direc
 \begin{algorithm}[!ht]
       \caption{Weighted DLT}\label{alg:weighted_dlt}
       \begin{algorithmic}[1]
-            \STATEx Our weighted DLT simply consists of weighing Equation~\ref{eq:dlt} with the confidence c given by OpenPose for each camera. The rest of the procedure remains unchanged.
+            \STATEx Our weighted DLT simply consists of weighing Equation~\ref{eq:factortrig} with the confidence c given by OpenPose for each camera. The rest of the procedure remains unchanged.
             \begin{equation}
-                  \begin{aligned}
-                  & c \times (P_1^T - u P_3^T) \overrightarrow{Q}=0,\\
-                  & c \times (P_2^T - v P_3^T) \overrightarrow{Q}=0
-                  \end{aligned}
+                  \begin{cases}
+                        &  c \times (\overrightarrow{P_1} - u_p \ \overrightarrow{P_3} ) \cdot \overrightarrow{Q_W}  = 0\\
+                        &  c \times (\overrightarrow{P_2} - v_p \ \overrightarrow{P_3} ) \cdot \overrightarrow{Q_W}  = 0\\
+                  \end{cases}
           \end{equation}
       \end{algorithmic}
 \end{algorithm}

@@ -542,7 +542,7 @@ This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, elim
 \vspace*{0.5cm}
 \noindent\textbf{Camera calibration from one single image of a checkerboard, with DLT method}
 
-Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
+Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has then $2M$ equations, for 10 unknowns still:
 \begin{equation}
   \begin{pmatrix}
     \overrightarrow{Q_{W1}^T} & \overrightarrow{0} & - u_{p1} \ \overrightarrow{Q_{W1}^T}\\   
@@ -629,7 +629,7 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
 \vspace*{0.5cm}
 \noindent\textbf{Camera calibration from several images of a checkerboard, with Zhang method} 
 
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978}. The function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978}. The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
 \begin{equation}\label{eq:LM_algo}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
   ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
@@ -645,7 +645,7 @@ In biomechanics, numerous cameras are usually needed, in order to obtain accurat
 
 On the other hand, spherical markers placed on a wand are more likely to be detected by all cameras simultaneously, regardless of their position and orientation in space. However, they only represent either a single point, or a 1D length if they are placed at both extremities of a wand. A planar object like a checkerboard, on the contrary, is sufficient to determine a 3D coordinate system. This implies that using a wand does not allow for direct 2D image point to 3D coordinate correspondences. Hence, 3D positions also need to be optimized, which involves calibrating all cameras together instead of one by one. This has a few implications: first, cameras need to be synchronized, and then, more parameters have to be optimized, which tends to make this method less stable. It should also make the optimization extremely computationally intensive. Luckily, one can take advantage of the sparsity of the Jacobian of the objective function, which allows for considerable computation savings. This method, called Sparse Bundle Adjustment (SBA), will not be described in details, but extensive explanations can be found in \cite{Lourakis2009}.
 
-In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in camera image $k$.
+In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the objective function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in camera image $k$.
 
 \begin{equation}
   \sum_{k \in [1,K]} \sum_{j \in [1,M]} 
@@ -832,6 +832,13 @@ If only 3 markers are used per segment, the problem can be solved analytically. 
 
 In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow standards. Such standards are given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or by its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. For more general purposes, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}.
 
+If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. These methods are then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
+\begin{equation}
+  \sum_{m \in [1,M]}
+  ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
+\end{equation} 
+With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X_{init}^m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X_{target}^m}$. 
+
 \begin{figure}[!ht]
 	\centering
 	\def\svgwidth{1\columnwidth}
@@ -841,21 +848,21 @@ In order for results to be consistent across subjects and across research studie
 	\label{fig_isb}
 \end{figure}
 
-If more than 3 markers are placed on the segment, the problem needs to be solved numerically. These methods are then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following function leads to a more robust approximation of the rotation and translation of the considered segment: 
-\begin{equation}
-  \sum_{m \in [1,M]}
-  ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
-\end{equation} 
-With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X_{init}^m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X_{target}^m}$. 
-
 
 \newpage
 \subsection{The inverse kinematics approach}
 
+- If as many markers as degrees of freedom: analytical (exact) solution, direct computation
+- If more markers than degrees of freedom: overdetermined, no solutions: Optimal solution (svd, optim, ?)
+- If less markers than degrees of freedom: underdetermined, infinite solutions: add constraints, or ?
+
 Constrained system of rigid bodies / kinematic chain
 
 Multibody Kinematic Optimization (MKO) or Global Optimization (GO)
-2 méthodes: algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse, et optimisation sequentielle quadratique
+3 méthodes: 
+- algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse, 
+- optimisation sequentielle quadratique (GOM), ainsi que 
+- KS (Kalman Smoothing)
 
 inverse:numerical=iterative/model based/global optimization/multibody kinematic optimization
 -> trust model
@@ -934,17 +941,30 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 -> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
 -> no need for assumptions. Free bodies
 ->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc) Comes from biomechanics rather than robotics (simple joints)
+Outperforms SO in their specific case (knee and hip) \cite{Lu1999}
 
 
 
 
-kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), pyomeca (opensim, biorbd), custom (jacobien et optim sqp), pinocchio (Jacobian), OpenSim (sqp?)
+
+kineticstoolkit (6DoF ISB), pyCGM2 (6DoF gait), 
+
+pyomeca (opensim, biorbd), custom (jacobien et optim sqp), pinocchio (damped pseudo-inverse Jacobian pour éviter problemes singularités, simplicité, mais pas forcément plus rapide et lambda arbitraire. J = -Jt (J Jt +lambda I)-1 e avec lambda=1e-12. Donne vitesse, integre pour position), OpenSim (sqp?)
+
 Vicon, QTM (Visual3D)
 
 
 
+
+
+
 \subsection{Other approaches}
-Learning based, ...
+
+\cite{DeGroote2008,Aristidou2017}
+- Jacobian
+- Kalman filter (both skeletal model, and process model. This model estimates trajectory based on prior knowledge about smoothness motion (mean and var?), and minimizes error. Estime simultanément positions, vitesse, accélérations -> pas besoin de dériver 2 fois, ce qui introduit des errors et pourrit la dynamique qui suit. Prend en compte le temps, contrairement à GO)
+- Kalman smoother (pareil mais filtre sur toutes les données temporelles au lieu de celles qui précèdent uniquement. Marche pas en temps réel)
+- Learning based, ...
 
 
  
