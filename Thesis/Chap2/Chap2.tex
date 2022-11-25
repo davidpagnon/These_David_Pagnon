@@ -555,11 +555,11 @@ Assuming that the checkerboard is used to set the origin of the world frame, the
   = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \\ 0 \end{pmatrix}_{\!\!2M\times 1}
 \end{equation}
 
-This system is now overdetermined. As it can be written in the form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a linear-eigen pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it can be denormalized. 
+This system is now overdetermined. As it can be written in the homogeneous form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a linear-eigen pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it can be denormalized. 
 
 \newpage
 \begin{algorithm}[!ht]
-  \caption{Linear-eigen pseudo-solution of \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
+  \caption{Linear-eigen pseudo-solution of the homogeneous system \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
   \begin{algorithmic}[1]
       \STATEx Let $\textbf{A}$ be a rectangular matrix of size $2M \times N$, composed of real or complex coefficients, and $\overrightarrow{X}$ be a vector of size $N$. The objective is to solve 
       \begin{equation}
@@ -820,7 +820,7 @@ Again, this formulation does not take distortions into account, so it should be 
 
 \cite{Robertson2013} reminds that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
 
-In order for its position and orientation to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. Additionally, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
+In order for its local coordinate system to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. Now, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
 % parler de robotique, animation, biomécanique?
 
