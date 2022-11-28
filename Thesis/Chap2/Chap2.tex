@@ -418,7 +418,7 @@ When several cameras are used in the same time, for instance for 3D reconstructi
 \end{equation}
 
 This formalism does not represent a linear system connecting the world and the camera coordinates, which can make calculations complicated. Instead, one can add one more dimension to the system and use the homogeneous coordinates, introduced by Möbius in 1927 \cite{Mobius1827}, and which constitutes one of the basis of projective geometry.
-\begin{equation}
+\begin{equation}\label{homogeneous}
   \begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
   = \begin{pmatrix} &  & & \\ & R_{3\times 3} &  & T_{3\times 1} \\ &&&&\end{pmatrix} \begin{pmatrix}X_W\\Y_W\\Z_W\\1\end{pmatrix}
 \end{equation}
@@ -446,7 +446,7 @@ Or more concisely, with $\overrightarrow{q_p}$ the 2D image coordinates, $\overr
   }
 \end{equation}
 
-To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, thus not computationally intensive to solve. The intrinsic matrix $\textbf{K}$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $\textbf{H}$ depends on the camera position and orientation. The projection matrix $\textbf{P}$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and is considered as an arbitrary scaling factor.
+To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, and thus has a closed-form solution. The intrinsic matrix $\textbf{K}$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $\textbf{H}$ depends on the camera position and orientation. The projection matrix $\textbf{P}$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and is considered as an arbitrary scaling factor.
 
 
 \vspace*{0.5cm}
@@ -537,7 +537,7 @@ Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation 
     }
   \end{equation}
 
-This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate numerical resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
+This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
 
 \vspace*{0.5cm}
 \noindent\textbf{Camera calibration from one single image of a checkerboard, with DLT method}
@@ -561,11 +561,11 @@ This system is now overdetermined. As it can be written in the homogeneous form 
 \begin{algorithm}[!ht]
   \caption{Linear-eigen pseudo-solution of the homogeneous system \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
   \begin{algorithmic}[1]
-      \STATEx Let $\textbf{A}$ be a rectangular matrix of size $2M \times N$, composed of real or complex coefficients, and $\overrightarrow{X}$ be a vector of size $N$. The objective is to solve 
+      \STATEx Let $\textbf{A}$ be a rectangular matrix of size $2M \times N$, composed of real or complex coefficients, and $\overrightarrow{X}$ be a vector of size $N$. The objective is to solve: 
       \begin{equation}
         \textbf{A} \overrightarrow{X} = \overrightarrow{0}
       \end{equation}
-      \STATEx If $2M>N$, then the system is overdetermined, but a least-square pseudo-solution can be found.
+      \STATEx If $2M>N$, then the system is overdetermined, but a least-square pseudo-solution $\overrightarrow{X^*} = argmin(\textbf{A} \overrightarrow{X})$ can be found.
       
       \STATE \textbf{A} can be factorized by Singular Value Decomposition (SVD):
       \begin{equation}
@@ -573,16 +573,16 @@ This system is now overdetermined. As it can be written in the homogeneous form 
       \end{equation}
       with $\textbf{U}$ an orthonormal basis of size $2M \times 2M$, \(\textbf{S}\) the rectangular diagonal matrix of \textbf{A} of size $2M \times N$, filled with its singular values \(\sigma_1, \dots, \sigma_{2M}\), and $\textbf{V}$ an orthonormal basis of size $N \times N$. $\textbf{U}$, $\textbf{V}$, and $\textbf{S}$ can be efficiently computed by the Python function \href{https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html}{numpy.linalg.svd()}.
       
-      \STATE \(\overrightarrow{X}\) can be expressed as a linear combination of basis vectors: 
+      \STATE \(\overrightarrow{X^*}\) can be expressed as a linear combination of basis vectors: 
       \begin{equation}\label{eq:xva}
-        \overrightarrow{X} = \textbf{V} \overrightarrow{\alpha},
+        \overrightarrow{X^*} = \textbf{V} \overrightarrow{\alpha},
       \end{equation}
       with \(\overrightarrow{\alpha}\) an undetermined vector of size $N$.  
       
-      \STATE Minimizing \((\textbf{A}\overrightarrow{X})^2\) also minimizes \(\textbf{A}\overrightarrow{X}\).
+      \STATE Minimizing \((\textbf{A}\overrightarrow{X^*})^2\) also minimizes \(\textbf{A}\overrightarrow{X^*}\).
       \begin{equation}
           \begin{aligned}
-          (\textbf{A}\overrightarrow{X})^2 & = (\textbf{A} \overrightarrow{X})^T (\textbf{A} \overrightarrow{X})\\
+          (\textbf{A}\overrightarrow{X^*})^2 & = (\textbf{A} \overrightarrow{X^*})^T (\textbf{A} \overrightarrow{X^*})\\
           & = (\overrightarrow{\alpha}^T \textbf{V}^T \ \textbf{V} \textbf{S} \textbf{U}^T)(\textbf{U} \textbf{S} \textbf{V}^T \ \textbf{V}\overrightarrow{\alpha})\\
           & = \overrightarrow{\alpha}^T \textbf{S} \overrightarrow{\alpha}\\
           & = \sum_{i \in [1,N]} \alpha_i^2 \sigma_i^2
@@ -590,13 +590,13 @@ This system is now overdetermined. As it can be written in the homogeneous form 
       \end{equation}
       which is minimum when all \(\alpha\) factors are set to zero, except for the factor of the smallest singular value \(\sigma\). 
 
-      \STATE Assuming that \(\sigma_{min} = \sigma_N\), then \((\textbf{A}\overrightarrow{X})^2\) is minimum when all $\alpha_i$ are null, except for $\alpha_N$.
+      \STATE Assuming that \(\sigma_{min} = \sigma_N\), then \((\textbf{A}\overrightarrow{X^*})^2\) is minimum when all $\alpha_i$ are null, except for $\alpha_N$.
       \begin{equation}
-          (\textbf{A} \overrightarrow{X})_{min}^2 = \alpha_N \sigma_N
+          (\textbf{A} \overrightarrow{X^*})_{min}^2 = \alpha_N \sigma_N
       \end{equation}
       and from equation~\ref{eq:xva}:
       \begin{equation}
-          \overrightarrow{X} = 
+          \overrightarrow{X^*} = 
           \textbf{V} \overrightarrow{\alpha} 
           = \begin{pmatrix} V_{11} & \dots & V_{1N} \\
            \vdots &  & \vdots \\
@@ -610,7 +610,7 @@ This system is now overdetermined. As it can be written in the homogeneous form 
   % \begin{algorithm}
   %       \begin{algorithmic}[1]
   %         \algrestore{alg0}
-      \STATE Hence, $\overrightarrow{X}$ is solved up to a scale factor $\alpha_N$. The full system can be determined by imposing one arbitrary constraint, for example $||\overrightarrow{X}||=1$. 
+      \STATE Hence, $\overrightarrow{X^*}$ is solved up to a scale factor $\alpha_N$. The full system can be determined by imposing one arbitrary constraint, for example $||\overrightarrow{X^*}||=1$. 
   \end{algorithmic}
 \end{algorithm}
 
@@ -629,7 +629,7 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
 \vspace*{0.5cm}
 \noindent\textbf{Camera calibration from several images of a checkerboard, with Zhang method} 
 
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a nonlinear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978}. The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a non-linear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978}. The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
 \begin{equation}\label{eq:LM_algo}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
   ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
@@ -704,7 +704,7 @@ Other options, explored in \autoref{ch:6}, would be to compute intrinsic and ext
 
 % Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
 
-% \newpage
+\newpage
 \subsection{Triangulation}\label{triangulation}
  
 After 2D points are detected on all cameras, and considering that camera positions, orientations, and intrinsic properties are known, points can be reconstructed in the 3D space. This procedure is called triangulation, although it is a slightly abusive use of the term in case more than two cameras are used. In theory, the 3D point should lay at the intersection of all lines going from the camera centers to the 2D points (referred to as epipolar lines). In practice, the 2D points are not detected with perfect accuracy, and lines do not intersect (see Figure~\ref{fig_triangulation}). The 3D point is then approximated as the point that minimizes the distance between all epipolar lines.
@@ -769,13 +769,14 @@ As a consequence, the 3D coordinates of the triangulated point are:
   }
 \end{equation}  
 
-All points can be triangulated in a similar fashion, frame after frame. Since the procedure entirely relies on linear algebra, it is very fast. However, it is not robust to outliers. Other methods have been proposed, such as the Iteratively Reweighted MidPoint method (IRMP) which looks the smaller distance between all epipolar lines \cite{Yang2019}, the $L_2$ method which minimizes the sum of the squared reprojection errors \cite{Marquardt1963,More1978}, or the $L_\infty$ method which minimizes the maximum reprojection error \cite{Donne2015}, or the Q-sweep method which minimizes the median of the reprojection error, and thus is more robust to outliers \cite{Zhang2017}. Among all of these, the linear-eigen is the fastest by at least an order of magnitude, but the IRMP method may be an other good compromise in terms of speed and accuracy \cite{Chen2020b}. Some approaches also use a fast linear-eigen method, which is then refined with a (much) slower learning approach \cite{Tome2018}.
+All points can be triangulated in a similar fashion, frame after frame. Since A is relatively small and the procedure relies on linear algebra, this is very fast. However, it is not robust to outliers. Other methods have been proposed, such as the Iteratively Reweighted MidPoint method (IRMP) which looks the smaller distance between all epipolar lines \cite{Yang2019}, the $L_2$ method which minimizes the sum of the squared reprojection errors \cite{Marquardt1963,More1978}, or the $L_\infty$ method which minimizes the maximum reprojection error \cite{Donne2015}, or the Q-sweep method which minimizes the median of the reprojection error, and thus is more robust to outliers \cite{Zhang2017}. Among all of these, the linear-eigen is the fastest by at least an order of magnitude, but the IRMP method may be an other good compromise in terms of speed and accuracy \cite{Chen2020b}. Some approaches also use a fast linear-eigen method, which is then refined with a (much) slower learning approach \cite{Tome2018}.
 
-Note that these approaches do not take distortions into account, and assume either that distortions are negligible, or that videos have been priorly undistorted based on the coefficients found during intrinsic calibration \cite{Jackson2016}. Alternatively, some action cameras such as the GoPro 5+ offer a linear mode, which undistorts videos on the fly upon capture. 
+Note that these approaches do not take distortions into account, and assume either that distortions are negligible (or that the image has previously been undistorted), or that videos have been priorly undistorted based on the coefficients found during intrinsic calibration \cite{Jackson2016}. Alternatively, some action cameras such as the GoPro 5+ offer a linear mode, which undistorts videos on the fly upon capture. 
 
 Moreover, cameras not only need to share a 3D global reference frame, but also a common time reference. Otherwise, the same frame risks relating to a different instant in the athlete's motion, in which case the 3D reconstruction would not make sense. This is classically done with a wired hardware trigger, but other approaches use a flash, a sound, or a wireless signal such as Wi-Fi, Bluetooth or GPS \cite{GoPro2022}. In \autoref{ch:6}, we proposed another approach based on cross-correlation of 2D feature speeds.
 
-\vspace*{0.5cm}
+% \vspace*{0.5cm}
+\newpage
 \noindent\textbf{Person matching}  
 
 In case of multi-person detection, an additional step needs to be undertaken prior to triangulation: the 2D detected points of each person need to be matched across all views. A common approach consists in choosing one or two keypoint (e.g., the neck and the hip), and clustering together the persons for whom epipolar lines cross at a small enough distance from each other \cite{Dong2019,Slembrouck2020,Kadkhodamohammadi2021}. This works well and efficiently, unless an epipolar line passes through several people, in the case of a crowded scene for example. In this case, it is possible to use more keypoints (or different keypoints) to solve ambiguities. Other methods use a combinatory approach, slower but more robust, which tries out all possible combinations, and minimizes the reprojection error \cite{Bridgeman2019,Chen2020c,Pagnon2021}. Other procedures use a spatio-temporal neural network, which take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}. Lastly, when multiple persons have been triangulated, they need to be tracked in time in order to avoid them swapping from one frame to another. This can be done by setting a threshold on 3D keypoint speed, below which a person is deemed to be correctly associated with the previous frame \cite{Bridgeman2019}.
@@ -832,7 +833,7 @@ If only 3 markers are used per segment, the problem can be solved analytically. 
 
 In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow standards. Such standards are given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or by its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. For more general purposes, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}.
 
-If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. These methods are then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
+If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. The 6DoF methods is then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
 \begin{equation}
   \sum_{m \in [1,M]}
   ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
@@ -858,9 +859,9 @@ With M the number of markers of the considered segment. The segment best matches
 
 Constrained system of rigid bodies / kinematic chain
 
-Multibody Kinematic Optimization (MKO) or Global Optimization (GO)
+Multibody Kinematic Optimization (MKO) or Global Optimization (GO) (need for model)
 3 méthodes: 
-- algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse, 
+- algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse (pt être comp intensive), 
 - optimisation sequentielle quadratique (GOM), ainsi que 
 - KS (Kalman Smoothing)
 

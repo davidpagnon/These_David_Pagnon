@@ -119,8 +119,8 @@ Technically, both spatio-temporal parameters and joint kinematics fall under the
 \vspace*{0.5cm}
 
 \noindent\underline{Forward kinematics vs. Inverse kinematics:}\\
-In the multi-body analysis of human motion, \textbf{forward kinematics} generally involves finding the positions of markers $\overrightarrow{x}$ from joint angles $\overrightarrow{q}$. In other words, it aims to solve the equation $\overrightarrow{x}=f(\overrightarrow{q})$. Assuming that segment dimensions are known, that the placement of markers on each segment is also known, and that there are no soft tissue artifacts nor measurement inaccuracies, then the position of markers can be solved analytically, with simple trigonometric formulas. \\
-Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{x})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several end-targets, that will be reached with an unknown joint configuration. There is either an infinite amount of solutions, or none at all. As there is either no solution, or an infinite amount of them, optimization methods need to be leveraged.\\
+In the multi-body analysis of human motion, \textbf{forward kinematics} generally involves finding the positions of markers $\overrightarrow{x}$ from joint angles $\overrightarrow{q}$. In other words, it aims to solve the equation $\overrightarrow{x}=f(\overrightarrow{q})$. Assuming that segment dimensions and marker positions on each segment are known, and that there are no soft tissue artifacts nor measurement inaccuracies, then the position of markers can be solved analytically, with simple trigonometric formulas. \\
+Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{x})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several end-targets, that will be reached with an unknown joint configuration. However, in practice there are usually less known marker coordinates than unknown joint degrees of freedom, and $f$ is not invertible: the system is underdetermined, and there is an infinite amount of solutions (or none at all). Consequently, optimization methods need to be leveraged.\\
 \textbf{Direct kinematics} is usually considered to be a synonym of forward kinematics. However, when there are exactly as many joint angles as marker coordinates, both of them can be equally solved. Hence, the term direct kinematics is sometimes also employed to describe the analytical calculation of M joint angles from the position of M markers.
 
 
@@ -135,19 +135,53 @@ Conversely, \textbf{inverse kinematics} deals with finding joint angles from mar
 
 % segment poses are usually not all known, and there are then more unknown joint degrees of freedom than known segment poses: the system is underdetermined. This implies that the target can be reached with different joint configurations. Consequently, no exact solution can be found, and one needs to turn to numerical methods in order to find an "optimal" solution.\\
 
+\vspace*{0.5cm}
+
+\noindent\underline{Linear vs. Non-linear system, Overdetermined vs. Underdetermined system, \\Direct vs.Numerical solution:}\\
+
+
+x=f(q), need to find f-1(x)=q. However, f not necessarily invertible. x= M marker position (measurements), q= N joint angles (unknown degrees of freedom)
+
+if linear <-> AX=B: 
+      if M=N, A is square and invertible -> exact solution (assuming $rank(A)=M$, i.e., that none of the lines can be expressed as a linear combination of the others)
+      . Direct / analytical / symbolic method
+      Ex: 3D joint angles with 3 markers per segment
+
+      if M>N, A is overdetermined -> no exact solution, but exists one closed-form solution 
+      . Direct / algebraic / analytical / symbolic method, eg given with the Moore-Penrose pseudo-inverse -> SVD  
+      Ex: Single-body kinematic optimization, calibration with one single image of a checkerboard, linear-eigen triangulation, single-body kinematic optimization
+
+      if M<N, A is underdetermined -> infinite amount of solutions approximate
+      . Iterative / numerical method? start with initial guess
+      Ex: JACOBIAN? KALMAN? ETC?
+
+if non linear:
+      . Iterative / numerical method, start with initial guess
+      ex: calib when taking distortion into account, with several checkerboard images, or with a wand, 
+      multi-body kinematic optimization?
+
+
+Où mettre ça :
+      Optimization: direct or iterative method?
+      Linear/non-linear least-squares ?
+      Inverse kinematics non linear if constraints? How to take weights into account?
+      
+
+
 
 \vspace*{0.5cm}
 
 \noindent\underline{Overdetermined vs. Underdetermiend system:}\\
-f(X) = B
+f(X) = Q
 A system of M linear equations can be written as $\textbf{A} \overrightarrow{X}=\overrightarrow{B}$. $\overrightarrow{X}$ contains the N degrees of freedom to be determined, which can represent N unknown joint angles for example. $\overrightarrow{B}$ contains M observations, marker coordinates for example. \textbf{A} is a matrix of size $M \times N$, each of the M lines expressing the values each joint angle has taken to lead to the observed marker position. We assume that none of the lines can be expressed as a linear combination of the others: $rank(A)=M$.
 
-- If M = N, there are as many observations as degrees of freedom, e.g., as many markers coordinates as unknown joint angles. Then, an exact solution can be calculated. This is for example the case for single-body direct kinematics.
+- If M = N, there are as many observations as degrees of freedom, e.g., as many markers coordinates as unknown joint angles. Then, an exact solution can be calculated analytically/symbolically. This is for example the case for single-body direct kinematics.
 
 - If more markers than degrees of freedom (M>N): rang syst > nb equations. overdetermined, no solution. (calibration with more coordinates of 2D-3D correspondences than unknown calibration parameters, triangulation from more than 2 cameras, single and multi body optimized kinematics with more than 3 markers per segment)
 Find \emph{approximate / optimal} solution, on minimise objective/loss function ||f(X)-B||2 :
-1. Calcul analytique direct (closed form) si connues = linear combinaison d'inconnues: f(x)-q peut s'ecrire AX - B. 
+1. Calcul direct quasi analytique (calcul svd itératif) (closed form) si connues = linear combinaison d'inconnues: f(x)-q peut s'ecrire AX - B. 
 Pseudo solution = linear least square solution, via SVD
+(calib sans disto, )
 2. Sinon, Calcul numérique iteratif from initial guess
 Non linear least square solution, eg via Levenberg-Marquardt: linearisation via développement Taylor 1er ordre pour passer par la Jacobienne, pseudo inverse, on retombe sur SVD
 (note: peut aussi etre utilisé avec systemes linéaires, plus rapide si beaucoup de var, typiquement 1,000,000. Pas pour nous)
@@ -164,21 +198,21 @@ Non linear least square solution, eg via Levenberg-Marquardt: linearisation via 
 
 
 %%% VOIR CA 
-- https://en.wikipedia.org/wiki/Inverse_kinematics
-- https://fr.wikipedia.org/wiki/Algorithme_de_Levenberg-Marquardt
-- damped http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
-- AX=B: https://photos.google.com/album/AF1QipMZFY96xhu2I9OL5pcjLfCIhzVj6VfTbPec5gq2/photo/AF1QipPojy3zDDXo691bEdAQPtaQDH4HiSGm8R86sbzx
+% - https://en.wikipedia.org/wiki/Inverse_kinematics
+% - https://fr.wikipedia.org/wiki/Algorithme_de_Levenberg-Marquardt
+% - damped http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
+% - AX=B: https://photos.google.com/album/AF1QipMZFY96xhu2I9OL5pcjLfCIhzVj6VfTbPec5gq2/photo/AF1QipPojy3zDDXo691bEdAQPtaQDH4HiSGm8R86sbzx
 
-- global optim https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584?via%3Dihub
+% - global optim https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584?via%3Dihub
 
-- kalman https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
-- https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
+% - kalman https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
+% - https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
 
-- review https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310 
+% - review https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310 
 
 
-Closed Chain :
-https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
+% Closed Chain :
+% https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
 
 
 
@@ -189,7 +223,7 @@ Optimisation globale: toutes les articulations en même temps. Jacobien, Kalman,
 
 
 
-Kalman and co
+Kalman and coBone position estimation from skin marker co-ordinates 
 https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
 https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
 
@@ -202,12 +236,12 @@ https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/
 
 https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
 
-https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
+% https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
 
 
 
 
-% generalized coordinates: not exclusively cartesian coordinates (X,Y,Z). Can also be angles. Generalized forces can also be moments
+% generalized coordinates: angular version of cartesian coordinates (X,Y,Z). Joint angles, moments, etc
 
 % top-down vs. bottom-up vs. single-person
 
