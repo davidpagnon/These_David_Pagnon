@@ -69,7 +69,7 @@ BMX race represents such a problem. Coaches are interested in the motion of the 
 
 
 \subsection{The start in BMX racing}
-BMX race differs from other cycling disciplines in different ways, one of them being the short duration and of each race. At the elite level, they last about 30 to 40 seconds \cite{Cowell2012}. Hence, the winner is the one who has not only averaged the greatest speed, but also taken the shortest trajectory. In order to be able to choose the best one without being obstructed by other riders, one has to take a good start. \cite{Rylands2014} analyzed the statistics of 348 elite racers in UCI (Union cyclist international) competitions, and found a strong correlation between early placing and final placing. Most authors actually study the start, rather than any other part of the race \cite{Zabala2009,Gianikellis2011,Chiementin2012,Kalichova2013,Rylands2014}.
+BMX race differs from other cycling disciplines in several ways, one of them being the short duration and of the effort. At the elite level, each race lasts about 30 to 40 seconds \cite{Cowell2012}. Hence, the winner is the one who has not only averaged the greatest speed, but also taken the shortest trajectory. In order to be able to choose the best one without being obstructed by other riders, one has to take a good start. \cite{Rylands2014} analyzed the statistics of 348 elite racers in UCI (Union cyclist international) competitions, and found a strong correlation between early placing and final placing. Most authors actually study the start, rather than any other part of the race \cite{Zabala2009,Gianikellis2011,Chiementin2012,Kalichova2013,Rylands2014}.
 
 Moreover, riders never sit on their saddle. When cycling off the saddle in road cycling, arms have been shown to be more involved since they push and pull the handlebar \cite{Stone1993}, as the body is brought upward and forward over the axis of crank rotation. Hence, this discipline requires conducting whole body analysis. \cite{Gianikellis2011} suggest that for a faster start, the Range Of Motion (ROM) of the knee needs to be smaller than that of the trunk. \cite{Kalichova2013} finds a clear asymmetry in upper-body motion, both in terms of elbow and shoulder joint angles. However, as these two are case studies, it is hard to give much trust to these measurements in terms of performance. More specifically, the first movement initiated during a BMX start is the so-called "slingshot" maneuver. It consists in moving the body down and forward, while the bike goes in the opposite direction, the front wheel lifting noticeably. This plyometric countermovement occurs before the first pedal stroke, and before the gate has entirely dropped. According to \cite{Gross2017}, this technique is highly effective. It involves a stretch-shortening cycle of the front knee, and the counter-movement is more pronounced and initiated earlier in better riders. This confirms that the complex motion of the bike as regards to the pilot at start is of crucial importance (see Figure~\ref{fig_bmxstart}). 
 
@@ -132,7 +132,7 @@ We scaled both pilot and bike independently, by disabling constraints. We then c
 
 
 \subsection{Performance indicators assessment}
-We investigated a wide variety of the key performance indicators reported in the literature. On the pilot, the flexion of the front knee, which should show a plyometric action, and the flexion of both shoulders, which should be asymmetric. On the bike, the elevation of the front wheel, and the angle of the handlebar. On pilot and bike together, we investigated the forward speed of the center of motion of the bike, and of the pilot, which should point in different directions during the slingshot maneuver. We also reported the rotational excursion of the right foot and right pedal, which should be similar since in reality, they are attached together. All results were filtered with a zero-lag fourth order 10 Hz low-pass Butterworth filter.
+We investigated a wide variety of the key performance indicators reported in the literature. On the pilot, the flexion of the front knee, which should show a plyometric action, and the flexion of both shoulders, which should be asymmetric. On the bike, the elevation of the front wheel, and the angle of the handlebar. On pilot and bike together, we investigated the forward speed of the center of motion (COM) of the bike, and of the pilot, which should point in different directions during the slingshot maneuver. We also reported the rotational excursion of the right foot and right pedal, which should be similar since in reality, they are attached together. All results were filtered with a zero-lag fourth order 10 Hz low-pass Butterworth filter.
 
 
 \section{Results}
@@ -141,7 +141,7 @@ Calibration was not as accurate as it would have been with a gold-standard metho
 
 Constraining both pilot and bike OpenSim models together was proven unsuccessful for the most part, regardless of the type of custom joint used, even with all degrees of freedom allowed (with joint limits). Using point constraints instead of weld ones between both sets of hands and of feet did not make a difference. Increasing assembly error tolerance was also proven unsuccessful. The only way OpenSim inverse kinematics could converge with constraints was if only feet were constrained, and hands were free. However, no comparative analysis has been done to assess whether results were better than when disabling all constraints.
 
-We had previously captured similar BMX start data, with a higher quality marker-based approach. Conducting the same analysis on these data was mostly unsuccessful too. We tried using only joint markers, or the full set, with similar outcome. %This suggests that the quality of our markerless data is not only at fault, and that the model is mostly overconstrained.
+We had previously captured similar BMX start data, with a higher quality marker-based approach. Conducting the same analysis on these data was mostly unsuccessful too. We tried using only joint markers, or the full set, with similar outcome. %This suggests that not only the quality of our markerless data is at fault, but mostly, the model is overconstrained.
 
 \begin{figure}[hbtp]
 	\centering
@@ -159,7 +159,7 @@ We had previously captured similar BMX start data, with a higher quality marker-
 \FloatBarrier
 \subsection{Key performance indicators}
 
-Concerning the pilot, one can notice a flexion, then extension of the (left) front knee, which indicates a plyometric movement during the slingshot phase. Shoulder flexion of both arms present relatively similar waveforms, although the right one is slightly more flexed all along the maneuver, which is consistent with the fact that the body needs to pivot to the right in order to push to the maximum on the left pedal. The elevation of the front wheel is very noticeable. However, the handlebar rotation is not very coherent: in fact, due to bad estimations, the handlebar does a complete spin before recovering a consistent angle. The forward speed of the center of motion of the pilot is noisy, but it shows that it increases linearly during the slingshot phase. Conversely, the speed of the bike first points backward before pointing quickly forward, until it balances out with the pilot speed. The rotational excursion of the right foot is similar to the one of the pedal, but it is more noisy. 
+Concerning the pilot, one can notice a flexion, then extension of the (left) front knee, which indicates a plyometric movement during the slingshot phase. Shoulder flexion of both arms present relatively similar waveforms, although the right one is slightly more flexed all along the maneuver, which is consistent with the fact that the body needs to pivot to the right in order to push to the maximum on the left pedal. The elevation of the front wheel is very noticeable. However, the handlebar rotation is not very coherent: in fact, due to bad estimations, the handlebar does a complete spin before recovering a consistent angle. The forward speed of the COM of the pilot is noisy, but it shows that it increases linearly during the slingshot phase. Conversely, the speed of the bike first points backward before pointing quickly forward, until it balances out with the pilot speed. The rotational excursion of the right foot is similar to the one of the pedal, but it is more noisy. 
 
 \begin{figure}[hbtp]
 	\centering
@@ -173,67 +173,38 @@ Concerning the pilot, one can notice a flexion, then extension of the (left) fro
 
 \FloatBarrier
 \section{Discussion}
-\section{Kinematic analysis of the athlete with their equipment}
+\subsection{Kinematic analysis of the athlete with their equipment}
+The objective of this preliminary study was to verify whether an athlete could be detected with their equipment with a 3D markerless protocol, in ecologically valid conditions. BMX race involves such a problem, where detecting both a pilot and their bike can bring out important information. Performing the kinematic analysis of a BMX bike involves training a deep-learning model with DeepLabCut to detect 2D bike keypoint, and then creating an OpenSim "skeletal" bike model, with coherent geometry and joints between parts. This is especially challenging to carry out, because a bike is multi-articulated, and it forms several closed loops with the pilot. Hence, one needs to find a way to break the kinematic chain in 4 different places, and then to constrain it together in a coherent and computable way.
 
-OBJ: start in BMX race, in ecologically valid conditions, tracking both the pilot and the bike movement in 3 dimensions, with and without closed-loop constraints, with a markerless protocol.
-
-
-Equipment kinematics can be done
-KPIs can be extracted
-
-But inaccuracies: due to low quality protocol? Calib +However, low number of cameras, low image resolution, low contrast, and strong occlusions lead to 2D pose estimations of relatively poor quality, both for the pilot detected with OpenPose. Bike: could be trained on more images, or fine-tuned.
+As it is decisive in a race, the slingshot phase of the start was analyzed, and a wide variety of pertinent key performance indicators was investigated, targeting pilot, bike, and pilot and bike together. Since only one trial was analyzed, no accuracy assessment was possible. However, we could verify whether expected patterns were observed. When not constraints were imposed between the pilot and the bike, the plyometric movement of the front knee was detectable, and the difference between left and right shoulder flexion, too. The elevation of the front wheel was clearly visible, however an implausible spin of the handlebar was reported. The "slingshot" movement of the bike could also be detected, and we noticed that on the opposite, the pilot COM speed increased linearly. The foot motion was in accordance with the rotation of the pedal, however it was more noisy. Overall, performing 3D markerless inverse kinematics of both a BMX pilot and their bike, and \emph{a fortiori}, of an athlete and their equipment, seems possible.
 
 
-Very hard to converge with constraints
+\subsection{Inverse kinematics in closed loop}
+One can assume that if the handledbar were constrained to correctly detected hands, it would not suffer from this abnormal spin; and that if feet were constrained to the pedals, their excursion would be less noisy. However, inverse kinematics did not converge when implementing constraints. This can be attributed to two main reasons: first, the poor quality of our detections, and second, the overly constrained kinematic chain. 
+
+Gold-standard calibration was unsuccessful, and we resorted to a less accurate post-calibration procedure, whose extrinsic parameters were determined by the dimensions of the starting grid. In order to reach high framerate, we lowered the resolution of the videos, which made the detection less precise. Finally, using only 6 cameras was not sufficient considering such a low contrast, and such strong occlusions from the pilot, their bike, and the gate start. This was especially obvious for the feet and the front wheel, hidden before before the gate dropped. However, despite the use of few training data, the DeepLabCut bike model did not seem to perform more poorly than the OpenPose human one. Moreover, conducting a similar study with high quality marker-based data was not successful either, which suggests that the quality of our markerless data is not the only parameter at fault. 
+
+Ultimately, the model is most likely overconstrained. Solutions regarding this issue remain unclear. Better data, with higher resolution, higher number of cameras, and better calibration, is the first element to improve, which is probably necessary but not sufficient. Pilot and bike are both composed of rigid bodies, and constraining them together may have lead to some geometric incompatibilities, even after scaling. For instance, the angle between the fork and the bike frame might be different between the bike model and the one used by the pilot. Liberating some degrees of freedom did not seem to make any difference, however disabling some of the constraints (e.g., hand constraints) allowed inverse kinematics to work. Since the handlebar is constrained to the hands, its weights don't need to be as high; similarly, the weights of pedals could be lowered in order not to impose any incompatible conditions for the inverse kinematics solver. Alternatively, one could look into other inverse kinematic algorithms, e.g., some which would allow using soft constraints instead of hard ones \cite{Fohanno2014}.
 
 
+\subsection{Conclusion}
+These results are satisfying for a preliminary experiment. However, several elements should be improved before drawing any definitive conclusion. First, more cameras with better definition should be used. This is especially important if a larger field of view has to be captured, e.g., if a longer portion of the track would need to be investigated. Action cameras meet such requirements, and they offer the additional advantages of being light and wireless. However, they need post calibration and post-synchronization, but this has been proven feasible (See Chapter~\ref{ch:6}). Second, in case the equipment forms a closed-loop with the athlete, results are not conclusive yet. Hence, more work needs to be done to understand how connections between the equipment and the athlete can be taken into account, without preventing inverse kinematics to converge.
 
+Such a protocol can be applied to any individual sport. When some equipment needs to be detected, two additional steps have to be completed. First, the training of a deep-learning model, which can be done relatively seamlessly and with little image labelling, thanks to transfer learning leveraged by DeepLabCut. Second, if only inverse kinematics is desired, designing an OpenSim model is also relatively easy, as only a few segment dimensions and joint properties are needed, without any consideration for inertial properties. Both steps are scalable, and need to be performed only once for all individuals, environments, and camera properties and positioning. 
 
+% Kalman smoothing? 
 
-
-If constraints, one can assume that there would be no abnormal spin of the handlebar since it would be attached to correctly detected hands, and that foot excursion would be less noisy, since it would be attached to correctly detected pedals.
-
-
-
-\subsection{Limits and perspectives}
-
-
-
-Meilleures données
-Meilleur scaling
-Meilleure cinématique inverse algo (Kalman smoothing? soft constraints?)
-Bushing forces?
-
-Ultimately, very constrained. Constrain only hands, or feet?
-
-
-Good for Premanip: understood potential issues ->
-1 pilot 1 start, slt 6 cam, low res, calib unsuccessful
-
-
-Rosenhahn2008 snowboard: closed kinematic chain: pas évident, voir [17] ( reduced equations of robotic systems using Lie groups). Eux: soft constraints (invariances -> numeric) rather than joints (analytic)
-
-Formalisme joint vs constraint Part 3.1 https://sci-hub.se/https://ieeexplore.ieee.org/document/4587520
-
-scale avant et arriève vélo indépendament
+% Bushing forces? % Alternatively, you could attach the toes and/or hands to the bike via BushingForces (or sprint forces ?) (https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1BushingForce.html#details).
 
 
 
 
-% Because OpenSim models have fewer degrees of freedom than the human body, it is easy to define a set of constraints that seems very reasonable but is not easy for the skeleton (rigid-body mechanism) to satisfy.
-% If it's appropriate for the movement you are simulating, you might consider allowing the toes and/or hands to rotate relative to the pedals
-% (see PointConstraint, https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1PointConstraint.html#details).
-% Alternatively, you could attach the toes and/or hands to the bike via BushingForces (or sprint forces ?) (https://simtk.org/api_docs/opensim/api_docs/classOpenSim_1_1BushingForce.html#details).
+
+% Rosenhahn2008 snowboard: closed kinematic chain: pas évident, voir [17] ( reduced equations of robotic systems using Lie groups). Eux: soft constraints (invariances -> numeric) rather than joints (analytic)
+% Formalisme joint vs constraint Part 3.1 https://sci-hub.se/https://ieeexplore.ieee.org/document/4587520
+
+
 
 
 % riders use a very particular technique for gaining speed in the bumps without pedaling, known as “pumping” 
 % [Cowell 2012, Rylands 2016]: on the way up they decrease their loss in gravitational potential energy by bending their arms and legs, and on the way down they increase their kinetic energy by extending their limbs. Finally, athletes have to take big jumps and to operate sharp turns without colliding with each other. Unfortunately, according to [Novak & Dascombe 2014] the majority of performance characteristics studies have been conducted on road cycling athletes.  [Cowell 2012] shows that hip and knee extensors, as well as horizontal shoulder abductors and adductors are heavily relied upon all along the race. 
-
-
-
-Mathis2020 Principles, pitfalls and perspectives
-
-% ajouter video de use on your own data
-splashes, occlusions, distance, etc
-
-Voir Protocole doc: % https://1drv.ms/w/s!AvGG4T_aAnWzmy4JuQph05pIphXX?e=0yjqbs
