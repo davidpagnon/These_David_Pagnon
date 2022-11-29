@@ -24,7 +24,7 @@
 \def\@Universite{\hspace*{-3cm}\includegraphics[width=100pt,right]{logoUGA}}
 
 \long\def\Grade#1{\gdef\@Grade{#1}}
-\def\@Grade{\uppercase{docteur de l'université \\grenoble alpes}}   
+\def\@Grade{\uppercase{docteur de l'université grenoble alpes}}   
 
 \long\def\Specialite#1{\gdef\@Specialite{#1}}
 \def\@Specialite{ Informatique}
@@ -61,17 +61,17 @@ technologies de l'Information, Informatique} % :  et Ingénierie des Systèmes, 
 \def\@Jury{}        
 
 
-\def\UGTPresident#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\[-2mm]#2, Président\\[0mm]}
-\def\UGTPresidente#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\[-2mm] #2, Présidente\\[0mm]}
-\def\UGTRapporteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Rapporteur\\[0mm]}
-\def\UGTExaminateur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Examinateur\\[0mm]}
-\def\UGTExaminatrice#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Examinatrice\\[0mm]}
-\def\UGTInvitee#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Invitée\\[0mm]}
-\def\UGTInvite#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Invité\\[0mm]}
-\def\UGTDirecteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Directeur de thèse\\[0mm]}
-\def\UGTDirectrice#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Directrice de thèse\\[0mm]}
-\def\UGTCoDirecteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Co-Directeur de thèse\\[0mm]}
-\def\UGTCoEncadrant#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}\\ [-2mm]#2, Co-Encadrant de thèse\\[0mm]}
+\def\UGTPresident#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Président\\[-2mm]{\fontsize{8}{8}\selectfont #2}\\[0mm]}
+\def\UGTPresidente#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Présidente\\[-2mm]#2\\[0mm]}
+\def\UGTRapporteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Rapporteur\\[-2mm]#2\\[0mm]}
+\def\UGTExaminateur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Examinateur\\[-2mm]#2\\[0mm]}
+\def\UGTExaminatrice#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Examinatrice\\[-2mm]#2\\[0mm]}
+\def\UGTInvitee#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Invitée\\[-2mm]#2\\[0mm]}
+\def\UGTInvite#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Invité\\[-2mm]#2\\[0mm]}
+\def\UGTDirecteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Directeur de thèse\\[-2mm]#2\\[0mm]}
+\def\UGTDirectrice#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Directrice de thèse\\[-2mm]#2\\[0mm]}
+\def\UGTCoDirecteur#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Co-Directeur de thèse\\[-2mm]#2\\[0mm]}
+\def\UGTCoEncadrant#1#2{{\bfseries\fontsize{12}{10}\selectfont#1}, Co-Encadrant de thèse\\[-2mm]#2\\[0mm]}
 
 
 
@@ -87,7 +87,7 @@ technologies de l'Information, Informatique} % :  et Ingénierie des Systèmes, 
 \newcommand{\@ThesisType}{\uppercase{Thèse}}
 \newcommand\ThesisType[1]{\renewcommand{\@ThesisType}{{#1}}}
 
-\newcommand{\@ThesisInOrderToGet}{Pour obtenir le grade de}
+\newcommand{\@ThesisInOrderToGet}{pour obtenir le grade de}
 \newcommand\ThesisInOrderToGet[1]{\renewcommand{\@ThesisInOrderToGet}{{#1}}}
 
 \newcommand{\@ThesisDiploma}{{\@Grade}}
@@ -195,13 +195,13 @@ technologies de l'Information, Informatique} % :  et Ingénierie des Systèmes, 
              \hskip2.96cm\@ThesisHead
        \vskip6mm
              {\bfseries\fontsize{16}{16}\selectfont\@ThesisType}
-       \vskip3mm plus1fil
+      %  \vskip3mm plus1fil
              \@ThesisInOrderToGet
        \vskip3mm plus1fil
              {\Large{\normalsize\bfseries\fontsize{16}{16}\selectfont\@ThesisDiploma}\par}
        \vskip1mm plus1fil
              \@ThesisSpeciality
-       \vskip2mm plus1fil
+       \vskip 0mm plus1fil
              {\fontsize{9}{9}\selectfont\@ThesisMinisterial}
        \vskip10mm plus2fil
              {\fontsize{10}{10}\selectfont\@ThesisPresentedBy}
@@ -211,7 +211,7 @@ technologies de l'Information, Informatique} % :  et Ingénierie des Systèmes, 
              \@ThesisDirectedBy\ 
              {\bfseries\@ThesisSupervisor}\\
              \@ThesisCoSupervisor
-       \vskip5mm plus1fil
+       \vskip 2mm plus1fil
              \@ThesisPreparedIn\ 
              {\bfseries\@ThesisLaboratory}\\
  	\@ThesisPreparedInED\ 
@@ -223,7 +223,7 @@ technologies de l'Information, Informatique} % :  et Ingénierie des Systèmes, 
        \vskip12mm plus2fil
              \@ThesisDefendedThe\ {\bfseries\@ThesisPresentedThe},\\
              \@ThesisJuryTitle
-       \vskip8mm plus1fil
+       \vskip 2mm plus1fil
 {\fontsize{10}{10}\selectfont\@ThesisJury}
        \vskip20mm plus1fil
                       }\hskip3mm

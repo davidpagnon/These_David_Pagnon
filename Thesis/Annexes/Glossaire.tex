@@ -64,7 +64,7 @@ A \textbf{shape} is the equivalent of a silhouette in 3D space. A human shape ca
             \def\svgwidth{1\columnwidth}
             \fontsize{10pt}{10pt}\selectfont
             \includegraphics[width=0.6\linewidth]{"../Annexes/Figures/Mesh_model.jpg"}
-            \caption{The SMPL mesh model characterizes a human shape. Image from \cite{Wu2020}.}
+            \caption{The SMPL mesh model characterizes a 3D human shape. Image from \cite{Wu2020}.}
             \label{fig_meshmodel}
 \end{figure}
 \FloatBarrier
@@ -150,21 +150,22 @@ if linear <-> AX=B:
       if M>N, A is overdetermined -> no exact solution, but exists one closed-form solution 
       . Direct / algebraic / analytical / symbolic method, eg given with the Moore-Penrose pseudo-inverse -> SVD  
       Ex: Single-body kinematic optimization, calibration with one single image of a checkerboard, linear-eigen triangulation, single-body kinematic optimization
+      . Or iterative methods
 
       if M<N, A is underdetermined -> infinite amount of solutions approximate
       . Iterative / numerical method? start with initial guess
-      Ex: JACOBIAN? KALMAN? ETC?
+      Ex: calib with several checkerboard images when no disto
 
-if non linear:
+if non linear, over or underdetermined:
       . Iterative / numerical method, start with initial guess
       ex: calib when taking distortion into account, with several checkerboard images, or with a wand, 
-      multi-body kinematic optimization?
+      multi-body kinematic optimization
 
 
 Où mettre ça :
       Optimization: direct or iterative method?
       Linear/non-linear least-squares ?
-      Inverse kinematics non linear if constraints? How to take weights into account?
+      Inverse kinematics non linear (cos) ?
       
 
 

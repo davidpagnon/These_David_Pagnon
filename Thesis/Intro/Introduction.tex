@@ -45,20 +45,28 @@ The original goal of this thesis shifted along the program, as it was initially 
 \section*{Content}
 
 The thesis is organized as follows:
+\vskip 0.4cm
+\noindent\autoref{ch:1}: \emph{State of the art of sports motion analysis}. \newline
+Motion capture is traditionally performed with marker-based systems. However, these solutions are hardly compatible with on-field sports analysis, as they involve marker placement on the skin, and a heavy setup. As a consequence, markerless approaches are being investigated. 
+\vskip 0.4cm
+\noindent\autoref{ch:2}: \emph{From computer vision to biomechanics}. \newline
+One of the most promising prospects for sports motion analysis consists in addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model. Such research is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to anatomically consistent kinematics. 
+\vskip 0.4cm
+\noindent\autoref{ch:3}: \emph{A practical implementation}. \newline
+Sport scientists would benefit from having access to a user-friendly integrated workflow for on-field analysis. Hence, Pose2Sim, an open-source Python package striving to answer these needs, has been proposed and released. 2D keypoint coordinates obtained with OpenPose or DeepLabCut are robustly triangulated, and serve as input for a full-body OpenSim inverse kinematics procedure \cite{Pagnon2022b}.
+\vskip 0.4cm
+\noindent\autoref{ch:4}: \emph{Robustness assessment}. \newline
+Pose2Sim robustness has been evaluated, regarding people entering and exiting the field of view, image quality, calibration errors, and low number of cameras \cite{Pagnon2021}. 
+\vskip 0.4cm
+\noindent\autoref{ch:5}: \emph{Accuracy assessment}. \newline
+Its accuracy has also been assessed, and deemed sufficient for walking, running, and cycling analysis \cite{Pagnon2022a}. 
+\vskip 0.4cm
+\noindent\autoref{ch:6}: \emph{Using consumer-grade hardware}. \newline
+In the context of a competition, research-grade hardware is not always workable as it is cumbersome and complex to set up. We tested the use of GoPro cameras, which are not straightforward to calibrate or synchronize. The workflow was applied to shadow-boxing, which involves fast, 3 dimensional, and full-body movements. The measure of Key Performance Indicators (KPIs) was concurrently validated with a marker-based protocol, and demonstrated to be remarkably accurate \cite{Pagnon2022c}.
+\vskip 0.4cm
+\noindent\autoref{ch:7}: \emph{Capturing equipment}. \newline
+Numerous sports disciplines are practiced with dedicated equipment, whose motion is important to retrieve. However, this equipment can form a closed loop with the athlete, which makes the task mathematically challenging to resolve. We analyzed a BMX race starting sequence, by using OpenPose for human pose estimation, a custom trained DeepLabCut model for bike detection, and a custom OpenSim \{pilot+bike\} model for kinematic analysis. Expected KPI patterns were successfully measured, however results were inconclusive when constraints were added between the pilot and their equipment \cite{Pagnon2022e}.
 
-\noindent\autoref{ch:1}: Motion capture is traditionally performed with marker-based systems. However, these solutions are hardly compatible with on-field sports analysis, as they involve marker placement on the skin, and a heavy setup. As a consequence, markerless approaches are being investigated. 
-
-\noindent\autoref{ch:2}: Sports movements don’t generally only lie in the sagittal plane, and they often cause body part occlusions. Moreover, results need to be as biomechanically coherent as possible. Hence, one of the most promising prospects for sports motion analysis consists in addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model.  Such research is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to anatomically consistent kinematics. 
-
-\noindent\autoref{ch:3}: Sport scientists would also benefit from using wireless light-weight cameras as well as a user-friendly integrated workflow. Hence, Pose2Sim, an open-source Python package striving to answer these needs, has been proposed and released \cite{Pagnon2022b}. 2D keypoint coordinates obtained with OpenPose or DeepLabCut are robustly triangulated, and serve as input for a full-body OpenSim inverse kinematics procedure.
-
-\noindent\autoref{ch:4}: Pose2Sim robustness has been evaluated, regarding people entering and exiting the field of view, image quality, calibration errors, and low number of cameras \cite{Pagnon2021}. 
-
-\noindent\autoref{ch:5}: Its accuracy has also been assessed, and deemed sufficient for walking, running, and cycling analysis \cite{Pagnon2022a}. 
-
-\noindent\autoref{ch:6}: The workflow has then been tested in challenging conditions, such as shadow-boxing. Boxing involves fast, 3 dimensional, and full-body movements. These have been captured with GoPro cameras, post-calibrated on geometric cues, and post-synchronized by correlation of keypoint speeds. We concluded that boxing key performance indicators could be correctly evaluated, and that the protocol, whether it employed a full marker-based system, or a markerless one with research-grade hardware, or a markerless one with consumer-grade hardware, mattered less than the choice of a good 2D pose estimator \cite{Pagnon2022c}.  
-
-\noindent\autoref{ch:7}: Numerous sports disciplines are practiced with special equipment, such as a board in skateboarding, a racket and a ball in tennis, or a bike in BMX racing. The interactions between the athlete and their gear are often important to retrieve. We analyzed BMX start sequences, by using OpenPose for 2D human pose estimation, and a custom trained DeepLabCut model for bike detection. We ran Pose2Sim on the joint {pilot+bike} 2D estimations, and performed 3D inverse kinematics on a custom OpenSim {pilot+bike} model. This showed that analyzing simultaneously the athlete and their equipment is possible, which provides additional perspectives for markerless sports motion analysis. 
 % OpenSim model constraining handles to hands, and pedals to feet. The field was too large, and the image quality too low to obtain good results. However, we previously captured marker data of a similar scene. Keeping only markers similar to those detected by OpenPose and DeepLabCut, we were able to run the analysis. As a consequence, we hypothesize that assuming a sufficiently good image quality, it would be possible to provide joint \{bike+pilot\} kinematics to coaches. 
 
 % \begin{figure}[hbtp]
@@ -114,10 +122,10 @@ The thesis is organized as follows:
 % \end{figure}
 
 
-\FloatBarrier
-\section*{Contributions}
+\newpage
+\section*{Scientific contributions}
 
-This work led to the publication of a few scientific contributions as a first author: 3 peer-reviewed articles, 1 conference paper, and the release of an open-source package. A conference paper has been published as a secondary author.
+This work led to the publication of a few scientific contributions as a first author: 3 peer-reviewed articles, 2 conference talks as a first author and 1 as a secondary author, and the release of an open-source package.
 % , and a Blender add-on integrated the published package, for 3D character animation. 
 Another peer-reviewed article has been published as a first author during this period, although it was not related to the program.
 
@@ -141,6 +149,9 @@ Bhrigu-Kumar Lahkar, Thibault Goyallon, Anaïs Chaumeil, David Pagnon, Issa Mous
 
 % \noindent\cite{Barreto2022}: 
 % Carlos Barreto, CEB Studio. \textit{Mocap MPP2SOS} [Blender add-on], Blender Marker, 2022. \url{https://blendermarket.com/products/mocap-mpp2soss}.
+
+\noindent\cite{Pagnon2022e}: 
+David Pagnon. \textit{Markerless kinematic analysis of a BMX pilot with their equipment}. In 2022 Rencontres scientifiques de la haute performance en cyclisme, Paris (France). Oral.
 
 \noindent\cite{Pagnon2022d}: 
 David Pagnon, Germain Faity, Galo Maldonado, Yann Daout, Sidney Grosprêtre. \textit{What Makes Parkour Unique? A Narrative Review Across Miscellaneous Academic Fields.} Sports Medicine, vol. 52, page 1029, 2022.
