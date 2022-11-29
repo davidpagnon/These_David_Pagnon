@@ -74,7 +74,9 @@ When fine kinematic analysis is needed, the de facto approach is marker-based mo
 
 % since it involves gluing markers directly on the skin, which is not conceivable during a match or a training session. Markers are intrusive and cumbersome, and usually involve specific environmental conditions. Moreover, they can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-Sports motion analysis involves other constraints, such as the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with power and synchronization cables, which are obstructing and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, their battery does not last more than an hour, they don't come with calibration, and until recently, no synchronization solution existed. There is also no centralized visual feedback on the recording.
+Sports motion analysis involves other constraints, such as the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with power and synchronization cables, which are obstructing and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. 
+
+On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, there is no centralized visual feedback upon recording, their battery does not last more than an hour, they don't come with calibration, and until recently, no simple synchronization solution existed. In any case, their use has been investigated lately. \cite{Jackson2016} tracked bees after calibrating with a wand and synchronizing on a sound signal, while \cite{Dalla2019} equipped cameras with an illumination ring and a subject with markers, and evaluated knee flexion after calibrating with a wand and synchronizing on a flashlight.
 
 When outdoors, in direct sunlight and with large capture volumes, calibration of video cameras becomes delicate, too: markers on a calibration wand are inconstantly detected. No reliable solution currently exists, including with active LED markers. Checkerboard calibration is almost equally problematic, as corners are not always well detected unless the board is too large to conveniently carry around. Other solutions exist, such as calibrating intrinsic parameters with a checkerboard \cite{Zhang2000}, and extrinsic parameters with manually clicked and semi-automatically tracked points on a wand \cite{Argus,Jackson2016}. 
 % Since there only 2 collinear points are tracked on a wand, extrinsic parameters cannot be calculated on one single frame. Hence, Argus assumes an \textit{a priori} calibration, triangulates wand points, and minimizes reprojection errors by sparse bundle adjustment (SBA) frame after frame, while being delivered additional wand points. Then 
@@ -147,6 +149,7 @@ Unlike with Qualisys optoelectronic and video cameras, there is no live calibrat
 
 \begin{table}[!ht]
     \centering
+    \resizebox{0.85\textwidth}{!}{
     \begin{tabular}{lllll}
         \toprule
         \textbf{Model} & \textbf{Field of view} &\textbf{Resolution (px)} & \textbf{Focal length (px)} & \textbf{Distortion coefficients}\\ 
@@ -154,7 +157,7 @@ Unlike with Qualisys optoelectronic and video cameras, there is no live calibrat
         GoPro 7 & Linear & 1920x1080 & 1029 & [-0.004, 0.004, 0.0] \\ 
         GoPro 8 & Linear & 1920x1080 & 915 & [-0.01, 0.004, -0.0015]\\ 
         \bottomrule
-    \end{tabular}
+    \end{tabular}}
     \caption{Intrinsic parameters of the GoPro 7 and GoPro 8 cameras. The optical center was assumed to be at the center of the image. Focal length was supposed to be identical in both directions, the pixel to be square and not skewed, and $6^{th}$ order radial and $2^{nd}$ order tangential distortion coefficient to be null.}
       \label{table:tab_intrinsic}
 \end{table}
@@ -174,7 +177,7 @@ Extrinsic parameters can then be solved by pairing global 3D coordinates of an o
 
 \subsection{Post-synchronization on 2D movement speeds}
 
-GoPro videos were roughly cut to select the approximate same sequence from all cameras. OpenPose 2D keypoint trajectories were differentiated, in order to obtain 2D keypoint speeds. We assumed that two nearby cameras were synchronized when 2D speeds were maximally correlated. 
+GoPro videos were roughly cut to select the approximate same sequence from all cameras. OpenPose 2D keypoint trajectories were differentiated, in order to obtain 2D keypoint speeds. We assumed that two nearby cameras were synchronized when 2D speeds were maximally correlated. This is the approach adopted independently explored by OpenCap \cite{Uhlrich2022}.
 
 Hence, we used time-lagged cross-correlation to determine this offset (Figure~\ref{fig_sync}). This can be done for one specific point, or for all of them at once with attributing a different weight to each keypoint. Typically, larger weights could be attributed to fists or to other fast moving keypoints. In practice, all weights were set to 1, since it made results more robust without causing them to be less accurate.
 
@@ -202,6 +205,7 @@ We examined time series for lead foot translation, pelvis translation, lead elbo
 % Different technique (high inter-participant variability), but reproducible (low intra-participant variability). Inter-protocol variability almost non existent.
 Waveform similarity between the reference marker-based method and all other markerless ones was assessed with the inter-protocol coefficient of multiple correlation (CMC) \cite{Ferrari2010}, which quantifies in one single value the concurrent effects of differences in correlation, gain, and offset (see \nameref{stats_accuracy} \autoref{ch:5}). We compared the Root Mean Square Error (RMSE) with marker-based results to the findings of two previous studies done with the commercial markerless software Theia3D \cite{Kanko2021b}.
 
+\newpage
 We also retrieved certain quantifiable indicators on the aforementioned recorded variables. Ranges of motion and onset times were examined for translations, and peak values and times for angles and speeds. 
 % Onset time: threshold (depending on variables and on subject) on moving average over 3 frames (0.05 s)
 We computed mean differences and standard deviation (std) between marker-based results and all other protocol results. The impact of the camera type, and of the 2D pose estimation model, were similarly explored. 
