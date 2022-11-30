@@ -59,7 +59,7 @@ This chapter is a more detailed version of the poster presented at the congress 
 	\def\svgwidth{1\columnwidth}
 	\fontsize{10pt}{10pt}\selectfont
 	\includegraphics[width=\linewidth]{"../Intro/Figures/Fig_VisAbstract4.JPG"}
-      \caption{Visual abstract for the assessment of KPIs in boxing with Pose2Sim \cite{Pagnon2022c}. \\Research camera protocol: Qualisys cameras, calibration with markers, hardware synchronization. \\Action camera protocol: GoPro cameras, calibration on boxing ring dimensions, synchronization on 2D keypoint speeds.}
+      \caption{Visual abstract for the assessment of KPIs in boxing with Pose2Sim \cite{Pagnon2022c}. \\Research camera protocol: Qualisys cameras, gold-standard calibration, hardware synchronization. Action camera protocol: GoPro cameras, calibration on boxing ring dimensions, synchronization on 2D keypoint speeds.}
 	\label{fig_visabstract4}
 \end{figure}
 
@@ -74,7 +74,7 @@ When fine kinematic analysis is needed, the de facto approach is marker-based mo
 
 % since it involves gluing markers directly on the skin, which is not conceivable during a match or a training session. Markers are intrusive and cumbersome, and usually involve specific environmental conditions. Moreover, they can fall off the body when the athlete is sweating or moving fast. As a consequence, it is important to investigate markerless techniques. 
 
-Sports motion analysis involves other constraints, such as the capture system, which needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with power and synchronization cables, which are obstructing and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. 
+Moreover, competition conditions are often fast-paced and congested, and thus the capture system needs to be discrete and installed swiftly. As a consequence, research grade video systems such as Qualisys are not appropriate: they involve setting up large cameras and stands, with power and synchronization cables, which are obstructing and prevent cameras from being spread too far apart. These systems require at least two trained operators to set them up and to adjust their parameters. They are also very expensive, while their framerate and resolution are not very good. 
 
 On the other end, consumer-grade action cameras such as GoPros are very small, don't necessitate any cabling, and the operator has nothing to do but pressing the recording button. They are also cheap, and offer remarkably high framerate, resolution, and image quality. However, there is no centralized visual feedback upon recording, their battery does not last more than an hour, they don't come with calibration, and until recently, no simple synchronization solution existed. In any case, their use has been investigated lately. \cite{Jackson2016} tracked bees after calibrating with a wand and synchronizing on a sound signal, while \cite{Dalla2019} equipped cameras with an illumination ring and a subject with markers, and evaluated knee flexion after calibrating with a wand and synchronizing on a flashlight.
 

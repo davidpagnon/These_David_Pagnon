@@ -50,19 +50,19 @@ The thesis is organized as follows:
 Motion capture is traditionally performed with marker-based systems. However, these solutions are hardly compatible with on-field sports analysis, as they involve marker placement on the skin, and a heavy setup. As a consequence, markerless approaches are being investigated. 
 \vskip 0.4cm
 \noindent\autoref{ch:2}: \emph{From computer vision to biomechanics}. \newline
-One of the most promising prospects for sports motion analysis consists in addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model. Such research is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction, and biomechanics for constraining coordinates to anatomically consistent kinematics. 
+One of the most promising prospects for sports motion analysis lies at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction from multiple video sources, and biomechanics for constraining coordinates to an anatomically consistent model. 
 \vskip 0.4cm
 \noindent\autoref{ch:3}: \emph{A practical implementation}. \newline
 Sport scientists would benefit from having access to a user-friendly integrated workflow for on-field analysis. Hence, Pose2Sim, an open-source Python package striving to answer these needs, has been proposed and released. 2D keypoint coordinates obtained with OpenPose or DeepLabCut are robustly triangulated, and serve as input for a full-body OpenSim inverse kinematics procedure \cite{Pagnon2022b}.
 \vskip 0.4cm
 \noindent\autoref{ch:4}: \emph{Robustness assessment}. \newline
-Pose2Sim robustness has been evaluated, regarding people entering and exiting the field of view, image quality, calibration errors, and low number of cameras \cite{Pagnon2021}. 
+Pose2Sim robustness has been evaluated, regarding people entering and exiting the field of view, degraded image quality, calibration errors, and low number of cameras \cite{Pagnon2021}. 
 \vskip 0.4cm
 \noindent\autoref{ch:5}: \emph{Accuracy assessment}. \newline
 Its accuracy has also been assessed, and deemed sufficient for walking, running, and cycling analysis \cite{Pagnon2022a}. 
 \vskip 0.4cm
 \noindent\autoref{ch:6}: \emph{Using consumer-grade hardware}. \newline
-In the context of a competition, research-grade hardware is not always workable as it is cumbersome and complex to set up. We tested the use of GoPro cameras, which are not straightforward to calibrate or synchronize. The workflow was applied to shadow-boxing, which involves fast, 3 dimensional, and full-body movements. The measure of Key Performance Indicators (KPIs) was concurrently validated with a marker-based protocol, and demonstrated to be remarkably accurate \cite{Pagnon2022c}.
+In the context of a competition, research-grade hardware is not always workable as it is cumbersome and complex to set up. We tested the use of GoPro cameras, and proposed a method for calibrating and synchronizing them. The workflow was applied to shadow-boxing, which involves fast, 3 dimensional, and full-body movements. The measure of Key Performance Indicators (KPIs) was concurrently validated with a marker-based protocol, and demonstrated to be remarkably accurate \cite{Pagnon2022c}.
 \vskip 0.4cm
 \noindent\autoref{ch:7}: \emph{Capturing equipment along with the athlete}. \newline
 Numerous sports disciplines are practiced with dedicated equipment, whose motion is important to retrieve. However, this equipment can form a closed loop with the athlete, which makes the task mathematically challenging to resolve. We analyzed a BMX race starting sequence, by using OpenPose for human pose estimation, a custom trained DeepLabCut model for bike detection, and a custom OpenSim \{pilot+bike\} model for kinematic analysis. Expected KPI patterns were successfully measured, however results were inconclusive when constraints were added between the pilot and their equipment \cite{Pagnon2022e}.
