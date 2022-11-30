@@ -1,0 +1,3 @@
+            import subprocess
+            subprocess.call(["opensim-cmd", "run-tool",
+                  "<PATH TO YOUR SCALING OR IK SETUP FILE>.xml"])

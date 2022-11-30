@@ -938,11 +938,6 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 
-6DoF
--> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
--> no need for assumptions. Free bodies
-->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc) Comes from biomechanics rather than robotics (simple joints)
-Outperforms SO in their specific case (knee and hip) \cite{Lu1999}
 
 
 
@@ -969,6 +964,17 @@ Vicon, QTM (Visual3D)
 
 
  
+
+\subsection{Comparison of 6Dof and IK}
+
+True to all constrained models, as opposed to 6DOF approaches: only applicable with population close to the norm: limb missing, pathological joint, not okay
+
+6DoF
+-> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
+-> no need for assumptions. Free bodies
+->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc) Comes from biomechanics rather than robotics (simple joints)
+Outperforms SO in their specific case (knee and hip) \cite{Lu1999}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
