@@ -375,11 +375,42 @@ The magnitude of the difference with marker-based results were moderate. Transla
 
 Using a less accurate 2D pose estimation model had a similar impact as using consumer-grade cameras. This impact, however, was very mild, and only became more obvious once both factors were combined, which led to more noisy and unstable waveforms. This shows that a research team should choose their 2D pose estimation algorithms with as much care as their hardware. Some other models provided by OpenPose or other contributors are less accurate \cite{Needham2021b}, and may consequently lead to divergent results. This also involves that the triangulated keypoints must be carefully placed on the OpenSim skeletal model. Indeed, we noticed that elbow and knee extension angles were systematically underestimated, which may imply that the corresponding keypoints were mispositioned.
 
-Finally, we can infer from our study that a research-grade system is not necessarily needed for the determination of sports KPIs. Consumer-grade cameras may be sufficient, despite they imply greater calibration errors (centimetric rather than sub-millimetric), and approximate synchronization (based on the participant's 2D keypoint speeds rather than fixed by a hardware trigger). This is in line with our previous findings that 1 cm calibration errors hardly made any difference to kinematics results \cite{Pagnon2021} (\autoref{ch:4}). This is especially interesting, since calibrating with a wand equipped with retro-reflective markers is rarely successful in broad daylight, and since laying cables in the scene for hardware synchronization potentially interferes with natural sports movements. Moreover, action cameras such as GoPros are lightweight, easy to set up, and wireless. They also procure a larger field of view, often with higher frame rates and image definition, at considerably lower prices. In general, they are much more appropriate in a sports setting. Results being virtually the same as with research-grade cameras, practical considerations remain: they do not allow for any live feedback, they require careful planning for sparing battery life, and they potentially involve more complicated post-processing procedures in terms of calibration and synchronization. However, calibration and synchronization present the potential to be at least partly automatized.
+Finally, we can infer from our study that a research-grade system is not necessarily needed for the determination of sports KPIs. Consumer-grade cameras may be sufficient, despite they imply greater calibration errors (centimetric rather than sub-millimetric), and approximate synchronization (based on the participant's 2D keypoint speeds rather than fixed by a hardware trigger). This is in line with our previous findings that 1 cm calibration errors hardly made any difference to kinematics results \cite{Pagnon2021} (\autoref{ch:4}). This is especially interesting, since calibrating with a wand equipped with retro-reflective markers is rarely successful in broad daylight, and since laying cables in the scene for hardware synchronization potentially interferes with natural sports movements. Moreover, action cameras such as GoPros are lightweight, easy to set up, and wireless. They also procure a wider field of view, often with higher frame rate and image definition, at considerably lower prices. In general, they are much more appropriate in a sports setting. Results being virtually the same as with research-grade cameras, practical considerations remain: they do not allow for any live feedback, they require careful planning for sparing battery life, and they potentially involve more complicated post-processing procedures in terms of calibration and synchronization. However, calibration and synchronization present the potential to be at least partly automatized (Table~\ref{table:gopro_miqus}).
 
 All things considered, it is interesting to notice that regardless of the protocol, all results were very close to the marker-based ones. With the help of both IMUs and videos together, it has been shown that with fatigue, boxers tend to release their guard, lift their elbow, and increase their shoulder abduction \cite{Haralabidis2020}. Based on the outcomes of our study, it should be possible to monitor this without the use of any markers, IMUs, or any apparatus other than non-invasive and consumer-grade video cameras. This opens the way to sports kinematic analysis and to KPI determination in context, when marker-based analysis is not possible. 
 
 
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{lll} 
+	\toprule
+	\textbf{Issue} & \textbf{Research-grade system} & \textbf{Action camera system} \\
+	\specialrule{0.14 em}{0pc}{0pc}
+    Transportation & Fits in a large car & Fits in a backpack \\
+    	\midrule
+    Set up & \begin{tabular}[c]{@{}l@{}}Long and cumbersome set up procedure\\Frequent firmware issues \end{tabular}& \begin{tabular}[c]{@{}l@{}}Fast and easy set up\\Frequent remote control issues\end{tabular} \\
+    	\midrule
+    Cabling & \begin{tabular}[c]{@{}l@{}}Camera-to-camera distance constraint\\Need for power and data gauging\\Fragile\end{tabular} & Wireless\\
+    	\midrule
+    Calibration & \begin{tabular}[c]{@{}l@{}}Almost perfect when it works, but fails\\in broad daylight if cameras are far away\end{tabular} & \begin{tabular}[c]{@{}l@{}}Post-capture calibration\\More robust, but larger residual errors\end{tabular}\\
+    	\midrule    
+    Synchronization & Hardware, perfect & \begin{tabular}[c]{@{}l@{}}Post-capture synchronization\\Less robust, 1-2 frames error\end{tabular}\\
+        \midrule    
+    Live feedback & Available & Not available\\
+        \midrule   
+    Image resolution & \begin{tabular}[c]{@{}l@{}}Generally low-resolution \\(Miqus video: up to 2MP at 85fps)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Generally high resolution \\(GoPro 11: up to 5.3K=16MP at 60 fps)\end{tabular}\\
+    	\midrule
+    Framerate & \begin{tabular}[c]{@{}l@{}}Very high framerate but low resolution \\(Miqus video: up to 550 fps at 0.3MP) \end{tabular} & \begin{tabular}[c]{@{}l@{}}High framerate even at high resolution\\(GoPro 11: up to 240 fps at 2.7K=4.1MP)\end{tabular}\\ 
+    	\midrule     
+    Pricing & $\approx$ 50,000 - 100,000 € & $\approx$ 4,000 - 8,000€\\
+	\bottomrule
+    \end{tabular}
+	\caption{Pros and cons of using a research-grade system, or a consumer-grade one using action cameras.}
+	\label{table:gopro_miqus}
+\end{table}
+
+
+\FloatBarrier
 \subsection{Limits and perspectives}
 
 Kinematic analysis from video cameras involves 3 main stages: 2D pose estimation, 3D reconstruction, and kinematic optimization. The last one has not been evaluated, and yet, it is of crucial importance. Choosing a good skeletal model with consistent joint constraints and accurate bone definition will determine whether the results can be trusted, or not. In particular, in this study the shoulder was defined as a ball joint, both on the marker-based and on the markerless analysis. Yet, the scapulothoracic girdle is a very complex multi-articulated joint, which allows for 3 rotations and 3 translations \cite{Seth2016}. Considering the small amount of keypoints tracked by standard 2D pose estimation models, it is impossible to use a more complex model. Consequently, our shoulder abduction results can probably not be entirely trusted, neither for our markerless nor for our marker-based protocol (see \nameref{ch3_lim} in \autoref{ch:3}).
