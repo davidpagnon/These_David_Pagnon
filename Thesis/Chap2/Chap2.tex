@@ -878,7 +878,6 @@ Modele: joints with dof, scaling for segment lengths
 initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models became more thorough and trustworthy
 First step for inverse dynamics, estimation of muscle activation 
 
-\textbf{Inverse Jacobian and cost function}
 
 \textbf{Model definition and scaling}
 
@@ -897,6 +896,8 @@ Model based:
 - scaling
 - IK
 IK vs forward kinematics (joint angles -> segment orientation)
+
+\textbf{Inverse Jacobian and cost function}
 
 
 Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods, same overall problem as in calibration, equations 2.32 and 2.33: least-square optimization: more unknown parameters in function q than measured (known) variables. Non-linear because q is not a linear function of its parameters. Thus, classically solved by Levenberg-Marquardt algorithm. Hybrid between gradient descent and Gauss-Newton: converges faster than the first, and is more robust to bad initial estimates than the second. All Use Jacobian)
