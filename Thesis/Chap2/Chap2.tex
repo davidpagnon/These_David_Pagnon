@@ -819,26 +819,20 @@ Again, this formulation does not take distortions into account, so it should be 
 
 \subsection{The kinematics problem}
 
-\cite{Robertson2013} reminds that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
+Joint kinematics is a problem which is addressed across multiple fields, such as computer animation, robotics, biomechanics, or even chemistry. Each of them approaches the problem with a slightly different spirit. \cite{Robertson2013} points out that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
 
 In order for its local coordinate system to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. Now, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
-% parler de robotique, animation, biomécanique?
 
 \subsection{The 6DoF approach}
 
-The traditional method for obtaining 3D joint angles consists in computing positions and orientations of all body segments independently: it is called the 6DoF (6 Degrees of Freedom) free-body approach. This assumes that there are at least as many known variables (marker positions) as unknown degrees of freedom (joint angles). This excludes most of the current pose estimation models from operating in this paradigm. However, as the biomechanics community make theirs the concepts of learning-based keypoint estimation, other models with more complete labelling may arise. Hence, for the sake of completeness, this approach is broached below.
+The traditional method for obtaining 3D joint angles in biomechanics consists in computing positions and orientations of all body segments independently: it is called the 6DoF (6 Degrees of Freedom) free-body approach. The 6 degrees of freedom of a segment consist in 3 translations and 3 rotations, which can be determined by a 3D frame of reference. A 3D frame of reference can be defined by 3 markers determining two base vectors, the third one being calculated as their cross-product. Hence, this assumes that there are at leas 3 markers per segment, which excludes from this paradigm most of the current pose estimation models. However, as the biomechanics community make theirs the concepts of learning-based keypoint estimation, other models with more complete labelling may arise. Therefore, for the sake of completeness, this approach is broached below.
 
-If only 3 markers are used per segment, the problem can be solved analytically. The method is then called Direct Kinematics (DK, see \href{Ann:gloss}{Confusing concepts - Disambiguation}) \cite{Lu1999}. The local reference frame of each segment, i.e., its joint center and rotational axes, can be fully defined as regards to the locations of the markers. Simple trigonometric formulas can then be applied to infer inter-segmental rotations and translations. 
+If only 3 markers are used per segment, the problem can be solved analytically. The method is then called Direct Kinematics (see \hyperlink{Ann:gloss}{Confusing concepts - Disambiguation}) \cite{Lu1999}. The local reference frame of each segment can be calculated, and all inter-segmental rotations and translations can be found, using trigonometric formulas. 
 
-In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow standards. Such standards are given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or by its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. For more general purposes, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}.
+In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow certain standards. Such standards are given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or by its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. For more general purposes, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides some open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}.
 
-If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. The 6DoF methods is then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised, as it makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
-\begin{equation}
-  \sum_{m \in [1,M]}
-  ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
-\end{equation} 
-With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X_{init}^m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X_{target}^m}$. 
+\newpage
 
 \begin{figure}[!ht]
 	\centering
@@ -849,21 +843,47 @@ With M the number of markers of the considered segment. The segment best matches
 	\label{fig_isb}
 \end{figure}
 
+If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. The 6DoF methods is then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised and clusters of markers are commonly attached to body segments. It makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
+\begin{equation}
+  \sum_{m \in [1,M]}
+  ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
+\end{equation} 
+With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X_{init}^m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X_{target}^m}$. Each marker can be weighted with its confidence $w^m$:
+\begin{equation}\label{eq:weighted_sko}
+  \sum_{m \in [1,M]}
+  w^m ||\ \textbf{R} \ \overrightarrow{X_{init}^m} + \overrightarrow{T} - \overrightarrow{X_{target}^m} ||^2
+\end{equation} 
+One way to solve it involves SVD \cite{Arun1987,Soderkvist1993}, see \cite{Sorking2017} for a step-by-step resolution.
+
 
 \newpage
 \subsection{The inverse kinematics approach}
+
+\textbf{Principles}\\
+An other approach is inverse kinematics (see \hyperlink{Ann:gloss}{Confusing concepts - Disambiguation}), which consists in considering the human body as a multi-body kinematic chain. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Inverse kinematics (IK) is sometimes called Multibody Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018}.
+
+
+
+
+initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models and scaling became more thoroughly defined and trustworthy
+First step for inverse dynamics, estimation of muscle activation 
+
+(need for model, joints, segment, scaled) 
+joints pin, ball, universeal, constrained
+
+
+3 méthodes: 
+- algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse (pt être comp intensive), 
+- optimisation sequentielle quadratique (GOM), ainsi que 
+- KS (Kalman Smoothing)
+
+
 
 - If as many markers as degrees of freedom: analytical (exact) solution, direct computation
 - If more markers than degrees of freedom: overdetermined, no solutions: Optimal solution (svd, optim, ?)
 - If less markers than degrees of freedom: underdetermined, infinite solutions: add constraints, or ?
 
-Constrained system of rigid bodies / kinematic chain
 
-Multibody Kinematic Optimization (MKO) or Global Optimization (GO) (need for model)
-3 méthodes: 
-- algorithme de Levenberg-Marquardt avec calcul du Jacobien pseudo-inverse (pt être comp intensive), 
-- optimisation sequentielle quadratique (GOM), ainsi que 
-- KS (Kalman Smoothing)
 
 inverse:numerical=iterative/model based/global optimization/multibody kinematic optimization
 -> trust model
@@ -871,12 +891,46 @@ inverse:numerical=iterative/model based/global optimization/multibody kinematic 
 theta = f-1(x)
 
 
-Modele: joints with dof, scaling for segment lengths
+Revoir ça: https://pycgm2.netlify.app/background/history/
+Modèle CGM2 vs CAST/IOR ? Rapport avec ISB? 
 
 
-\textbf{Principles}
-initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models became more thorough and trustworthy
-First step for inverse dynamics, estimation of muscle activation 
+Begon: https://sci-hub.se/https://doi.org/10.1115/1.4038741
+Buss iksurvey: http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
+Review computer graphics: https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310
+
+Lu1999: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584
+
+Thèse chap2 Jacobien: https://pastel.archives-ouvertes.fr/tel-03070309/file/safeea.pdf
+Conf game: https://ubm-twvideo01.s3.amazonaws.com/o1/vault/GDC2014/Presentations/VanDenBergen_Gino_Math_For_Game.pdf
+Joint constraints: https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt4.html 
+Pinocchion jacobian doc: https://github.com/stack-of-tasks/pinocchio/blob/a1df23c2f183d84febdc2099e5fbfdbd1fc8018b/doc/b-examples/i-inverse-kinematics.md
+Pinocchio jacobian python: https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
+Custom jacobian: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m
+Custom least-squares: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
+
+
+Kalman smoothing: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685
+OpenSim KS: https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
+Pyomeca biordb KS: https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
+Pyomeca biordv python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
+Wiki: https://fr.wikipedia.org/wiki/Filtre_de_Kalman
+
+
+Maximum Likelihood Estimates of Linear Dynamic Systems: https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166 
+
+
+Page pyomeca: https://joss.theoj.org/papers/10.21105/joss.02431
+Page kineticstoolkit: https://kineticstoolkit.uqam.ca/doc/
+
+
+Closed loops 1: https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
+Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
+
+
+
+
+NCams calib: https://github.com/CMGreenspon/NCams/blob/v0.2/Examples/NewExamples/intrinsic_extrinsic_calibration.py
 
 
 \textbf{Model definition and scaling}
@@ -897,7 +951,7 @@ Model based:
 - IK
 IK vs forward kinematics (joint angles -> segment orientation)
 
-\textbf{Inverse Jacobian and cost function}
+\textbf{Inverse Jacobian methods}\\
 
 
 Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods, same overall problem as in calibration, equations 2.32 and 2.33: least-square optimization: more unknown parameters in function q than measured (known) variables. Non-linear because q is not a linear function of its parameters. Thus, classically solved by Levenberg-Marquardt algorithm. Hybrid between gradient descent and Gauss-Newton: converges faster than the first, and is more robust to bad initial estimates than the second. All Use Jacobian)
