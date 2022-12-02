@@ -865,7 +865,7 @@ An other approach is inverse kinematics (see \hyperlink{Ann:gloss}{Confusing con
 
 
 
-initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models and scaling became more thoroughly defined and trustworthy
+initially for robotics (simple), 3D animation applications (visually plausible rather than accurate) until models and scaling became more thoroughly defined and trustworthy (is my model good enough?)
 First step for inverse dynamics, estimation of muscle activation 
 
 (need for model, joints, segment, scaled) 
@@ -891,46 +891,54 @@ inverse:numerical=iterative/model based/global optimization/multibody kinematic 
 theta = f-1(x)
 
 
-Revoir ça: https://pycgm2.netlify.app/background/history/
-Modèle CGM2 vs CAST/IOR ? Rapport avec ISB? 
+% Revoir ça: https://pycgm2.netlify.app/background/history/
+% Modèle CGM2 vs CAST/IOR ? Rapport avec ISB? 
 
 
-Begon: https://sci-hub.se/https://doi.org/10.1115/1.4038741
-Buss iksurvey: http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
-Review computer graphics: https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310
+% Begon: https://sci-hub.se/https://doi.org/10.1115/1.4038741
+% Buss iksurvey: http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
+% Review computer graphics: https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310
 
-Lu1999: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584
+% Lu1999: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584
 
-Thèse chap2 Jacobien: https://pastel.archives-ouvertes.fr/tel-03070309/file/safeea.pdf
-Conf game: https://ubm-twvideo01.s3.amazonaws.com/o1/vault/GDC2014/Presentations/VanDenBergen_Gino_Math_For_Game.pdf
-Joint constraints: https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt4.html 
-Pinocchion jacobian doc: https://github.com/stack-of-tasks/pinocchio/blob/a1df23c2f183d84febdc2099e5fbfdbd1fc8018b/doc/b-examples/i-inverse-kinematics.md
-Pinocchio jacobian python: https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
-Custom jacobian: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m
-Custom least-squares: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
-
-
-Kalman smoothing: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685
-OpenSim KS: https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
-Pyomeca biordb KS: https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
-Pyomeca biordv python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
-Wiki: https://fr.wikipedia.org/wiki/Filtre_de_Kalman
+% Thèse chap2 Jacobien: https://pastel.archives-ouvertes.fr/tel-03070309/file/safeea.pdf
+% Conf game: https://ubm-twvideo01.s3.amazonaws.com/o1/vault/GDC2014/Presentations/VanDenBergen_Gino_Math_For_Game.pdf
+% Joint constraints: https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt4.html 
+% Pinocchion jacobian doc: https://github.com/stack-of-tasks/pinocchio/blob/a1df23c2f183d84febdc2099e5fbfdbd1fc8018b/doc/b-examples/i-inverse-kinematics.md
+% Pinocchio jacobian python: https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
+% Custom jacobian: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m
+% Custom least-squares: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
 
 
-Maximum Likelihood Estimates of Linear Dynamic Systems: https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166 
+% Kalman smoothing: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685
+% OpenSim KS: https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
+% Pyomeca biordb KS: https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
+% Pyomeca biordv python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
+% Wiki: https://fr.wikipedia.org/wiki/Filtre_de_Kalman
 
 
-Page pyomeca: https://joss.theoj.org/papers/10.21105/joss.02431
-Page kineticstoolkit: https://kineticstoolkit.uqam.ca/doc/
+% Maximum Likelihood Estimates of Linear Dynamic Systems: https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166 
 
 
-Closed loops 1: https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
-Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
+% Page pyomeca: https://joss.theoj.org/papers/10.21105/joss.02431
+% Page kineticstoolkit: https://kineticstoolkit.uqam.ca/doc/
 
 
+% 6DOF vs IK: https://www.sciencedirect.com/science/article/abs/pii/S0021929016304134
+% 6DoF vs IK: https://journals.lww.com/acsm-msse/Fulltext/2014/07000/Impact_of_Knee_Modeling_Approach_on_Indicators_and.1.aspx
+
+% Without jacobian? https://arxiv.org/pdf/2203.04138.pdf
 
 
-NCams calib: https://github.com/CMGreenspon/NCams/blob/v0.2/Examples/NewExamples/intrinsic_extrinsic_calibration.py
+% Closed loops 1: https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
+% Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
+
+
+% Simmbody: https://raw.githubusercontent.com/simbody/simbody/master/Simbody/doc/SimbodyTheoryManual.pdf
+% OpenSim: https://nmbl.stanford.edu/publications/pdf/Delp2007.pdf
+% IK OpenSim: https://simtk-confluence.stanford.edu:8443/display/OpenSim/How+Inverse+Kinematics+Works
+
+% NCams calib: https://github.com/CMGreenspon/NCams/blob/v0.2/Examples/NewExamples/intrinsic_extrinsic_calibration.py
 
 
 \textbf{Model definition and scaling}
