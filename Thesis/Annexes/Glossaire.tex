@@ -35,28 +35,38 @@
 
 \vspace*{1cm}
 
-\noindent\underline{Markers vs. Keypoints:}\\
-\textbf{Markers} are objects attached to the body of the user, often small and round. They are used to indirectly track the posture of a user. Markers can sometimes be active and emit light, instead of passive and reflect light. They can also be anchored to the bone, for a more precise analysis exempt from Soft Tissue Artifact (STA). A marker-based analysis commonly refers to the use of passive markers, glued to the skin of the user.\\
-\textbf{Keypoints} are points of interest detected by a machine learning model, either in 2D or in 3D space. They can estimate the location of a human joint, or of a body part, or else of any point of interest of any object.\\
+\noindent\underline{Markers vs. Keypoints:}
+
+\textbf{Markers} are objects attached to the body of the user, often small and round. They are used to indirectly track the posture of a user. Markers can sometimes be active and emit light, instead of passive and reflect light. They can also be anchored to the bone, for a more precise analysis exempt from Soft Tissue Artifact (STA). A marker-based analysis commonly refers to the use of passive markers, glued to the skin of the user.
+
+\textbf{Keypoints} are points of interest detected by a machine learning model, either in 2D or in 3D space. They can estimate the location of a human joint, or of a body part, or else of any point of interest of any object.
+
 Once triangulated, keypoints can be treated as \textbf{virtual markers}, for example while running inverse kinematic (IK) analysis. Calculated markers are another kind of virtual markers, which can for example represent joint centers, or markers which have fallen off the body during capture.
 
 \vspace*{0.5cm}
 
-\noindent\underline{Markerless vs. Sensorless:}\\
-\textbf{Markerless} systems don't use any markers, but they can use other sensors, such as Inertial Measurement Units (IMUs). \\
-In contrast, \textbf{sensorless} systems don't involve any wearable markers nor any sensors. This also goes for sensorless dynamic analysis, which does not use any force sensors, or for muscle activation analysis, which does not use any Electromyography (EMG) sensor. \\
+\noindent\underline{Markerless vs. Sensorless:}
+
+\textbf{Markerless} systems don't use any markers, but they can use other sensors, such as Inertial Measurement Units (IMUs). 
+
+In contrast, \textbf{sensorless} systems don't involve any wearable markers nor any sensors. This also goes for sensorless dynamic analysis, which does not use any force sensors, or for muscle activation analysis, which does not use any Electromyography (EMG) sensor. 
+
 Note that approaches only using video (RGB), or depth-field video (RGB-D) sensors are usually considered sensorless, as they do not involve any body instrumentation, and thus do not imply any particular alteration to the environment or behavior of the user.
 
 \vspace*{0.5cm}
 
-\noindent\underline{Gold standard vs. Silver standard:}\\
-A \textbf{gold-standard} method refers to the most accurate of the currently available methods, which can be used as a reference to assess the performance of other methods. Bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are usually considered as gold-standard techniques for posture analysis. In contrast, marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. Hence, they are referred to as \textbf{silver-standard} methods. \\
+\noindent\underline{Gold standard vs. Silver standard:}
+
+A \textbf{gold-standard} method refers to the most accurate of the currently available methods, which can be used as a reference to assess the performance of other methods. Bone-anchored pins, Magnetic Resonance Imaging (MRI), biplanar videoradiography, or 3D ultrasounds are usually considered as gold-standard techniques for posture analysis. In contrast, marker-based methods cannot be rigorously considered as such, since they are sensitive to Soft Tissue Artifact (STA) and to positioning variability from the operator. Hence, they are referred to as \textbf{silver-standard} methods. 
+
 However, the previously listed methods are not available for most sports activities, and thus cannot be considered as standards at all. Hence, in this case, marker-based approaches are sometimes referred to as gold-standard, as opposed to IMU or markerless systems, which are then considered as silver-standard.
 
 \vspace*{0.5cm}
 
-\noindent\underline{Silhouette vs. Shape:}\\
+\noindent\underline{Silhouette vs. Shape:}
+
 A \textbf{silhouette} is the 2D cutout of a human being on an image. Silhouette segmentation is a specific case of \textbf{object segmentation}. 
+
 A \textbf{shape} is the equivalent of a silhouette in 3D space. A human shape can be used to characterize pose, like 3D keypoints do, but also morphology. A \textbf{mesh} is the geometric representation of a shape, divided into smaller 2D cells (Figure~\ref{fig_meshmodel}).
 
 \begin{figure}[hbtp]
@@ -71,12 +81,17 @@ A \textbf{shape} is the equivalent of a silhouette in 3D space. A human shape ca
 
 \vspace*{0.5cm}
 
-\noindent\underline{Machine learning vs. Deep learning:}\\
-Machine learning and Deep Learning, as well as Artificial Intelligence, Artificial Neural Networks, or Convolutional Neural Networks, are sometimes used interchangeably. However, they do not exactly refer to the same concepts (Figure~\ref{fig_ai}).\\
-\textbf{Artificial Intelligence (AI)} concerns the general concept of machines being able to perform tasks that would seem to require human intelligence, or even to sense, reason, and act accordingly. \\
+\noindent\underline{Machine learning vs. Deep learning:}
+
+Machine learning and Deep Learning, as well as Artificial Intelligence, Artificial Neural Networks, or Convolutional Neural Networks, are sometimes used interchangeably. However, they do not exactly refer to the same concepts (Figure~\ref{fig_ai}).
+
+\textbf{Artificial Intelligence (AI)} concerns the general concept of machines being able to perform tasks that would seem to require human intelligence, or even to sense, reason, and act accordingly. 
+
 \textbf{Machine learning (ML)} is a subset of AI, and refers to the concept of machines being able to learn and improve as they are exposed to data. It is a data-driven approach, as opposed to knowledge-driven ones.\\
-\textbf{Artificial Neural Networks (ANN)} are a specific way of performing ML, by using a network of units inspired from the natural neuron, and thus mimicking the brain. \\
-\textbf{Deep Learning (DL)} refers to an ANN with more than 3 layers of neurons.\\
+\textbf{Artificial Neural Networks (ANN)} are a specific way of performing ML, by using a network of units inspired from the natural neuron, and thus mimicking the brain. 
+
+\textbf{Deep Learning (DL)} refers to an ANN with more than 3 layers of neurons.
+
 \textbf{Convolutional Neural Networks (CNN)} are a type of ANN which is particularly suited for image processing.
 
 \begin{figure}[hbtp]
@@ -90,37 +105,52 @@ Machine learning and Deep Learning, as well as Artificial Intelligence, Artifici
 \FloatBarrier
 \vspace*{0.5cm}
 
-\noindent\underline{Dataset vs. Labels: }\\
-A \textbf{dataset} is a collection of data used to train a machine learning model. \\
-These data need to be labelled prior to training. \textbf{Labels} and \textbf{annotations} can generally be considered as synonyms. Certain datasets come with several kinds of annotations: keypoints, instance segmentation, or image classification for example. Note that a same dataset can be annotated with several keypoint instances, e.g., one focusing on hands, and the other one on the full body.\\
-Once labeled, a dataset can be fed to a deep learning \textbf{architecture}, or \textbf{algorithm}, upon which is appended a \textbf{feature extractor}, or \textbf{backbone}, specific to the chosen labelling convention. A \textbf{model} results from this training, which can then be used to predict the labels of new data. Hand-labeled dataset can be used as \textbf{benchmarks} for assessing the model accuracy or speed. \\
+\noindent\underline{Dataset vs. Labels: }
+
+A \textbf{dataset} is a collection of data used to train a machine learning model. These data need to be labelled prior to training. \textbf{Labels} and \textbf{annotations} can generally be considered as synonyms. Certain datasets come with several kinds of annotations: keypoints, instance segmentation, or image classification for example. Note that a same dataset can be annotated with several keypoint instances, e.g., one focusing on hands, and the other one on the full body.
+
+Once labeled, a dataset can be fed to a deep learning \textbf{architecture}, or \textbf{algorithm}, upon which is appended a \textbf{feature extractor}, or \textbf{backbone}, specific to the chosen labelling convention. A \textbf{model} results from this training, which can then be used to predict the labels of new data. Hand-labeled dataset can be used as \textbf{benchmarks} for assessing the model accuracy or speed. 
+
 In the everyday use, datasets, labeling or annotation, architecture, and models, tend to be used in a confusing way. For instance, the standard OpenPose model has been trained on the COCO and MPII dataset, annotated with COCO, MPII, and additional foot keypoints, on the OpenPose architecture. This results in the OpenPose body\_25 model. 
 
 \vspace*{0.5cm}
 
-\noindent\underline{Single-view vs. Multi-view:}\\
-A \textbf{multi-view} (or multiview) system uses several cameras, while a \textbf{single-view}, or \textbf{monocular} one, uses only one. While multi-view systems are always used to infer 3D information, monocular ones can either focus on 2D or 3D information retrieval.\\
-\textbf{Single-image}, or \textbf{single-frame} approaches, specifically analyze one single image. In practice, video approaches often perform their analysis image by image.\\
+\noindent\underline{Single-view vs. Multi-view:}
+
+A \textbf{multi-view} (or multiview) system uses several cameras, while a \textbf{single-view}, or \textbf{monocular} one, uses only one. While multi-view systems are always used to infer 3D information, monocular ones can either focus on 2D or 3D information retrieval.
+
+\textbf{Single-image}, or \textbf{single-frame} approaches, specifically analyze one single image. In practice, video approaches often perform their analysis image by image.
 
 \vspace*{0.5cm}
 
-\noindent\underline{Kinematics vs. Kinetics: }\\
-\textbf{Kinematics} describes the motion of points (e.g., heel marker), bodies (e.g., foot segment), or systems of bodies (e.g., human whole body). This can involve studying positions or angles, as well as linear and angular velocities or accelerations. However, kinematics studies motion only in a geometric way, without considering its causes. It deals with the \emph{equations of motion}.\\
-On the other hand, \textbf{kinetics} deals with the causes of motion. According to Newton's second law of motion, the forces that induce the motion of a body are obtained by multiplying its acceleration by its mass. Hence, unlike kinematics, kinetics takes masses into account (or more generally, inertial properties). it involves considering external forces (e.g., gravity or ground reaction forces), internal forces (e.g., joint moments or individual muscle forces), or energy or power (e.g., kinetic energy). More generally, kinetics deals with the \emph{laws of motion}.\\
+\noindent\underline{Kinematics vs. Kinetics: }
+
+\textbf{Kinematics} describes the motion of points (e.g., heel marker), bodies (e.g., foot segment), or systems of bodies (e.g., human whole body). This can involve studying positions or angles, as well as linear and angular velocities or accelerations. However, kinematics studies motion only in a geometric way, without considering its causes. It deals with the \emph{equations of motion}.
+
+On the other hand, \textbf{kinetics} deals with the causes of motion. According to Newton's second law of motion, the forces that induce the motion of a body are obtained by multiplying its acceleration by its mass. Hence, unlike kinematics, kinetics takes masses into account (or more generally, inertial properties). it involves considering external forces (e.g., gravity or ground reaction forces), internal forces (e.g., joint moments or individual muscle forces), or energy or power (e.g., kinetic energy). More generally, kinetics deals with the \emph{laws of motion}.
+
 \textbf{Dynamics} includes both kinematics and kinetics. However, note that in practice, kinetics and dynamics are often used as synonyms. \textbf{Statics} is a special case of dynamics where the sum of forces is zero, and consequently, so is the acceleration. Thus, either the velocity of the object is constant, or it is not moving at all. 
 
 \vspace*{0.5cm}
 
-\noindent\underline{Spatio-temporal parameters vs Joint kinematics:}\\
-\textbf{Spatio-temporal parameters} are handcrafted indicators used for the kinematic analysis of a specific task. Among other, they can include step length or cadence for gait analysis, or the reach of the jab or the excursion of the center of motion for boxing analysis.\\
-\textbf{Joint kinematics} is the study of joint motion, such as joint angle or joint laxity, or joint velocities and accelerations.\\
+\noindent\underline{Spatio-temporal parameters vs Joint kinematics:}
+
+\textbf{Spatio-temporal parameters} are handcrafted indicators used for the kinematic analysis of a specific task. Among other, they can include step length or cadence for gait analysis, or the reach of the jab or the excursion of the center of motion for boxing analysis.
+
+\textbf{Joint kinematics} is the study of joint motion, such as joint angle or joint laxity, or joint velocities and accelerations.
+
 Technically, both spatio-temporal parameters and joint kinematics fall under the umbrella of kinematic data; however, in the customary usage, kinematics describes joint kinematics.
 
 \vspace*{0.5cm}
 
-\noindent\underline{Forward kinematics vs. Inverse kinematics:}\\
-In the multi-body analysis of human motion, \textbf{forward kinematics} generally involves finding the positions of markers $\overrightarrow{x}$ from joint angles $\overrightarrow{q}$. In other words, it aims to solve the equation $\overrightarrow{x}=f(\overrightarrow{q})$. Assuming that segment dimensions and marker positions on each segment are known, and neglecting soft tissue artifacts and measurement inaccuracies, then the position of markers can be solved analytically, with simple trigonometric formulas. \\
-Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{x})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several end-targets, that will be reached with an unknown joint configuration. However, in practice there are usually less known marker coordinates than unknown joint degrees of freedom, and $f$ is not invertible: the system is underdetermined, and there is an infinite amount of solutions (or none at all). Consequently, optimization methods need to be leveraged. Inverse kinematics is sometimes called Multibody Kinematic Optimization (MKO), or Global Optimization (GO).\\
+\noindent\underline{Forward kinematics vs. Inverse kinematics:}
+
+In the multi-body analysis of human motion, \textbf{forward kinematics} generally involves finding the positions of M markers $\overrightarrow{X}$ from N joint angles $\overrightarrow{q}$. Markers are more formally called end-targets, and joint angles degrees of freedom. In other words, forward kinematics aims to solve the equation $\overrightarrow{X}=f(\overrightarrow{q})$. Marker positions can usually be solved analytically, with simple trigonometric formulas. However, this assumes that segment dimensions and marker placement on each segment are known, and that soft tissue artifacts and measurement inaccuracies can be neglected.
+
+Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several known marker positions, that will be reached with unknown joint angles. However, in practice $f$ is not generally invertible, and there is either an infinite amount of solutions to reach the target pose, or none at all. Consequently, optimization methods need to be leveraged. Inverse kinematics involves defining a kinematic chain, with segment dimensions and joint properties. It is sometimes called \emph{Multi-body Kinematic Optimization} (MKO). 
+
+Another approach for finding joint angles is the \textbf{6DoF} one (6 Degrees of Freedom), sometimes called \emph{Single-body Kinematic Optimization} (SKO). The idea is to compute each segment position and orientation independently, and then deduces inter-segmental angles. It does not assume any prior knowledge on segment dimensions nor joint properties, but it involves having at least 3 markers per segment.
+
 \textbf{Direct kinematics} is usually considered to be a synonym of forward kinematics. However, when there are exactly as many joint angles as marker coordinates, both of them can be equally solved. Hence, the term direct kinematics is sometimes also employed to describe the analytical calculation of M joint angles from the position of M markers.
 
 
@@ -173,6 +203,12 @@ Où mettre ça :
 \vspace*{0.5cm}
 
 \noindent\underline{Overdetermined vs. Underdetermiend system:}\\
+
+% However, in practice there are usually less known marker coordinates than unknown joint degrees of freedom, and $f$ is not invertible: the system is underdetermined, and there is an infinite amount of solutions (or none at all). 
+
+% is either an infinite amount of solutions (if M<N, there are fewer markers than degrees of freedom, and the system is underdetermined), or none at all (if M>N, the system is overdetermined).
+
+
 f(X) = Q
 A system of M linear equations can be written as $\textbf{A} \overrightarrow{X}=\overrightarrow{B}$. $\overrightarrow{X}$ contains the N degrees of freedom to be determined, which can represent N unknown joint angles for example. $\overrightarrow{B}$ contains M observations, marker coordinates for example. \textbf{A} is a matrix of size $M \times N$, each of the M lines expressing the values each joint angle has taken to lead to the observed marker position. We assume that none of the lines can be expressed as a linear combination of the others: $rank(A)=M$.
 
@@ -242,9 +278,13 @@ https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinemat
 
 
 
-% generalized coordinates: angular version of cartesian coordinates (X,Y,Z). Joint angles, moments, etc
+% In the field of biomechanics, generalized coordinates are an extension of cartesian coordinates, used to describe joint configurations, whether they be linear or angular. Similarly, generalized velocities can be angular velocities, generalized forces moments, etc. Plücker coordinates are sometimes used to consider both sets of coordinates in a single 6D system (3D positions + 3D orientations).
 
-% top-down vs. bottom-up vs. single-person
+% top-down vs. bottom-up vs. single-person: 
 
 
 
+% Least-square optimization: quadratic programming vs. levenberg-marquardt?
+% - LM for non iterative solution, quadratic programming for iterative solution?
+% - LM involves linearization quadratic aussi?
+% vs. damped least-square vs. kalman smoother vs. global optimization
