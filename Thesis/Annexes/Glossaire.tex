@@ -141,13 +141,13 @@ On the other hand, \textbf{kinetics} deals with the causes of motion. According 
 
 Technically, both spatio-temporal parameters and joint kinematics fall under the umbrella of kinematic data; however, in the customary usage, kinematics describes joint kinematics.
 
-\vspace*{0.5cm}
 
+\vspace*{0.5cm}
 \noindent\underline{Forward kinematics vs. Inverse kinematics:}
 
 In the multi-body analysis of human motion, \textbf{forward kinematics} generally involves finding the positions of M markers $\overrightarrow{X}$ from N joint angles $\overrightarrow{q}$. Markers are more formally called end-targets, and joint angles degrees of freedom. In other words, forward kinematics aims to solve the equation $\overrightarrow{X}=f(\overrightarrow{q})$. Marker positions can usually be solved analytically, with simple trigonometric formulas. However, this assumes that segment dimensions and marker placement on each segment are known, and that soft tissue artifacts and measurement inaccuracies can be neglected.
 
-Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several known marker positions, that will be reached with unknown joint angles. However, in practice $f$ is not generally invertible, and there is either an infinite amount of solutions to reach the target pose, or none at all. Consequently, optimization methods need to be leveraged. Inverse kinematics involves defining a kinematic chain, with segment dimensions and joint properties. It is sometimes called \emph{Multi-body Kinematic Optimization} (MKO). 
+Conversely, \textbf{inverse kinematics} deals with finding joint angles from marker positions, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several known marker positions, that will be reached with unknown joint angles. However, in practice $f$ is not generally invertible, and there is either an infinite amount of solutions to reach the target (or none at all if target is out of reach). Consequently, optimization methods need to be leveraged. Inverse kinematics involves defining a kinematic chain, with segment dimensions and joint properties. It is sometimes called \emph{Multi-body Kinematic Optimization} (MKO). 
 
 Another approach for finding joint angles is the \textbf{6DoF} one (6 Degrees of Freedom), sometimes called \emph{Single-body Kinematic Optimization} (SKO). The idea is to compute each segment position and orientation independently, and then deduces inter-segmental angles. It does not assume any prior knowledge on segment dimensions nor joint properties, but it involves having at least 3 markers per segment.
 
@@ -159,15 +159,13 @@ Another approach for finding joint angles is the \textbf{6DoF} one (6 Degrees of
 
 % There is an exact solution, which can be calculated . Unlike in robotics, joint angles are hardly directly measurable in human motion analysis, which makes forward kinematics of little interest in this field.\\
 
-%  In this context, there are usually not exactly as many known marker coordinates as unknown joint angles.
-
 % either more segment coordinates than unknown degrees of freedom (the system is overdetermined), or less (it is underterermined).
 
 % segment poses are usually not all known, and there are then more unknown joint degrees of freedom than known segment poses: the system is underdetermined. This implies that the target can be reached with different joint configurations. Consequently, no exact solution can be found, and one needs to turn to numerical methods in order to find an "optimal" solution.\\
 
 \vspace*{0.5cm}
 
-\noindent\underline{Linear vs. Non-linear system, Overdetermined vs. Underdetermined system, \\Direct vs.Numerical solution:}\\
+\noindent\underline{Linear vs. Non-linear system, Overdetermined/overconstrained vs. Underdetermined/redundant system, \\Direct vs.Numerical solution:}\\
 
 
 x=f(q), need to find f-1(x)=q. However, f not necessarily invertible. x= M marker position (measurements), q= N joint angles (unknown degrees of freedom)

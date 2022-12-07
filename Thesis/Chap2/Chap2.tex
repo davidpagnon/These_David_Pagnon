@@ -848,10 +848,10 @@ If more than 3 markers are placed on the segment, the problem is overdetermined 
   \sum_{m \in [1,M]}
   ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
 \end{equation} 
-With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X^{current}_m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X^{target}_m}$. Each marker can be weighted with its confidence $w^m$:
+With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X^{current}_m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X^{target}_m}$. Each marker can be weighted with its confidence $w_m$:
 \begin{equation}\label{eq:weighted_sko}
   \sum_{m \in [1,M]}
-  w^m ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
+  w_m ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
 \end{equation} 
 One way to solve it involves SVD \cite{Arun1987,Soderkvist1993}, see \cite{Sorkine2017} for a step-by-step resolution. \cite{Visual3D} provides a commercial interface for SKO, and OpenSim can boil down to the same approach if 6 degrees of freedom are granted to all joints of the model.
 
@@ -865,7 +865,7 @@ Another approach is inverse kinematics (see \hyperlink{Ann:gloss}{Confusing conc
 
 Inverse kinematics was first used for robotics, where joints are simple and well-defined, and for 3D animation applications, where approximate visual coherence and fast computation matter more than accuracy. The biomechanics community adopted this method as an alternative in the early 2000s, once human models became more thoroughly defined and trustworthy \cite{Hicks2015}. 
 
-Let the cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom) of N joint angles be $\overrightarrow{q}$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice. Therefore, optimization methods need to be leveraged. 3 main approaches coexist: global optimization methods, local optimization methods based on Jacobian, and Kalman filtering methods.
+Let the cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom) of N joint angles be $\overrightarrow{q}$. Each marker position can be trusted more or less according to its weight $w_m$, and each joint degree of freedom angle can be subject to angle limits such as $\overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice. Therefore, optimization methods need to be leveraged. 3 main approaches coexist: global optimization methods, local optimization methods based on the Jacobian matrix, and Kalman filtering methods.
 
 
 \vspace*{0.5cm}
@@ -875,8 +875,11 @@ Global optimization consists in optimizing all the joint angles at once, using a
 
 \begin{equation}
   \sum_{m \in [1,M]}
-  w^m ||\ \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
-\end{equation} 
+  w_m ||\ \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
+\end{equation}
+\begin{equation*}
+  \text{with } \overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]
+\end{equation*} 
 
 This is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox Custom \cite{Muller2019}, and in Visual3D.
 
@@ -933,9 +936,9 @@ Note that \textbf{J} can be analytically computed. Now, the joint angle differen
     \begin{equation}\label{eq:pseudoinv}
         \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J})^{-1} \textbf{J}^T \overrightarrow{err} = \textbf{J}^+ \overrightarrow{err} 
     \end{equation} 
-    This is analogous to the Gauss-Newton method. It converges faster, but is unstable near singularities, i.e., where the Jacobian becomes unstable despite small angle changes. Moreover, the pseudo-inverse can be expensive to compute. 
+    This is analogous to the Gauss-Newton method. It converges faster, but is unstable near singularities, i.e., $\Delta \overrightarrow{q}$ becomes arbitrarily large when $\textbf{J}^+$ is close to zero.  
     
-    One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
+    Moreover, the pseudo-inverse can be expensive to compute. One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
     \begin{equation}
           \begin{aligned}
           \textbf{J}^+
@@ -959,10 +962,10 @@ Note that \textbf{J} can be analytically computed. Now, the joint angle differen
     \begin{equation}
         \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T \overrightarrow{err}
     \end{equation} 
-    This is an intermediary method, which is stable near singularities like the gradient algorithm when the damping factor $\lambda$ is large, and converges fast like the Gauss-Newton algorithm when  $\lambda$ is small. $\lambda$ has to be chosen carefully, but can also be adjusted after each iteration. Again, the matrix is costly to invert, but it is possible to use SVD to decrease the computational complexity. One can demonstrate that:
+    This is an intermediary method, which is stable near singularities and robust to bad initial estimates like the gradient algorithm when the damping factor $\lambda$ is large, and converges fast like the Gauss-Newton algorithm when $\lambda$ is small. $\lambda$ has to be chosen carefully, but can also be adjusted after each iteration. Again, the matrix is costly to invert, but it is possible to use SVD to decrease the computational complexity. One can demonstrate that:
      \begin{equation}
         \begin{array}{rlccccc} 
-            (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T &=& \textbf{V} \ & \underbrace{\textbf{S}^{+} (\textbf{S} \textbf{S}^T+\lambda^2 \textbf{I}} \  & \textbf{U}^T \ \ \\
+            (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T &=& \textbf{V} \ & \underbrace{\textbf{S}^{+} (\textbf{S} \textbf{S}^T+\lambda^2 \textbf{I})} \  & \textbf{U}^T \ \ \\
             & = & \textbf{V} & \ \textbf{E}^{+} & \  \textbf{U}^T
         \end{array}
      \end{equation}
@@ -977,7 +980,7 @@ Like in global optimization methods, markers can be weighted by integrating the 
     \Delta \overrightarrow{q} =  \textbf{W} \ \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \overrightarrow{err}
 \end{equation}
 
-Jacobian methods are generally fast and can be used in real-time in 3D animation softwares, but they tend to be sensitive to singularities, to converge to local optima, and to be less precise than global optimization methods. The Levenberg-Marquardt method is implemented in the open-source software \cite{Pinocchio,Carpentier2019} and in Custom. 
+Jacobian methods are generally fast and can be used in real-time in 3D animation softwares, but they tend to be sensitive to singularities, to converge to local optima, and to be less precise than global optimization methods. The Levenberg-Marquardt method is implemented in the open-source softwares \cite{Pinocchio,Carpentier2019} and Custom, as well as in Visual3D. 
 
 
 \vspace*{0.5cm}
@@ -1067,7 +1070,6 @@ IK vs forward kinematics (joint angles -> segment orientation)
 
 % Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods, same overall problem as in calibration, equations 2.32 and 2.33: least-square optimization: more unknown parameters in function q than measured (known) variables. Non-linear because q is not a linear function of its parameters. 
 
-Thus, classically solved by Levenberg-Marquardt algorithm. Hybrid between gradient descent and Gauss-Newton: converges faster than the first, and is more robust to bad initial estimates than the second. All Use Jacobian
 
 
 Global optimization / multibody kinematic optimization, reduces sensitivity to soft tissue artifact, reduces number of degrees of freedom to solve, and thus of markers needed (1 per joint if fully constrained \cite{Slater2018}, vs. 3 min for 6DoF, no need for interpolation or redo capture if marker falls) -> Fohanno2014?, more potential information on muscle activation for example \cite{Robinson2013,Kainz2016}
@@ -1076,7 +1078,7 @@ Slightly slower, assumes that all human beings have similar joint mechanics, bas
 Résultats similaires si STA limités et modèle approprié \cite{Kainz2016}
 Aristidou2017: 
 - analytical: if low DoF, not lots of STA, if looking at pathological individuals (missing  clinically relevant movements), needs to be fast
-- numerical: more general, if less markers. Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be fast (spécifiques à problème particulier, ou appel au hasard); data driven:
+- numerical: more general, if less markers. Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be fast (spécifiques à problème particulier, ou appel au hasard); hessian/second derivatives (slow); quasi-Newton; data driven; avec prise en comptes de forces /RRA ?
 
 slower than direct kinematics
 
@@ -1126,7 +1128,7 @@ Visual3D (GO, LM, 6DoF)
 - Jacobian (il faut déterminer la jacobienne analytique hors ligne). minimisation locale de vitesses angulaires <-> min globale angles (Kazerounian1988), algorithme de Levenberg-Marquardt. Ok avec contraintes, mais peuvent osciller, discontinuités, jerky near singular postures sauf pour damped least square, qui est plus lent (Aristidou)
 - Kalman filter (real time, process model not trivial, can diverge. both skeletal model, and process model. This model estimates trajectory based on prior knowledge about smoothness motion (mean and var?), and minimizes error. Estime simultanément positions, vitesse, accélérations -> pas besoin de dériver 2 fois, ce qui introduit des errors et pourrit la dynamique qui suit. Prend en compte le temps, contrairement à GO). Constraints difficult to implement
 - Kalman smoother (pareil mais filtre sur toutes les données temporelles au lieu de celles qui précèdent uniquement. Marche pas en temps réel-> offline)
-- Learning based, ...
+- Learning based, Hessian/second derivatives...
 
 
  
