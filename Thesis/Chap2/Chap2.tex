@@ -262,7 +262,7 @@ Once the pose of an athlete is correctly detected, the next step is to obtain th
 
 \subsection{Pinhole camera model}\label{subsec:Pinhole model}
 
-\noindent\textbf{History}
+\subsubsection{History}
 
 If it passes through a small enough hole, the light emitted from a point can be seen as a fine ray rather than a large beam. Then, when all the rays from the object go through, they do not overlap, and actually recreate an inverted image of it, instead of a blurry spot of light. If the hole gives entrance to a dark enough room, and if a light-colored sheet is positioned close enough to the hole, one can observe the projection of a dim, but distinct image of the object. This is the principle of the camera obscura, or pinhole camera, which might have been discovered as early as in the paleolithic era, as cave paintings seem to suggest. The concept was later used as a drawing aid in the $17^{th}$ century by some artists, probably such as Vermeer or Canaletto \cite{Steadman2001} (Figure~\ref{fig_camobscura}). In order to let more light in and to avoid diffraction issues, they increased the apperture of the hole and inserted in a convex lens, at the expense of a shorter depth of field and of some image distortion (Figure~\ref{fig_pinholelens}). Then, if instead of a sheet, a light-sensitive film is placed, the image is progressively printed, after enough light has struck it. This is how photography was invented in the $19^{th}$ century, by the French inventors Niépce, and then Daguerre \cite{Marignier1999}.
 
@@ -284,8 +284,8 @@ If it passes through a small enough hole, the light emitted from a point can be 
 	\label{fig_pinholelens}
 \end{figure}
 
-\newpage
-\noindent\textbf{Thin lens}
+
+\subsubsection{Thin lens}
 
 When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(z\). In this case, let the image size be \(x\). Assuming that the lens is thin, and that the object is close to the optical axis(i.e., that paraxial conditions are satisfied), Thales' theorem gives (Figure~\ref{fig_thinlens}):
 \begin{equation}
@@ -309,7 +309,7 @@ Which leads to the thin lens formula, discovered by Descartes in the $17^{th}$ c
 	\label{fig_thinlens}
 \end{figure}
 
-\noindent\textbf{Basic pinhole model}
+\subsubsection{Basic pinhole model}
 
 According to the thin lens formula, in the specific case where the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(z\) equal to the focal length. 
 \begin{equation}
@@ -334,7 +334,7 @@ This model is called the basic pinhole camera model \cite{Zhang2000,Hartley2003,
 
 
 \FloatBarrier
-\noindent\textbf{3D pinhole model in camera coordinate system}
+\subsubsection{3D pinhole model in camera coordinate system}
 
 In 3 dimensions, the object can be represented in the camera coordinate system $(X_C, Y_C, Z_C)$, with $Y_C$ pointing downwards, and $Z_C$ facing toward the object (Figure~\ref{fig_camera3d}). The relation becomes:
 \begin{equation}
@@ -373,7 +373,7 @@ Which can be written as:
 \end{figure}
 
 
-\noindent\textbf{3D pinhole model with pixel image coordinates}
+\subsubsection{3D pinhole model in pixel image coordinate system}
 
 The origin of the image coordinates is not usually set on the optical axis (i.e., at the center of the sensor, also called the principal point), but typically at its upper left (Figure~\ref{fig_imagecoord}). With $c_u$ and $c_v$ the horizontal and vertical coordinates of the principal point, the coordinates in the image frame of reference can be written as: 
 \begin{equation}
@@ -408,8 +408,7 @@ Moreover, instead of expressing the image coordinates and the focal length in me
 \end{equation}
 
 
-\vspace*{0.5cm}
-\noindent\textbf{3D pinhole model in world coordinate system}
+\subsubsection{3D pinhole model in world coordinate system}
 
 When several cameras are used in the same time, for instance for 3D reconstruction, it is important that they share a common frame of reference. Hence, the camera coordinate system needs to be expressed in the "world" system accordingly. Assuming that the camera is translated along a vector $T_{3\times 1}$ and rotated according to a matrix $R_{3\times 3}$, the coordinates in the camera frame of reference can be expressed in the world frame of reference as:
 \begin{equation}
@@ -417,6 +416,7 @@ When several cameras are used in the same time, for instance for 3D reconstructi
   = R_{3\times 3} \times \begin{pmatrix}X_W\\Y_W\\Z_W\end{pmatrix} + T_{3\times 1}
 \end{equation}
 
+\newpage
 This formalism does not represent a linear system connecting the world and the camera coordinates, which can make calculations complicated. Instead, one can add one more dimension to the system and use the homogeneous coordinates, introduced by Möbius in 1927 \cite{Mobius1827}, and which constitutes one of the basis of projective geometry.
 \begin{equation}\label{homogeneous}
   \begin{pmatrix}X_C\\Y_C\\Z_C\end{pmatrix}
@@ -449,8 +449,7 @@ Or more concisely, with $\overrightarrow{q_p}$ the 2D image coordinates, $\overr
 To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, and thus has a closed-form solution. The intrinsic matrix $\textbf{K}$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $\textbf{H}$ depends on the camera position and orientation. The projection matrix $\textbf{P}$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and is considered as an arbitrary scaling factor.
 
 
-\vspace*{0.5cm}
-\noindent\textbf{Skew factor and distortions}
+\subsubsection{Skew factor and distortions}
 
 Some corrections can be brought to this model. First, the pixel sides may not be perfectly perpendicular. In this case, a skew parameter $\gamma$ has to be added to the intrinsic matrix, and the relation becomes:
 \begin{equation}
@@ -489,14 +488,13 @@ Where $k_1$, $k_2$, $k_3$ are the radial distortion coefficients, and $p_1$ and 
 \FloatBarrier
 \subsection{Calibration}
 
-\noindent\textbf{The calibration problem}
+\subsubsection{The calibration problem}
 
 Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. Extrinsic parameters are especially important to obtain for 3D reconstruction, which involves knowing the position of each camera. Intrinsic parameters can be determined at any time, however extrinsic parameters depend on the camera positions at the moment of capture, which involves that it is complicated to retrieve them afterwards -- although we proposed a method to address this issue in \autoref{ch:6}.
 
 The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 3 parameters of translation, and 9 of rotation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
 
-\vspace*{0.5cm}
-\noindent\textbf{Direct Linear Transform (DLT) of calibration equations}
+\subsubsection{Direct Linear Transform (DLT) of calibration equations}
 
 Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation between image points and their 3D coordinates (see Equation~\ref{eq:pinhole}) can be written as \cite{Hartley2003} :
 \begin{equation}\label{eq:calib_system}
@@ -539,10 +537,10 @@ Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation 
 
 This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
 
-\vspace*{0.5cm}
-\noindent\textbf{Camera calibration from one single image of a checkerboard, with DLT method}
+\newpage
+\subsubsection{Camera calibration from one single image of a checkerboard}
 
-Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the system~\ref{eq:calib} has then $2M$ equations, for 10 unknowns still:
+The following approach is called the DLT method. Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the DLT system in Equation~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
 \begin{equation}
   \begin{pmatrix}
     \overrightarrow{Q_{W1}^T} & \overrightarrow{0} & - u_{p1} \ \overrightarrow{Q_{W1}^T}\\   
@@ -557,7 +555,19 @@ Assuming that the checkerboard is used to set the origin of the world frame, the
 
 This system is now overdetermined. As it can be written in the homogeneous form \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\), a linear-eigen pseudo-solution can be found \cite{Hartley2003} by using Singular Value Decomposition (SVD) \cite{Golub1971} (See Algorithm~\ref{alg:svd}). In order to fully determine $\textbf{P}$, it first needs to be normalized, then the least-square solution needs to be found, and then it can be denormalized. 
 
+Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, in the form:
+\begin{equation} 
+  \begin{aligned}
+      \textbf{P} &= \textbf{K \ H} \\
+                 &= \textbf{K \ (R\ \vline \ T)} \\
+                 &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
+  \end{aligned}
+\end{equation}   
+$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves this issue, providing that the camera and image axes point in the same direction. 
+
 \newpage
+
+
 \begin{algorithm}[!ht]
   \caption{Linear-eigen pseudo-solution of the homogeneous system \(\textbf{A} \overrightarrow{X} = \overrightarrow{0}\)}\label{alg:svd}
   \begin{algorithmic}[1]
@@ -579,7 +589,7 @@ This system is now overdetermined. As it can be written in the homogeneous form 
       \end{equation}
       with \(\overrightarrow{\alpha}\) an undetermined vector of size $N$.  
       
-      \STATE Minimizing \((\textbf{A}\overrightarrow{X^*})^2\) also minimizes \(\textbf{A}\overrightarrow{X^*}\).
+      \STATE \(\textbf{A}\overrightarrow{X^*}\) is close to zero where its integral \(\frac{1}{2}(\textbf{A}\overrightarrow{X^*})^2\) reaches its minimum.
       \begin{equation}
           \begin{aligned}
           (\textbf{A}\overrightarrow{X^*})^2 & = (\textbf{A} \overrightarrow{X^*})^T (\textbf{A} \overrightarrow{X^*})\\
@@ -616,20 +626,9 @@ This system is now overdetermined. As it can be written in the homogeneous form 
 
 
 \newpage
-Once the projection matrix $\textbf{P}$ has been found, it needs to be decomposed into intrinsic and extrinsic parameters, in the form:
-\begin{equation} 
-  \begin{aligned}
-      \textbf{P} &= \textbf{K \ H} \\
-                 &= \textbf{K \ (R\ \vline \ T)} \\
-                 &= \begin{pmatrix}& & & &\vline & \\ && \textbf{K R}_{3\times 3} & & \vline & \textbf{KT}_{3\times 1}\\ &&&&\vline&\end{pmatrix}
-  \end{aligned}
-\end{equation}   
-$\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by virtue of being a rotation matrix ($\textbf{R}^T$ = $\textbf{R}^{-1}$). Hence, $\textbf{K}$ and $\textbf{R}$ can be found with an RQ-decomposition (derived from QR-decomposition) from the first $3 \times 3$ block of $\textbf{P}$. This is done with Givens rotations in OpenCV, and will not be detailed here: see \cite{Bradski2000, Hartley2003} for more details. Then, finding $\overrightarrow{T}$ from the last column of $\textbf{P}$ is trivial. This decomposition can be done in OpenCV with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gaaae5a7899faa1ffdf268cd9088940248}{decomposeProjectionMatrix()}. However, one needs to bear in mind that this decomposition is not unique. Forcing $f_{pu}$ and $f_{pv}$ to be positive solves this issue, providing that the camera and image axes point in the same direction.
+\subsubsection{Camera calibration from several images of a checkerboard} 
 
-\vspace*{0.5cm}
-\noindent\textbf{Camera calibration from several images of a checkerboard, with Zhang method} 
-
-In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a non-linear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978} (see \hyperref[invkin]{inverse kinematics} for more details on the algorithm). The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
+In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a non-linear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978} (see \hyperref[levenberg]{next section} on inverse kinematics for more details on the algorithm). The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
 \begin{equation}\label{eq:LM_algo}
   \sum_{i \in [1,N]} \sum_{j \in [1,M]} 
   ||\ \overrightarrow{q_{ij}^{\ ^{\ ^{\ ^{\ }}}}} -
@@ -638,13 +637,13 @@ In practice, a more accurate method would use more than one single image of a ch
 \end{equation} 
 The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$, and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion coefficients.
 
-\vspace*{0.5cm}
-\noindent\textbf{Calibration of all cameras together with a wand, with Sparse Bundle Adjustment (SBA)} 
+\subsubsection{Camera calibration with a wand} 
 
-In biomechanics, numerous cameras are usually needed, in order to obtain accurate 3D reconstruction in spite of occlusions. Hence, cameras are often placed around the subject. This can be problematic for the determination of a common frame of reference with a checkerboard, since it needs to be observed by all cameras simultaneously. When laying flat in the center, the checkerboard is positioned at a long distance from the camera, and oriented at a challenging angle. This makes it hard for it to be detected accurately, which is consequently susceptible to deteriorate extrinsic calibration. 
+In biomechanics, numerous cameras are usually needed, in order to obtain accurate 3D reconstruction in spite of occlusions. Hence, cameras are often placed around the subject. This can be problematic for the determination of a common frame of reference with a checkerboard, since it needs to be observed by all cameras simultaneously. When laying flat in the center, the checkerboard is potentially positioned at a long distance from the camera, and oriented at a challenging angle. This makes it hard for it to be detected accurately, which is consequently susceptible to deteriorate extrinsic calibration. 
 
 On the other hand, spherical markers placed on a wand are more likely to be detected by all cameras simultaneously, regardless of their position and orientation in space. However, they only represent either a single point, or a 1D length if they are placed at both extremities of a wand. A planar object like a checkerboard, on the contrary, is sufficient to determine a 3D coordinate system. This implies that using a wand does not allow for direct 2D image point to 3D coordinate correspondences. Hence, 3D positions also need to be optimized, which involves calibrating all cameras together instead of one by one. This has a few implications: first, cameras need to be synchronized, and then, more parameters have to be optimized, which tends to make this method less stable. It should also make the optimization extremely computationally intensive. Luckily, one can take advantage of the sparsity of the Jacobian of the objective function, which allows for considerable computation savings. This method, called Sparse Bundle Adjustment (SBA), will not be described in details, but extensive explanations can be found in \cite{Lourakis2009}.
 
+\newpage
 In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the objective function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in camera image $k$.
 
 \begin{equation}
@@ -661,8 +660,7 @@ In short, this calibration problem is solved by using a sparse variant of the Le
 \end{equation} 
 
 
-\vspace*{0.5cm}
-\noindent\textbf{In practice}  
+\subsubsection{In practice}  
 
 Both checkerboard Zhang and wand SBA methods show similar residual errors, of the order of a millimeter in a roughly $4\times 2 \times 1.5\ m^3$ capture volume \cite{Pribanic2009,Silvatti2012} (see Tables~\ref{table:tab_calib}). This is better than the classic DLT approach. Nonetheless, the wand approach does not estimate distortion coefficients as accurately as the checkerboard method. If a fisheye or a wide lens is used, the checkerboard method should be favored.
 
@@ -718,7 +716,7 @@ After 2D points are detected on all cameras, and considering that camera positio
 	\label{fig_triangulation}
 \end{figure}
 
-\noindent\textbf{Triangulation with a linear-eigen approach}  
+\subsubsection{Triangulation with a linear-eigen approach}  
 
 The most straightforward, and computationally efficient method, is a DLT approach, sometimes called homogeneous or linear-eigen \cite{Hartley1997}. The procedure is slightly different from the one previously detailed for calibration. Indeed, since 3D coordinates are now the unknown variables, they are the ones factorized rather than the projection parameters. From Equation~\ref{eq:calib_system} applied to a point $\overrightarrow{Q_W}$ projected on one camera, we have:
 
@@ -776,8 +774,7 @@ Note that these approaches do not take distortions into account, and assume eith
 Moreover, cameras not only need to share a 3D global reference frame, but also a common time reference. Otherwise, the same frame risks relating to a different instant in the athlete's motion, in which case the 3D reconstruction would not make sense. This is classically done with a wired hardware trigger, but other approaches use a flash, a sound, or a wireless signal such as Wi-Fi, Bluetooth or GPS \cite{GoPro2022}. In \autoref{ch:6}, we proposed another approach based on cross-correlation of 2D feature speeds.
 
 % \vspace*{0.5cm}
-\newpage
-\noindent\textbf{Person matching}  
+\subsubsection{Person matching}  
 
 In case of multi-person detection, an additional step needs to be undertaken prior to triangulation: the 2D detected points of each person need to be matched across all views. A common approach consists in choosing one or two keypoint (e.g., the neck and the hip), and clustering together the persons for whom epipolar lines cross at a small enough distance from each other \cite{Dong2019,Slembrouck2020,Kadkhodamohammadi2021}. This works well and efficiently, unless an epipolar line passes through several people, in the case of a crowded scene for example. In this case, it is possible to use more keypoints (or different keypoints) to solve ambiguities. Other methods use a combinatory approach, slower but more robust, which tries out all possible combinations, and minimizes the reprojection error \cite{Bridgeman2019,Chen2020c,Pagnon2021}. Other procedures use a spatio-temporal neural network, which take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}. Lastly, when multiple persons have been triangulated, they need to be tracked in time in order to avoid them swapping from one frame to another. This can be done by setting a threshold on 3D keypoint speed, below which a person is deemed to be correctly associated with the previous frame \cite{Bridgeman2019}.
 
@@ -786,8 +783,7 @@ In case of multi-person detection, an additional step needs to be undertaken pri
 % Triangulate only from best 2D estimations, called inliers, and will ignore outliers
 
 
-\vspace*{0.5cm}
-\noindent\textbf{Reprojection error}  
+\subsubsection{Reprojection error}  
 
 The reprojection error is the distance between the projection $(\widehat{u_p}, \widehat{v_p})$ of a triangulated keypoint $Q_W$ on an image, and its actual estimated 2D coordinates $(u_p, v_p)$. It can be used to jointly evaluate the accuracy of the 2D pose estimation and of the 3D reconstruction. From Equation~\ref{eq:factortrig}, we have:
 \begin{equation}
@@ -819,7 +815,7 @@ Again, this formulation does not take distortions into account, so it should be 
 
 \subsection{The kinematics problem}
 
-Joint kinematics is a problem which is addressed across multiple fields, such as character animation, robotics, biomechanics, or even chemistry. Each of them approaches the problem with a slightly different spirit. \cite{Robertson2013} points out that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, rough 3D joint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single keypoint per joint can at best describe planar flexion/extension angles. This conceals any abduction/adduction or internal/external rotation angles. 
+Joint kinematics is a problem which is addressed across multiple fields, such as character animation, robotics, biomechanics, or even chemistry. Each of them approaches the problem with a slightly different spirit. \cite{Robertson2013} points out that kinematics has been proven useful across many different sports for determining optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury. However, reconstructed 3D keypoint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single roughly approximated center per joint can at best describe planar flexion/extension angles. Even if initial 2D keypoints were accurately detecting joint centers, this conceals any abduction/adduction or internal/external rotation angles. 
 
 In order for its local coordinate system to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. These 3 markers determine two base vectors, the third one being calculated as their cross-product. Now, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
@@ -843,102 +839,107 @@ In order for results to be consistent across subjects and across research studie
 	\label{fig_isb}
 \end{figure}
 
-If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. The 6DoF methods is then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised and clusters of markers are commonly attached to body segments. It makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
+If more than 3 markers are placed on the segment, the problem is overdetermined and needs to be solved numerically. The 6DoF methods is then called Single-body Kinematic Optimization (SKO), or Segmental Optimization (SO) \cite{Lu1999}. In practice, such a redundancy is advised and clusters of markers are commonly attached to body segments. It makes the analysis more robust to Skin Tissue Artifacts (STA), to measurement inaccuracies, and to potential marker loss. Let M be the number of markers of the considered segment, this segment best matches its target when all of its initial marker coordinates $\overrightarrow{X^{current}_m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X^{target}_m}$. Once the local reference frame has been determined with one of the previously cited standards, minimizing the following objective function leads to a more robust approximation of the rotation and translation of the considered segment: 
 \begin{equation}
   \sum_{m \in [1,M]}
   ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
 \end{equation} 
-With M the number of markers of the considered segment. The segment best matches its target when all of its initial marker coordinates $\overrightarrow{X^{current}_m}$, rotated by a matrix $\textbf{R}$ and translated of a vector $\overrightarrow{T}$, are close to their measured coordinates $\overrightarrow{X^{target}_m}$. Each marker can be weighted with its confidence $w_m$:
+
+Each marker can be weighted with its confidence $w_m$:
 \begin{equation}\label{eq:weighted_sko}
   \sum_{m \in [1,M]}
   w_m ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
 \end{equation} 
+
 One way to solve it involves SVD \cite{Arun1987,Soderkvist1993}, see \cite{Sorkine2017} for a step-by-step resolution. \cite{Visual3D} provides a commercial interface for SKO, and OpenSim can boil down to the same approach if 6 degrees of freedom are granted to all joints of the model.
 
 
 \newpage
 \subsection{The multi-body inverse kinematics approach}\label{invkin}
 
-\noindent\textbf{Principle}
+\subsubsection{Principle}
 
-Another approach is inverse kinematics (see \hyperlink{Ann:gloss}{Confusing concepts - Disambiguation}), which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned in a well-defined place. The objective of inverse kinematics is to find the posture that minimizes the difference between model markers, and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO) \cite{Begon2018}. It is also the first step to compute joint moments, muscle activations, or inverse dynamics in general.
+Another approach is inverse kinematics, which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned in a well-defined place. The objective of inverse kinematics is to find the posture that minimizes the difference between model markers, and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018} (see \hyperlink{Ann:gloss}{Confusing concepts - Disambiguation}). It also represents the first step to compute joint moments, muscle activations, or inverse dynamics in general.
 
-Inverse kinematics was first used for robotics, where joints are simple and well-defined, and for 3D animation applications, where approximate visual coherence and fast computation matter more than accuracy. The biomechanics community adopted this method as an alternative in the early 2000s, once human models became more thoroughly defined and trustworthy \cite{Hicks2015}. 
+Inverse kinematics was first used for robotics, where joints are simple and well-defined. The typical problem consists in considering a redundant robot, which can reach its target with several joint configurations. This makes it an underdetermined problem. The method was then adapted for 3D animation applications, where visual coherence and fast computation matter more than accuracy. In this case, joints are more complex and there are still numerous degrees of freedom, but one wants to track all body segments instead of just the end-effector. Hence, markers are usually even more numerous markers than degrees of freedom. This makes it an overdetermined problem. Both cases are solved by using the same iterative optimization methods. The biomechanics community adopted this method as an alternative to the 6DOF one in the early 2000s, once human models became more thoroughly defined and trustworthy, and once proper individual scaling procedures were proposed \cite{Hicks2015}.
 
-Let the cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom) of N joint angles be $\overrightarrow{q}$. Each marker position can be trusted more or less according to its weight $w_m$, and each joint degree of freedom angle can be subject to angle limits such as $\overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice. Therefore, optimization methods need to be leveraged. 3 main approaches coexist: global optimization methods, local optimization methods based on the Jacobian matrix, and Kalman filtering methods.
+Let the cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom) of N joint angles be $\overrightarrow{q}$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice. Therefore, optimization methods need to be leveraged. One single objective function is used to optimize all joint N joint parameters $\overrightarrow{q}$ at once. It computes the weighted sum of the squared distances between the M target measured markers $\overrightarrow{X^{target}_m}$ and the M current model markers $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ \cite{Lu1999}. Each marker position can be weighted more or less with a factor $w_m$ according to its level of trust. Typically, markers on thighs are subject to strong STA, and will therefore be weighted less. Each degree of freedom can be subject to angle limits such as $\overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]$. The objective function to minimize is then:
 
-
-\vspace*{0.5cm}
-\noindent\textbf{Global Optimization methods}
-
-Global optimization consists in optimizing all the joint angles at once, using a single objective function \cite{Lu1999}. The objective function is the weighted sum of the squared distances between the M target measured markers $\overrightarrow{X^{target}_m}$ and the M current model markers $\overrightarrow{X^{current}_m(\overrightarrow{q})}$, which optimizes the N joint parameters $\overrightarrow{q}$:
-
-\begin{equation}
+\begin{equation}\label{eq_obj_ik}
   \sum_{m \in [1,M]}
-  w_m ||\ \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
+  w_m || \  \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
 \end{equation}
 \begin{equation*}
   \text{with } \overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]
 \end{equation*} 
 
-This is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox Custom \cite{Muller2019}, and in Visual3D.
+This problem is highly non-linear since $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ is calculated as a complex sine and cosine combination of $\overrightarrow{q}$. Consequently, its minimum cannot be found by simply determining where its gradient is null. Iterative methods are then employed. 3 main approaches coexist: Jacobian methods such as the Levenberg-Marquardt algorithm, Quasi-Newton methods, and Kalman filtering methods.
 
+% is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox Custom \cite{Muller2019}, and in Visual3D.
 
-\vspace*{0.5cm}
-\noindent\textbf{Local inverse Jacobian methods}
+\newpage
+\subsubsection{Jacobian methods and the Levenberg-Marquardt algorithm}\label{levenberg}
+% Unlike in linear least-square problems, the minimum of the objective function cannot be found by simply determining where the gradient is null. The idea is to initialize $\overrightarrow{q}$ with a first guess, to linearize the objective function around this point, 
 
-In the fields of robotics and character animation, inverse kinematics is classically solved using Jacobian-based methods \cite{Siciliano1990,Buss2009,Aristidou2018}. With $\overrightarrow{q}=(\theta_1, \dots \  \theta_N)$ the N degrees of freedom, $\overrightarrow{X(\overrightarrow{q})} = \bigl(x_1(\overrightarrow{q}), y_1(\overrightarrow{q}), z_1(\overrightarrow{q}), \dots \ z_M(\overrightarrow{q})\bigr)$ the 3M marker coordinates, a first order Taylor expansion of $\overrightarrow{X(\overrightarrow{q^{\ ^{\ }}}+\overrightarrow{dq})}$ yields:
+% iteratively adjust it until the objective function is minimized. The gradient of the objective function is then used to determine the direction of the adjustment. The gradient is calculated by taking the partial derivatives of the objective function with respect to each joint angle. This yields a Jacobian matrix, which is a square matrix of size N, where N is the number of degrees of freedom. 
+
+In the fields of robotics and character animation, inverse kinematics is classically solved with Jacobian methods \cite{Siciliano1990,Buss2009,Aristidou2018}. There methods are iterative, and require the choice of an initial guess on solutions such as $\overrightarrow{q^{init}}=(\theta_1^{init}, \dots \  \theta_N^{init})$. Let  $\overrightarrow{X(\overrightarrow{q^{init}})} = \bigl(x_1(\overrightarrow{q^{init}}), y_1(\overrightarrow{q^{init}}), z_1(\overrightarrow{q^{init}}), \dots \ z_M(\overrightarrow{q^{init}})\bigr)$ the 3M marker initial coordinates, a first order Taylor expansion of $\overrightarrow{X}$ around $\overrightarrow{q^{init}}$ yields:
 \begin{equation}
-    \begin{pmatrix}x_1(\overrightarrow{q^{\ ^{\ }}}+d\overrightarrow{q})\\ y_1(\overrightarrow{q^{\ ^{\ }}}+d\overrightarrow{q})\\ z_1(\overrightarrow{q^{\ ^{\ }}}+d\overrightarrow{q})\\ \vdots \\ z_M(\overrightarrow{q^{\ ^{\ }}}+d\overrightarrow{q})\end{pmatrix}_{3M \times 1}
-    = \begin{pmatrix}x_1(\overrightarrow{q})\\ y_1(\overrightarrow{q})\\ z_1(\overrightarrow{q}\\ \vdots \\ z_M(\overrightarrow{q})\end{pmatrix}_{3M \times 1}
+    \begin{pmatrix}x_1(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})\\ y_1(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})\\ z_1(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})\\ \vdots \\ z_M(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})\end{pmatrix}_{3M \times 1}
+    = \begin{pmatrix}x_1(\overrightarrow{q^{init}})\\ y_1(\overrightarrow{q^{init}})\\ z_1(\overrightarrow{q^{init}})\\ \vdots \\ z_M(\overrightarrow{q^{init}})\end{pmatrix}_{3M \times 1}
     + \begin{pmatrix}
-        \frac{\partial{\overrightarrow{x_1(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_1}}} 
+        \frac{\partial{\overrightarrow{x_1(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_1}}} 
         & \cdots 
-        & \frac{\partial{\overrightarrow{x_1(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_N}}} \\
-        \frac{\partial{\overrightarrow{y_1(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_1}}} 
+        & \frac{\partial{\overrightarrow{x_1(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_N}}} \\
+        \frac{\partial{\overrightarrow{y_1(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_1}}} 
         & \cdots 
-        & \frac{\partial{\overrightarrow{y_1(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_N}}} \\
+        & \frac{\partial{\overrightarrow{y_1(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_N}}} \\
         \vdots & \cdots & \vdots \\
-        \frac{\partial{\overrightarrow{z_M(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_1}}} 
+        \frac{\partial{\overrightarrow{z_M(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_1}}} 
         & \cdots 
-        & \frac{\partial{\overrightarrow{z_M(\overrightarrow{q})}}}{\partial{\overrightarrow{\theta_N}}} \\
+        & \frac{\partial{\overrightarrow{z_M(\overrightarrow{q^{init}})}}}{\partial{\overrightarrow{\theta_N}}} \\
     \end{pmatrix}_{3M\times N}
     \! \! \! \! \! \! \cdot \begin{pmatrix}d\theta_1\\ d\theta_2\\ \vdots \\ d\theta_N\end{pmatrix}_{N \times 1}
 \end{equation}
 Or more formally, with \textbf{J} the Jacobian matrix of the partial derivatives of $\overrightarrow{X(\overrightarrow{q})}$ :
 \begin{equation}
-      \overrightarrow{X(\overrightarrow{q^{\ ^{\ }}}+d\overrightarrow{q})}= \overrightarrow{X(\overrightarrow{q})} + \textbf{J} \ d\overrightarrow{q}
+      \overrightarrow{X(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})}= \overrightarrow{X(\overrightarrow{q^{init}})} + \textbf{J} \ d\overrightarrow{q}
 \end{equation} 
-If $\overrightarrow{X^{target}}$ is close to $\overrightarrow{X_{current}(\overrightarrow{q})}$, then we can approximate:
-\begin{equation}\label{eq:jac}
-      \overrightarrow{X^{target}} - \overrightarrow{X^{current}(\overrightarrow{q})} \approx \textbf{J} \ \Delta \overrightarrow{q}
+The confidence we give to each marker can be taken into account by multiplying coordinates by the diagonal matrix of weights \textbf{W} \cite{Meredith2005}:
+\begin{equation}
+  \textbf{W} \ \overrightarrow{X(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})}= \textbf{W} \ \overrightarrow{X(\overrightarrow{q^{init}})} + \textbf{J} \ d\overrightarrow{q}
 \end{equation} 
-And we aim to minimize:
+If $\overrightarrow{X^{target}}$ is close to $\overrightarrow{X(\overrightarrow{q^{init ^{\ }}}+d\overrightarrow{q})}$, then we can approximate:
+\begin{equation}
+  \textbf{W} \ (\overrightarrow{X^{target}} - \overrightarrow{X^{current}(\overrightarrow{q^{init}})}) \approx \textbf{J} \ \Delta \overrightarrow{q}
+\end{equation} 
+Or:
+% We immediately recognize the derivative of the objective function of Equation~\ref{eq_obj_ik}. This function is minimum where its derivative, hereafter called $\overrightarrow{err}$, is equal to zero.
 \begin{equation}\label{eq:jac}
-    \boxed{
-      \overrightarrow{err} \approx \textbf{J} \ \Delta \overrightarrow{q} }
+  \boxed{
+    \overrightarrow{err} = \textbf{J} \ \Delta \overrightarrow{q}}
 \end{equation} 
 
-Note that \textbf{J} can be analytically computed. Now, the joint angle difference between the target and the current position can be found by calculating $\Delta \overrightarrow{q} \approx \textbf{J}^{-1} \overrightarrow{err}$. However, \textbf{J} is typically not invertible. Several optimization approaches are used to approximate the desired result.
+Now, the joint angle difference between the target and the current position can be found by calculating $\Delta \overrightarrow{q} \approx \textbf{J}^{-1} \overrightarrow{err}$. \textbf{J} can be analytically computed; however, it is typically not invertible. Several optimization approaches are used to find the best joint configuration needed to cancel the error. For all of them, the idea is to evaluate the error, then to find a way to calculate the approximate needed modification in joint configuration, then to reevaluate the error, etc. until the error stays below a satisfying threshold.
 
 \begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
-    \item Roughly approximating the trend of Equation~\ref{eq:jac} with the Jacobian transpose, with a small relaxation factor $\alpha$:
+    \item \textbf{Using the Jacobian transpose $\textbf{J}^T$} to roughly approximate the trend of Equation~\ref{eq:jac}, with a small relaxation factor $\alpha$ which can be calculate \cite{Buss2009}:
     \begin{equation}
-      \Delta \overrightarrow{q} \approx \alpha \textbf{J}^T \overrightarrow{err}
+      \Delta \overrightarrow{q} \approx \alpha \textbf{J}^T \ \overrightarrow{err}
     \end{equation} 
     This is analogous to the gradient descent method. $\textbf{J}^T$ is quick and easy to compute, but the algorithm converges slowly, and pose results are sometimes unsatisfying.
     
-    \item Using $\textbf{J}^+$, the Moore-Penrose pseudo-inverse of \textbf{J}. From Equation~\ref{eq:jac}, one gets:
+    \item \textbf{Using $\textbf{J}^+$, the Moore-Penrose pseudo-inverse of J}. From Equation~\ref{eq:jac}, one gets:
     \begin{equation}
-        \textbf{J}^T \overrightarrow{err} = \textbf{J}^T \textbf{J} \ \Delta \overrightarrow{q}\\
+        \textbf{J}^T \ \overrightarrow{err} = \textbf{J}^T \textbf{J} \ \Delta \overrightarrow{q}\\
     \end{equation}
     $\textbf{J}^T \textbf{J}$ has full rank, so it is invertible:
     \begin{equation}\label{eq:pseudoinv}
-        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J})^{-1} \textbf{J}^T \overrightarrow{err} = \textbf{J}^+ \overrightarrow{err} 
+        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J})^{-1} \textbf{J}^T \overrightarrow{err} = \textbf{J}^+ \ \overrightarrow{err} 
     \end{equation} 
-    This is analogous to the Gauss-Newton method. It converges faster, but is unstable near singularities, i.e., $\Delta \overrightarrow{q}$ becomes arbitrarily large when $\textbf{J}^+$ is close to zero.  
+    This is analogous to the Gauss-Newton method. In fact, this result can be found by replacing the linearized coordinates into the objective function (Equation~\ref{eq_obj_ik}). Its minimum is then simply found by determining where its gradient is null, like in a typical linear least-square problem. 
     
-    Moreover, the pseudo-inverse can be expensive to compute. One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
+    This method converges faster, but is unstable near singularities, i.e., $\Delta \overrightarrow{q}$ becomes arbitrarily large when $\textbf{J}^+$ is close to zero. Moreover, the pseudo-inverse can be expensive to compute. One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
     \begin{equation}
           \begin{aligned}
           \textbf{J}^+
@@ -955,12 +956,12 @@ Note that \textbf{J} can be analytically computed. Now, the joint angle differen
       \end{equation}
       And 
       \begin{equation}
-        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{S}^{+} \textbf{U}^T \ \overrightarrow{err} 
+        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{S}^{+} \textbf{U}^T \ \ \overrightarrow{err} 
       \end{equation}
 
-    \item Using the Levenberg-Marquardt (LM) algorithm, also called the Damped Least-Square (DLS) medhod, and slightly adjusting Equation~\ref{eq:pseudoinv}:
+    \item \textbf{Using the Levenberg-Marquardt (LM) algorithm}, also called the Damped Least-Square (DLS) method, and slightly adjusting Equation~\ref{eq:pseudoinv}:
     \begin{equation}
-        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T \overrightarrow{err}
+        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T \ \overrightarrow{err}
     \end{equation} 
     This is an intermediary method, which is stable near singularities and robust to bad initial estimates like the gradient algorithm when the damping factor $\lambda$ is large, and converges fast like the Gauss-Newton algorithm when $\lambda$ is small. $\lambda$ has to be chosen carefully, but can also be adjusted after each iteration. Again, the matrix is costly to invert, but it is possible to use SVD to decrease the computational complexity. One can demonstrate that:
      \begin{equation}
@@ -971,20 +972,21 @@ Note that \textbf{J} can be analytically computed. Now, the joint angle differen
      \end{equation}
     And 
       \begin{equation}
-        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \overrightarrow{err} 
+        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \ \overrightarrow{err} 
       \end{equation}
 \end{enumerate}
 
-Like in global optimization methods, markers can be weighted by integrating the diagonal matrix of weights \textbf{W} in the error function \cite{Meredith2005}. For instance, the Levenberg-Marquardt solution becomes then:
-\begin{equation}
-    \Delta \overrightarrow{q} =  \textbf{W} \ \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \overrightarrow{err}
-\end{equation}
-
-Jacobian methods are generally fast and can be used in real-time in 3D animation softwares, but they tend to be sensitive to singularities, to converge to local optima, and to be less precise than global optimization methods. The Levenberg-Marquardt method is implemented in the open-source softwares \cite{Pinocchio,Carpentier2019} and Custom, as well as in Visual3D. 
+Jacobian methods are generally fast and can be used in real-time in 3D animation softwares. However, they tend to be sensitive to singularities, and to be less precise than Hessian-based methods. Moreover, joint limits are not straightforward to take into account \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares Custom and \cite{Pinocchio,Carpentier2019}, as well as in Visual3D. 
 
 
-\vspace*{0.5cm}
-\noindent\textbf{Kalman filtering methods}
+\subsubsection{Quasi-Newton methods and Sequential Quadratic Programming}
+
+In the field of biomechanics, inverse kinematics is usually tackled with Quasi-Newton methods
+
+
+\subsubsection{Kalman filtering methods}
+
+
 
 
 -----
@@ -1128,6 +1130,7 @@ Visual3D (GO, LM, 6DoF)
 - Jacobian (il faut déterminer la jacobienne analytique hors ligne). minimisation locale de vitesses angulaires <-> min globale angles (Kazerounian1988), algorithme de Levenberg-Marquardt. Ok avec contraintes, mais peuvent osciller, discontinuités, jerky near singular postures sauf pour damped least square, qui est plus lent (Aristidou)
 - Kalman filter (real time, process model not trivial, can diverge. both skeletal model, and process model. This model estimates trajectory based on prior knowledge about smoothness motion (mean and var?), and minimizes error. Estime simultanément positions, vitesse, accélérations -> pas besoin de dériver 2 fois, ce qui introduit des errors et pourrit la dynamique qui suit. Prend en compte le temps, contrairement à GO). Constraints difficult to implement
 - Kalman smoother (pareil mais filtre sur toutes les données temporelles au lieu de celles qui précèdent uniquement. Marche pas en temps réel-> offline)
+- heuristic (CCD: abrupt movements, twisted last joint; Fabrik: good first iteration, others slower)
 - Learning based, Hessian/second derivatives...
 
 
