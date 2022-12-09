@@ -825,7 +825,7 @@ In order for its local coordinate system to be fully determined, a segment needs
 
 The traditional method for obtaining 3D joint angles in biomechanics consists in computing positions and orientations of all body segments independently: it is called the 6DoF (6 Degrees of Freedom) free-body approach. The 6 degrees of freedom of a segment consist in 3 translations and 3 rotations, which can be determined by a 3D frame of reference, which itself assumes that there are at least 3 non-colinear markers per segment. This excludes from this paradigm most of the current pose estimation models. However, as the biomechanics community make theirs the concepts of learning-based keypoint estimation, other models with more complete labelling may arise. Therefore, for the sake of completeness, this approach is broached below.
 
-If only 3 markers are used per segment, the problem can be solved analytically. The method is then called Direct Kinematics (see \hyperlink{Ann:gloss}{Disambiguation}) \cite{Lu1999}. The local reference frame of each segment can be calculated, and all inter-segmental rotations and translations can be found, using trigonometric formulas. 
+If only 3 markers are used per segment, the problem can be solved analytically and a closed-form solution exists. The method is then called Direct Kinematics (see \hyperlink{Ann:gloss}{Disambiguation}) \cite{Lu1999}. The local reference frame of each segment can be calculated, and all inter-segmental rotations and translations can be found, using trigonometric formulas. 
 
 In order for results to be consistent across subjects and across research studies, markers need to be carefully positioned and to follow certain standards. One of the main standards is given by the Vicon Plug-in Gait markerset for gait analysis \cite{Davis1991}, or its successor Clinical Gait Module 2 (CGM2), which has been implemented in Python as pyCGM2 \cite{Leboeuf2019b}. Strong competitors are CAST \cite{Cappozzo1995}, or its successor IOR \cite{Leardini2007}, which are implemented by the Visual3D software. For purposes more general than gait analysis, the International Society of Biomechanics (ISB) proposes a standard for both lower and upper-body analysis \cite{Wu2002, Wu2005} (see Figure~\ref{fig_isb}). Among other solutions, KineticsToolkit provides some open-source Python tools to carry out analysis according to the ISB standards \cite{Chenier2021}. 
 
@@ -860,24 +860,23 @@ One way to solve it involves SVD \cite{Arun1987,Soderkvist1993}, see \cite{Sorki
 
 \subsubsection{Principle}
 
-Another approach is inverse kinematics, which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned in a well-defined place. The objective of inverse kinematics is to find the posture that minimizes the difference between model markers, and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018} (see \hyperlink{Ann:gloss}{Disambiguation}). It also represents the first step to compute joint moments, muscle activations, or inverse dynamics in general.
+Another approach is inverse kinematics, which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned at known segment coordinates. The objective of inverse kinematics is to find the posture that minimizes the difference between model markers, and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018} (see \hyperlink{Ann:gloss}{Disambiguation}). It also represents the first step to compute joint moments, muscle activations, or inverse dynamics in general.
 
-Inverse kinematics was first used for robotics, where joints are simple and well-defined. The typical problem consists in considering a redundant robot, which can reach one target with multiple joint configurations. This makes it an underdetermined problem. The method was then adapted for 3D animation applications, where visual coherence and fast computation matter more than accuracy. In this case, instead of just looking after the end-effector, all body segments need to be tracked. Hence, markers are usually even more numerous than degrees of freedom, which makes it an overdetermined problem. Both cases are solved by using the same iterative optimization methods. The biomechanics community adopted this method as an alternative to the 6DOF one in the early 2000s, once human models became more thoroughly defined and trustworthy, and once proper individual scaling procedures were proposed \cite{Hicks2015}.
+Inverse kinematics was first used for robotics, where joints are simple and well-defined. The typical problem consists in considering a redundant robot, which can reach one target with multiple joint configurations. This makes it an underdetermined problem. The method was then adapted for 3D animation applications, where visual coherence and fast computation matter more than accuracy. In this case, instead of just looking after the end-effector, all body segments need to be tracked. Hence, markers are usually even more numerous than the degrees of freedom, which makes it an overdetermined problem. Both cases are solved by using the same iterative optimization methods. The biomechanics community adopted inverse kinematics as an alternative to the 6DOF one in the early 2000s, once human models became more thoroughly defined and trustworthy, and once proper individual scaling procedures were proposed \cite{Hicks2015}.
 
-Let the Cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom) of N joint angles be $\overrightarrow{q}$ (see \hyperlink{Ann:gloss}{Disambiguation}). The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice. Therefore, optimization methods need to be leveraged. 
+Let the Cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom, see \hyperlink{Ann:gloss}{Disambiguation}) of N joint angles be $\overrightarrow{q}$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice since it is calculated as a complicated sine and cosine combination of $\overrightarrow{q}$, and therefore non-linear. Hence, optimization methods need to be leveraged. 
 
-One single objective function is used to optimize all joint N joint parameters $\overrightarrow{q}$ at once. It computes the weighted sum of the squared distances between the M target measured markers $\overrightarrow{X^{target}_m}$ and the M current model markers $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ \cite{Lu1999}. Each marker position can be weighted more or less with a factor $w_m$ according to its level of trust. Typically, markers on thighs are subject to strong STA, and will therefore be weighted less. Each degree of freedom can be subject to angle limits such as $\overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]$. The objective function to minimize is then:
+The objective function to minimize computes the weighted sum of the squared distances between the target measured markers $\overrightarrow{X^{target}_m}$ and the current model markers $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ \cite{Lu1999}. Each degree of freedom can be subject to angle limits such as $\overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]$. Therefore, it can be expressed as:
 
 \begin{equation}
   \sum_{m \in [1,M]}
-  w_m || \  \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
+  || \  \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})} \ ||^2
 \end{equation}
 \begin{equation*}
   \text{with } \overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]
 \end{equation*} 
 With can be written in a matrix form:
 \begin{equation}\label{eq_obj_ik}
-  \textbf{W} \ 
   \bigl(\overrightarrow{X^{target}} - \overrightarrow{X^{current}(\overrightarrow{q})}\bigr)^T \ 
   \bigl(\overrightarrow{X^{target}} - \overrightarrow{X^{current}(\overrightarrow{q})}\bigr)
 \end{equation}
@@ -885,9 +884,9 @@ With can be written in a matrix form:
   \text{with } \overrightarrow{q} \in [ \overrightarrow{q_m^{min}},\overrightarrow{q_m^{max}} ]
 \end{equation*} 
 
-This problem is highly non-linear since $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ is calculated as a complex sine and cosine combination of $\overrightarrow{q}$, and becomes increasingly hard to compute as the number of degrees of freedom increases. Consequently, iterative methods have to be employed. 3 main approaches coexist: Jacobian methods such as the Levenberg-Marquardt algorithm, Quasi-Newton methods such as the BFGS one, and Kalman filtering methods.
+This problem becomes increasingly hard to compute as the number of degrees of freedom increases. Consequently, iterative methods have to be employed. 3 main approaches coexist: Jacobian methods such as the Levenberg-Marquardt algorithm, Quasi-Newton methods such as the BFGS one, and Kalman filtering methods.
 
-% is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox Custom \cite{Muller2019}, and in Visual3D.
+% is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox CusToM \cite{Muller2019}, and in Visual3D.
 
 \newpage
 \subsubsection{Jacobian methods and the Levenberg-Marquardt algorithm}\label{levenberg}
@@ -918,50 +917,64 @@ Or more formally, with \textbf{J} the Jacobian matrix of the partial derivatives
       \overrightarrow{X(\overrightarrow{q^{init}}+\Delta\overrightarrow{q})} 
       \approx \overrightarrow{X(\overrightarrow{q^{init}})} + \textbf{J} \ \Delta\overrightarrow{q}
 \end{equation} 
-The goal is to find an $\overrightarrow{X^{current}(\overrightarrow{q})} = \overrightarrow{X(\overrightarrow{q^{init}}+\Delta\overrightarrow{q})}$ which minimizes Equation~\ref{eq_obj_ik}. By slightly abusing the "squared" symbol, the objective function will be expressed as:
+The goal is to find an $\overrightarrow{X^{current}(\overrightarrow{q})} = \overrightarrow{X(\overrightarrow{q^{init}}+\Delta\overrightarrow{q})}$ which minimizes the objective function~\ref{eq_obj_ik}. The function can then be expressed as:
 \begin{equation}
-  \textbf{W} \ 
-  \Bigl(\overrightarrow{X^{target}} - \overrightarrow{X(\overrightarrow{q^{init}})} - \textbf{J} \ \Delta\overrightarrow{q} \Bigr)^2
-\end{equation}
-It is minimum when its gradient (with respect to $\Delta\overrightarrow{q}$) is annulled, i.e., when:
-\begin{equation}
-  -2 \textbf{J}^T \ \textbf{W} \ 
+  \Bigl(\overrightarrow{X^{target}} - \overrightarrow{X(\overrightarrow{q^{init}})} - \textbf{J} \ \Delta\overrightarrow{q} \Bigr)^T \ 
   \Bigl(\overrightarrow{X^{target}} - \overrightarrow{X(\overrightarrow{q^{init}})} - \textbf{J} \ \Delta\overrightarrow{q} \Bigr)
-  \approx 0
 \end{equation}
-Or more simply, with $\Delta\overrightarrow{X} = \overrightarrow{X^{target}} - \overrightarrow{X(\overrightarrow{q^{init}})}$, when:
+Or more simply, with $\Delta\overrightarrow{X} = \overrightarrow{X^{target}} - \overrightarrow{X(\overrightarrow{q^{init}})}$, as:
+\begin{equation}
+  (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} )^T \ 
+  (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} )
+\end{equation}
+It is minimum when its gradient is annulled, i.e., when:
+\begin{equation}
+  \begin{aligned}
+   \overrightarrow{0} &\approx 
+   \frac{\partial}{\Delta \overrightarrow{q}}
+   \Bigl( ( \Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q})^T \ 
+  (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} ) \Bigr)  \\
+  & = - \textbf{J}^T \ 
+  (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} ) 
+  + (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} )^T 
+  (-\textbf{J})\\
+  & = -2 \textbf{J}^T \ 
+  (\Delta\overrightarrow{X} - \textbf{J} \ \Delta\overrightarrow{q} )
+  \end{aligned}
+\end{equation}
+Which is when:
+\begin{equation}
+  \Delta\overrightarrow{X} \approx \textbf{J} \ \Delta\overrightarrow{q}
+\end{equation}
+Each marker can be weighted more or less according to its level of trust. Typically, markers on thighs are subject to strong STA, and will therefore be weighted less. Hence, marker coordinates will be multiplied by the diagonal matrix of weights \textbf{W} \cite{Meredith2005}:
 \begin{equation}
   \boxed{
-  \Delta\overrightarrow{X} \approx \textbf{J} \ \Delta\overrightarrow{q}
+  \textbf{W} \ \Delta\overrightarrow{X} \approx \textbf{J} \ \Delta\overrightarrow{q}
   }
 \end{equation}
 
 \vspace*{0.5cm}
-Now, the change in joint angles needed to reach the target from the current position can be found by calculating $\Delta \overrightarrow{q} \approx \textbf{J}^{-1} \Delta\overrightarrow{X}$. However, \textbf{J} is typically not invertible. Several optimization approaches can be used to approximate this inversion. For all of them, the idea is to evaluate the marker coordinate error $\Delta\overrightarrow{X}$, then approximately calculate the corresponding joint angle error $\Delta \overrightarrow{q}$ and correct it, then reevaluate the marker coordinate error, etc. until it stays below a satisfying threshold.
+Now, the change in joint angles needed to reach the target from the current position can be found by calculating $\Delta \overrightarrow{q} \approx \textbf{J}^{-1} \textbf{W} \ \Delta\overrightarrow{X}$. However, \textbf{J} is typically not invertible. Several optimization approaches can be used to approximate this inversion. For all of them, the idea is to evaluate the marker coordinate error $\Delta\overrightarrow{X}$, then approximately calculate the corresponding joint angle error $\Delta \overrightarrow{q}$ and correct it, then reevaluate the marker coordinate error, etc. until it stays below a satisfying threshold.
 
 \begin{enumerate}[itemsep=0em, topsep=0em, leftmargin=*]
     \item \textbf{Using the Jacobian transpose $\textbf{J}^T$} to roughly approximate the trend, with a small relaxation factor $\alpha$ (which can be optimally calculated \cite{Buss2009}):
     \begin{equation}
-      \Delta \overrightarrow{q} \approx \alpha \textbf{J}^T \ \overrightarrow{err}
+      \Delta \overrightarrow{q} \approx \alpha \textbf{J}^T \ \textbf{W} \ \Delta\overrightarrow{X}
     \end{equation} 
-    This is analogous to the \emph{gradient descent method}. $\textbf{J}^T$ is quick and easy to compute, but the algorithm converges slowly, and pose results are sometimes unsatisfying.
+    This is analogous to the \emph{gradient descent method} \cite{Nocedal1999}. $\textbf{J}^T$ is quick and easy to compute, but the algorithm converges slowly, and pose results are sometimes unsatisfying.
     
-    \newpage
-    \item \textbf{Using $\textbf{J}^+$, the Moore-Penrose pseudo-inverse of J}. From Equation~\ref{eq:jac}, one gets:
+    \item \textbf{Using $\textbf{J}^+$, the Moore-Penrose pseudo-inverse of J}. Left-multiplying by $\textbf{J}^T$ gives:
     \begin{equation}
-        \textbf{J}^T \ \overrightarrow{err} = \textbf{J}^T \textbf{J} \ \Delta \overrightarrow{q}\\
+        \textbf{J}^T \ \textbf{W} \ \Delta\overrightarrow{X} \approx \textbf{J}^T \textbf{J} \ \Delta\overrightarrow{q}\\
     \end{equation}
     $\textbf{J}^T \textbf{J}$ has full rank, so it is invertible:
     \begin{equation}\label{eq:pseudoinv}
-        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J})^{-1} \textbf{J}^T \overrightarrow{err} = \textbf{J}^+ \ \overrightarrow{err} 
+      \begin{aligned}
+        \Delta \overrightarrow{q} &\approx \ (\textbf{J}^T \textbf{J})^{-1} \textbf{J}^T \ \textbf{W} \ \Delta\overrightarrow{X} \text{, i.e.,} \\
+        \Delta \overrightarrow{q} &\approx \textbf{J}^+ \ \textbf{W} \ \Delta\overrightarrow{X} 
+      \end{aligned}
     \end{equation} 
-    This is analogous to the \emph{Gauss-Newton method}. In fact, this result can be found by replacing the linearized coordinates of $\overrightarrow{X^{current}(\overrightarrow{q^{init}})}$ (Equation~\ref{eq:gausslin}) into the objective function (Equation~\ref{eq_obj_ik}), and then solving it by determining where its gradient is null, like in a typical linear least-square problem. 
-    
-    % The confidence given to each marker can be taken into account by multiplying marker coordinates by their diagonal matrix of weights \textbf{W} \cite{Meredith2005}:
-
-
-
-    This method converges faster, but is sensitive to bad initial estimates and unstable near singularities, i.e., $\Delta \overrightarrow{q}$ becomes arbitrarily large when $\textbf{J}^+$ is close to zero. Moreover, the pseudo-inverse can be expensive to compute. One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
+    This is analogous to the \emph{Gauss-Newton method} \cite{Nocedal1999}. This method converges faster, but is sensitive to bad initial estimates and unstable near singularities of $\textbf{J}^+$, i.e., when $\Delta \overrightarrow{q}$ becoming unreasonably for a small $\Delta \overrightarrow{X}$ shift. Moreover, the pseudo-inverse can be expensive to compute. One way to mitigate this drawback consists in calculating it with an SVD. The Jacobian can be decomposed as $\textbf{J} = \textbf{U} \ \textbf{S} \ \textbf{V}^T$ (see Algorithm~\ref{alg:svd}). Then:
     \begin{equation}
           \begin{aligned}
           \textbf{J}^+
@@ -978,68 +991,75 @@ Now, the change in joint angles needed to reach the target from the current posi
       \end{equation}
       And 
       \begin{equation}
-        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{S}^{+} \textbf{U}^T \ \ \overrightarrow{err} 
+        \Delta \overrightarrow{q} \approx \textbf{V} \ \textbf{S}^{+} \textbf{U}^T \ \textbf{W} \ \Delta\overrightarrow{X} 
       \end{equation}
 
-    \item \textbf{Using the Levenberg-Marquardt (LM) algorithm}, also called the Damped Least-Square (DLS) method, and slightly adjusting Equation~\ref{eq:pseudoinv}:
+    \item \textbf{Using the Levenberg-Marquardt (LM) algorithm} \cite{More1978}, also called the Damped Least-Square (DLS) method, and slightly adjusting Equation~\ref{eq:pseudoinv}:
     \begin{equation}
-        \Delta \overrightarrow{q} = \ (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T \ \overrightarrow{err}
+        \Delta \overrightarrow{q} 
+        \approx \ (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T \ \textbf{W} \ \Delta\overrightarrow{X}
     \end{equation} 
     This is an intermediary method, which is stable near singularities and robust to bad initial estimates like the gradient algorithm when the damping factor $\lambda$ is large, and converges fast like the Gauss-Newton algorithm when $\lambda$ is small. $\lambda$ has to be chosen carefully, but can also be adjusted after each iteration. Again, the matrix is costly to invert, but it is possible to use SVD to decrease the computational complexity. One can demonstrate that:
      \begin{equation}
         \begin{array}{rlccccc} 
-            (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T &=& \textbf{V} \ & \underbrace{\textbf{S}^{+} (\textbf{S} \textbf{S}^T+\lambda^2 \textbf{I})} \  & \textbf{U}^T \ \ \\
+            (\textbf{J}^T \textbf{J} + \lambda^2 \textbf{I})^{-1} \textbf{J}^T 
+            &\approx& \textbf{V} \ & \underbrace{\textbf{S}^{+} (\textbf{S} \textbf{S}^T+\lambda^2 \textbf{I})} \  & \textbf{U}^T \ \ \\
             & = & \textbf{V} & \ \textbf{E}^{+} & \  \textbf{U}^T
         \end{array}
      \end{equation}
     And 
       \begin{equation}
-        \Delta \overrightarrow{q} =  \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \ \overrightarrow{err} 
+        \Delta \overrightarrow{q} \approx  \textbf{V} \ \textbf{E}^{+} \textbf{U}^T \ \ \textbf{W} \ \Delta\overrightarrow{X}
       \end{equation}
 \end{enumerate}
 
-In plain words, the gradient descent method iteratively searches the direction of steepest gradient, until the objective function reaches a minimum where the gradient is null; the Gauss-Newton method linearizes the problem, takes advantage of the sum-of-squares formulation of the objective function, and directly finds where the gradient is close to zero; and the Levenberg-Marquardt method is a compromise between the two.
+In plain words, the gradient descent method iteratively searches the direction of steepest gradient, until the objective function reaches a minimum where the gradient is null; while the Gauss-Newton method linearizes the problem, takes advantage of the sum-of-squares formulation of the objective function, and directly finds where the gradient vanishes; and the Levenberg-Marquardt method is a compromise between the two.
 
-It uses the result of the previous frame as an initial guess, which is arguably close to the desired solution. Hence, it is generally fast and can be used in real-time in 3D animation software applications. However, it tends to be sensitive to singularities, and to be less precise than Quasi-Newton methods. Moreover, joint limits are not straightforward to take into account \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares Custom and \cite{Pinocchio,Carpentier2019}, as well as in Visual3D. 
+It uses the result of the previous frame as an initial guess, which is arguably close to the desired solution. Hence, it is generally fast and can be used in real-time in 3D animation software applications. However, it tends to be sensitive to singularities, and to be less precise than Quasi-Newton methods. Moreover, joint limits are not straightforward to take into account, and such constraints tend to slow the convergence rate and to give poor results \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares CusToM \cite{Muller2019} and \cite{Pinocchio,Carpentier2019}, as well as in Visual3D. 
 
-\newpage
+
 \subsubsection{Quasi-Newton methods and the BFGS algorithm}
 
-In the field of biomechanics, inverse kinematics is usually dealt with Quasi-Newton methods. These methods don't linearize the objective function, and solve it as a more general non-linear minimization problem, which is not restricted to sum-of-squares objective functions. In short, instead of minimizing $\overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})}$, Newton methods search for the direction where it decreases the fastest. In other words, they search for the direction where its gradient $\nabla ( \overrightarrow{X^{target}_m} - \overrightarrow{X^{current}_m(\overrightarrow{q})})$ is the highest. This can be found by taking a second order Taylor expansion of $\overrightarrow{X}$ around $\overrightarrow{q^{init}}$:
+In the field of biomechanics, inverse kinematics is usually dealt with Quasi-Newton methods. These methods don't linearize the objective function, and solve it as a more general non-linear minimization problem, which is not restricted to sum-of-squares objective functions. Let us call $h(\overrightarrow{q})$ be the objective function~\ref{eq_obj_ik} to minimize. A second order Taylor expansion of $h$ around $\overrightarrow{q}$ is:
+\begin{equation}
+      h(\overrightarrow{q}+\Delta\overrightarrow{q}) 
+      \approx h(\overrightarrow{q}) \ 
+      + \overrightarrow{\nabla h(\overrightarrow{q})}^T  \ \Delta\overrightarrow{q} \ 
+      + \frac{1}{2}  \ \Delta\overrightarrow{q}^T \ \bm{\nabla^2 h(\overrightarrow{q})}  \ \Delta\overrightarrow{q}
+\end{equation} 
+Where $\overrightarrow{\nabla h(\overrightarrow{q})}$ is the gradient vector of h with respect to $\overrightarrow{q}$, and $\bm{\nabla^2 h(\overrightarrow{q})}$ its Hessian matrix. This functional is minimum when its gradient (with respect to $\Delta\overrightarrow{q}$) is null.
+\begin{equation}
+    \begin{aligned}
+      \overrightarrow{0} &\approx 
+      \frac{\partial}{\Delta \overrightarrow{q}}
+      \Bigl( h(\overrightarrow{q}+\Delta\overrightarrow{q}) \Bigr) \\
+      &\approx
+      \nabla h(\overrightarrow{q})^T  \  
+      + \Delta\overrightarrow{q}^T \ \bm{\nabla^2 h(\overrightarrow{q})}
+    \end{aligned}
+\end{equation} 
+So:
+\begin{equation}
+    \Delta\overrightarrow{q}
+    = - \Bigl( \bm{\nabla^2 h(\overrightarrow{q})}\Bigr)^{-1} \ \nabla h(\overrightarrow{q})
+\end{equation}      
+
+Hence, this method is similar to the Gauss-Newton one, in the sense that it directly searches for where the gradient vanishes. However, it does not take advantage of the sum-of-squares formulation of the problem, and requires inverting its Hessian matrix of second derivatives, which is very computationally expensive. In Quasi-Newton methods, the Hessian is approximated by a matrix \textbf{B}, which is updated after each iteration. One of the most common approximation method is the BFGS one, found independently by 4 different researchers in the same year, 1970. Its precise formulation can be found in \cite{Nocedal1999}.
+
+More specifically, in the field of inverse kinematics, the L-BFGS-B variant is often used. This is a limited-memory of the BFGS method, which uses a sparse approximation of the Hessian instead of a dense one, further adapted for handling joint limits by gradient projection \cite{Byrd1995,Zhao1994}. Since the Jacobian is not inverted, these methods return the most accurate results, and stay free from any singularity issues like with the Levenberg-Marquardt method. However, they are still more computationally costly than Jacobian methods, and are not as straightforward to implement \cite{Aristidou2018}. They are used in the open-source software applications OpenSim, and in Visual3D. Pyomeca \cite{Martinez2020} relies on the OpenSim Python API to provide such a method, via its library Pyosim. CusToM uses a Sequential Quadratic Programming method, which is loosely related to Quasi-Newton ones, but slower.
 
 
-% The gradient is computed using the Jacobian matrix, and the Hessian matrix is approximated using the BFGS algorithm. The BFGS algorithm is a quasi-Newton method that approximates the Hessian matrix using the gradient of the objective function. It is implemented in the open-source softwares OpenSim and Custom, and in Visual3D.
-
-maximize 
-
-search the direction in which it decreases the fastest, i.e., where its gradient is the highest.
-
-Approximation de la dérivée seconde (dropped avec les approches précédentes)
-
-Second order, less iterations but each of them much more computationally expensive. More general, no need for sum of squares
-BFGS version de SQP (Sequential Quadratic Programming) plus rapide, qui approxime le hessien
-constraints ok
-
-
+\newpage
 \subsubsection{Kalman filtering methods}
+
 
 
 
 
 -----
 
-%  The most common local optimization method is the Gauss-Newton method \cite{Gauss1795,Newton1795}. It is a gradient descent method, which means that it minimizes the objective function by iteratively moving in the direction of the steepest descent. The steepest descent is computed using the Jacobian matrix. The Gauss-Newton method is implemented in OpenSim and in Custom.
+OpenSim fork, Pyomeca \cite{Martinez2020} biorbd \cite{Michaud2021}
 
-
-
-- If as many markers as degrees of freedom: analytical (exact) solution, direct computation
-- If more markers than degrees of freedom: overdetermined, no solutions: Optimal solution (svd, optim, ?)
-- If less markers than degrees of freedom: underdetermined, infinite solutions: add constraints, or ?
-
-
-
-inverse:numerical=iterative/model based/global optimization/multibody kinematic optimization
--> trust model
 
 
 COMPARER METHODES MKO
@@ -1047,55 +1067,44 @@ COMPARER MKO vs SKO
 TABLEAU DISPONIBLE SOFTS
 
 
-Global optim unadressed by game/robotics
-Jaconian unaddressed in biomechanics
 
-% Buss iksurvey: http://graphics.cs.cmu.edu/nsp/course/15-464/Spring11/handouts/iksurvey.pdf
 % Review computer graphics: https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310
 
 
-% Thèse chap2 Jacobien: https://pastel.archives-ouvertes.fr/tel-03070309/file/safeea.pdf
 % Conf game: https://ubm-twvideo01.s3.amazonaws.com/o1/vault/GDC2014/Presentations/VanDenBergen_Gino_Math_For_Game.pdf
 % Joint constraints: https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt4.html 
-% Pinocchio jacobian doc: https://github.com/stack-of-tasks/pinocchio/blob/a1df23c2f183d84febdc2099e5fbfdbd1fc8018b/doc/b-examples/i-inverse-kinematics.md
-% Pinocchio jacobian python: https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
-% Custom jacobian: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m
-% Custom least-squares: https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
 
 
 % Kalman smoothing: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685
 % OpenSim KS: https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
 % Pyomeca biordb KS: https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
-% Pyomeca biordv python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
+% Pyomeca biordb python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
 % Wiki: https://fr.wikipedia.org/wiki/Filtre_de_Kalman
 
 
 % Maximum Likelihood Estimates of Linear Dynamic Systems: https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166 
 
 
-% Page pyomeca: https://joss.theoj.org/papers/10.21105/joss.02431
-% Page kineticstoolkit: https://kineticstoolkit.uqam.ca/doc/
-
 
 % 6DOF vs IK: https://www.sciencedirect.com/science/article/abs/pii/S0021929016304134
 % 6DoF vs IK: https://journals.lww.com/acsm-msse/Fulltext/2014/07000/Impact_of_Knee_Modeling_Approach_on_Indicators_and.1.aspx
 
-% Without jacobian? https://arxiv.org/pdf/2203.04138.pdf
 
 
 % Closed loops 1: https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
 % Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
 
 
-% Simmbody: https://raw.githubusercontent.com/simbody/simbody/master/Simbody/doc/SimbodyTheoryManual.pdf
+% Simbody: https://raw.githubusercontent.com/simbody/simbody/master/Simbody/doc/SimbodyTheoryManual.pdf
 % OpenSim: https://nmbl.stanford.edu/publications/pdf/Delp2007.pdf
-% IK OpenSim: https://simtk-confluence.stanford.edu:8443/display/OpenSim/How+Inverse+Kinematics+Works
 
 % NCams calib: https://github.com/CMGreenspon/NCams/blob/v0.2/Examples/NewExamples/intrinsic_extrinsic_calibration.py
 
 
 
 
+
+inverse-> trust model
 Model-based (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
 
 Model based:
@@ -1104,10 +1113,6 @@ Model based:
 - IK
 IK vs forward kinematics (joint angles -> segment orientation)
 
-
-
-
-% Theory: weighted least square/convex/non-linear optimization by OpenSim (vs. Jacobian inverse/Levenberg-Marquardt, vs. heuristic methods, same overall problem as in calibration, equations 2.32 and 2.33: least-square optimization: more unknown parameters in function q than measured (known) variables. Non-linear because q is not a linear function of its parameters. 
 
 
 
@@ -1150,7 +1155,7 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 pyomeca (opensim GO, biorbd), 
-custom (GO et LM), 
+CusToM (GO et LM), 
 pinocchio (damped pseudo-inverse Jacobian pour éviter problemes singularités, simplicité, mais pas forcément plus rapide et lambda arbitraire. J = -Jt (J Jt +lambda I)-1 e avec lambda=1e-12. Donne vitesse, integre pour position), 
 OpenSim (GO et 6DoF)
 Visual3D (GO, LM, 6DoF)
@@ -1163,11 +1168,11 @@ Visual3D (GO, LM, 6DoF)
 \subsection{Other approaches}
 
 \cite{DeGroote2008,Aristidou2017}
-- Optimisation globale (sqp: sequential quadratic programming): plus exactes (last result used as a seed, close to optimum), assez lentes since minimization according to lots of variables in the same time (OpenSim, Custom) (Kazerounian1988, Siciliano1989)
+- Optimisation globale (sqp: sequential quadratic programming): plus exactes (last result used as a seed, close to optimum), assez lentes since minimization according to lots of variables in the same time (OpenSim, CusToM) (Kazerounian1988, Siciliano1989)
 - Jacobian (il faut déterminer la jacobienne analytique hors ligne). minimisation locale de vitesses angulaires <-> min globale angles (Kazerounian1988), algorithme de Levenberg-Marquardt. Ok avec contraintes, mais peuvent osciller, discontinuités, jerky near singular postures sauf pour damped least square, qui est plus lent (Aristidou)
 - Kalman filter (real time, process model not trivial, can diverge. both skeletal model, and process model. This model estimates trajectory based on prior knowledge about smoothness motion (mean and var?), and minimizes error. Estime simultanément positions, vitesse, accélérations -> pas besoin de dériver 2 fois, ce qui introduit des errors et pourrit la dynamique qui suit. Prend en compte le temps, contrairement à GO). Constraints difficult to implement
 - Kalman smoother (pareil mais filtre sur toutes les données temporelles au lieu de celles qui précèdent uniquement. Marche pas en temps réel-> offline)
-- heuristic (CCD: abrupt movements, twisted last joint; Fabrik: good first iteration, others slower)
+- heuristic (CCD: abrupt movements, twisted last joint, works bad if more than a few joints; Fabrik: good first iteration, others slower)
 - Learning based, Hessian/second derivatives...
 
 
