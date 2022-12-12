@@ -145,7 +145,7 @@ Technically, both spatio-temporal parameters and joint kinematics fall under the
 \vspace*{0.5cm}
 \noindent\underline{Forward kinematics vs. Inverse kinematics} (and global vs. local optimization):
 
-In the multi-body analysis of human motion, \textbf{forward kinematics generally involves finding the positions of M markers $\overrightarrow{X}$ from N joint angles $\overrightarrow{q}$}. Markers are more formally called end-targets, and joint angles degrees of freedom. In other words, forward kinematics aims to solve the equation $\overrightarrow{X}=f(\overrightarrow{q})$. Marker positions can usually be solved analytically, with simple trigonometric formulas. However, this assumes that segment dimensions and marker placement on each segment are known, and that soft tissue artifacts and measurement inaccuracies can be neglected.
+In the multi-body analysis of human motion, \textbf{forward kinematics generally involves finding the positions of M markers $\overrightarrow{X}$ from N joint angles $\overrightarrow{q}$}. Markers are more formally called end-targets, and joint angles degrees of freedom. In other words, forward kinematics aims to solve the equation $\overrightarrow{X}=f(\overrightarrow{q})$. Marker positions can usually be solved analytically, with a combination of trigonometric formulas. However, this assumes that segment dimensions and marker placement on each segment are known, and that soft tissue artifacts and measurement inaccuracies can be neglected.
 
 Conversely, \textbf{inverse kinematics deals with finding joint angles from marker positions}, and thus with solving the equation $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. Instead of prescribing the movement joint by joint, the idea is to provide one or several known marker positions, that will be reached with unknown joint angles. However, in practice $f$ is not generally invertible, and there is either an infinite amount of ways to reach targets, or none at all targets are out of reach. Consequently, optimization methods need to be leveraged. Inverse kinematics involves defining a kinematic chain, with segment dimensions and joint properties. It is sometimes called \emph{Multi-body Kinematic Optimization} (MKO), or \emph{Global Optimization} (GO). Note that this latter term should not be favored, since these methods do not pretend to look for a global minimum. They are only global in the sense that they consider all joints at once.
 
@@ -234,33 +234,11 @@ Another approach for finding joint angles is the \textbf{6DoF (6 Degrees of Free
 
 
 
-% - global optim https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929098001584?via%3Dihub
-
-% - kalman https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
-% - https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
-
-% - review https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310 
 
 % Closed Chain :
 % https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
 
 
-
-
-% Kalman and coBone position estimation from skin marker co-ordinates 
-% https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685?via%3Dihub
-% https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166
-
-
-% https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsLM.m 
-% https://github.com/anmuller/CusToM/blob/master/Functions/Kinematics/InverseKinematicsOpti.m
-
-% https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
-% https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
-
-% https://github.com/stack-of-tasks/pinocchio/blob/master/examples/inverse-kinematics.py
-
-% https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
 
 
 

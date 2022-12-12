@@ -852,7 +852,8 @@ Each marker can be weighted with its confidence $w_m$:
   w_m ||\ \textbf{R} \ \overrightarrow{X^{current}_m} + \overrightarrow{T} - \overrightarrow{X^{target}_m} ||^2
 \end{equation} 
 
-One way to solve it involves SVD \cite{Arun1987,Soderkvist1993}, see \cite{Sorkine2017} for a step-by-step resolution. \cite{Visual3D} provides a commercial interface for SKO, and OpenSim can boil down to the same approach if 6 degrees of freedom are granted to all joints of the model.
+One way to solve it involves SVD \cite{Arun1987,Soderkvist1993} %et Veldpaus88, Challie95
+, see \cite{Sorkine2017} for a step-by-step resolution. \cite{Visual3D} provides a commercial interface for SKO, and OpenSim can boil down to the same approach if 6 degrees of freedom are granted to all joints of the model.
 
 
 \newpage
@@ -893,8 +894,8 @@ This problem becomes increasingly hard to compute as the number of degrees of fr
 
 In the fields of robotics and character animation, inverse kinematics is classically solved by Jacobian methods \cite{Siciliano1990,Buss2009,Aristidou2018}. They consist in linearizing marker coordinates around an initial guess on joint angles, and solving the resulting linear system. %The guess is then iteratively adjusted, until the marker coordinate error is small enough. 
 
-Let $\overrightarrow{q^{init}}=(\theta_1^{init}, \dots \  \theta_N^{init})$ be the N initial joint coordinates, and \\
-$\overrightarrow{X(\overrightarrow{q^{init}})} = \bigl(x_1(\overrightarrow{q^{init}}), y_1(\overrightarrow{q^{init}}), z_1(\overrightarrow{q^{init}}), \dots \ z_M(\overrightarrow{q^{init}})\bigr)$ the 3M marker initial coordinates. A first order Taylor expansion of $\overrightarrow{X}$ around $\overrightarrow{q^{init}}$ yields:
+Let $\overrightarrow{q^{init}}=(\theta_1^{init}, \dots \  \theta_N^{init})^T$ be the N initial joint coordinates, and \\
+$\overrightarrow{X(\overrightarrow{q^{init}})} = \bigl(x_1(\overrightarrow{q^{init}}), y_1(\overrightarrow{q^{init}}), z_1(\overrightarrow{q^{init}})^T, x_2(\overrightarrow{q^{init}})^T, \dots \ z_M(\overrightarrow{q^{init}})\bigr)$ the 3M marker initial coordinates. A first order Taylor expansion of $\overrightarrow{X}$ around $\overrightarrow{q^{init}}$ yields:
 \begin{equation}
     \begin{pmatrix}x_1(\overrightarrow{q^{init ^{\ }}}+\Delta\overrightarrow{q})\\ y_1(\overrightarrow{q^{init ^{\ }}}+\Delta\overrightarrow{q})\\ z_1(\overrightarrow{q^{init ^{\ }}}+\Delta\overrightarrow{q})\\ \vdots \\ z_M(\overrightarrow{q^{init ^{\ }}}+\Delta\overrightarrow{q})\end{pmatrix}_{3M \times 1}
     \approx \begin{pmatrix}x_1(\overrightarrow{q^{init}})\\ y_1(\overrightarrow{q^{init}})\\ z_1(\overrightarrow{q^{init}})\\ \vdots \\ z_M(\overrightarrow{q^{init}})\end{pmatrix}_{3M \times 1}
@@ -1015,7 +1016,7 @@ Now, the change in joint angles needed to reach the target from the current posi
 
 In plain words, the gradient descent method iteratively searches the direction of steepest gradient, until the objective function reaches a minimum where the gradient is null; while the Gauss-Newton method linearizes the problem, takes advantage of the sum-of-squares formulation of the objective function, and directly finds where the gradient vanishes; and the Levenberg-Marquardt method is a compromise between the two.
 
-It uses the result of the previous frame as an initial guess, which is arguably close to the desired solution. Hence, it is generally fast and can be used in real-time in 3D animation software applications. However, it tends to be sensitive to singularities, and to be less precise than Quasi-Newton methods. Moreover, joint limits are not straightforward to take into account, and such constraints tend to slow the convergence rate and to give poor results \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares CusToM \cite{Muller2019} and \cite{Pinocchio,Carpentier2019}, as well as in Visual3D. 
+It uses the result of the previous frame as an initial guess, which is arguably close to the desired solution. Hence, it is generally fast and can be used in real-time in 3D animation software applications. However, it tends to be sensitive to singularities, and to be less precise than Quasi-Newton methods. Moreover, joint limits are not straightforward to take into account, and such constraints tend to slow the convergence rate and to lead to poorer accuracy \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares CusToM \cite{Muller2019} and \cite{Pinocchio,Carpentier2019}, as well as in Visual3D. 
 
 
 \subsubsection{Quasi-Newton methods and the BFGS algorithm}
@@ -1046,16 +1047,42 @@ So:
 
 Hence, this method is similar to the Gauss-Newton one, in the sense that it directly searches for where the gradient vanishes. However, it does not take advantage of the sum-of-squares formulation of the problem, and requires inverting its Hessian matrix of second derivatives, which is very computationally expensive. In Quasi-Newton methods, the Hessian is approximated by a matrix \textbf{B}, which is updated after each iteration. One of the most common approximation method is the BFGS one, found independently by 4 different researchers in the same year, 1970. Its precise formulation can be found in \cite{Nocedal1999}.
 
-More specifically, in the field of inverse kinematics, the L-BFGS-B variant is often used. This is a limited-memory of the BFGS method, which uses a sparse approximation of the Hessian instead of a dense one, further adapted for handling joint limits by gradient projection \cite{Byrd1995,Zhao1994}. Since the Jacobian is not inverted, these methods return the most accurate results, and stay free from any singularity issues like with the Levenberg-Marquardt method. However, they are still more computationally costly than Jacobian methods, and are not as straightforward to implement \cite{Aristidou2018}. They are used in the open-source software applications OpenSim, and in Visual3D. Pyomeca \cite{Martinez2020} relies on the OpenSim Python API to provide such a method, via its library Pyosim. CusToM uses a Sequential Quadratic Programming method, which is loosely related to Quasi-Newton ones, but slower.
+More specifically, in the field of inverse kinematics, the L-BFGS-B variant is often used. This is a limited-memory of the BFGS method, which uses a sparse approximation of the Hessian instead of a dense one, further adapted for handling joint limits by gradient projection \cite{Byrd1995,Zhao1994}. Since the Jacobian is not inverted, these methods return the most accurate results, and stay free from any singularity issues like with the Levenberg-Marquardt method. However, they are still more computationally costly than Jacobian methods, and are not as straightforward to implement \cite{Aristidou2018}. They are used in the open-source software applications OpenSim, and in Visual3D. Pyomeca \cite{Martinez2020} relies on the OpenSim Python API to provide such a method, via its library Pyosim. CusToM uses a Sequential Quadratic Programming method, which is related to Quasi-Newton ones.
 
 
 \newpage
 \subsubsection{Kalman filtering methods}
 
+% paragraphe intro cf feuille et dessous
+
+% paragraphe theorie cf feuille et wiki en + BIORBD IK_KS L118  -> pas compris update
+
+Another lesser-known class 
+ne tire pas ses origines de la robotique, de l'animation, ni de la biomécanique, mais automation: Precisely to mitigate noisy measurements, when prior knowledge on expected model and process behavior are known
+citer origine [Kalman,Swerling]
+// Hidden markov, but continuous instead of discrete space 
+
+Avoir idée de comment c'est smooth (et idée d'initialisation angles aussi, ou pas?): previous knowledge, not only of position, but also vel and acc.
+Estimates simultaneously generalized coordinates, velocities, and accelerations -> less errors induces by differenciation 
+Information from previous frame (and following with KS)
+
+
+KF:
+EKF:non linear systems (+accounts for kinematic constraints? )
+LME: accounts for STA
+KS: all times, back and forth. No account for STA. EKS extended
 
 
 
 
+Good alternative approach when some segments are hidden and when closed loops (kin constraints easier) Halvorsen2008
+--> extended Kalman filter with kinematic constraints (EKF)
+
+Pourquoi pas utilisé ?
+Difficile à comprendre, à implémenter ?  à paramétriser ?
+Problèmes si erreurs dans modèle (joint centers pas bien au center ?)
+Very slow? Calculs sur tous les markers à chaque frame, chq calcul combinaison complexe sin cos, + process model
++ hard to initialize (coord, vel, acc)
 -----
 
 OpenSim fork, Pyomeca \cite{Martinez2020} biorbd \cite{Michaud2021}
@@ -1067,22 +1094,6 @@ COMPARER MKO vs SKO
 TABLEAU DISPONIBLE SOFTS
 
 
-
-% Review computer graphics: https://sci-hub.se/https://onlinelibrary.wiley.com/doi/10.1111/cgf.13310
-
-
-% Conf game: https://ubm-twvideo01.s3.amazonaws.com/o1/vault/GDC2014/Presentations/VanDenBergen_Gino_Math_For_Game.pdf
-% Joint constraints: https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt4.html 
-
-
-% Kalman smoothing: https://sci-hub.se/https://www.sciencedirect.com/science/article/abs/pii/S0021929008004685
-% OpenSim KS: https://github.com/antoinefalisse/opensim-core/blob/kalman_smoother/OpenSim/Tools/InverseKinematicsKSTool.cpp
-% Pyomeca biordb KS: https://github.com/pyomeca/biorbd/blob/3a9f4aa6e4b6e12c9f8eb828ab3fe361c2e610c7/include/RigidBody/KalmanRecons.h
-% Pyomeca biordb python KS: https://github.com/pyomeca/biorbd/blob/f776fe02e1472aebe94a5c89f0309360b52e2cbc/examples/python3/inverseKinematicsKalman.py
-% Wiki: https://fr.wikipedia.org/wiki/Filtre_de_Kalman
-
-
-% Maximum Likelihood Estimates of Linear Dynamic Systems: https://sci-hub.se/https://arc.aiaa.org/doi/pdf/10.2514/3.3166 
 
 
 
@@ -1096,15 +1107,13 @@ TABLEAU DISPONIBLE SOFTS
 
 
 % Simbody: https://raw.githubusercontent.com/simbody/simbody/master/Simbody/doc/SimbodyTheoryManual.pdf
-% OpenSim: https://nmbl.stanford.edu/publications/pdf/Delp2007.pdf
-
-% NCams calib: https://github.com/CMGreenspon/NCams/blob/v0.2/Examples/NewExamples/intrinsic_extrinsic_calibration.py
 
 
 
 
 
 inverse-> trust model
+Although we skimmed it, scaling the model is indispensable for IK to reach des résultats corrects. Not trivial: besoin de trouver les joint centers, plusieurs manières
 Model-based (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
 
 Model based:
@@ -1154,17 +1163,6 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 
-pyomeca (opensim GO, biorbd), 
-CusToM (GO et LM), 
-pinocchio (damped pseudo-inverse Jacobian pour éviter problemes singularités, simplicité, mais pas forcément plus rapide et lambda arbitraire. J = -Jt (J Jt +lambda I)-1 e avec lambda=1e-12. Donne vitesse, integre pour position), 
-OpenSim (GO et 6DoF)
-Visual3D (GO, LM, 6DoF)
-
-
-
-
-
-
 \subsection{Other approaches}
 
 \cite{DeGroote2008,Aristidou2017}
@@ -1197,6 +1195,29 @@ Outperforms SO in their specific case (knee and hip) \cite{Lu1999}
 joints pin, ball, universeal, constrained
 
 Joint limits?
+
+
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{ccc}
+  \toprule
+  \multicolumn{3}{c}{\textbf{Single-body kinematic optimization}} \\
+  \midrule
+  \multicolumn{3}{c}{Trust markers} \\
+  \multicolumn{3}{c}{\emph{By OpenSim, Visual3D, KineticsToolkit}} \\
+  \midrule
+  \specialrule{0.14 em}{0pc}{0pc}
+  \textbf{Levenberg-Marquardt (Jacobian)}   & \textbf{L-BFGS-B (Quasi-Newton)}   & \textbf{Extended Kalman Smoother}    \\
+  \midrule
+  Fast   &  Robust &    \\
+  Unconstrained   &  Constraints ok & Constraints ok   \\
+  \emph{Visual3D, Pinocchio, Custom}  &  \emph{OpenSim, Visual3D, Pyomeca, (Custom)}  &  \emph{OpenSim (fork), Pyomeca} \\
+  \bottomrule
+  \end{tabular}
+  \caption{Comparison of kinematic approaches.}
+\end{table}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Intéressant mais rendrait le pdf trop long               %
