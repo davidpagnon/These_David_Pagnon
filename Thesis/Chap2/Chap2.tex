@@ -645,7 +645,7 @@ In biomechanics, numerous cameras are usually needed, in order to obtain accurat
 On the other hand, spherical markers placed on a wand are more likely to be detected by all cameras simultaneously, regardless of their position and orientation in space. However, they only represent either a single point, or a 1D length if they are placed at both extremities of a wand. A planar object like a checkerboard, on the contrary, is sufficient to determine a 3D coordinate system. This implies that using a wand does not allow for direct 2D image point to 3D coordinate correspondences. Hence, 3D positions also need to be optimized, which involves calibrating all cameras together instead of one by one. This has a few implications: first, cameras need to be synchronized, and then, more parameters have to be optimized, which tends to make this method less stable. It should also make the optimization extremely computationally intensive. Luckily, one can take advantage of the sparsity of the Jacobian of the objective function, which allows for considerable computation savings. This method, called Sparse Bundle Adjustment (SBA), will not be described in details, but extensive explanations can be found in \cite{Lourakis2009}.
 
 \newpage
-In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the objective function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in camera image $k$.
+In short, this calibration problem is solved by using a sparse variant of the Levenberg-Marquardt algorithm.  The estimated $\overrightarrow{\widehat{q_{kj}}(\overrightarrow{a_k}, \overrightarrow{b_j})}$ point is dependent on each 3D point parametrized by $\overrightarrow{b_j}$, and on each cameras image parametrized by $\overrightarrow{a_k}$. The main difference with the objective function used in the checkerboard approach, is that this one is minimized over all $M$ points of all $K$ images from all cameras, instead of for each camera independently. In order to save resources, the projection is only calculated if the point $j$ is actually visible in image $k$.
 
 \begin{equation}
   \sum_{k \in [1,K]} \sum_{j \in [1,M]} 
@@ -655,7 +655,7 @@ In short, this calibration problem is solved by using a sparse variant of the Le
   \textrm{ with }  
   \nu_{kj} = 
     \begin{cases}
-        & 1 \textrm{ if point } j \textrm{ detected by camera image} k \\
+        & 1 \textrm{ if point } j \textrm{ detected by image } k \\
         & 0 \textrm{ if unseen}
     \end{cases}
 \end{equation} 
@@ -1021,7 +1021,9 @@ It uses the result of the previous frame as an initial guess, which is arguably 
 
 \subsubsection{Quasi-Newton methods and the BFGS algorithm}
 
-In the field of biomechanics, inverse kinematics is usually dealt with Quasi-Newton methods. These methods don't linearize the objective function, and solve it as a more general non-linear minimization problem, which is not restricted to sum-of-squares objective functions. Let us call $h(\overrightarrow{q})$ be the objective function~\ref{eq_obj_ik} to minimize. A second order Taylor expansion of $h$ around $\overrightarrow{q}$ is:
+In the field of biomechanics, inverse kinematics is usually dealt with more general Quasi-Newton methods. These methods don't linearize the objective function, and solve it as a more general non-linear minimization problem, which is not restricted to sum-of-squares objective functions. 
+% Note that in this sense, the Gauss-Newton method is a Quasi-Newton method applied to a specific class of problems. 
+Let us call $h(\overrightarrow{q})$ be the objective function~\ref{eq_obj_ik} to minimize. A second order Taylor expansion of $h$ around $\overrightarrow{q}$ is:
 \begin{equation}
       h(\overrightarrow{q}+\Delta\overrightarrow{q}) 
       \approx h(\overrightarrow{q}) \ 
@@ -1053,24 +1055,61 @@ More specifically, in the field of inverse kinematics, the L-BFGS-B variant is o
 \newpage
 \subsubsection{Kalman filtering methods}
 
-% paragraphe intro cf feuille et dessous
+Another lesser-known class of inverse kinematic methods is the Kalman filter, which does not take its roots from the fields of robotics, nor computer animation, nor biomechanics, but from automation. In fact, it was precisely designed to mitigate the effect of noisy measurement data on the estimation of variables of interest \cite{Kalman1960}. Kalman filters take advantage of prior knowledge of both the evolution of kinematic variables along time (namely, the process model), and of the kinematic chain (namely, the measurement model). The process model concerns the change of joint parameters from one frame to another, as well as the magnitude of imprecision on this predicted evolution; and the measurement model concerns the relationship between marker positions and joint angle parameters, as well as the magnitude of errors (due to STA for example). 
 
-% paragraphe theorie cf feuille et wiki en + BIORBD IK_KS L118  -> pas compris update
+In short, an inverse kinematics Kalman filter will proceed in two steps. It will first predict the angular joint parameters of the next frame thanks to the process model. Then, it will update this prediction, by deducing the corresponding marker positions thanks to the process model, and comparing these to the actual measured marker coordinates. This difference will be weighted by the Kalman gain, computed at each frame, and added to the initial joint parameter estimate. A low gain means that the initial estimate can be trusted, and a higher gain places more weight on marker measurements.
 
-Another lesser-known class 
-ne tire pas ses origines de la robotique, de l'animation, ni de la biomécanique, mais automation: Precisely to mitigate noisy measurements, when prior knowledge on expected model and process behavior are known
-citer origine [Kalman,Swerling]
-// Hidden markov, but continuous instead of discrete space 
+Let $\overrightarrow{X} = (x_1, y_1, z_1, x_2, \cdots, z_M)^T_{1 \times 3M}$ be the measured marker coordinates, called the output vector, and $\overrightarrow{q} = (\theta_1, \dot{\theta_1}, \ddot{\theta_1}, \theta_2, \cdots, \ddot{\theta_N})^T_{1 \times 3N}$ the joint angle coordinates, velocities, and accelerations, called the state vector. Let $\overrightarrow{\eta(t)}$ be the process noise, assumed to be a zero-mean Gaussian distribution with covariance $\textbf{Q}_t$. The \emph{process model} is expressed as: 
+\begin{flalign}
+    &&\fbox{$\overrightarrow{q(t+\Delta t)} 
+    = f\bigl(\overrightarrow{q(t)}\bigr) + \overrightarrow{\eta(t)}$},
+    && \text{with } \overrightarrow{\eta(t)} \sim \mathcal{N}(0,\,Q_t)&&
+\end{flalign}
 
-Avoir idée de comment c'est smooth (et idée d'initialisation angles aussi, ou pas?): previous knowledge, not only of position, but also vel and acc.
-Estimates simultaneously generalized coordinates, velocities, and accelerations -> less errors induces by differenciation 
-Information from previous frame (and following with KS)
+Let $\overrightarrow{\nu(t)}$ be the zero-mean measurement noise of covariance $\textbf{R}_t$, the \emph{measurement model} is expressed as: 
+\begin{flalign}
+    &&\fbox{$\overrightarrow{X(\overrightarrow{q(t)})}
+    = h\bigl(\overrightarrow{q(t)}\bigr) + \overrightarrow{\nu(t)}$},
+    && \text{with } \overrightarrow{\nu(t)} \sim \mathcal{N}(0,\,R_t)&&
+\end{flalign}
+
+In the \emph{prediction phase}, considering that the mean process noise is null, an estimate for $\overrightarrow{q(t+\Delta t)}$ is:
+\begin{equation}
+    \overrightarrow{\hat{q}(t+\Delta t)} 
+    = f\bigl(\overrightarrow{q(t)}\bigr)
+\end{equation}
+As f is a combination of multiple sine and cosine functions, it is not linear. Let n refer to any of the N joint angles, a second order Taylor expansion can help linearize the problem:
+\begin{equation}
+    \begin{pmatrix}\hat{\theta}_n(t+\Delta T)\\ \hat{\dot{\theta}}_n(t+\Delta T)\\ \hat{\ddot{\theta}}_n(t+\Delta T)\end{pmatrix} 
+    \approx \begin{pmatrix}1 & \Delta t & \Delta t^2/2 \\0 & 1 & \Delta t\\0&0&1\end{pmatrix}
+    \begin{pmatrix}\theta_n(t)\\ \dot{\theta}_n(t)\\ \ddot{\theta}_n(t)\end{pmatrix} 
+\end{equation}
+Or more succinctly, predicted joint angular parameters are: 
+\begin{equation}
+    \overrightarrow{\hat{q}(t+\Delta t)} 
+    = \textbf{F}\ \overrightarrow{q(t)}
+\end{equation}
+The covariance of prediction $\hat{\textbf{P}}_{t+\Delta t}$ is also calculated at this stage. As it is lengthy to expose and slightly more complicated, we won't detail it here (see \cite{Bonnet2017} for further details). 
+
+The \emph{update phase} starts with computing the difference between measured marker positions $\overrightarrow{X^{target}}$, and those deducted from joint angular parameter estimates :
+\begin{equation}
+    \Delta \overrightarrow{X(t+\Delta t)} 
+    = \overrightarrow{X^{target}(t+dt)}
+    - h\bigl(\overrightarrow{\hat{q}(t+\Delta t)}\bigr)
+\end{equation}
+The covariance of error $\textbf{S}_{t+\Delta t}$ is more complicated to compute: as $h$ is non-linear, it has to be approximated with a first order Taylor expansion. Both prediction and error covariances $\textbf{Q}_{t+\Delta t}$ and $\textbf{R}_{t+\Delta t}$ are involved in the computation of the Kalman gain $\textbf{K}_{t+\Delta t}$.
+
+Finally, the update joint angular parameter estimates are:
+\begin{equation}
+\boxed{
+    \Delta \overrightarrow{q(t+\Delta t)} 
+    = \overrightarrow{\hat{q}(t+\Delta t)} 
+    + \textbf{K}_{t+\Delta t} \ \Delta \overrightarrow{X(t+\Delta t)} }
+\end{equation}
 
 
-KF:
-EKF:non linear systems (+accounts for kinematic constraints? )
-LME: accounts for STA
-KS: all times, back and forth. No account for STA. EKS extended
+
+-----
 
 
 
@@ -1080,6 +1119,7 @@ Good alternative approach when some segments are hidden and when closed loops (k
 
 Pourquoi pas utilisé ?
 Difficile à comprendre, à implémenter ?  à paramétriser ?
+Besoin d'initialiser correctement (surtout le root segment)
 Problèmes si erreurs dans modèle (joint centers pas bien au center ?)
 Very slow? Calculs sur tous les markers à chaque frame, chq calcul combinaison complexe sin cos, + process model
 + hard to initialize (coord, vel, acc)
