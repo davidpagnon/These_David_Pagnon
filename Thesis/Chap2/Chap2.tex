@@ -1149,7 +1149,6 @@ TABLEAU
 
 
 
-Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be fast; hessian/second derivatives (slow); quasi-Newton; data driven; avec prise en comptes de forces /RRA ?
 
 
 
@@ -1166,11 +1165,6 @@ Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be
 
 
 
-% 6DOF vs IK: https://www.sciencedirect.com/science/article/abs/pii/S0021929016304134
-% 6DoF vs IK: https://journals.lww.com/acsm-msse/Fulltext/2014/07000/Impact_of_Knee_Modeling_Approach_on_Indicators_and.1.aspx
-
-
-
 % Closed loops 1: https://sci-hub.se/https://link.springer.com/article/10.1007/s11044-013-9366-7
 % Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
 
@@ -1178,89 +1172,67 @@ Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be
 
 
 
-
-inverse-> trust model
-Although we just skimmed this aspect, scaling the model is indispensable for IK to reach des résultats corrects. Not trivial: besoin de trouver les joint centers, plusieurs manières
-Model-based (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
-1. Bons Dof, pas trop mais assez, comprehensive vs reliable
-2. Bonnes dimensions, usually from bone joint centers but not exclusively (Begon 2018), not trivial (SARA, SCoRE \cite{Ehrig2007} if STA via functional methods, midpoint between anatomical markers via geometric). The mere concept of joint centers is also not always pertinent, as human and animal joints are complex and translate blabla. 
-3. Bonne initialisation (angles, voire vel=0?, accel=0? pas généralement vrai, covariances with Kalman which is more sensitive to bad initial estimates)
+Part 4.1, 4.3: https://sci-hub.se/https://doi.org/10.1115/1.4038741
+https://sci-hub.se/10.1177/027836498800700501
+https://sci-hub.se/https://pubmed.ncbi.nlm.nih.gov/24347565/
+https://www.sciencedirect.com/science/article/abs/pii/S0021929016304134
+https://journals.lww.com/acsm-msse/Fulltext/2014/07000/Impact_of_Knee_Modeling_Approach_on_Indicators_and.1.aspx
 
 
-Model based:
-- model, kinematic chain: rigid multibody skeletal structure, with joint and segment definitions. Potentially with inertial properties, as well as neural and/or muscular system.
-- scaling
-- IK
-IK vs forward kinematics (joint angles -> segment orientation)
+Free-body 6DoF: trust markers
+Multibody IK: trust markers
 
-
-
-
-Global optimization / multibody kinematic optimization, reduces sensitivity to soft tissue artifact, reduces number of degrees of freedom to solve, and thus of markers needed (1 per joint if fully constrained \cite{Slater2018}, vs. 3 min for 6DoF, no need for interpolation or redo capture if marker falls) -> Fohanno2014?, more potential information on muscle activation for example \cite{Robinson2013,Kainz2016}
-Slightly slower, assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population, not guaranteed to work on pathological population nor on unusual body structures (joint laxity cannot be qualified for example)
 
 Résultats similaires si STA limités et modèle approprié \cite{Kainz2016}
+
 Aristidou2017: 
-- analytical: if low DoF, not lots of STA, if looking at pathological individuals (missing  clinically relevant movements), needs to be fast
-- numerical: more general, if less markers. Jacobian: if biomechanical laws and weighted constraints; heuristic: needs to be fast (spécifiques à problème particulier, ou appel au hasard); hessian/second derivatives (slow); quasi-Newton; data driven; avec prise en comptes de forces /RRA ?
-
-slower than direct kinematics
-
-
-
-closed loop?
-
-
-
-Model constrained, based on mechanical joint modeling, and on constraints inferred from  
-optimize the posture of a physically consistent skeleton, scaled to each individual subject. In particular, this allows for obtaining 3D joint angles at each point in time, commonly referred to as inverse kinematics (IK.)
-
-
-% Moreover, triangulated keypoints are likely to suffer from labelling bias, and to be noisy. 
-
-
-% The kinematic problem consists in finding the 3D coordinates of the joints, and the angles between the segments. This is a non-linear problem, as the 3D coordinates of the joints are not linearly dependent on the 3D coordinates of the keypoints. Moreover, the number of unknowns is much larger than the number of equations, as there are 3D coordinates for each joint, and only 3D coordinates for each keypoint. This is why the problem is usually solved iteratively, by first estimating the 3D coordinates of the keypoints, and then the 3D coordinates of the joints. 
-
-
-
-See OpenSim confluence for ID, Stat optim, RRA, CMC..
-kinematics: No account taken of physical laws that cause motion such as gravity, collisions, or more generally inertial properties and forces: only geometric constraints
+- 6DoF: if low DoF, not lots of STA, if looking at pathological individuals (missing  clinically relevant movements), needs to be fast
+- IK: more general, if less markers. 
 
 
 
 
-
-
-
-
-
-
-\cite{DeGroote2008,Aristidou2017}
-- Optimisation globale (sqp: sequential quadratic programming): plus exactes (last result used as a seed, close to optimum), assez lentes since minimization according to lots of variables in the same time (OpenSim, CusToM) (Kazerounian1988, Siciliano1989)
-- Jacobian (il faut déterminer la jacobienne analytique hors ligne). minimisation locale de vitesses angulaires <-> min globale angles (Kazerounian1988), algorithme de Levenberg-Marquardt. Ok avec contraintes, mais peuvent osciller, discontinuités, jerky near singular postures sauf pour damped least square, qui est plus lent (Aristidou)
-- Kalman filter (real time, process model not trivial, can diverge. both skeletal model, and process model. This model estimates trajectory based on prior knowledge about smoothness motion (mean and var?), and minimizes error. Estime simultanément positions, vitesse, accélérations -> pas besoin de dériver 2 fois, ce qui introduit des errors et pourrit la dynamique qui suit. Prend en compte le temps, contrairement à GO). Constraints difficult to implement
-- Kalman smoother (pareil mais filtre sur toutes les données temporelles au lieu de celles qui précèdent uniquement. Marche pas en temps réel-> offline)
-- heuristic (CCD: abrupt movements, twisted last joint, works bad if more than a few joints; Fabrik: good first iteration, others slower)
-- Learning based, Hessian/second derivatives...
-
-
- 
-
-
-
-True to all constrained models, as opposed to 6DOF approaches: only applicable with population close to the norm: limb missing, pathological joint, not okay
 
 6DoF
+----
 -> trust markers (assumes that markers are positioned very accurately, by one single trained operator, no STA.)
 -> no need for geometry assumptions, Free bodies (pathological?). No need for prior calculation of joint centers (for scaling segment dimensions: functional such as SARA or SCORE, or simply midpoints between malleoli/epicondyles/styloids)
 ->renders dislocations (good if there is some laxity, bad if none-> interpenetration, etc) Comes from biomechanics rather than robotics (simple joints)
 Outperforms SO in their specific case (knee and hip) \cite{Lu1999}
 
 
-(need for model, joints, segment, scaled) 
-joints pin, ball, universeal, constrained
+INVERSE KIN
+-----------
+Reduces sensitivity to soft tissue artifact, reduces number of degrees of freedom to solve, and thus of markers needed (1 per joint if fully constrained \cite{Slater2018}, vs. 3 min for 6DoF, no need for interpolation or redo capture if marker falls) -> Fohanno2014?, more potential information on muscle activation for example \cite{Robinson2013,Kainz2016}
+Slower, assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population, not guaranteed to work on pathological population nor on unusual body structures (joint laxity cannot be qualified for example)
 
-Joint limits?
+Most exact: Quasi-Gaussian, L-BFGS-B (slowest) although last result used as a seed, close to optimum
+Jacobian peuvent osciller, discontinuités, jerky near singular postures sauf pour damped least square, qui est plus lent (Aristidou)
+Kalman filter (real time sauf KS, process model and initialization not trivial, can diverge. Estime simultanément positions, vitesse, accélérations. Constraints difficult to implement
+Heuristic more computationally effcient but not accurate enough, Learning based not ready
+
+SCALING
+Although we just glanced over this aspect, scaling the model is indispensable for IK to reach des résultats corrects. Not trivial: besoin de trouver les joint centers, plusieurs manières
+Model-based=kinematic chain (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
+1. Bons Dof (pin, ball, universeal, constrained, ou combinaison), pas trop mais assez, comprehensive vs reliable + only applicable with population close to the norm: limb missing, pathological joint, not okay
+2. Bonnes dimensions, usually from bone joint centers but not exclusively (Begon 2018), not trivial (SARA, SCoRE \cite{Ehrig2007} if STA via functional methods, midpoint between anatomical markers via geometric). The mere concept of joint centers is also not always pertinent, as human and animal joints are complex and translate blabla. 
+Potentially with inertial properties, as well as neural and/or muscular system.
+
+INITIALISATION
+3. Bonne initialisation (angles, voire vel=0?, accel=0? pas généralement vrai, covariances with Kalman which is more sensitive to bad initial estimates)
+
+
+CONSTRAINED
+dof
+soft, hard
+joint limits, closed chain
+
+
+
+% Moreover, triangulated keypoints are likely to suffer from labelling bias, and to be noisy. 
+
+% See OpenSim confluence for ID, Stat optim, RRA, CMC..
+% kinematics: No account taken of physical laws that cause motion such as gravity, collisions, or more generally inertial properties and forces: only geometric constraints
 
 
 
