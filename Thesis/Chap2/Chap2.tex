@@ -1049,31 +1049,26 @@ So:
 
 Hence, this method is similar to the Gauss-Newton one, in the sense that it directly searches for where the gradient vanishes. However, it does not take advantage of the sum-of-squares formulation of the problem, and requires inverting its Hessian matrix of second derivatives, which is very computationally expensive. In Quasi-Newton methods, the Hessian is approximated by a matrix \textbf{B}, which is updated after each iteration. One of the most common approximation method is the BFGS one, found independently by 4 different researchers in the same year, 1970. Its precise formulation can be found in \cite{Nocedal1999}.
 
-More specifically, in the field of inverse kinematics, the L-BFGS-B variant is often used. This is a limited-memory of the BFGS method, which uses a sparse approximation of the Hessian instead of a dense one, further adapted for handling joint limits by gradient projection \cite{Byrd1995,Zhao1994}. Since the Jacobian is not inverted, these methods return the most accurate results, and stay free from any singularity issues like with the Levenberg-Marquardt method. However, they are still more computationally costly than Jacobian methods, and are not as straightforward to implement \cite{Aristidou2018}. They are used in the open-source software applications OpenSim, and in Visual3D. Pyomeca \cite{Martinez2020} relies on the OpenSim Python API to provide such a method, via its library Pyosim. CusToM uses a Sequential Quadratic Programming method, which is related to Quasi-Newton ones.
+More specifically, in the field of inverse kinematics, the L-BFGS-B variant is often used. This is a limited-memory of the BFGS method, which uses a sparse approximation of the Hessian instead of a dense one, further adapted for handling joint limits by gradient projection \cite{Byrd1995,Zhao1994}. Since the Jacobian is not inverted, these methods return the most accurate results, and stay free from any singularity issues like with the Levenberg-Marquardt method. However, they are still more computationally costly than Jacobian methods, and are not as straightforward to implement \cite{Aristidou2018}. They are used in the open-source software applications OpenSim, and in Visual3D. Pyomeca \cite{Martinez2020} relies on the OpenSim Python API to provide such a method, via its library Pyosim. CusToM uses a Sequential Quadratic Programming method, which is a generalization of constrained Newton ones. It is slower, and arguably not necessary for simple bound constraints.
 
 
 \newpage
 \subsubsection{Kalman filtering methods}
 
-Another lesser-known class of inverse kinematic methods is the Kalman filter, which does not take its roots from the fields of robotics, nor computer animation, nor biomechanics, but from automation. In fact, it was precisely designed to mitigate the effect of noisy measurement data on the estimation of variables of interest \cite{Kalman1960}. Kalman filters take advantage of prior knowledge of both the evolution of kinematic variables along time (namely, the process model), and of the kinematic chain (namely, the measurement model). The process model concerns the change of joint parameters from one frame to another, as well as the magnitude of imprecision on this predicted evolution; and the measurement model concerns the relationship between marker positions and joint angle parameters, as well as the magnitude of errors (due to STA for example). 
+Another lesser-known class of inverse kinematic methods is the Kalman filter, which does not take its roots from the fields of robotics, nor computer animation, nor biomechanics, but from automation. In fact, it was precisely designed to mitigate the effect of noisy measurement data on the estimation of variables of interest \cite{Kalman1960}. Kalman filters don't involve the definition of any objective function, however they take advantage of prior knowledge of both the evolution of kinematic variables along time (namely, the process model), and of the kinematic chain (namely, the measurement model). The process model concerns the change of state variables from one frame to another, as well as the magnitude of imprecision on their predicted evolution. State variables are primarily joint angles, but they can also include their derivatives up to an arbitrary number (although \cite{DeGroote2008} showed that little improvement was brought when going above the 2nd degree), marker coordinates, IMU inputs, etc. The measurement model defines the relationship between marker positions and state variables, as well as the magnitude of errors (due to STA for example). 
 
-In short, an inverse kinematics Kalman filter will proceed in two steps. It will first predict the angular joint parameters of the next frame thanks to the process model. Then, it will update this prediction, by deducing the corresponding marker positions thanks to the process model, and comparing these to the actual measured marker coordinates. This difference will be weighted by the Kalman gain, computed at each frame, and added to the initial joint parameter estimate. A low gain means that the initial estimate can be trusted, and a higher gain places more weight on marker measurements.
+In short, an inverse kinematics Kalman filter will proceed in two steps. It will first predict the angular joint parameters of the next frame thanks to the process model. Then, it will update this prediction, by deducing the corresponding marker positions thanks to the process model, and comparing these to the actual measured marker coordinates. This difference will be weighted by the Kalman gain, computed at each frame, and added to the initial joint parameter estimate. 
 
-Let $\overrightarrow{X} = (x_1, y_1, z_1, x_2, \cdots, z_M)^T_{1 \times 3M}$ be the measured marker coordinates, called the output vector, and $\overrightarrow{q} = (\theta_1, \dot{\theta_1}, \ddot{\theta_1}, \theta_2, \cdots, \ddot{\theta_N})^T_{1 \times 3N}$ the joint angle coordinates, velocities, and accelerations, called the state vector. Let $\overrightarrow{\eta(t)}$ be the process noise, assumed to be a zero-mean Gaussian distribution with covariance $\textbf{Q}_t$. The \emph{process model} is expressed as: 
+\vspace*{0.5cm}
+\noindent\textbf{Prediction phase:}
+
+Let $\overrightarrow{q} = (\theta_1, \dot{\theta_1}, \ddot{\theta_1}, \theta_2, \cdots, \ddot{\theta_N})^T_{1 \times 3N}$ be the joint angle coordinates, velocities, and accelerations, called the state vector. The \emph{process model} is expressed as: 
 \begin{flalign}
     &&\fbox{$\overrightarrow{q(t+\Delta t)} 
     = f\bigl(\overrightarrow{q(t)}\bigr) + \overrightarrow{\eta(t)}$},
     && \text{with } \overrightarrow{\eta(t)} \sim \mathcal{N}(0,\,Q_t)&&
 \end{flalign}
-
-Let $\overrightarrow{\nu(t)}$ be the zero-mean measurement noise of covariance $\textbf{R}_t$, the \emph{measurement model} is expressed as: 
-\begin{flalign}
-    &&\fbox{$\overrightarrow{X(\overrightarrow{q(t)})}
-    = h\bigl(\overrightarrow{q(t)}\bigr) + \overrightarrow{\nu(t)}$},
-    && \text{with } \overrightarrow{\nu(t)} \sim \mathcal{N}(0,\,R_t)&&
-\end{flalign}
-
-In the \emph{prediction phase}, considering that the mean process noise is null, an estimate for $\overrightarrow{q(t+\Delta t)}$ is:
+$\overrightarrow{\eta(t)}$ is the process noise, assumed to be a zero-mean Gaussian distribution with covariance $\textbf{Q}_t$. Considering that the mean process noise is null, an estimate for $\overrightarrow{q(t+\Delta t)}$ is:
 \begin{equation}
     \overrightarrow{\hat{q}(t+\Delta t)} 
     = f\bigl(\overrightarrow{q(t)}\bigr)
@@ -1089,49 +1084,67 @@ Or more succinctly, predicted joint angular parameters are:
     \overrightarrow{\hat{q}(t+\Delta t)} 
     = \textbf{F}\ \overrightarrow{q(t)}
 \end{equation}
-The covariance of prediction $\hat{\textbf{P}}_{t+\Delta t}$ is also calculated at this stage. As it is lengthy to expose and slightly more complicated, we won't detail it here (see \cite{Bonnet2017} for further details). 
+The covariance of prediction $\hat{\textbf{P}}_{t+\Delta t}$ is also calculated at this stage. As it is lengthy to expose and slightly convoluted, we won't detail it here (see \cite{Bonnet2017} for further details on its determination). 
 
-The \emph{update phase} starts with computing the difference between measured marker positions $\overrightarrow{X^{target}}$, and those deducted from joint angular parameter estimates :
+
+\vspace*{0.5cm}
+\noindent\textbf{Update phase:}
+
+Let $\overrightarrow{X} = (x_1, y_1, z_1, x_2, \cdots, z_M)^T_{1 \times 3M}$ be the measured marker coordinates, called the output vector. The \emph{measurement model} is expressed as: 
+\begin{flalign}
+    &&\fbox{$\overrightarrow{X(\overrightarrow{q(t)})}
+    = h\bigl(\overrightarrow{q(t)}\bigr) + \overrightarrow{\nu(t)}$},
+    && \text{with } \overrightarrow{\nu(t)} \sim \mathcal{N}(0,\,R_t)&&
+\end{flalign}
+$\overrightarrow{\nu(t)}$ is the zero-mean measurement noise of covariance $\textbf{R}_t$. The update phase starts with computing the difference between measured marker positions $\overrightarrow{X^{target}}$, and those deducted from the measurement model:
 \begin{equation}
     \Delta \overrightarrow{X(t+\Delta t)} 
     = \overrightarrow{X^{target}(t+dt)}
     - h\bigl(\overrightarrow{\hat{q}(t+\Delta t)}\bigr)
 \end{equation}
-The covariance of error $\textbf{S}_{t+\Delta t}$ is more complicated to compute: as $h$ is non-linear, it has to be approximated with a first order Taylor expansion. Both prediction and error covariances $\textbf{Q}_{t+\Delta t}$ and $\textbf{R}_{t+\Delta t}$ are involved in the computation of the Kalman gain $\textbf{K}_{t+\Delta t}$.
+The covariance of error $\textbf{S}_{t+\Delta t}$ is more complicated to compute: as $h$ is non-linear, it has to be approximated with a first order Taylor expansion. Both prediction and error covariances $\hat{\textbf{P}}_{t+\Delta t}$ and $\textbf{S}_{t+\Delta t}$ are involved in the computation of the Kalman gain $\textbf{K}_{t+\Delta t}$.
 
-Finally, the update joint angular parameter estimates are:
+Finally, the updated joint parameter estimates are:
 \begin{equation}
 \boxed{
     \Delta \overrightarrow{q(t+\Delta t)} 
     = \overrightarrow{\hat{q}(t+\Delta t)} 
     + \textbf{K}_{t+\Delta t} \ \Delta \overrightarrow{X(t+\Delta t)} }
 \end{equation}
+A low Kalman gain means that the initial estimate can be trusted, and a higher gain places more weight on marker measurements.
+
+\vspace*{0.5cm}
+The Kalman filter (KF) deals with linear problems, and joint kinematics is highly non-linear. Other methods have been derived to broadens its usage to non-linear cases, such as the Extended Kalman Filter (EKF), which was first introduced for joint kinematic estimation by \cite{Cerveri2003}. The Local Marker Estimation filter (LME) compensates for Soft Tissue Artifacts (STAs) \cite{Cerveri20005,Bonnet2017a}. The Kalman Smoother (KS) filters both ways, from first to current frame, and from last to current frame \cite{Rauch1965}. It can also be extended in the non-linear case, and is then called the Extended Kalman Smoother (EKS). Despite it does not take STAs into account, it results in smoother and more accurate estimation of joint kinematic variables \cite{DeGroote2008}. However, this is at the cost making the analysis off-line, while Kalman filters have the potential of being used in real-time. 
+
+Kalman-based methods take advantage of prior knowledge on the expected evolution of joint variables in time, on the kinematic chain, and they also take noise into account. If fact, it has been demonstrated that the Levenberg-Marquardt algorithm is a specific case of the extended Kalman filter, which results under simplifying assumptions \cite{Bell1994,Horvath2016}. Consequently, Kalman-based methods have been shown to be more accurate in general than Jacobian-based and Quasi-Newton methods \cite{DeGroote2008, Fohanno2014}, although some studies found similar results \cite{Fohanno2014}. In any case, they are especially accurate for the estimation of velocities and accelerations \cite{Fohanno2014}, since they are directly estimated by the filter, without further differentiation which would introduce additional errors. This is especially interesting for the study of forces, which can be estimated based on accelerations. They are more robust to decreased number of markers \cite{Fohanno2010}. With the exception of KS, they can also work in real time \cite{Fohanno2014}. 
+
+However, since joint kinematic variables are estimated from the previous frame, a Kalman filter requires an initial guess on joint angular coordinates, velocities, accelerations, and covariances. Initial velocities and accelerations are usually assumed to be zero, but this is not always the case, especially when capturing sports movements. Moreover, the setup of the covariance factors is still an open issue. According to \cite{Cerveri2005}, those associated to the measurement (marker coordinates) need to be at least 2 orders of magnitude lesser than the ones of the process (joint parameters). As a reference, Biorbd \cite{Michaud2021}, a library used by Pyomeca \cite{Martinez2020}, uses a process factor $\sigma^2_p=10^{-10}$ and a measurement factor $\sigma^2_m=10^{-5}$, while a fork of OpenSim \cite{DeGroote2008} takes default standard deviations of $\sigma_p=15$ and $\sigma_m=0.03$.
+
+Similarly to Jacobian methods, and unlike with Quasi-Newton ones, most types of constraints are not straightforward to implement. Constraints on the number of degrees of freedom are naturally introduced with the definition of the measurement model \cite{Halvorsen2008}. Hard joint limit constraints can be implemented by saturating the Kalman gain if the first joint estimate is not within limits, and then by recomputing the estimation \cite{Bonnet2017b}. Soft closed-loop constraints can be handled by introducing penalties near joint limits \cite{Fohanno2014}.
+
+An Extended Kalman Filter is implemented in \cite{Martinez2020} with its Biorbd library \cite{Michaud2021}, and a Kalman Smoother has been proposed in a fork of OpenSim \cite{DeGroote2008}.
+
+% Hidden markov, but continuous instead of discrete space 
 
 
+\subsubsection{Other inverse kinematics methods}
+
+
+
+\subsection{6DoF vs. Inverse kinematics}
+
+TABLEAU
+
+
+
+
+\section{Conclusion}
 
 -----
 
 
 
 
-Good alternative approach when some segments are hidden and when closed loops (kin constraints easier) Halvorsen2008
---> extended Kalman filter with kinematic constraints (EKF)
-
-Pourquoi pas utilisé ?
-Difficile à comprendre, à implémenter ?  à paramétriser ?
-Besoin d'initialiser correctement (surtout le root segment)
-Problèmes si erreurs dans modèle (joint centers pas bien au center ?)
-Very slow? Calculs sur tous les markers à chaque frame, chq calcul combinaison complexe sin cos, + process model
-+ hard to initialize (coord, vel, acc)
------
-
-OpenSim fork, Pyomeca \cite{Martinez2020} biorbd \cite{Michaud2021}
-
-
-
-COMPARER METHODES MKO
-COMPARER MKO vs SKO
-TABLEAU DISPONIBLE SOFTS
 
 
 
@@ -1146,15 +1159,17 @@ TABLEAU DISPONIBLE SOFTS
 % Closed loops 2: https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/4587520
 
 
-% Simbody: https://raw.githubusercontent.com/simbody/simbody/master/Simbody/doc/SimbodyTheoryManual.pdf
-
 
 
 
 
 inverse-> trust model
-Although we skimmed it, scaling the model is indispensable for IK to reach des résultats corrects. Not trivial: besoin de trouver les joint centers, plusieurs manières
+Although we just skimmed this aspect, scaling the model is indispensable for IK to reach des résultats corrects. Not trivial: besoin de trouver les joint centers, plusieurs manières
 Model-based (good enough? \cite{Hicks2015}. Neuromuscular, inertial properties, aspect not addressed here, as we are mostly interested in the kinematics at that stage).
+1. Bons Dof, pas trop mais assez, comprehensive vs reliable
+2. Bonnes dimensions, usually from bone joint centers but not exclusively (Begon 2018), not trivial (SARA, SCoRE \cite{Ehrig2007} if STA via functional methods, midpoint between anatomical markers via geometric). The mere concept of joint centers is also not always pertinent, as human and animal joints are complex and translate blabla. 
+3. Bonne initialisation (angles, voire vel=0?, accel=0? pas généralement vrai, covariances with Kalman which is more sensitive to bad initial estimates)
+
 
 Model based:
 - model, kinematic chain: rigid multibody skeletal structure, with joint and segment definitions. Potentially with inertial properties, as well as neural and/or muscular system.
@@ -1203,7 +1218,6 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
 
 
 
-\subsection{Other approaches}
 
 \cite{DeGroote2008,Aristidou2017}
 - Optimisation globale (sqp: sequential quadratic programming): plus exactes (last result used as a seed, close to optimum), assez lentes since minimization according to lots of variables in the same time (OpenSim, CusToM) (Kazerounian1988, Siciliano1989)
@@ -1217,10 +1231,6 @@ kinematics: No account taken of physical laws that cause motion such as gravity,
  
 
 
-
-
-
-\subsection{Comparison of 6Dof and IK}
 
 True to all constrained models, as opposed to 6DOF approaches: only applicable with population close to the norm: limb missing, pathological joint, not okay
 
@@ -1238,21 +1248,24 @@ Joint limits?
 
 
 
+
 \begin{table}[!htbp]
   \centering
   \begin{tabular}{ccc}
   \toprule
-  \multicolumn{3}{c}{\textbf{Single-body kinematic optimization}} \\
+  \multicolumn{3}{c}{\textbf{Single-body 6DoF}} \\
   \midrule
   \multicolumn{3}{c}{Trust markers} \\
-  \multicolumn{3}{c}{\emph{By OpenSim, Visual3D, KineticsToolkit}} \\
+  \multicolumn{3}{c}{\emph{By OpenSim \cite{Delp2007}, \cite{Visual3D}, KineticsToolkit \cite{Chenier2021}}} \\
   \midrule
   \specialrule{0.14 em}{0pc}{0pc}
-  \textbf{Levenberg-Marquardt (Jacobian)}   & \textbf{L-BFGS-B (Quasi-Newton)}   & \textbf{Extended Kalman Smoother}    \\
+  \multicolumn{3}{c}{\textbf{Multi-body Inverse Kinematics}} \\
+  \midrule
+  \textbf{Levenberg-Marquardt (Jacobian)}   & \textbf{L-BFGS-B (Quasi-Newton)}   & \textbf{Extended Kalman Filter}    \\
   \midrule
   Fast   &  Robust &    \\
   Unconstrained   &  Constraints ok & Constraints ok   \\
-  \emph{Visual3D, Pinocchio, Custom}  &  \emph{OpenSim, Visual3D, Pyomeca, (Custom)}  &  \emph{OpenSim (fork), Pyomeca} \\
+  \emph{Visual3D, \cite{Pinocchio}, Custom \cite{Muller2019}}  &  \emph{OpenSim, Visual3D, Pyomeca \cite{Martinez2020} with OpenSim API, (Custom)}  &  \emph{OpenSim Fork: KS, Pyomeca with Biorbd library: EKF} \\
   \bottomrule
   \end{tabular}
   \caption{Comparison of kinematic approaches.}
