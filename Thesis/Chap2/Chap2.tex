@@ -20,7 +20,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{From computer vision to biomechanics}
+\chapter{From Computer Vision to Biomechanics}
 \label{ch:2}
 
 %==============================================================================	Résumé du chapitre
@@ -30,13 +30,21 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{Obtaining coherent 3D kinematics from a network of calibrated video cameras involves understanding a certain theoretical framework. First, keypoints must be recognized in images. This is mostly achieved with machine learning models. Then, all the 2D features detected for each camera need to be reconstructed in the 3D space, with computer vision algorithms. Finally, these coordinates must be constrained to an anatomically consistent model, in order to obtain coherent 3D joint kinematics.}
+\textit{Obtaining coherent 3D kinematics from a network of calibrated video cameras involves understanding a certain theoretical framework. First, keypoints must be recognized in images. This is mostly achieved with machine learning models. Then, all the 2D features detected for each camera need to be reconstructed in 3D space with computer vision algorithms. Finally, these coordinates must be constrained to an anatomically consistent model to obtain coherent 3D joint kinematics.}
 
 %\smallskip
 \end{minipage}
 \smallskip
 \rule{0.7\linewidth}{.5pt}
 \end{center}
+
+\begin{textblock*}{10cm}(17.8cm,11.1cm) % {block width} (coords left,top) 
+	\begin{turn}{0}  
+		  \scriptsize \emojiegg
+		  \tiny 4. Coucou Cédric !
+		  \scriptsize \emojihatching
+	\end{turn}
+\end{textblock*}
 
 \minitoc
 \newpage
@@ -46,9 +54,9 @@
 Sports movements don’t generally only lie in the sagittal plane, and they often cause body part occlusions. Moreover, although the need is not as strong as for clinical applications, it is important for results to be as biomechanically coherent as possible. Hence, one of the most promising prospects for sports movement analysis consists in addressing the problem with several video sources, and then constraining 3D coordinates to a kinematic model.  Such research is at the intersection of machine learning for 2D pose estimation, computer vision for 3D reconstruction from a network of calibrated videos, and biomechanics for constraining 3D point coordinates to an anatomically consistent model, in order to obtain reliable kinematics. 
 
 
-\section{From image to 2D pose estimation}
+\section{From Image to 2D Pose Estimation}
 
-\subsection{Why machine learning?}
+\subsection{Why Machine Learning?}
 
 As a first step, achieving motion analysis from a network of cameras involves detecting features in images. These features can be whole human beings, joint centers, body landmarks, sports gear such as tennis balls, climbing holds, or much more. 
 
@@ -68,7 +76,7 @@ The second approach takes advantage of machine learning algorithms, which consti
 	\label{fig_classif_detec}
 \end{figure}
 
-\subsection{Machine learning timeline and principles}
+\subsection{Machine Learning Timeline and Principles}
 
 Machine learning is a subset of artificial intelligence (AI.) As such, one can trace its origin back to the discovery of the natural neuron at the end of the 19th century, by Nobel Prize Ramón y Cajal \cite{Lopez2006}, followed half a century later by the first model of an artificial neuron \cite{Mcculloch1943}. A natural neuron is a simple learning unit, which collects the nervous influx sent by other neurons to its dendrites, and sends an action potential when the total influx weighted and summed in the soma overcomes a threshold value. This potential is then transmitted through the axon to the next neuron as a new influx. Similarly, an artificial neuron receives output vectors from previous neurons, weighs and sums them with a summation function, and transfers the resulting output vector to the next neurons if it reaches a certain threshold determined by an activation function (Figure~\ref{fig_neuron}a-b). 
 
@@ -228,7 +236,7 @@ Now, classification of a whole image is not sufficient in sports motion analysis
 \end{figure}
 
 
-\subsection{Machine learning for 2D pose detection}\label{sec:Machine learning for 2D pose detection}
+\subsection{Machine Learning for 2D Pose Estimation}\label{sec:Machine learning for 2D pose detection}
 
 Older methods for object detection used to run a sliding and pyramidal window across the image, and then to apply a non-neural classifier on each window, such as an SVM on carefully handcrafted histogram of oriented gradients descriptors (HOG) \cite{Dalal2005}. They then had to be followed by non-maximum suppression, in order to select one bounding box over many overlapping ones. As the classifier is run on each window iteration like if they were independent images, these methods were very computationally intensive, and in the same time not very robust nor accurate. 
 
@@ -254,13 +262,13 @@ Like all previously presented methods, OpenPose has been trained on the COCO dat
 
 
 \FloatBarrier
-\section{From 2D to 3D pose estimation}\label{sec:3D reconstruction}
+\section{From 2D to 3D Pose Estimation}\label{sec:3D reconstruction}
 \label{ch:2.2}
 
 Once the pose of an athlete is correctly detected, the next step is to obtain their 3D pose. While some approaches strive to infer 3D pose from a monocular video source, they are generally not considered sufficiently accurate, especially when body parts are occluded. It is, then, important to use several cameras, and to fuse their 2D pose estimation results to obtain more reliable 3D coordinates.
 
 
-\subsection{Pinhole camera model}\label{subsec:Pinhole model}
+\subsection{Pinhole Camera Model}\label{subsec:Pinhole model}
 
 \subsubsection{History}
 
@@ -275,6 +283,14 @@ If it passes through a small enough hole, the light emitted from a point can be 
 	\label{fig_camobscura}
 \end{figure}
 
+\begin{textblock*}{10cm}(13.2cm,22.45cm) % {block width} (coords left,top) 
+  \begin{turn}{45} 
+        \scriptsize \emojiegg
+        \tiny 5. Merci aux gens de l'église ! 
+        \scriptsize \emojichurch
+  \end{turn}
+\end{textblock*}
+
 \begin{figure}[hbtp]
 	\centering
 	\def\svgwidth{\columnwidth}
@@ -285,7 +301,7 @@ If it passes through a small enough hole, the light emitted from a point can be 
 \end{figure}
 
 
-\subsubsection{Thin lens}
+\subsubsection{Thin Lens}
 
 When an object of size \(X_O\) (O standing for object) is projected from a distance \(Z_O\) through a thin convex lens of focal length \(f\), it is in focus at a specific distance \(z\). In this case, let the image size be \(x\). Assuming that the lens is thin, and that the object is close to the optical axis(i.e., that paraxial conditions are satisfied), Thales' theorem gives (Figure~\ref{fig_thinlens}):
 \begin{equation}
@@ -309,7 +325,7 @@ Which leads to the thin lens formula, discovered by Descartes in the $17^{th}$ c
 	\label{fig_thinlens}
 \end{figure}
 
-\subsubsection{Basic pinhole model}
+\subsubsection{Basic Pinhole Model}
 
 According to the thin lens formula, in the specific case where the object is at a distance \(Z_O\) much larger than the focal length \(f\), one can approximate that the image is into focus at a distance \(z\) equal to the focal length. 
 \begin{equation}
@@ -334,7 +350,7 @@ This model is called the basic pinhole camera model \cite{Zhang2000,Hartley2003,
 
 
 \FloatBarrier
-\subsubsection{3D pinhole model in camera coordinate system}
+\subsubsection{3D Pinhole Model in Camera Coordinate System}
 
 In 3 dimensions, the object can be represented in the camera coordinate system $(X_C, Y_C, Z_C)$, with $Y_C$ pointing downwards, and $Z_C$ facing toward the object (Figure~\ref{fig_camera3d}). The relation becomes:
 \begin{equation}
@@ -373,7 +389,7 @@ Which can be written as:
 \end{figure}
 
 
-\subsubsection{3D pinhole model in pixel image coordinate system}
+\subsubsection{3D Pinhole Model in Pixel Image Coordinate System}
 
 The origin of the image coordinates is not usually set on the optical axis (i.e., at the center of the sensor, also called the principal point), but typically at its upper left (Figure~\ref{fig_imagecoord}). With $c_u$ and $c_v$ the horizontal and vertical coordinates of the principal point, the coordinates in the image frame of reference can be written as: 
 \begin{equation}
@@ -408,7 +424,7 @@ Moreover, instead of expressing the image coordinates and the focal length in me
 \end{equation}
 
 
-\subsubsection{3D pinhole model in world coordinate system}
+\subsubsection{3D Pinhole Model in World Coordinate System}
 
 When several cameras are used in the same time, for instance for 3D reconstruction, it is important that they share a common frame of reference. Hence, the camera coordinate system needs to be expressed in the "world" system accordingly. Assuming that the camera is translated along a vector $T_{3\times 1}$ and rotated according to a matrix $R_{3\times 3}$, the coordinates in the camera frame of reference can be expressed in the world frame of reference as:
 \begin{equation}
@@ -449,7 +465,7 @@ Or more concisely, with $\overrightarrow{q_p}$ the 2D image coordinates, $\overr
 To sum it up, this system allows for a transformation between the coordinates of an object in meters in the world reference frame, and its coordinates in pixel on the image. It is a linear system, and thus has a closed-form solution. The intrinsic matrix $\textbf{K}$ is constant for a given camera, while the homogeneous (or extrinsic) matrix $\textbf{H}$ depends on the camera position and orientation. The projection matrix $\textbf{P}$ is the product of the intrinsic and extrinsic matrices. $Z_C$ corresponds to the distance between the camera origin and its sensor, and is considered as an arbitrary scaling factor.
 
 
-\subsubsection{Skew factor and distortions}
+\subsubsection{Skew Factor and Distortions}
 
 Some corrections can be brought to this model. First, the pixel sides may not be perfectly perpendicular. In this case, a skew parameter $\gamma$ has to be added to the intrinsic matrix, and the relation becomes:
 \begin{equation}
@@ -488,13 +504,13 @@ Where $k_1$, $k_2$, $k_3$ are the radial distortion coefficients, and $p_1$ and 
 \FloatBarrier
 \subsection{Calibration}
 
-\subsubsection{The calibration problem}
+\subsubsection{The Calibration Problem}
 
 Camera calibration, also known as resectioning, consists in determining both intrinsic and extrinsic parameters of the camera. Extrinsic parameters are especially important to obtain for 3D reconstruction, which involves knowing the position of each camera. Intrinsic parameters can be determined at any time, however extrinsic parameters depend on the camera positions at the moment of capture, which involves that it is complicated to retrieve them afterwards -- although we proposed a method to address this issue in \autoref{ch:6}.
 
 The intrinsic matrix is composed of 4 unknowns $f_{pu}$, $f_{pv}$, $c_{pu}$, and $c_{pv}$, while the extrinsic matrix has 3 parameters of translation, and 9 of rotation. However, the given representation of the rotation matrix is not minimal, and can be reduced to 3 parameters, for example with the Euler-Rodrigues formula \cite{Gallego2015}. Assuming no skew and no distortion, this amounts for a total of 10 unknowns. These can be determined by matching a number of points of known position in the world reference frame, to their corresponding coordinates in the image. 
 
-\subsubsection{Direct Linear Transform (DLT) of calibration equations}
+\subsubsection{Direct Linear Transform (DLT) of Calibration Equations}
 
 Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation between image points and their 3D coordinates (see Equation~\ref{eq:pinhole}) can be written as \cite{Hartley2003} :
 \begin{equation}\label{eq:calib_system}
@@ -538,7 +554,7 @@ Considering $P_1, P_2, P_3$ the rows of the projection matrix $P$, the relation 
 This operation, called Direct Linear Transform (DLT) \cite{Sutherland1974}, eliminates the $Z_C$ scaling factor, and rewrites the system in a form that allows for a resolution with linear methods. The system is composed of two equations, for 10 unknowns. Hence, it can be solved analytically with 5 corresponding image and 3D points, assuming that they are perfectly measured. This is never the case, and an approximate resolution with more points is preferred. A good rule of thumb is to measure 5 times as many points as needed, and thus to measure 25 points at least. This is classically done by using a checkerboard pattern. 
 
 \newpage
-\subsubsection{Camera calibration from one single image of a checkerboard}
+\subsubsection{Camera Calibration from One Single Image of a Checkerboard}
 
 The following approach is called the DLT method. Assuming that the checkerboard is used to set the origin of the world frame, the $Z_W$ coordinates are set to 0, and $X_W$ and $Y_W$ coordinates of each corner can be inferred from the dimensions of the squares. As a result, 3D coordinates of corners are known. Their 2D coordinates on the image can also be automatically detected with a subpixel accuracy, for example with the OpenCV function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga93efa9b0aa890de240ca32b11253dd4a}{findChessboardCorners()} \cite{Bradski2000}, which first detects edges \cite{Canny1986}, then straight lines, and then intersects the lines to obtain corner locations. Hence, 2D corners coordinates are also known. Considering M measures of matching 3D to image points, the DLT system in Equation~\ref{eq:calib} has now $2M$ equations, for 10 unknowns still:
 \begin{equation}
@@ -627,7 +643,7 @@ $\textbf{K}$ is an upper-triangular matrix, and $\textbf{R}$ is orthogonal by vi
 
 
 \newpage
-\subsubsection{Camera calibration from several images of a checkerboard} 
+\subsubsection{Camera Calibration from Several Images of a Checkerboard} 
 
 In practice, a more accurate method would use more than one single image of a checkerboard. It would also estimate distortion coefficients. A classic approach is the one proposed by \cite{Zhang2000}. It can be separated into 2 steps: first, initializing calibration parameters with a DLT method similar to the above-mentioned. Second, refining intrinsic, extrinsic, and distortion parameters by using several images of the checkerboard taken from various view points. This is treated as a non-linear optimization problem, solved by the Levenberg-Marquardt algorithm \cite{Marquardt1963,More1978} (see \hyperref[levenberg]{next section} on inverse kinematics for more details on the algorithm). The objective function that needs to be minimized is the reprojection error for all $M$ points on each $N$ checkerboard images, defined as such:
 \begin{equation}\label{eq:LM_algo}
@@ -638,7 +654,7 @@ In practice, a more accurate method would use more than one single image of a ch
 \end{equation} 
 The reprojection error is the Euclidian distance between the detected 2D point $\overrightarrow{q_{ij}}$, and $\overrightarrow{\widehat{q_{ij}}}$, the estimated projection of the 3D point $\overrightarrow{Q_j}$. Projecting 3D points on the 2D plane will be addressed in the next section on \nameref{triangulation}. In any case, $\overrightarrow{\widehat{q_{ij}}}$ is dependent on fixed intrinsic parameters (\textbf{K} matrix, distortion coefficients such as $k_1$ and $k_2$, as well as others if needed), on extrinsic parameters depending on the position of the camera when taking each checkerboard image (here, the rotation is expressed as a Rodrigues vector of size 3 \cite{Gallego2015}), and on each 3D checkerboard point. This can be done in OpenCV with the function \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d}{calibrateCamera()}, which takes matching 3D and 2D points as input, and returns extrinsic parameters for each image view, as well as intrinsic parameters and distortion coefficients.
 
-\subsubsection{Camera calibration with a wand} 
+\subsubsection{Camera Calibration with a wWand} 
 
 In biomechanics, numerous cameras are usually needed, in order to obtain accurate 3D reconstruction in spite of occlusions. Hence, cameras are often placed around the subject. This can be problematic for the determination of a common frame of reference with a checkerboard, since it needs to be observed by all cameras simultaneously. When laying flat in the center, the checkerboard is potentially positioned at a long distance from the camera, and oriented at a challenging angle. This makes it hard for it to be detected accurately, which is consequently susceptible to deteriorate extrinsic calibration. 
 
@@ -661,7 +677,7 @@ In short, this calibration problem is solved by using a sparse variant of the Le
 \end{equation} 
 
 
-\subsubsection{In practice}  
+\subsubsection{In Practice}  
 
 Both checkerboard Zhang and wand SBA methods show similar residual errors, of the order of a millimeter in a roughly $4\times 2 \times 1.5\ m^3$ capture volume \cite{Pribanic2009,Silvatti2012} (see Tables~\ref{table:tab_calib}). This is better than the classic DLT approach. Nonetheless, the wand approach does not estimate distortion coefficients as accurately as the checkerboard method. If a fisheye or a wide lens is used, the checkerboard method should be favored.
 
@@ -699,9 +715,9 @@ In practice, a wand is much less cumbersome and much easier to transport than a 
 
 Other options, explored in \autoref{ch:6}, would be to compute intrinsic and extrinsic parameters independently. Intrinsic parameters and distortion coefficients can be calculated an any convenient moment, since they are in theory constant for a given camera. This can be done with a checkerboard, either with OpenCV raw coding, or by using a GUI like Argus \cite{Argus}. On the other hand, extrinsic parameters depend on the camera positions: they need to be computed upon every new capture setting. One way to do this consists in performing an extrinsic calibration on the spot with a wand, with fixed intrinsic parameters. Another option, if wand calibration is not possible, is to use a method analogous to Zhang's, with any 3D object of known dimensions, large enough to cover a substantial field of view for each camera. This would leverage a Perspective-n-Point approach, which consists in a Levenberg-Marquardt optimization similar to Equation~\ref{eq:LM_algo}, but with fixed intrinsic parameters \cite{Marchand2015}. This can be done with the \href{https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d}{solvePnP} OpenCV function. 
 
-% Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> OpenCV = portabilité python de Bouguet matlab ?
+% Matlab toolbox Bouguet J.-Y. (1999). Visual Methods for Three-Dimensional Modeling. PhD thesis, California Institute of Technology, Pasadena, CA, USA -> OpenCV = portabilité Python de Bouguet matlab ?
 
-% Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
+% Fully automatic Qualisys with passive markers if light conditions okay, EasyWand (Matlab, cite) or Argus (Python, cite) if semi-automatic tracking of color markers. GUI for all tools, otherwise raw OpenCV ?
 
 \newpage
 \subsection{Triangulation}\label{triangulation}
@@ -717,7 +733,7 @@ After 2D points are detected on all cameras, and considering that camera positio
 	\label{fig_triangulation}
 \end{figure}
 
-\subsubsection{Triangulation with a linear-eigen approach}  
+\subsubsection{Triangulation with a Linear-Eigen Approach}  
 
 The most straightforward, and computationally efficient method, is a DLT approach, sometimes called homogeneous or linear-eigen \cite{Hartley1997}. The procedure is slightly different from the one previously detailed for calibration. Indeed, since 3D coordinates are now the unknown variables, they are the ones factorized rather than the projection parameters. From Equation~\ref{eq:calib_system} applied to a point $\overrightarrow{Q_W}$ projected on one camera, we have:
 
@@ -775,7 +791,7 @@ Note that these approaches do not take distortions into account, and assume eith
 Moreover, cameras not only need to share a 3D global reference frame, but also a common time reference. Otherwise, the same frame risks relating to a different instant in the athlete's motion, in which case the 3D reconstruction would not make sense. This is classically done with a wired hardware trigger, but other approaches use a flash, a sound, or a wireless signal such as Wi-Fi, Bluetooth or GPS \cite{GoPro2022}. In \autoref{ch:6}, we proposed another approach based on cross-correlation of 2D feature speeds.
 
 % \vspace*{0.5cm}
-\subsubsection{Person matching}  
+\subsubsection{Person Matching}  
 
 In case of multi-person detection, an additional step needs to be undertaken prior to triangulation: the 2D detected points of each person need to be matched across all views. A common approach consists in choosing one or two keypoint (e.g., the neck and the hip), and clustering together the persons for whom epipolar lines cross at a small enough distance from each other \cite{Dong2019,Slembrouck2020,Kadkhodamohammadi2021}. This works well and efficiently, unless an epipolar line passes through several people, in the case of a crowded scene for example. In this case, it is possible to use more keypoints (or different keypoints) to solve ambiguities. Other methods use a combinatory approach, slower but more robust, which tries out all possible combinations, and minimizes the reprojection error \cite{Bridgeman2019,Chen2020c,Pagnon2021}. Other procedures use a spatio-temporal neural network, which take advantage of the information gathered in previous frames instead of working frame-by-frame \cite{Raaj2019}. Lastly, when multiple persons have been triangulated, they need to be tracked in time in order to avoid them swapping from one frame to another. This can be done by setting a threshold on 3D keypoint speed, below which a person is deemed to be correctly associated with the previous frame \cite{Bridgeman2019}.
 
@@ -784,7 +800,7 @@ In case of multi-person detection, an additional step needs to be undertaken pri
 % Triangulate only from best 2D estimations, called inliers, and will ignore outliers
 
 
-\subsubsection{Reprojection error}  
+\subsubsection{Reprojection Error}  
 
 The reprojection error is the distance between the projection $(\widehat{u_p}, \widehat{v_p})$ of a triangulated keypoint $Q_W$ on an image, and its actual estimated 2D coordinates $(u_p, v_p)$. It can be used to jointly evaluate the accuracy of the 2D pose estimation and of the 3D reconstruction. From Equation~\ref{eq:factortrig}, we have:
 \begin{equation}
@@ -812,16 +828,18 @@ Again, this formulation does not take distortions into account, so it should be 
 
 
 \newpage
-\section{From 3D pose estimation to 3D joint kinematics}\label{sec:3D joint kin}
+\section{From 3D Pose Estimation to 3D Joint Kinematics}\label{sec:3D joint kin}
 
-\subsection{The kinematics problem}
+\subsection{The Kinematics Problem}
 
 Joint kinematics is a problem which is addressed across multiple fields, such as character animation, robotics, biomechanics, or even chemistry. Each of them approaches the problem with a slightly different spirit. \cite{Robertson2013} points out that joint kinematics has been proven useful across many different sports for determining "optimal movement patterns, attractor states, movement maturation, and likelihood of movement related injury". However, reconstructed 3D keypoint coordinates alone are not enough to provide an insightful understanding of human motion. Unless some assumptions are made, one single roughly approximated center per joint can at best describe planar flexion/extension angles. Even if initial 2D keypoints were accurately detecting joint centers, this conceals any abduction/adduction or internal/external rotation angles. 
 
-In order for its local coordinate system to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. These 3 markers determine two base vectors, the third one being calculated as their cross-product. The orientation of this base coordinate system as regards to a reference one gives 3 Euler angles, commonly representing flexion/extension, abduction/adduction, and internal/external rotation of a segment. Other representations exist such as quaternions, but they still require a minimum of 3 markers per segment. Now, a simple full human body includes at least 14 segments. Consequently, at least $14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
+In order for its local coordinate system to be fully determined, a segment needs to be equipped with at least 3 non-colinear markers. These 3 markers determine two base vectors, the third one being calculated as their cross-product. The orientation of this base coordinate system as regards to a reference one gives 3 Euler angles, commonly representing flexion/extension, abduction/adduction, and internal/external rotation of a segment. Other representations exist such as quaternions, but they still require a minimum of 3 markers per segment. Quaternions have the advantage that they are not subject to gimbal lock, however they don't correspond to any intuitive anatomical axis of rotatio;: hence, they are rarely used in the field of biomechanics. 
+
+Now, a simplified full human body includes at least 14 segments. Consequently, at least \\$14 \times 3 = 42$ markers should be required for full-body kinematics. And yet, OpenPose and other pose estimation models only provide 25 keypoints, which are even reduced to 21 if eyes and ears are excluded. This represents half of the minimum required. For this reason, it is important to find indirect ways to obtain 3D joint angles, from seemingly incomplete information.
 
 
-\subsection{The single-body 6DoF approach}
+\subsection{The Single-Body 6DoF Approach}
 
 The traditional method for obtaining 3D joint angles in biomechanics consists in computing positions and orientations of all body segments independently: it is called the 6DoF (6 Degrees of Freedom) free-body approach. The 6 degrees of freedom of a segment consist in 3 translations and 3 rotations, which can be determined by a 3D frame of reference, which itself assumes that there are at least 3 non-colinear markers per segment. This excludes from this paradigm most of the current pose estimation models. However, as the biomechanics community make theirs the concepts of learning-based keypoint estimation, other models with more complete labelling may arise. Therefore, for the sake of completeness, this approach is broached below.
 
@@ -857,13 +875,13 @@ One way to solve it involves SVD \cite{Arun1987,Soderkvist1993} %et Veldpaus88, 
 
 
 \newpage
-\subsection{The multi-body inverse kinematics approach}\label{invkin}
+\subsection{The Multi-Body Inverse Kinematics Approach}\label{invkin}
 
 \subsubsection{Principle}
 
-Another approach is inverse kinematics, which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned at known segment coordinates. The objective of inverse kinematics is to optimize the posture of a physically consistent skeleton, scaled to each individual subject. More specifically, it aims to find the posture that minimizes the difference between model markers and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018} (see \hyperlink{Ann:gloss}{Disambiguation}). It also represents the priviledged approach to further compute joint moments, muscle activations, or inverse dynamics in general.
+Another approach is inverse kinematics, which involves considering the human body as a multi-body kinematic chain, referred to as a skeletal model. This chain is composed of segments of known length, connected with well-defined joints, each allowing a certain amount of degrees of freedom. Each segment is equipped with one or several markers, positioned at known segment coordinates. The objective of inverse kinematics is to optimize the posture of a physically consistent skeleton, scaled to each individual subject. More specifically, it aims to find the posture that minimizes the difference between model markers and measured markers. This is typically done by iteratively adjusting the joint angles of the model, until the model markers are as close as possible to the measured markers. Inverse kinematics (IK) is sometimes called Multi-body Kinematic Optimization (MKO), or Global Optimization (GO) \cite{Begon2018} (see \hyperlink{Ann:gloss}{Disambiguation}). It also represents the privileged approach to further compute joint moments, muscle activations, or inverse dynamics in general.
 
-Inverse kinematics was first used for robotics, where joints are simple and well-defined. The typical problem consists in considering a redundant robot, which can reach one target with multiple joint configurations. This makes it an underdetermined problem. The method was then adapted for 3D animation applications, where visual coherence and fast computation matter more than accuracy. In this case, instead of just looking after the end-effector, all body segments need to be tracked. Hence, markers are usually even more numerous than the degrees of freedom, which makes it an overdetermined problem. Both cases are solved by using the same iterative optimization methods. The biomechanics community adopted inverse kinematics as an alternative to the 6DOF one in the early 2000s, once human models became more thoroughly defined and trustworthy, and once proper individual scaling procedures were proposed \cite{Hicks2015}.
+Inverse kinematics was first used for robotics, where joints are simple and well-defined. The typical problem consists in considering a redundant robot, which can reach one target with multiple joint configurations. This makes it an underdetermined problem. The method was then adapted for 3D animation applications, where visual coherence and fast computation matter more than accuracy. In this case, instead of just looking after the end-effector, all body segments need to be tracked. Hence, markers are usually even more numerous than the degrees of freedom, which makes it an overdetermined problem. Both cases are solved by using the same iterative optimization methods. The biomechanics community started to consider inverse kinematics as an alternative to the 6DOF one in the early 2000s, once human models became more thoroughly defined and trustworthy, and once proper individual scaling procedures were proposed \cite{Hicks2015}.
 
 Let the Cartesian coordinates (i.e., the positions) of M markers be $\overrightarrow{X}$, and the generalized coordinates (i.e., the degrees of freedom, see \hyperlink{Ann:gloss}{Disambiguation}) of N joint angles be $\overrightarrow{q}$. The forward kinematic problem is expressed as $\overrightarrow{X}=f(\overrightarrow{q})$, and the inverse kinematics one as $\overrightarrow{q}=f^{-1}(\overrightarrow{X})$. However, $f$ is not generally invertible in practice since it is calculated as a complicated sine and cosine combination of $\overrightarrow{q}$, and therefore non-linear. Hence, optimization methods need to be leveraged. 
 
@@ -890,7 +908,7 @@ This problem becomes increasingly hard to compute as the number of degrees of fr
 % is solved iteratively, using quadratic optimization \cite{Boyd2004}. Note that the term $\overrightarrow{X^{current}_m(\overrightarrow{q})}$ can be analytically computed, using forward kinematics. Since all the$\overrightarrow{q}$ parameters are optimized together, this method is robust, but slow. However, once joint angles have been optimized for the first frame, the objective function is initialized with the previous frame's joint angles, which is most likely close to the optimum, and makes optimization faster. This method is implemented in OpenSim, in the open-source Matlab toolbox CusToM \cite{Muller2019}, and in Visual3D.
 
 \newpage
-\subsubsection{Jacobian methods and the Levenberg-Marquardt algorithm}\label{levenberg}
+\subsubsection{Jacobian Methods and the Levenberg-Marquardt Algorithm}\label{levenberg}
 
 In the fields of robotics and character animation, inverse kinematics is classically solved by Jacobian methods \cite{Siciliano1990,Buss2009,Aristidou2018}. They consist in linearizing marker coordinates around an initial guess on joint angles, and solving the resulting linear system. %The guess is then iteratively adjusted, until the marker coordinate error is small enough. 
 
@@ -947,7 +965,7 @@ Which is when:
 \begin{equation}
   \Delta\overrightarrow{X} \approx \textbf{J} \ \Delta\overrightarrow{q}
 \end{equation}
-Each marker can be weighted more or less according to its level of trust. Typically, markers on thighs are subject to strong STA, and will therefore be weighted less. Hence, marker coordinates will be multiplied by the diagonal matrix of weights \textbf{W} \cite{Meredith2005}:
+Each marker can be weighted more or less according to its level of trust. Typically, markers placed on large muscle or fat tissues (such as thighs)are subject to strong STA, and will therefore be weighted less than those placed on bony landmarks (such as ankle malleoli). Hence, marker coordinates will be multiplied by the diagonal matrix of weights \textbf{W} \cite{Meredith2005}:
 \begin{equation}
   \boxed{
   \textbf{W} \ \Delta\overrightarrow{X} \approx \textbf{J} \ \Delta\overrightarrow{q}
@@ -1019,7 +1037,7 @@ In plain words, the gradient descent method iteratively searches the direction o
 Jacobian-based methods use the result of the previous frame as an initial guess, which is arguably close to the desired solution. Hence, they are generally fast and can be used in real-time in 3D animation software applications. However, they can produce oscillation motion with discontinuities and jerky movements, especially near singularities, and tend to be less precise than Quasi-Newton methods \cite{Aristidou2018}. Moreover, joint limits are not straightforward to take into account, and such constraints tend to slow the convergence rate and to lead to poorer accuracy \cite{Aristidou2018}. The Levenberg-Marquardt method is implemented in the open-source softwares Pyomeca \cite{Martinez2020} with the Biorbd library \cite{Michaud2021}, \cite{Pinocchio,Carpentier2019}, CusToM \cite{Muller2019}, as well as in Visual3D. 
 
 
-\subsubsection{Quasi-Newton methods and the BFGS algorithm}
+\subsubsection{Quasi-Newton Methods and the BFGS Algorithm}
 
 In the field of biomechanics, inverse kinematics is usually dealt with more general Quasi-Newton methods. These methods don't linearize the objective function, and solve it as a more general non-linear minimization problem, which is not restricted to sum-of-squares objective functions. 
 % Note that in this sense, the Gauss-Newton method is a Quasi-Newton method applied to a specific class of problems. 
@@ -1053,7 +1071,7 @@ More specifically, in the field of inverse kinematics, the L-BFGS-B variant is o
 
 
 \newpage
-\subsubsection{Kalman filtering methods}
+\subsubsection{Kalman Filtering Methods}
 
 Another lesser-known class of inverse kinematic methods is the Kalman filter, which does not take its roots from the fields of robotics, nor computer animation, nor biomechanics, but from automation. In fact, it was precisely designed to mitigate the effect of noisy measurement data on the estimation of variables of interest \cite{Kalman1960}. Kalman filters don't involve the definition of any objective function, however they take advantage of prior knowledge of both the evolution of kinematic variables along time (namely, the process model), and of the kinematic chain (namely, the measurement model). The process model concerns the change of state variables from one frame to another, as well as the magnitude of imprecision on their predicted evolution. State variables are primarily joint angles, but they can also include their derivatives up to an arbitrary number (although \cite{DeGroote2008} showed that little improvement was brought when going above the 2nd degree), marker coordinates, IMU inputs, etc. The measurement model defines the relationship between marker positions and state variables, as well as the magnitude of errors (due to STA for example). 
 
@@ -1114,7 +1132,7 @@ Finally, the updated joint parameter estimates are:
 A low Kalman gain means that the initial estimate can be trusted, and a higher gain places more weight on marker measurements.
 
 \vspace*{0.5cm}
-The Kalman filter (KF) deals with linear problems, and joint kinematics is highly non-linear. Other methods have been derived to broadens its usage to non-linear cases, such as the Extended Kalman Filter (EKF), which was first introduced for joint kinematic estimation by \cite{Cerveri2003}. The Local Marker Estimation filter (LME) compensates for Soft Tissue Artifacts (STAs) \cite{Cerveri2005,Bonnet2017a}. The Kalman Smoother (KS) filters both ways, from first to current frame, and from last to current frame \cite{Rauch1965}. It can also be extended in the non-linear case, and is then called the Extended Kalman Smoother (EKS). Despite it does not take STAs into account, it results in smoother and more accurate estimation of joint kinematic variables \cite{DeGroote2008}. However, this is at the cost making the analysis off-line, while Kalman filters have the potential of being used in real-time. 
+The Kalman filter (KF) deals with linear problems, and joint kinematics is highly non-linear. Other methods have been derived to broadens its usage to non-linear cases, such as the Extended Kalman Filter (EKF), which was first introduced for joint kinematic estimation by \cite{Cerveri2003}. The Local Marker Estimation filter (LME) compensates for Soft Tissue Artifacts (STAs) \cite{Cerveri2005,Bonnet2017a}. The Kalman Smoother (KS) filters both ways, from first to current frame, and from last to current frame \cite{Rauch1965}. It can also be extended in the non-linear case, and is then called the Extended Kalman Smoother (EKS). It results in smoother and more accurate estimation of joint kinematic variables \cite{DeGroote2008}. However, this is at the cost making the analysis off-line, while Kalman filters have the potential of being used in real-time. 
 
 Kalman-based methods take advantage of prior knowledge on the expected evolution of joint variables in time, on the kinematic chain, and they also take noise into account. If fact, it has been demonstrated that the Levenberg-Marquardt algorithm is a specific case of the extended Kalman filter, which results under simplifying assumptions \cite{Bell1994,Horvath2016}. Consequently, Kalman-based methods have been shown to be more accurate in general than Jacobian-based and Quasi-Newton methods \cite{Cerveri2005,DeGroote2008, Bonnet2017a}, although some studies found similar results \cite{Fohanno2014}. In any case, they are especially accurate for the estimation of velocities and accelerations \cite{Fohanno2014}, since they are directly estimated by the filter, without further differentiation which would introduce additional errors. This is especially interesting for the study of forces, which can be estimated based on accelerations. They are more robust to decreased number of markers \cite{Fohanno2010}. With the exception of KS, they can also work in real time \cite{Fohanno2014}. 
 
@@ -1127,7 +1145,7 @@ An Extended Kalman Filter is implemented in Pyomeca with its Biorbd library \cit
 % Hidden markov, but continuous instead of discrete space 
 
 
-\subsubsection{Other inverse kinematics methods}
+\subsubsection{Other Inverse Kinematic Methods}
 
 Other methods have been proposed, which can be divided into the heuristic and the learned ones. Heuristic methods consist in trying to reach targets by considering only one joint at a time, instead of minimizing an objective function on marker coordinates or filtering joint angle evolution. 
 
@@ -1138,15 +1156,15 @@ Forward And Backward Reaching IK (FABRIK) starts by moving the end-effector dire
 Learned approaches are data-driven rather than knowledge-driven. Instead of striving to search for the posture which matches marker positions and constraints the best, they leverage neural networks, using the numerous available databases gathered along time. Among them, deep-learning methods have lately been integrated for human pose reconstruction. Many approaches exist, most of them specifically estimating angle outputs from a target coordinate input \cite{Mordatch2015,Du2015}. However, these methods usually require prior training, are computationally intensive to use, and can only work properly if they are used on data which are sufficiently close to the training dataset. They are still in their infancy and to our knowledge, have not been tested for biomechanical applications yet.
 
 
-\subsection{6DoF vs. Inverse kinematics}
+\subsection{6DoF vs. Inverse Kinematics}
 
 Ultimately, the main difference between the free-body 6DoF approach and the multibody inverse kinematic one boils down to the idea that in order to conduct a 6DoF analysis, one needs to trust markers, while for IK one needs to trust the model (see Table~\ref{table:tab_kin}). \cite{Moniz2014} found that for the elderly, RMSD between both approaches remained under 5° for all lower-body joints, except for hip and ankle internal/external rotation, respectively 12° and 7°. For children with cerebral palsy, results were similar, and as long as segments bore the same anatomical frames of reference, the RMSD stayed under 4°, aside from hip and ankle internal/external rotation which still remained under 6°. For the knee analysis of American football players, \cite{Robinson2013} found up to 11° RMSD for the abduction/adduction angle, and 7° for internal/external rotation. However, both approaches classified the same athletes as being at risk injury. Hence, in a lot of cases, results are comparable. Note that due to the dearth of available gold-standard data, it is difficult to compare the accuracy of both approaches aside from computer simulated experiments.
 
-If the 6DoF approach is used, one single trained operator needs to position markers, very accurately and consistently. At least 3 markers need to be tracked on each segment. The effect of Soft Tissue Artifacts is noticeable, even when using more than 3 markers per segment to optimize their local frame coordinates. However, this approach is not computationally intensive and can be run in real-time. It does not require any joint center calculation, individual scaling procedure, nor any geometric assumption. In fact, it is not based on a model, which is an advantage when studying a population that is pathological or outside the norms. The 6DoF approach can also render joint dislocations, which is desirable if joint laxity is a parameter that is specifically of interest. On the other hand, this comes with the drawback that segments can interpenetrate each other, or even change length.
+If the 6DoF approach is used, one single trained operator needs to position markers, very accurately and consistently. At least 3 markers need to be tracked on each segment. The effect of Soft Tissue Artifacts is noticeable, even when their local frame coordinates are optimized by using more than 3 markers per segment. However, this approach is not computationally intensive and can be run in real-time. It does not require any joint center calculation, individual scaling procedure, nor any geometric assumption. In fact, it is not based on a model, which is an advantage when studying a population that is pathological or outside the norms. The 6DoF approach can also render joint dislocations, which is desirable if joint laxity is a parameter that is specifically of interest. On the other hand, this comes with the drawback that segments can interpenetrate each other, or even change length.
 
-If the inverse kinematic method is used, a model first needs to be designed. Although we just glanced over this aspect, it is not trivial. It involves correctly modeling joints, with the appropriate degrees of freedom or coupling relationships, and requires scaling the model to each individual person. This is usually done by adjusting segments dimensions according to distances between joints, and thus joint center coordinates need to be estimated. Joint centers are often defined as the midpoint between anatomical markers for ankles, knees, elbows, and wrists, but these methods are not always accurate, and sometimes not workable at all, for instance in the cases of the hip or the shoulder joint. In these cases, functional methods such as SCoRE for ball joints \cite{Ehrig2006} or SARA for hinge joints \cite{Ehrig2007} are leveraged. These methods require the subject to perform a set of predefined movements prior to the actual capture, which is time-consuming. Moreover, the mere concept of joint centers is also not always pertinent, especially for the shoulder girdle which allows for both rotations and translations. 
+If the inverse kinematic method is used, a model first needs to be designed. Although we just glanced over this aspect, it is not trivial. It involves correctly modeling joints, with the appropriate degrees of freedom or coupling relationships, and requires scaling the model to each individual person. This is usually done by adjusting segments dimensions according to distances between joints, and thus joint center coordinates need to be estimated. Joint centers are often defined as the midpoint between anatomical markers for ankles, knees, elbows, and wrists, but these methods are not always accurate, and sometimes not workable at all, for instance in the cases of the hip or the shoulder joint. In these cases, functional methods such as SCoRE for ball joints \cite{Ehrig2006} or SARA for hinge joints \cite{Ehrig2007} are leveraged. These methods require the subject to perform a set of predefined movements prior to the actual capture, which is time-consuming. Moreover, the mere concept of joint centers is also not always pertinent, especially for the shoulder girdle or for the which allows for both rotations and translations \cite{Seth2010}. 
 
-The IK approach assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from observations of a population. Hence, it can be difficult to implement for pathological populations nor on unusual body structures: for instance, joint laxity cannot be qualified. Hence, the model must be carefully designed before granting trust to results \cite{Hicks2015}. 
+The IK approach assumes that all human beings have similar joint mechanics, based on \textit{a priori} constraints inferred from non-exhaustilve observations. Hence, it can be difficult to implement for pathological populations nor on unusual body structures: for instance, joint laxity cannot be qualified. Hence, the model must be carefully designed before granting trust to results \cite{Hicks2015}. 
 
 On the other hand, inverse kinematics has been reported to be more accurate than 6DoF, as it is less sensitive to STAs as it addresses them globally, and as it does not suffer from interpenetration or length changes. It reduces the number of degrees of freedom to solve, and thus of markers needed \cite{Slater2018}. Note that inverse kinematics is equivalent to 6DoF if all joint degrees of freedom are released. Using a model can also be the starting point for further analysis, such as muscle activation for example \cite{Robinson2013,Kainz2016}.
 
@@ -1154,7 +1172,7 @@ This approach is generally computationally intensive, and can only be run in rea
 
 \cite{Aristidou2018} states that the 6DoF approach should be favored if the model is simple, with little risk of STA, or if looking at pathological individuals. A standard model may not fit well to these persons, and some clinically relevant movements such as joint dislocations could be missed. These approaches are also much faster to compute, and can be conducted in real-time. On the other hand, the IK approach should be favored with a more general population, especially if their body fat or muscles are considerable enough to cause large STA.
 
-The most exact IK methods are the Kalman methods, and they are also fast. However, they are difficult to initialize, and can diverge if the initial estimates are not accurate enough. In particular, there is no consensus on the values of covariances. Jacobian methods such as Levenberg-Marquardt are also fast, generally robust on most joint configurations, but they are also subject to divergence around singularities. Consequently, in the field of biomechanics, the most used methods are the Quasi-Newton ones, such as L-BFGS-B. They are slower, but also more accurate, more robust to bad initial estimates, and they additionally better handle constraints. 
+The most exact IK methods are the Kalman methods, and they are also fast. However, they are difficult to initialize, and can diverge if the initial estimates are not accurate enough. In particular, there is no consensus on the values of covariances. Jacobian methods such as Levenberg-Marquardt are also fast, generally robust on most joint configurations, but they are also subject to divergence around singularities. Consequently, in the field of biomechanics, the most used methods are the Quasi-Newton ones, such as L-BFGS-B which is implemented in OpenSim. They are slower, but also more accurate, more robust to bad initial estimates, and they additionally better handle joint limits. 
 
 
 \begin{table}[!htbp]
@@ -1203,9 +1221,7 @@ The most exact IK methods are the Kalman methods, and they are also fast. Howeve
                 &  \begin{tabular}[t]{@{}l@{}}\emph{OpenSim}$^5$\\ \emph{Pyomeca}$^4$\\ --- \\ ---\\--- \end{tabular} \\
   \bottomrule
   \end{tabular}}
-  \caption{Comparison of the main kinematic approaches and software solutions for biomechanics. \\
-  *Due to its forward-backwards nature, and despite its low computational cost, a Kalman smoother cannot be used in real-time. Conversely, a Kalman filter can. $^1$Visual3D is a proprietary software, and $^2$Custom is open-source but coded on Matlab, which is proprietary. Its Quasi-Newton method is sensibly slower than L-BFGS-B. $^3$Pyomeca relies on the OpenSim API with Pyosim for Quasi-Newton IK resolution, and $^4$on Biorbd for IK with Kalman filters. $^5$A fork of OpenSim provides a Kalman smoother. \\
-  6DoF: 6 Degrees of Freedom. IK: Inverse Kinematics. STA: Soft Tissue Artifacts. L-BFGS-B: Limited-memory Broyden-Fletcher-Goldfarb-Shanno algorithm with boundary limits.}
+  \caption{Comparison of the main kinematic approaches and software solutions for biomechanics. *Due to its forward-backwards nature, and despite its low computational cost, a Kalman smoother cannot be used in real-time. Conversely, a Kalman filter can. $^1$Visual3D is a proprietary software, and $^2$Custom is open-source but coded on Matlab, which is proprietary. Its Quasi-Newton method is sensibly slower than L-BFGS-B. $^3$Pyomeca relies on the OpenSim API with Pyosim for Quasi-Newton IK resolution, and $^4$on Biorbd for IK with Kalman filters. $^5$A fork of OpenSim provides a Kalman smoother. 6DoF: 6 Degrees of Freedom. IK: Inverse Kinematics. STA: Soft Tissue Artifacts. L-BFGS-B: Limited-memory Broyden-Fletcher-Goldfarb-Shanno algorithm with boundary limits.}
   \label{table:tab_kin}
 \end{table}
 
@@ -1214,9 +1230,9 @@ The most exact IK methods are the Kalman methods, and they are also fast. Howeve
 
 \section{Conclusion}
 
-This long chapter presented a rather comprehensive view of state-of-the-art methods for all potential steps required for markerless kinematic analysis. This went from machine learning methods for 2D keypoint detection on images, to computer vision theory for camera calibration and 3D reconstruction from a network of cameras, to biomechanics and optimization techniques for 3D joint kinematic analysis. The main advantages and drawbacks of each method were discussed, and the most relevant software solutions were presented. 
+This long chapter presented a rather comprehensive view of state-of-the-art methods for all potential steps required for markerless 3D kinematic analysis. This went from machine learning methods for 2D keypoint detection on images, to computer vision theory for camera calibration and 3D reconstruction, to biomechanics and optimization techniques for 3D joint kinematic analysis. The main advantages and drawbacks of each method were discussed, and the most relevant software solutions were presented. 
 
-Currently, only a few ready-to-use methods exist which assemble all these steps together: the proprietary software Theia3D \cite{Kanko2021b}, the open-source one OpenCap \cite{Uhlrich2022}, and Pose2Sim \cite{Pagnon2022b} (see section "3D kinematics" in Table~\ref{table:tab_soft}). \cite{Captury} and \cite{SimiShape} also propose 3D markerless solutions, but they have not yet been rigourously tested. Next chapter is dedicated to an in depth presentation of the open-source Python package Pose2Sim, which has been developped and released during this thesis. 
+Currently, only a few ready-to-use methods exist which assemble all these steps together: the proprietary software Theia3D \cite{Kanko2021b}, the open-source one OpenCap \cite{Uhlrich2022}, and Pose2Sim \cite{Pagnon2022b} (see section "3D Kinematics" in Table~\ref{table:tab_soft}). \cite{Captury} and \cite{SimiShape} also propose 3D markerless solutions, but they have not yet been rigourously tested. Next chapter is dedicated to an in depth presentation of the open-source Python package Pose2Sim, which has been developped and released during this thesis. 
 
 
 
@@ -1246,6 +1262,8 @@ Currently, only a few ready-to-use methods exist which assemble all these steps 
 % kinematics: No account taken of physical laws that cause motion such as gravity, collisions, or more generally inertial properties and forces: only geometric constraints
 
 
+% tu n'as pas abordé tt ce qui est analyse cinématique qui tient compte de contraintes passives(ligaments) et actives (muscles): modèle éléments-finis notamment, mais pas uniquement:
+% Hang Xu, Donald Bloswick & Andrew Merryweather (2014): An improved OpenSim gait model with multiple degrees of freedom knee joint and knee ligaments, Computer Methods in Biomechanics and Biomedical Engineering, DOI: 10.1080/10255842.2014.889689 (2014) 
 
 
 

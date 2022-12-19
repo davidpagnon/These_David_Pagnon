@@ -20,7 +20,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Robustness assessment}
+\chapter{Robustness Assessment}
 \label{ch:4}
 
 %==============================================================================	Résumé du chapitre
@@ -30,9 +30,9 @@
 \begin{minipage}{0.7\linewidth}
 \smallskip
 
-\textit{A markerless motion capture method is satisfying if it is accurate, fast, and robust. Robustness is deemed good when results are unchanged while adding constraints on the subject or on the environment. We challenge our workflow on walking, running, and cycling tasks, by adding people in the background, and by simulating challenging conditions: (Im) alters image quality (11-pixel Gaussian blur and 0.5 gamma compression); (4c) uses fewer cameras (4 vs. 8) which leads to unsolved occlusions; and (Cal) introduces calibration errors (1 cm vs. perfect calibration).\newline \newline
-When averaged over all joint angles, stride-to-stride standard deviations lay between 1.7° and 3.2° for all conditions and tasks, and mean absolute errors (compared to the reference condition—Ref) ranged between 0.35° and 1.6°. For walking, errors in the sagittal plane were: 1.5°, 0.90°, 0.19° for (Im), (4c), and (Cal), respectively. As a consequence, Pose2Sim is robust enough for the 3D joint angle analysis of walking, running, and cycling, under challenging conditions.\newline\newline
-This chapter is adapted from the article published in the Sensors: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021}. See Figure~\ref{fig_visabstract2} for a visual abstract.
+\textit{A markerless motion capture method is satisfying if it is accurate, fast, and robust. Robustness is deemed good when results are unchanged after adding constraints on the subject or on the environment. We challenge our workflow on walking, running, and cycling tasks by adding people in the background, and by simulating challenging conditions: (Im) alters image quality (11-pixel Gaussian blur and 0.5 gamma compression); (4c) uses fewer cameras (4 vs. 8) which leads to unsolved occlusions; and (Cal) introduces calibration errors (1 cm vs. perfect calibration).\newline \newline
+When averaged over all joint angles, stride-to-stride standard deviations lay between 1.7° and 3.2° for all conditions and tasks, and mean absolute errors (compared to the reference condition—Ref) ranged between 0.35° and 1.6°. For walking, errors in the sagittal plane were: 1.5°, 0.90°, 0.19° for (Im), (4c), and (Cal), respectively. Consequently, Pose2Sim is robust enough for 3D joint angle analysis of walking, running, and cycling on an ergometer, under challenging conditions.\newline\newline
+This chapter is adapted from the article published in Sensors: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 1: Robustness" \cite{Pagnon2021}. See Figure~\ref{fig_visabstract2} for a visual abstract.
 }
 
 
@@ -61,7 +61,7 @@ This chapter is adapted from the article published in the Sensors: "Pose2Sim: An
 
 
 \section{Introduction}
-\subsection{Robustness definition}
+\subsection{Robustness Definition}
 
 According to the review of \cite{Desmarais2021}, the performance of a method can be ranked regarding its accuracy, speed, or robustness. Accuracy is mostly assessed with MPJPE (Mean Per Joint Position Error); speed is evaluated either regarding computing complexity, or framerate when possible; and robustness is gauged through differences in the results while changing the system parameters only. \cite{Desmarais2021} points out that authors usually only consider accuracy, sometimes speed, but rarely robustness. However, robustness is of paramount importance in the context of sports, especially "in the wild". This chapter will focus on robustness, the next one on \nameref{ch:5}, and we will not focus on speed in this thesis (although chapter 3.4.5 broaches \hyperref[subsec:realtime]{Real time considerations}).
 
@@ -90,7 +90,7 @@ Camera calibration can be challenging outside, due to large volume spaces, brigh
 \end{equation}
 
 
-\subsection{Assessing robustness}
+\subsection{Assessing Robustness}
 
 Because \cite{Needham2021a} showed that the quality of markerless results were task specific, we will examine walking, running, and cycling. Before assessing the robustness of the workflow, the relevance of the computed 3D full-body angles needs to be estimated. This will be done by comparing our angle results to those of a normative walking database. Further concurrent validation of the accuracy will be determined in the next chapter on \nameref{ch:5}. Assuming that the gait of a young and healthy person is repeatable, we assume that most of the variability between cycles should be caused by a lack of repeatability of the system. Thus, repeatability will be evaluated by comparing the kinematics of between cycles, within each task and each capture condition. 
 
@@ -107,7 +107,7 @@ The underlying idea presented in this article is to verify whether modifying ext
 
 \href{https://github.com/davidpagnon/These_David_Pagnon/blob/main/Thesis/Chap4/Figures/Vid_Protocol.mp4?raw=true}{See video here} for a visual description of the protocol.
 
-\subsection{Experimental setup}
+\subsection{Experimental Setup}
 
 To guarantee a tight control of the environment parameters, we captured our data in a dedicated studio platform called Kinovis \cite{Tsiminaki2014}, from which we were able to create realistic virtual views similar to outdoor video. This platform is a \(10 m \times 10 m \times 5.6 m\) green room equipped with 68 video cameras recording at 30 fps in 4 Mpixels resolution, for a practical acquisition space of about \(5 m  \times 5 m  \times 3 m\). The system computes 3D textured meshes by convex visual hull reconstruction \cite{Laurentini1994}. The meshes were inserted in a virtual environment composed of an environment texture map captured from a BMX racetrack, and a custom-made virtual floor. It should be noted that three people were present in the background, which introduced a realistic artifact of multiple subjects.
 
@@ -134,7 +134,7 @@ For the purpose of this study, we created 8 virtual video cameras. Resolution wa
 \end{figure}
 
 
-\subsection{Participant and protocol}
+\subsection{Participant and Protocol}
 
 One healthy adult male subject (1.89 m, 69 kg) participated in the study. He provided his informed written consent prior to participating. The study was conducted in accordance with the Declaration of Helsinki \cite{Holm2013}. No requirement was given to him regarding his outfit. He was asked to perform three basic sports tasks: walking, running, and cycling. For all three tasks, the subject was given a moment beforehand to warm up and find a comfortable and regular pace, which he could then follow owing to the sound of a metronome:
 
@@ -146,7 +146,7 @@ One healthy adult male subject (1.89 m, 69 kg) participated in the study. He pro
 As obtaining the textured meshes of the subject in the green Kinovis room involved filming simultaneously with 68 4 Mpixels cameras that generated a flow of over 8 gigabytes per second, the capture design limited the acquisition time to 45 s.
 
 
-\subsection{Challenging robustness}
+\subsection{Challenging Robustness}
 
 We challenged robustness with 3 challenging conditions, compared to a reference one.
 
@@ -172,26 +172,36 @@ We challenged robustness with 3 challenging conditions, compared to a reference 
 \end{figure}
 
 
-\subsection{Markerless kinematics}
+\subsection{Markerless Kinematics}
 
 Then, we used Pose2Sim to robustly triangulate OpenPose outputs and feed the resulting 3D joint coordinates to OpenSim. The exact same parameters were used for all 4 conditions and all 3 movement tasks, in order to make sure the process did not induce any supplementary deviation to the compared results.
 
-\subsubsection{2D pose estimation}
+\subsubsection{2D Pose Estimation}
 
 We applied OpenPose (version 1.6) on all the captured videos. We used the experimental body\_25B model (see~Figure\ref{fig_body25b}) with highest accuracy parameters, which is more accurate than the default body\_25 one and reduces the number of false positives \cite{Hidalgo2019}.
 
-\subsubsection{Tracking, triangulation, and filtering}
+\subsubsection{Tracking, Triangulation, and Filtering}
 
 We used the Tracking function of Pose2Sim to try out every possible triangulation of the neck keypoint of all detected persons. The person with the smallest reprojection error was deemed to be the one to be tracked. If the reprojection error was above 10 pixels, one camera was removed and the process was repeated. See \nameref{tracking} Chapter 3 for more details.
 
-The weighted DLT provided by the Triangulation function of Pose2Sim was employed. Some keypoints were sometimes occluded to some cameras, either by the subject himself, by his cycling gear, or simply because the subject left the camera field of view. In such a case, OpenPose usually gave a low (or zero) confidence to the estimated point, which was dealt with by setting a confidence threshold above which the camera in question was not used for the triangulation. However, OpenPose occasionally wrongly detected the occluded keypoint with a relatively high confidence. Under such circumstances, the point was erroneously triangulated. This issue was spotted and solved by reprojecting the 3D point on the camera planes. If the reprojection error between the reprojected points and the OpenPose detection was higher than a predefined threshold, the process was repeated after removing one, or several, cameras. If less than 3 cameras remained, the frame was dropped for this point, and missing frames were later interpolated with a cubic spline. 3D joints positions were then exported as an OpenSim compatible .trc file.
+The weighted DLT provided by the Triangulation function of Pose2Sim was employed. Some keypoints were sometimes occluded to some cameras, either by the subject himself, by his cycling gear, or simply because the subject left the camera field of view. In such a case, OpenPose usually gave a low (or zero) confidence to the estimated point, which was dealt with by setting a confidence threshold above which the camera in question was not used for the triangulation. However, OpenPose occasionally wrongly detected the occluded keypoint with a relatively high confidence. Under such circumstances, the point was erroneously triangulated. This issue was spotted and solved by reprojecting the 3D point on the camera planes. If the reprojection error between the reprojected points and the OpenPose detection was higher than a predefined threshold, the process was repeated after removing one, or several, cameras. If less than 3 cameras remained, the frame was dropped for this point, and missing frames were later interpolated with a cubic spline. 3D joints positions were then exported as an OpenSim compatible .trc file. 
 We chose a confidence threshold of 0.3 and a reprojection error threshold of 10 px.
 
 3D coordinates were finally filtered with a Butterworth filter \cite{Butterworth1930}. We chose a zero-lag fourth order low-pass Butterworth filter, with a 6 Hz cutoff frequency.
 
-\subsubsection{Gait events determination}
+\begin{textblock*}{10cm}(14.2cm,24.4cm) % {block width} (coords left,top) 
+      \begin{turn}{0} 
+            \scriptsize \emojiegg
+            \tiny 6. Merci aux traceurs ! 
+            \scriptsize \emojirunner
+      \end{turn}
+\end{textblock*}
 
-Cycles were determined using one of the methods given by \cite{Zeni2008} for the determination of gait events using kinematic data. Zeni et al. suggested defining heel strike as the time of maximum distance between the heel and the sacrum. Here, the sacrum marker was assimilated to the ipsilateral hip joint coordinate. Although there is no heel strike in cycling, we used the same definition as a reference for the start of a cycle. An implementation of the algorithm is provided by Pose2Sim in \href{https://github.com/perfanalytics/pose2sim/blob/main/Pose2Sim/Utilities/trc_gaitevents.py}{Utilities/trc\_gaitevents.py}. A cycle was defined as starting from heel strike, with a duration \(t_{cycle}\):
+
+\subsubsection{Gait Events Determination}
+
+Cycles were determined using one of the methods given by \cite{Zeni2008} for the determination of gait events using kinematic data. Zeni et al. suggested defining heel strike as the time of maximum distance between the heel and the sacrum. Here, the sacrum marker was assimilated to the ipsilateral hip joint coordinate. Although there is no heel strike in cycling, we used the same definition as a reference for the start of a cycle. An implementation of the algorithm is provided \\
+by Pose2Sim in \href{https://github.com/perfanalytics/pose2sim/blob/main/Pose2Sim/Utilities/trc_gaitevents.py}{Utilities/trc\_gaitevents.py}. A cycle was defined as starting from heel strike, with a duration \(t_{cycle}\):
 \begin{equation}
       t_{cycle} = \frac{2}{cadence/60}seconds
 \end{equation}
@@ -199,11 +209,11 @@ Cycles were determined using one of the methods given by \cite{Zeni2008} for the
 The duration of a cycle \(t_{cycle}\) was 1.2 s for walking, 0.8 s for running, and 1.0 s for cycling. The reduced area of acquisition and the limit of 45 s of capture restricted the analysis to 8, 9, and 15 cycles for walking, running, and cycling, respectively.
 
 
-\subsubsection{Kinematic analysis}
+\subsubsection{Kinematic Analysis}
 
 The full-body musculo-skeletal model proposed by \cite{Rajagopal2016} was adjusted to our needs. OpenPose model markers were carefully placed on the body, as closely as possible to their average triangulated 3D coordinates. Muscles were removed since they were not considered at that stage. A ball joint was added between head and torso so that the rotation of the head could be roughly rendered. Pelvis translation and subtalar angle rotation were unlocked. Lumbar extension and lumbar bending were clamped between -15° and 15°, and constraints on hip flexion/extension ranges of motion were released since they were too strict for our cycling task. This model uses a coupling relationship between knee flexion and the other planes of movement, which allows for 3D knee kinematics with only one degree of freedom. \textit{Note that the model was later improved when assessing the accuracy of the workflow.}
 
-See previous chapter on \nameref{ch:3} for more details on the scaling and inverse kinematics procedures. We visually verified at the end of the inverse kinematic step that model markers approximately overlaid experimental markers (Figure~\ref{fig_opensim}), and we batched inverse kinematics for all gait cycles with the command line utilities. We then concatenated all results in a .csv file analyzed them using python.
+See previous chapter on \nameref{ch:3} for more details on the scaling and inverse kinematics procedures. We visually verified at the end of the inverse kinematic step that model markers approximately overlaid experimental markers (Figure~\ref{fig_opensim}), and we batched inverse kinematics for all gait cycles with the command line utilities. We then concatenated all results in a .csv file analyzed them using Python.
 
 \begin{figure}[!ht]
 	\centering
@@ -214,7 +224,7 @@ See previous chapter on \nameref{ch:3} for more details on the scaling and inver
 	\label{fig_opensim}
 \end{figure}
 
-\subsection{Statistical analysis}
+\subsection{Statistical Analysis}
 
 As similar results were expected for both sides, as more strides were captured on the left one, and for the sake of clarity, the analysis was performed on the left side only. Descriptive statistics were calculated at the triangulation stage, for each (Ref), (Im), (4c), and (Cal) condition. We calculated mean, standard deviation (std), and maximum (max) number of cameras excluded for performing triangulation. Triangulation was deemed acceptable in Pose2Sim when OpenPose confidence was above 0.3, and when reprojection error was below 10 pixels. We also calculated mean, std, and max reprojection errors. Descriptive statistics of the OpenSim scaling and inverse kinematics steps were also rendered: we retrieved mean, std, and max root-mean-square error (RMSE) of the experimental and model markers.
 
@@ -224,13 +234,13 @@ Repeatability was estimated by computing stride-to-stride standard deviations wi
 
 
 \section{Results}
-\subsection{Data collection and 2D pose estimation}
+\subsection{Data Collection and 2D Pose Estimation}
 Each trial took several hours to process on a cluster of high-end computation units. Then, filming the resulting 3D meshes in a virtual scene with virtual cameras also took a few hours per sequence, as well as about 50 Go of storage space. Although all of this allowed us to perfectly control the parameters of the capture, this step would not be carried out in the wild, where capture would simply be carried out by filming with calibrated cameras.
 
 Apart from the capture design, which is very particular to this study, the OpenPose 2D pose estimation was the most computationally costly step. On a standard computer with an Nvidia GeForce GTX 1080 graphic card (8 Go memory), the detection for each camera ran at a little over 0.5 fps (i.e., 0.07 fps for 8 cameras).
 
 
-\subsection{Pose2Sim tracking, triangulation, and filtering}
+\subsection{Pose2Sim Tracking, Triangulation, and Filtering}
 
 On our standard computer, tracking was performed at an average of 5 fps depending on the number of undesired persons present in the background; triangulation was at about 10 fps; and filtering was almost instantaneous in comparison.
 
@@ -268,7 +278,7 @@ Depending on the considered frame, the reprojection error of a joint coordinate 
 Within each task, almost twice as many cameras had to be excluded in the (Im) condition as in the (Ref) condition, with nearly one camera excluded in walking and running, and nearly 2.5 in cycling. However, the reprojection error was increased by only about 10\%. About twice as few cameras had to be excluded in the (4c) condition as in (Ref) condition, and the reprojection error was decreased by about 10\%. The (Cal) condition did not involve more excluded cameras; indeed, calibration errors had no effect on the OpenPose confidence, and reprojection error stayed within the threshold of 10 px. However, a 2 px average error in calibration logically resulted in about a 2 px ($\approx$1 cm) larger reprojection error than in the Ref condition.
 
 
-\subsection{OpenSim scaling and inverse kinematics}
+\subsection{OpenSim Scaling and Inverse Kinematics}
 
 Scaling took a few hours, which is in line with the usual expectations in marker-based methods. However, markers would be positioned in the same place by the pose estimation algorithm regardless of the subject and of the operator: as a consequence, in the future, only bones would have to be scaled, and markers will not have to be further adjusted. Due to the small number of markers whose positions had to be optimized, Opensim’s inverse kinematics ran at more than 0.5 fps.
 
@@ -305,7 +315,7 @@ OpenSim recommends the RMS of experimental vs. model marker errors to be below 1
 Note that one should not compare the values of the reprojection errors in the triangulation step, and of the marker errors in the inverse kinematics one. Primarily, the first one is calculated over time, while the second one is calculated over markers. Additionally, the first one is a mean absolute error (MAE), while the second one is a root mean square error (RMSE). RMSE squares the errors, which always makes it larger than the MAE. It penalizes large errors more, which has some implications that are not addressed here but are documented in \cite{Chai2014}. These errors should only be used to compare conditions within each step.
 
 
-\subsection{Relevance, repeatability and robustness of angles Results}
+\subsection{Relevance, Repeatability and Robustness of Angle Results}
 
 Flexion/extension lower-limb angles were compared to a normative walking gait database \cite{Trinler2019} (Figure~\ref{fig_compnorm}). Ankle movement differed noticeably (r = 0.35, MAE = 5.4°), especially between 40\% and 70\% of the gait cycle. There was a good agreement for the knee (r = 0.93, MAE = 5.7°) and hip angles (r = 0.97, MAE = 9.0°) despite some notable offset in hip angle. A similar shift occurred in the pelvis ante/retroversion angle (not further analyzed).
 
@@ -426,7 +436,7 @@ The SPM showed some statistical differences along time between the reference con
 % Pose2Sim allows for seamless markerless kinematics from a network of calibrated and synchronized cameras by connecting two widespread, renowned, and open-source tools: the OpenPose 2D pose estimator and the OpenSim movement analysis software. Overall, human intervention is scarce, which makes it more robust to human error. Pose2Sim automatically tracks the person of interest when people are in the background, considers the confidence given by the OpenPose estimation, and is robust to missing frames and to the person exiting the field of view of one or several cameras. To the best of our knowledge, it is also the first one taking advantage of a solid anatomical 3D model in order to solve some rotations around the limb and to account for physical consistency. It is very customizable, in the sense that the user can adjust most parameters and even use a different 2D pose estimator if needed, including for non-human subjects (such as DeepLabCut \cite{Mathis2018} for example.)
 
 
-\subsection{Relevance, repeatability and robustness}
+\subsection{Relevance, Repeatability and Robustness}
 
 Results of joint angles in the walking condition seemed to be realistic when compared to the normative database. The noticeable discrepancies may be due to a difference between the angle definition of both models, especially in the ankle: the normative database calculated 6 degrees-of-freedom free-body angles between limb segments, while our OpenSim model took bone geometries into consideration. The shift in the hip angle was related to an excessive pelvis anteversion, which may have been induced by the model being underconstrained due to OpenPose dearth of keypoints. This lack of marker constraints could be partly compensated by adding joint constraints, especially around the spine (See next chapter on \nameref{ch:5}, combining the \cite{Rajagopal2016} and the \cite{Beaucage-Gauvreau2019} models). In any case, the angle results seem to be relevant, but accuracy needs to be further investigated by comparing Pose2Sim markerless method to a reference marker-based one exploiting a similar model definition.
 
@@ -446,7 +456,7 @@ Ultimately, all conditions challenged the workflow at different stages, but the 
 Nonetheless, it would be interesting to check for even more challenging conditions. We have investigated global Gaussian blur, but not movement blur, such as when the camera shutter speed is not high enough. It would also be interesting to investigate the effect of even larger calibration errors, even less cameras used, different camera placements, different camera types (such as GoPros with strong fisheye distortions), or different framerates or image definitions.
 
 
-\subsection{Limits and perspectives}
+\subsection{Limits and Perspectives}
 
 Our use of a virtual scene helped us perfectly control all parameters of the capture. Although this scene is synthetically crafted, it looks similar to a real one. This is not thought to hinder the performance of 2D pose detection since deep-learning models are occasionally trained on synthetic datasets that look empirically less real and still successfully transfer to real-world data (see \cite{Nikolenko2021,Patel2021,Wood2021,Bolanos2021,Varol2017}). However, an image with a better definition and with a framerate over 30 fps may improve results. Furthermore, the 68 video camera capture design uses up very large storage space, and the restricted space offered by the Kinovis room constrained us to capture only a few cycles per capture. This limited us to a low amount of data, with only one subject and about 10 cycles analyzed per task.
 
@@ -454,6 +464,6 @@ We noticed that the cycling task was particularly challenging, probably because 
 
 Moreover, the \cite{Rajagopal2016} model used as a basis does not appear to be well suited for road cycling since the spine is designed as a single rigid bone that cannot bend. This results in sharp shifts in hip abduction/adduction and internal/external rotation angles, which are not biomechanically coherent (see Figure~\ref{fig_bikerobust}). However, the same issue would prevail even with marker-based methods and would only be solved by changing the spine definition in the OpenSim model. The full-body model with a fully articulated spine and ribcage developed by \cite{Bruno2015} has far too many degrees of freedom for our small amount of detected keypoints; however, the lifting full-body (LFB) model validated by \cite{Beaucage-Gauvreau2019} solved the spine challenge by constraining vertebra movements to each other, without adding any degrees of freedom. Pose2Sim now provides a combination of these two models (see \hyperref[ch:3]{Pose2Sim package}) in order to benefit from the most realistic options (assuming a healthy subject), both in the knee and in the spine. This is the one used in the next section on \nameref{ch:5}.
 
-For further use in a sports context, it would also be useful to support multi-person analysis, to have a more accurate and extensive 2D pose estimator, to work in real time, and to provide a GUI. All these considerations are discussed in the \nameref{ch3_lim} section of the previous chapter on the \hyperref[ch:3]{Pose2Sim package}.
+For further use in a sports context, it would also be useful to support multi-person analysis, to have a more accurate and extensive 2D pose estimator, to work in real time, and to provide a GUI. All these considerations are discussed in the \nameref{ch3_lim} section of the previous chapter on the \hyperref[ch:3]{Pose2Sim Package}.
 
 \cite{Desmarais2021} proposed a taxonomy of 3D pose estimation algorithms based on accuracy, speed, and robustness. Although more modalities could be tested, our workflow was robust in the range of our tested conditions. Speed was unaddressed, but although real-time analysis seems out of reach, a timely analysis of athletes' movements directly on the sports field appears to be achievable. Yet, ultimately, the accuracy of the workflow must be concurrently validated with a reference marker-based method. This is the topic of the next chapter.

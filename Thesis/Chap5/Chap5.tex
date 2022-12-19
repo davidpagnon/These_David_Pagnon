@@ -23,7 +23,7 @@
 %%%%%                      Start part here                          %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Accuracy assessment}
+\chapter{Accuracy Assessment}
 \label{ch:5}
 
 %==============================================================================	Résumé du chapitre
@@ -34,7 +34,7 @@
 \smallskip
 
 \textit{Besides robustness, accuracy needs to be addressed. Two-dimensional deep-learning pose estimation algorithms can suffer from biases in joint pose localizations, which are reflected in triangulated coordinates, and then in 3D joint angle estimation. Pose2Sim, our robust markerless kinematics workflow, comes with a physically consistent OpenSim skeletal model, meant to mitigate these errors. \newline\newline
-Its accuracy was concurrently validated against a reference marker-based method. Lower-limb joint angles were estimated over three tasks (walking, running, and cycling) performed multiple times by one participant. When averaged over all joint angles, the coefficient of multiple correlation (CMC) remained above 0.9 in the sagittal plane, except for the hip in running, which suffered from a systematic 15° offset (CMC = 0.65), and for the ankle in cycling, which was partially occluded (CMC = 0.75). When averaged over all joint angles and all degrees of freedom, mean errors were 3.0°, 4.1°, and 4.0°, in walking, running, and cycling, respectively; and range of motion errors were 2.7°, 2.3°, and 4.3°, respectively. Given the magnitude of error traditionally reported in joint angles computed from a marker-based optoelectronic system, Pose2Sim is deemed accurate enough for the analysis of lower-body kinematics in walking, cycling, and running.\newline\newline
+Its accuracy was concurrently validated against a reference marker-based method. Lower-limb joint angles were estimated over three tasks (walking, running, and cycling) performed multiple times by one participant. When averaged over all joint angles, the coefficient of multiple correlation (CMC) remained above 0.9 in the sagittal plane, except for the hip in running, which suffered from a systematic 15° offset (CMC = 0.65), and for the ankle in cycling, which was partially occluded (CMC = 0.75). When averaged over all joint angles and all degrees of freedom, mean errors were 3.0°, 4.1°, and 4.0°, in walking, running, and cycling, respectively; range of motion errors were 2.7°, 2.3°, and 4.3°, respectively. Given the magnitude of error traditionally reported in joint angles computed from a marker-based optoelectronic system, Pose2Sim is deemed accurate enough for the analysis of lower-body kinematics in walking, cycling, and running.\newline\newline
 This chapter is adapted from the article published in the Sensors: "Pose2Sim: An End-to-End Workflow for 3D Markerless Sports Kinematics—Part 2: Accuracy" \cite{Pagnon2022a}. See Figure~\ref{fig_visabstract3} for a visual abstract.
 }
 
@@ -73,13 +73,13 @@ Pose2Sim (see \nameref{ch:3} \cite{Pagnon2022b}) robustly triangulates OpenPose 
 
 
 \section{Methods}\label{sec:accuracy_methods}
-\subsection{Data collection}
+\subsection{Data Collection}
 
 The same adult male participant as in the previous chapter on \nameref{ch:4} (1.89 m, 69 kg) was equipped with 83 reflective markers inspired from the CAST marker set \cite{Cappozzo1995}, composed of 35 anatomical markers, and 12 clusters of 4 markers (Figure~\ref{fig_mkmkl}). He was asked to perform three tasks: walking, running, and cycling, at a regular pace, back and forth across the capture space, following a regular pulsing sound (see previous chapter for further details). He provided his written consent prior to participating.
 
 All tasks were performed in a room equipped with a green background for optimal segmentation of the subject with respect to the background, and 3D animated mesh extraction using a visual hull approach at each video frame \cite{Laurentini1994}. Twenty opto-electronic cameras captured the 3D coordinates of the markers, and 68 video cameras allowed retrieval of 3D textured meshes of the participant, which we subsequently placed in a virtual environment and filmed from 8 virtual cameras (Figure~\ref{fig_kinovis}). This gave us the opportunity to overlay our reflective markers, calculated joint centers, and OpenPose keypoints to the extracted mesh. This was particularly useful to correctly place OpenPose keypoints on the OpenSim model, i.e., with a systematic offset as regards true joint centers (\autoref{methods_details}). The acquisition was restricted in terms of 3D volume covered by both systems and data storage, resulting in the analysis of 8, 13, and 13 cycles of walking, running, and cycling, respectively. Once 3D point coordinates were retrieved, both systems underwent processes that were as close to each other as possible: coordinates were sampled at 30 Hz, then they were filtered with a 4th-order 6 Hz low-pass Butterworth filter (which efficiently filtered out noise without underestimating peak values, including in extremities); heel strikes were detected in both cases with the method proposed by \cite{Zeni2008}; stride duration was determined as the inverse of the frequency of the metronome followed by the participant; and inverse kinematics were optimized with the same OpenSim skeletal model.
 
-\subsection{Markerless analysis}
+\subsection{Markerless Analysis}
 
 All videos from our virtual cameras were processed by OpenPose (version 1.6), which delivered 2D joint coordinates for each view. We used the OpenPose experimental body\_25B model (Figure~\ref{fig_body25b}) with the highest accuracy parameters \cite{Hidalgo2021}. The Pose2Sim workflow was then used to track the person of interest, robustly triangulate the OpenPose 2D joint coordinates, and filter the resulting 3D coordinates. Then this output was fed to our OpenSim setup to constrain the results to physically consistent kinematics (more details in previous chapter). 
 
@@ -88,13 +88,13 @@ Pose2Sim comes with a generic OpenSim skeletal model, that has been slightly imp
 OpenSim (version 4.2) was used to scale the model to the participant on a T-pose, and then inverse kinematics was performed. Scale factors were computed with measurement-based scaling, i.e., by computing the ratio of distances between keypoints on the model, and experimental keypoints provided by the coordinates file of triangulated OpenPose data. Static pose weights were all set to 1, apart from Nose and Head keypoints which were set to 0.1, and Shoulder and Hip keypoints were set to 2. The participant was standing upright with feet flat during his T-pose, so we set a weight of 1 for a zero angle in pelvis list, pelvis tilt, L5-S1 flexion, and ankle angles. The offset in machine-learning-based joint center estimations has been shown to be systematic and not dependent on the subject \cite{Needham2021b} (nor on the operator); hence, once this bias has been taken into account in the generic model, the markers’ adjustment step is unnecessary. Keypoint weight markers for inverse kinematics were the same as for scaling.
 
 
-\subsection{Marker-based analysis}
+\subsection{Marker-Based Analysis}
 
 The captured markers were automatically identified with an AIM procedure within the Qualisys Track Manager software (version 2019.1). Joint centers were then calculated. The centers of ankles, knees, wrists, and elbows were defined as the midpoints between the malleoli/epicondyles/
 styloids since it has been shown that when executed on a lean participant, functional methods do not improve the reliability of the kinematics of running \cite{Pohl2010}. Hip joint center was defined with a functional method \cite{Halvorsen2003}. The OpenSim model used for marker-based scaling and inverse kinematics was the same as the Pose2Sim model. Scale factors were computed similarly, but with marker data rather than with OpenPose keypoints. Weights proposed by the inverse kinematics solver of OpenSim were set to 5 for joint centers, to 1 for cluster markers, and to 2 for other anatomical markers. Inverse kinematics was processed with the same marker weights.
 
 
-\subsection{Statistical analysis} \label{stats_accuracy}
+\subsection{Statistical Analysis} \label{stats_accuracy}
 
 Since the participant did not report any locomotion impairment and the captured movements were mostly symmetrical, we only analyzed the right side. Our study focuses on the lower limb, but results for upper limb and sacro-lumbar joints are detailed in the \hyperref[Ann:2]{Appendix B} for information (Figure~\ref{fig_qtmwalkup} and Figure~\ref{fig_blandwalkup} for walking, Figure~\ref{fig_qtmrunup} and Figure~\ref{fig_blandrunup} for running, and Figure~\ref{fig_qtmbikeup} and Figure~\ref{fig_blandbikeup} for cycling). The analyzed angles were ankle flexion/extension, subtalar angle, knee flexion/extension, and hip flexion/extension, abduction/adduction, and internal/external rotation provided by the OpenSim inverse kinematics procedure.
 
@@ -107,7 +107,7 @@ Finally, root-mean-square errors (RMSE), mean errors (\(Mean_{err}\)), and ROM e
 
 \section{Results}
 
-\subsection{Concurrent validation}
+\subsection{Concurrent Validation}
 
 Inverse kinematics is successful when OpenSim’s global optimizer keeps the model markers close to experimental markers, i.e., when RMSE is less than 2–4 cm according to OpenSim’s best practices. This was the case for both systems (Table~\ref{table:rmse_opensim}). However, RMSE was particularly higher in cycling than in walking or running.
 
@@ -206,9 +206,20 @@ Limits of Agreement (LoA) values were relatively evenly and randomly distributed
 	\label{fig_blandwalk}
 \end{figure}
 
+
+\begin{textblock*}{10cm}(10cm,17.5cm) % {block width} (coords left,top) 
+      \begin{turn}{270} 
+            \scriptsize \emojiegg
+            \tiny \textcolor{BleuCyan}{7. Merci au labo !} 
+            \scriptsize \emojitube
+      \end{turn}
+    \end{textblock*}
+
+
+
 \clearpage 
 
-\subsection{Comparison with other systems}
+\subsection{Comparison with Other Systems}
 
 The RMSE reported by Theia3D \cite{Kanko2021b} was, on average, 1.5° higher than that of Pose2Sim, and its ROM errors were consistently higher, at least along the flexion/extension degree of freedom. However, the study using Xsens \cite{Zhang2013} reported mean errors 0.3° lower on average, and ROM errors 1.0° lower on average (Table~\ref{table:tab_theiaxsens}).
 
@@ -241,7 +252,7 @@ The RMSE reported by Theia3D \cite{Kanko2021b} was, on average, 1.5° higher tha
 
 \section{Discussion}
 
-\subsection{Strengths of Pose2Sim and of markerless kinematic}
+\subsection{Strengths of Pose2Sim and of Markerless Kinematic}
 
 Pose2Sim offers a way to perform a markerless kinematic analysis from multiple calibrated views, taking OpenPose results as inputs, and giving biomechanically oriented results via OpenSim. Both OpenPose and OpenSim are open-source and among the most widespread and renowned tools in their respective fields. We compared Pose2Sim lower-body results to those of a reference marker-based method, over three tasks performed by one participant: walking, running, and cycling. Both protocols were as similar as possible, and used the same constrained skeletal model in order to ensure that there was no discrepancy in results caused by different definitions of anatomical frames \cite{Croce1999}. Pose2Sim kinematic waveforms were very similar to marker-based ones, especially in the sagittal plane. One exception to this observation was the hip angle in running, which suffered from a 15° offset due to the dearth of keypoints in this area. This led the optimization procedure to admit two solutions for the spine curvature, both mathematically and kinematically correct: one with a lordotic posture, and the other with a kyphotic posture. There was also less agreement for ankle angles in cycling, most likely because for both Pose2Sim and marker-based kinematics, keypoint/marker detections suffered from occlusions from the bike. This is corroborated by the higher RMSE between experimental and theoretical markers observed in cycling (Table~\ref{table:rmse_opensim}). The similarity of waveforms among both protocols was assessed with the coefficient of multiple correlation (CMC) \cite{Ferrari2010}, which takes into account the concurrent effects of correlation, gain, and offset. When averaged over all lower-limb joints and all degrees of freedom, mean errors amounted to 3.0°, 4.1°, and 4.1° in walking, running, and cycling, respectively, and range of motion errors were equal to 2°, 2.3°, and 4.3°. It should be noted that, unlike ours, Theia3D \cite{Kanko2021b} and Xsens \cite{Zhang2013} studies to which we compared our results involved several subjects (30 and 10, respectively.) Our study recorded with eight virtual cameras, 1 MP definition, 30 Hz framerate, and perfect calibration, whereas the Theia system recorded with eight cameras, 3 MP definition, 85 Hz, with a marker-based calibration. Hence, the comparison between accuracies of Theia3D, Xsens and Pose2Sim are given for an overview of their order of magnitude, not as a claim for exact comparison. This study focused on lower-body kinematics, however we also reported upper-body and sacro-lumbar kinematics in \hyperref[Ann:2]{Appendix B} for reference. It may be noted that differences between the two approaches were larger than for the lower body, and especially for the sacro-lumbar flexion.
 
@@ -250,7 +261,7 @@ This shows that a carefully designed skeletal model, when correctly scaled and c
 The setup of Pose2Sim can be installed anywhere, i.e., directly on-site rather than in a laboratory setting. No particular attention has to be devoted to the background color, to the participant’s clothing, nor to the luminance of the recording area. No apparatus interferes with the athlete’s movement, who can fully concentrate on their performance. This is of crucial importance in the context of sports analysis. Results are not operator or subject dependent, which makes labeling, scaling, and inverse kinematics both easy and robust. It is to be noted, however, that it does not leave room for adjustment if it is needed to better monitor a specific body part. However, the operator or scientist has access to fine control on most parameters at each step of the analysis: the deep-learning 2D pose estimation model can be changed; tracking, triangulation, and filtering parameters can be adjusted; and the OpenSim model, scaling, and inverse kinematics can be entirely controlled.
 
 
-\subsection{Limits and perspectives}
+\subsection{Limits and Perspectives}
 
 Our study still has potential limitations, starting with those stated in the previous chapter on \nameref{ch:4}: we used a virtual scene, and captured a limited amount of data (only 8–13 cycles per task were captured, performed by one participant). 
 
