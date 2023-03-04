@@ -21,5 +21,5 @@ Idem pour David_Pagnon_PhD_Defense_2023.pptx, .pdf, et pour nom vidéo
 
 </br>
 
-Template inspired from Dr. David Leh and Dr. Florian Huet repository: https://github.com/JeanCollomb/Template_rapport_these
+Template inspired from Dr. David Leh and Dr. Florian Huet <a href="https://github.com/JeanCollomb/Template_rapport_these">repository</a>.
 
