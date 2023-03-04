@@ -17,6 +17,7 @@ See evaluation reports here.
 Faire changements pdf
 Le nommer David_Pagnon_PhD_Manuscript_2023.pdf
 Idem pour David_Pagnon_PhD_Defense_2023.pptx, .pdf, et pour nom vidéo
+https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pptx
 -->
 
 </br>
