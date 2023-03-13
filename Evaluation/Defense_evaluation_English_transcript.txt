@@ -1,0 +1,10 @@
+David Pagnon presented his research works in a clear and well illustrated way. His presentation, faithful to the manuscript, highlighted the interdisciplinary side of his work, as well as its wide spectrum.
+
+Through his talk, the jury was able to appreciate the great quantity of work that he did and the importance of his contribution, which consists of the publication of an open-source software, easy to use and intended for the biomechanics community or more generally for all the fields interested in movement analysis.
+
+David Pagnon demonstrated, through the numerous questions asked by the jury, his mastery of several domains (machine learning, computer vision, biomechanics).
+
+For all these reasons, the jury is unanimous and awards him the rank of Doctor of the Université Grenoble Alpes.
+
+Valerie Perrier, 
+President of the jury.
