@@ -20,5 +20,7 @@ Mettre video sur youtube.
 
 </br>
 
+---
+
 Template inspired from Dr. David Leh and Dr. Florian Huet <a href="https://github.com/JeanCollomb/Template_rapport_these">repository</a>.
 
