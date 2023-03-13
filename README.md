@@ -6,18 +6,16 @@
 Download pdf <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Thesis/Manuscrit/Manuscrit.pdf">here</a>.
 
 ### Defense
-- See video here.
-- Download pdf here.
-- Download pptx here.
+- See video here (coming soon).
+- Download pdf <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pdf">here</a>.
+- Download pptx <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pptx">here</a>.
 
 ### Evaluation
-See evaluation reports here.
+See evaluation reports <a href="https://github.com/davidpagnon/These_David_Pagnon/tree/main/Evaluation">here</a>.
 
 <!-- 
-Faire changements pdf
-Le nommer David_Pagnon_PhD_Manuscript_2023.pdf
-Idem pour David_Pagnon_PhD_Defense_2023.pptx, .pdf, et pour nom vidéo
-https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pptx
+Compatibilité theses.fr, renommer David_Pagnon_PhD_Manuscript_2022.pdf
+Mettre video sur youtube. 
 -->
 
 </br>
