@@ -3,7 +3,8 @@
 <h5 align="center">"Conception, évaluation, et application d'une méthode biomécaniquement cohérente de cinématique sans marqueurs en sport"</h5>
 
 ### Manuscript
-Download pdf <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Manuscript/Manuscrit/David_Pagnon_PhD_Manuscript_2022.pdf">here</a>.
+Download pdf <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Manuscript/Manuscrit/David_Pagnon_PhD_Manuscript_2022.pdf">here</a> or see on [theses.fr](https://www.theses.fr/2023GRALM001).
+
 
 ### Defense
 - Download slides <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pptx">here (pptx)</a> or <a href="https://github.com/davidpagnon/These_David_Pagnon/raw/main/Defense/David_Pagnon_PhD_Defense_2023.pdf">there (pdf)</a>. 
